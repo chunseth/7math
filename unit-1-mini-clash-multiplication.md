@@ -22,10 +22,12 @@ Students enter a short monster match. Monsters advance toward the player. Each m
 
 Initial match pool:
 
+- 3 times table
+- 4 times table
+- 5 times table
 - 6 times table
-- 7 times table
-- 8 times table
-- 9 times table
+
+The 7, 8, and 9 tables — the hard core of the times table — are unlocked from chests, so the harder facts arrive as earned rewards rather than starting content.
 
 The player has 100 health.
 
@@ -34,7 +36,7 @@ The player has 100 health.
 Each match:
 
 - Uses multiplication facts only.
-- Starts with 6-9 times tables.
+- Starts with 3-6 times tables.
 - Presents one monster/problem at a time.
 - Gives 5 seconds per problem.
 - Correct answer defeats the monster.
@@ -42,16 +44,90 @@ Each match:
 - No answer within 5 seconds also causes a hit.
 - Match ends when the timer ends, the monster wave ends, or player health reaches 0.
 
-Suggested starting damage:
-
-- Incorrect answer: 10 damage
-- Timeout: 10 damage
-- Boss monster incorrect answer: 20 damage
+Monster damage to the player is defined in the Combat section below (25% health loss per miss, with a 20% chance of a critical double hit). Player damage to monsters is determined by the level of the numbers in the problem, also defined in the Combat section.
 
 Suggested match length:
 
 - 60 seconds, or
 - 15 monsters, whichever is easier to implement first.
+
+## Combat
+
+Combat turns multiplication fluency into damage. Every problem the student solves correctly deals damage to the monster in front of them. Every problem they miss lets the monster damage them.
+
+### Number Cards And Levels
+
+Each unlocked number has its own collection of cards and its own level. Cards are the currency for leveling a number up.
+
+- Every time a problem is answered **correctly**, both numbers in that equation earn 1 card. Example: a correct `2 x 9` gives 1 card to 2 and 1 card to 9.
+- Incorrect answers earn no cards.
+- Chests can also award cards (see Chest Card Rewards below).
+- A number levels up by collecting **40 cards** and spending **2,000 gold**.
+- Cards may overflow past 40; leftovers stay after a level-up. Hard cap: **999 cards**.
+- The maximum level is **4**.
+
+### Damage By Level
+
+A monster is damaged by the numbers in the problem the student just answered. The damage is based on the **higher level of the two numbers** in that equation. The actual damage is a **fresh random roll each hit** within that level's range.
+
+| Number Level | Damage Range Per Hit |
+| --- | --- |
+| Level 1 | 4-8 |
+| Level 2 | 8-12 |
+| Level 3 | 12-18 |
+| Level 4 | 20-25 |
+
+Example: in `2 x 9`, if 2 is level 1 and 9 is level 3, the hit rolls damage from the Level 3 range (12-18).
+
+The player does **not** crit and does **not** earn bonus damage for answering fast.
+
+### Monster Health
+
+- Base monster HP: **10**.
+- Boss HP: **40**.
+
+Because damage is rolled fresh each hit, a low-level number will not always defeat a monster in one answer. This is intended: leveling a number up literally means killing monsters in fewer answers.
+
+- Level 1 (4-8): usually takes **2 correct answers** to defeat a 10 HP monster.
+- Level 2 (8-12): defeats a 10 HP monster in **1 answer most of the time**.
+- Level 3-4: **one-shots** a standard monster.
+- Bosses (40 HP): take multiple hits even at level 4, and are the target of the escalating difficulty ramp below.
+
+### Hit Resolution
+
+- A correct answer deals a rolled amount of damage to the current monster.
+- If the monster survives, it keeps advancing and is presented as a **new problem** for the next hit.
+- A surviving, damaged monster does **not** damage the player on a correct partial hit. Monsters only damage the player on a wrong answer or a timeout. Students are never punished for answering correctly.
+- The monster is defeated when its HP reaches 0.
+
+### Monster Damage To The Player
+
+- The player has 100 health.
+- A miss (wrong answer or timeout) costs **25% of the player's health**, so **4 misses equals death**.
+- Each monster hit has a **20% chance to be a critical hit** that deals **double damage** (50% of health).
+- The player has no crit and no in-match healing.
+
+### Defeat
+
+When the player's health reaches 0:
+
+- The match ends immediately.
+- **No chest is awarded.**
+- The student is shown an **unskippable "ad" video** that teaches the concept they were struggling with before the Retry button becomes available.
+
+The teaching video is styled like a short ad to fit the arcade tone, but its real purpose is remediation: it should target the fact or concept the student missed most, then unlock Retry.
+
+### Difficulty Ramp (Anti-Speedrun)
+
+Answering fast and correctly should not let a student trivialize an easy table. As a student keeps answering quickly and correctly, difficulty escalates by stacking the following levers:
+
+- **Escalate problem difficulty** - pull harder facts (bigger numbers, mixed tables, later material).
+- **Shrink the timer** - trim the per-problem clock below the base 5 seconds.
+- **Tougher monster waves** - spawn higher-HP monsters and bring bosses sooner.
+- **Deny repeat facts** - stop re-serving the same easy fact; force coverage across the whole table before repeats.
+- **Multiple enemies at once** - present two or more problems side by side that must be solved simultaneously.
+
+The ramp should ease back down when the student slows or starts missing, so it raises pressure on demonstrated mastery rather than punishing struggle.
 
 ## Rewards
 
@@ -102,11 +178,11 @@ First chest behavior:
 
 Common starter pool:
 
-- 3
-- 4
-- 5
+- 7
+- 8
+- 9
 
-This means the student begins by expanding from 6-9 into one easier or familiar table.
+This means the student's first chest hands over one of the hard-core rows (7, 8, or 9) — an immediate "you earned the 8s" power-up rather than an easier table.
 
 ## Chest Rarity Pools
 
@@ -114,31 +190,40 @@ After the first chest, chest rewards are drawn by rarity.
 
 | Rarity | Unlock Numbers | Role |
 | --- | --- | --- |
-| Common | 3, 4, 5 | Familiar facts and factor support |
+| Common | 7, 8, 9 | The hard-core facts — frequent so students get them into play early |
 | Rare | 11, 12 | Upper multiplication fluency |
 | Epic | 10, 2 | Anchor facts and doubling |
 | Legendary | 0, 1 | Special identity/zero tables |
 
-Chests can also award economy items and cosmetics. Number unlocks should remain the main early reward until the multiplication map is complete.
+Rarity here signals novelty and completion, not difficulty: the hard facts (7, 8, 9) are common precisely because they are the point — students need them unlocked soon so fluency practice and the difficulty ramp have something to bite on. Chests can also award economy items and cosmetics. Number unlocks should remain the main early reward until the multiplication map is complete.
 
 Initial unlocked rows:
 
+- 3
+- 4
+- 5
 - 6
-- 7
-- 8
-- 9
 
 Collectible rows:
 
 - 0
 - 1
 - 2
-- 3
-- 4
-- 5
+- 7
+- 8
+- 9
 - 10
 - 11
 - 12
+
+## Chest Card Rewards
+
+When a chest awards a number reward, it delivers it as cards (the leveling currency from the Combat section):
+
+- **New number:** if the drawn number is not yet unlocked, the chest unlocks it and grants **1 card** for that number.
+- **Already-unlocked number:** if the drawn number is already owned, the chest grants **20 cards** of that number, accelerating its progress toward the next level.
+
+This means chests keep contributing even after the multiplication map is complete: instead of dead draws, owned numbers convert into meaningful stacks of leveling cards. The 40-cards-plus-2,000-gold level cost from the Combat section still applies.
 
 ## Rarity Distribution
 
@@ -230,16 +315,16 @@ For MVP, prefer rerolling before converting to coins.
 
 ## Chest Draw Algorithm
 
-The chest should never award a number the student already owns.
+A number draw resolves as either a new unlock or a card stack for an owned number (see Chest Card Rewards).
 
 Recommended algorithm:
 
-1. Build a list of rarity pools that still contain unowned numbers.
+1. Build the list of rarity pools that still contain unowned numbers.
 2. Remove empty rarity pools.
 3. Recalculate rarity weights using only non-empty pools.
 4. Randomly select one rarity using adjusted weights.
-5. Randomly select one unowned number from that rarity.
-6. Add that number to the student's unlocked multiplication map.
+5. Randomly select one number from that rarity.
+6. If the number is unowned, unlock it and grant 1 card for it. If every rarity pool is exhausted (all numbers owned), draw from owned numbers instead and grant 20 cards of the selected number.
 
 If the chest is rolling an item instead of a multiplication number:
 
@@ -260,12 +345,12 @@ Example data:
     "legendary": 3
   },
   "rarityPools": {
-    "common": [3, 4, 5],
+    "common": [7, 8, 9],
     "rare": [11, 12],
     "epic": [10, 2],
     "legendary": [0, 1]
   },
-  "startingUnlocked": [6, 7, 8, 9]
+  "startingUnlocked": [3, 4, 5, 6]
 }
 ```
 
@@ -328,16 +413,16 @@ Rules:
 
 - Unlocked rows and columns are visible.
 - Locked rows and columns are blocked out.
-- The starting visible rows and columns are 6, 7, 8, and 9.
+- The starting visible rows and columns are 3, 4, 5, and 6.
 - Newly collected numbers reveal their matching row and column.
 - Locked cells should look covered, fogged, or chained.
 
 Example:
 
-If the student has unlocked 3, 6, 7, 8, 9, and 11:
+If the student has unlocked 3, 4, 5, 6, 7, and 11:
 
-- Rows 3, 6, 7, 8, 9, 11 are visible.
-- Columns 3, 6, 7, 8, 9, 11 are visible.
+- Rows 3, 4, 5, 6, 7, 11 are visible.
+- Columns 3, 4, 5, 6, 7, 11 are visible.
 - All other rows and columns are blocked.
 
 The map gives students a clear collection goal: complete the full 0-12 table.
@@ -348,7 +433,7 @@ The match should select problems from unlocked rows and columns.
 
 At launch:
 
-- Use only 6, 7, 8, 9 rows and columns.
+- Use only 3, 4, 5, 6 rows and columns.
 
 After collection:
 
@@ -376,7 +461,7 @@ Monster type can reflect difficulty.
 | Monster | Problem Type | Behavior |
 | --- | --- | --- |
 | Slime | Easy known facts | 5-second timer |
-| Goblin | Mixed 6-9 facts | 5-second timer |
+| Goblin | Mixed 3-6 facts | 5-second timer |
 | Shield Monster | Recently unlocked number | Needs 2 correct answers |
 | Fast Monster | Known facts answered quickly before | 4-second timer |
 | Boss | Mixed facts streak | Higher damage |
@@ -465,7 +550,7 @@ Student collection:
 ```json
 {
   "studentId": "student-123",
-  "unlockedMultiplicationNumbers": [6, 7, 8, 9, 3],
+  "unlockedMultiplicationNumbers": [3, 4, 5, 6, 7, 8, 9],
   "coins": 100000,
   "matchesPlayed": 5,
   "mapUnlocked": true,
@@ -486,8 +571,8 @@ Student collection:
     {
       "slot": 1,
       "state": "ready-to-open",
-      "rarity": "common",
-      "unlockNumber": 4,
+      "rarity": "rare",
+      "unlockNumber": 11,
       "unlockStartedAt": "2026-09-01T12:00:00Z",
       "unlockReadyAt": "2026-09-01T16:00:00Z"
     }
@@ -502,7 +587,7 @@ Match result:
   "matchId": "match-001",
   "studentId": "student-123",
   "mode": "multiplication-monster-match",
-  "tablesUsed": [6, 7, 8, 9],
+  "tablesUsed": [3, 4, 5, 6],
   "healthStart": 100,
   "healthEnd": 70,
   "correct": 12,

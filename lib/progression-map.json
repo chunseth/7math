@@ -1,0 +1,84 @@
+{
+  "worlds": [
+    {
+      "id": "w1",
+      "title": "World 1",
+      "enemyCount": 3,
+      "enemyHealthMultiplier": 1,
+      "rewardRarityChances": { "common": 75, "rare": 20, "epic": 5, "legendary": 0 }
+    },
+    {
+      "id": "w2",
+      "title": "World 2",
+      "enemyCount": 5,
+      "enemyHealthMultiplier": 1,
+      "rewardRarityChances": { "common": 65, "rare": 25, "epic": 9, "legendary": 1 }
+    },
+    {
+      "id": "w3",
+      "title": "World 3",
+      "enemyCount": 5,
+      "enemyHealthMultiplier": 2,
+      "rewardRarityChances": { "common": 55, "rare": 30, "epic": 13, "legendary": 2 }
+    },
+    {
+      "id": "w4",
+      "title": "World 4",
+      "enemyCount": 7,
+      "enemyHealthMultiplier": 2,
+      "rewardRarityChances": { "common": 45, "rare": 32, "epic": 18, "legendary": 5 }
+    },
+    {
+      "id": "w5",
+      "title": "World 5",
+      "enemyCount": 5,
+      "enemyHealthMultiplier": 4,
+      "rewardRarityChances": { "common": 35, "rare": 35, "epic": 22, "legendary": 8 }
+    }
+  ],
+  "levelTemplates": [
+    {
+      "suffix": "1",
+      "title": "Addition",
+      "missionType": "practice",
+      "operations": ["addition"],
+      "focus": "Addition only"
+    },
+    {
+      "suffix": "2",
+      "title": "Subtraction",
+      "missionType": "practice",
+      "operations": ["subtraction"],
+      "focus": "Subtraction only"
+    },
+    {
+      "suffix": "3",
+      "title": "Multiplication",
+      "missionType": "practice",
+      "operations": ["multiplication"],
+      "focus": "Multiplication only"
+    },
+    {
+      "suffix": "4",
+      "title": "Division",
+      "missionType": "practice",
+      "operations": ["division"],
+      "focus": "Division only"
+    },
+    {
+      "suffix": "5",
+      "title": "Mult/Div",
+      "missionType": "challenge",
+      "operations": ["multiplication", "division"],
+      "focus": "Multiplication and division mixed"
+    },
+    {
+      "suffix": "B",
+      "title": "Boss",
+      "missionType": "boss",
+      "operations": ["addition", "subtraction", "multiplication", "division"],
+      "focus": "All operations after a wave of enemies",
+      "bossHealthMultiplier": 4
+    }
+  ]
+}

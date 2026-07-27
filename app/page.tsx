@@ -2,11 +2,33 @@
 
 import Link from "next/link";
 import { Suspense, useEffect, useRef, useState } from "react";
-import { STARTING_UNLOCKED_NUMBERS } from "../lib/gameplay";
+import {
+  CARDS_PER_LEVEL,
+  GOLD_PER_LEVEL,
+  MAX_NUMBER_LEVEL,
+  ADDITION_SKILLS,
+  DIVISION_NUMBERS,
+  SKILLS_BY_OPERATION,
+  STARTER_ADDITION_SKILL_ID,
+  STARTER_SUBTRACTION_SKILL_ID,
+  STARTING_UNLOCKED_NUMBERS,
+  SUBTRACTION_SKILLS,
+  canLevelUp,
+  clampCardCount,
+  currentProgressionArena,
+  damageRangeForLevel,
+  getProfileXpProgress,
+  isArenaUnlocked,
+  multiplicationSkillId,
+  divisionSkillId,
+  OPERATION_ARENAS,
+  operationForSkillId,
+  type OperationArena,
+} from "../lib/gameplay";
 import { isSupabaseConfigured, supabase } from "../lib/supabase";
-import type { ChestSlot, Profile, StudentProgress } from "../lib/database.types";
+import type { ChestReward, ChestSlot, Profile, SkillCard, StudentProgress } from "../lib/database.types";
 
-const allNumbers = Array.from({ length: 13 }, (_, number) => number);
+const allNumbers = Array.from({ length: 12 }, (_, number) => number + 1);
 const CHEST_UNLOCK_MS = 2 * 60 * 60 * 1000;
 const QUEUE_CHEST_COST = 1000;
 const INSTANT_OPEN_COST = 6000;
@@ -20,6 +42,9 @@ type PlayerState = {
   profile: Profile;
   progress: StudentProgress;
   chests: ChestSlot[];
+  skillCards: SkillCard[];
+  chestRewards: ChestReward[];
+  completedLevelIds: string[];
 };
 
 const emptyLocalSlots: ChestSlot[] = Array.from({ length: 4 }, (_, slot_index) => ({
@@ -31,6 +56,7 @@ const emptyLocalSlots: ChestSlot[] = Array.from({ length: 4 }, (_, slot_index) =
   reward_type: null,
   reward_number: null,
   reward_coins: null,
+  reward_card_count: null,
   earned_at: null,
   unlock_started_at: null,
   ready_at: null,
@@ -44,6 +70,7 @@ export default function Home() {
 function HomeContent() {
   const [activeTab, setActiveTab] = useState(0);
   const [selectedNumber, setSelectedNumber] = useState(7);
+  const [numbersSubtab, setNumbersSubtab] = useState<"multiplication" | "addition" | "subtraction" | "division">("multiplication");
   const [player, setPlayer] = useState<PlayerState | null>(null);
   const [showSignin, setShowSignin] = useState(false);
   const [showCharacterSelect, setShowCharacterSelect] = useState(false);
@@ -55,6 +82,8 @@ function HomeContent() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedChest, setSelectedChest] = useState<ChestSlot | null>(null);
+  const [levelUpSkillId, setLevelUpSkillId] = useState<string | null>(null);
+  const [levelUpLoading, setLevelUpLoading] = useState(false);
   const [now, setNow] = useState(() => Date.now());
   const pagerRef = useRef<HTMLDivElement>(null);
 
@@ -98,9 +127,13 @@ function HomeContent() {
         if (routeParams.get("chest") === "earned") {
           setMessage("Chest earned!");
         } else if (routeParams.get("chest") === "missed") {
-          setMessage("Score 50% or higher to earn a chest.");
+          setMessage("Get at least one correct answer to earn a chest.");
+        } else if (routeParams.get("chest") === "full") {
+          setMessage("Chest slots are full. Open one before you can earn another.");
         } else if (routeParams.get("chest") === "error") {
           setMessage("Round finished, but saving the chest needs another try.");
+        } else if (routeParams.get("bossReset") === "1") {
+          setMessage("Boss defeat reset this world's progress. Clear the stages again to retry the boss.");
         }
       } catch (error) {
         setMessage(error instanceof Error ? error.message : "Could not restore player.");
@@ -217,6 +250,66 @@ function HomeContent() {
     }
   }
 
+  function getSkillCard(skillId: string) {
+    const row = player?.skillCards.find((card) => card.skill_id === skillId);
+    return {
+      skill_id: skillId,
+      card_count: row?.card_count ?? 0,
+      level: row?.level ?? 1,
+      unlocked: Boolean(row),
+    };
+  }
+
+  function getNumberCard(number: number) {
+    const card = getSkillCard(multiplicationSkillId(number));
+    return {
+      ...card,
+      unlocked: (player?.progress.unlocked_numbers ?? STARTING_UNLOCKED_NUMBERS).includes(number),
+    };
+  }
+
+  function getDivisionCard(number: number) {
+    return { ...getSkillCard(divisionSkillId(number)), unlocked: true };
+  }
+
+  async function confirmLevelUp() {
+    if (!supabase || !player || levelUpSkillId === null) return;
+
+    const card = getSkillCard(levelUpSkillId);
+    if (!canLevelUp(card.level, card.card_count, player.profile.coins)) return;
+
+    setLevelUpLoading(true);
+    try {
+      const nextCoins = player.profile.coins - GOLD_PER_LEVEL;
+      const nextCards = clampCardCount(card.card_count - CARDS_PER_LEVEL);
+      const nextLevel = Math.min(MAX_NUMBER_LEVEL, card.level + 1);
+
+      const { error: cardError } = await supabase.from("skill_cards").upsert(
+        {
+          profile_id: player.profile.id,
+          skill_id: levelUpSkillId,
+          operation: operationForSkillId(levelUpSkillId),
+          card_count: nextCards,
+          level: nextLevel,
+        },
+        { onConflict: "profile_id,skill_id" },
+      );
+      if (cardError) throw cardError;
+
+      const { error: coinError } = await supabase
+        .from("profiles")
+        .update({ coins: nextCoins })
+        .eq("id", player.profile.id);
+      if (coinError) throw coinError;
+
+      await refreshPlayer(`${skillTitle(levelUpSkillId)} reached level ${nextLevel}!`);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Could not level up that number.");
+    } finally {
+      setLevelUpLoading(false);
+    }
+  }
+
   async function refreshPlayer(nextMessage?: string) {
     if (!player || !supabase) return;
     const { data: profile, error } = await supabase.from("profiles").select().eq("id", player.profile.id).single();
@@ -303,24 +396,33 @@ function HomeContent() {
     if (!supabase || !player) return;
 
     let nextCoins = player.profile.coins - coinCost;
-    let nextUnlockedNumbers = player.progress.unlocked_numbers;
-
     if (nextCoins < 0) return;
-
-    if (chest.reward_type === "coins" && chest.reward_coins) {
-      nextCoins += chest.reward_coins;
-    }
-
-    if (chest.reward_type === "number" && chest.reward_number !== null) {
-      nextUnlockedNumbers = Array.from(new Set([...nextUnlockedNumbers, chest.reward_number])).sort((a, b) => a - b);
-      const { error } = await supabase
-        .from("student_progress")
-        .update({ unlocked_numbers: nextUnlockedNumbers })
-        .eq("profile_id", player.profile.id);
-      if (error) {
-        setMessage(error.message);
-        return;
+    const rewards = player.chestRewards.filter((reward) => reward.chest_id === chest.id && !reward.claimed_at);
+    const claimed: string[] = [];
+    for (const reward of rewards) {
+      if (reward.reward_type === "coins") {
+        nextCoins += reward.coin_amount ?? 0;
+        claimed.push(`+${reward.coin_amount ?? 0} coins`);
+      } else if (reward.reward_type === "cards" && reward.skill_id) {
+        const unlocked = player.skillCards.some((card) => card.skill_id === reward.skill_id);
+        if (unlocked) {
+          await grantSkillCards(player.profile.id, reward.skill_id, reward.operation!, reward.card_amount ?? 0);
+          claimed.push(`+${reward.card_amount ?? 0} ${skillTitle(reward.skill_id)} cards`);
+        } else {
+          nextCoins += 150;
+          claimed.push("+150 coins");
+        }
+      } else if (reward.reward_type === "unlock" && reward.skill_id && reward.operation) {
+        const alreadyUnlocked = player.skillCards.some((card) => card.skill_id === reward.skill_id);
+        if (!alreadyUnlocked) {
+          await grantSkillCards(player.profile.id, reward.skill_id, reward.operation, 0);
+          claimed.push(`Unlocked ${skillTitle(reward.skill_id)}`);
+        } else {
+          nextCoins += 250;
+          claimed.push("+250 coins");
+        }
       }
+      await supabase.from("chest_rewards").update({ claimed_at: new Date().toISOString() }).eq("id", reward.id);
     }
 
     const { error: coinError } = await supabase.from("profiles").update({ coins: nextCoins }).eq("id", player.profile.id);
@@ -336,6 +438,7 @@ function HomeContent() {
         reward_type: null,
         reward_number: null,
         reward_coins: null,
+        reward_card_count: null,
         earned_at: null,
         unlock_started_at: null,
         ready_at: null,
@@ -348,7 +451,7 @@ function HomeContent() {
       return;
     }
 
-    const rewardMessage = chest.reward_type === "coins" ? `+${chest.reward_coins} coins` : `row ${chest.reward_number}s unlocked`;
+    const rewardMessage = claimed.length ? claimed.join(" · ") : "No unclaimed rewards";
     setSelectedChest(null);
     await refreshPlayer(coinCost ? `Opened for 6,000 coins: ${rewardMessage}.` : `Opened chest: ${rewardMessage}.`);
   }
@@ -357,11 +460,45 @@ function HomeContent() {
   const avatarLetter = displayName.slice(0, 1).toUpperCase() || "?";
   const coins = player?.profile.coins ?? 0;
   const xp = player?.profile.xp ?? 0;
-  const level = player?.profile.level ?? 1;
+  const xpProgress = getProfileXpProgress(xp);
+  const level = Math.max(player?.profile.level ?? 1, xpProgress.level);
   const unlockedNumbers = player?.progress.unlocked_numbers ?? STARTING_UNLOCKED_NUMBERS;
   const chestSlots = player?.chests ?? emptyLocalSlots;
-  const xpIntoLevel = xp % 1000;
+  const xpBarPercent = xpProgress.isMax
+    ? 100
+    : Math.min(100, (xpProgress.xpIntoLevel / Math.max(1, xpProgress.xpForNext)) * 100);
   const hasUnlockingChest = chestSlots.some((chest) => isChestInProgress(chest, now));
+  const levelUpTarget = levelUpSkillId === null
+    ? null
+    : operationForSkillId(levelUpSkillId) === "multiplication"
+      ? getNumberCard(Number(levelUpSkillId.match(/\.(\d+)$/)?.[1] ?? 0))
+      : operationForSkillId(levelUpSkillId) === "division"
+        ? getDivisionCard(Number(levelUpSkillId.match(/\.(\d+)$/)?.[1] ?? 0))
+        : getSkillCard(levelUpSkillId);
+  const levelUpReady =
+    levelUpTarget !== null && player !== null && canLevelUp(levelUpTarget.level, levelUpTarget.card_count, player.profile.coins);
+  const multiplicationUpgrades = allNumbers.filter((number) => {
+    const card = getNumberCard(number);
+    return unlockedNumbers.includes(number) && canLevelUp(card.level, card.card_count, coins);
+  }).length;
+  const additionUpgrades = ADDITION_SKILLS.filter((skill) => {
+    const card = getSkillCard(skill.id);
+    return card.unlocked && canLevelUp(card.level, card.card_count, coins);
+  }).length;
+  const subtractionUpgrades = SUBTRACTION_SKILLS.filter((skill) => {
+    const card = getSkillCard(skill.id);
+    return card.unlocked && canLevelUp(card.level, card.card_count, coins);
+  }).length;
+  const divisionUpgrades = DIVISION_NUMBERS.filter((number) => {
+    const card = getDivisionCard(number);
+    return canLevelUp(card.level, card.card_count, coins);
+  }).length;
+  const activeSkills = numbersSubtab === "addition" || numbersSubtab === "subtraction" ? SKILLS_BY_OPERATION[numbersSubtab] : ADDITION_SKILLS;
+  const numberCollectionIsDivision = numbersSubtab === "division";
+  const completedLevelIds = player?.completedLevelIds ?? [];
+  const arenaStates = getArenaStates(completedLevelIds);
+  const recommendedArena = currentProgressionArena(completedLevelIds);
+  const completedInWorld = OPERATION_ARENAS.filter((arena) => arena.worldId === recommendedArena.worldId && completedLevelIds.includes(arena.id)).length;
 
   return (
     <main className="shell">
@@ -422,6 +559,7 @@ function HomeContent() {
           {showUserMenu && (
             <div className="user-menu">
               <button onClick={changeUser}>Change user</button>
+              <Link href="/teacher">Teacher dashboard</Link>
             </div>
           )}
         </div>
@@ -431,8 +569,12 @@ function HomeContent() {
         <div className="resource-row">
           <div className="xp-resource">
             <span>LVL {level}</span>
-            <div className="xp-track"><span style={{ width: `${Math.min(100, xpIntoLevel / 10)}%` }} /></div>
-            <b>{xpIntoLevel} / 1000 XP</b>
+            <div className="xp-track"><span style={{ width: `${xpBarPercent}%` }} /></div>
+            <b>
+              {xpProgress.isMax
+                ? "MAX"
+                : `${xpProgress.xpIntoLevel} / ${xpProgress.xpForNext} XP`}
+            </b>
           </div>
         </div>
       </section>
@@ -465,6 +607,106 @@ function HomeContent() {
         </div>
       )}
 
+      {levelUpTarget && levelUpSkillId !== null && (
+        <div className="signin-overlay" role="dialog" aria-modal="true" aria-labelledby="card-detail-title">
+          <div className="signin-card chest-modal card-detail-modal">
+            <p className="card-detail-kicker">
+              {operationForSkillId(levelUpSkillId) === "multiplication"
+                ? "Number card"
+                : operationForSkillId(levelUpSkillId) === "division"
+                  ? "Division card"
+                  : "Concept card"}
+            </p>
+            <div className="card-detail-hero">
+              <div className={`card-detail-gem ${levelUpTarget.unlocked ? "" : "locked"}`}>
+                {levelUpTarget.unlocked ? cardDetailGlyph(levelUpSkillId) : "?"}
+              </div>
+              <div>
+                <h1 id="card-detail-title">{skillTitle(levelUpSkillId)}</h1>
+                <p className="card-detail-status">
+                  {levelUpTarget.unlocked
+                    ? levelUpTarget.level >= MAX_NUMBER_LEVEL
+                      ? `Level ${levelUpTarget.level} · Max`
+                      : `Level ${levelUpTarget.level}`
+                    : "Locked"}
+                </p>
+              </div>
+            </div>
+
+            <p className="card-detail-copy">{skillDescription(levelUpSkillId)}</p>
+
+            {levelUpTarget.unlocked ? (
+              <>
+                <div className="card-detail-stats">
+                  <div>
+                    <span>Cards</span>
+                    <strong>
+                      {levelUpTarget.level >= MAX_NUMBER_LEVEL
+                        ? levelUpTarget.card_count
+                        : `${levelUpTarget.card_count} / ${CARDS_PER_LEVEL}`}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>Damage</span>
+                    <strong>
+                      {damageRangeForLevel(levelUpTarget.level)[0]}–{damageRangeForLevel(levelUpTarget.level)[1]}
+                    </strong>
+                  </div>
+                </div>
+                <div className="card-track" aria-label={`${levelUpTarget.card_count} of ${CARDS_PER_LEVEL} cards`}>
+                  <span
+                    style={{
+                      width: `${levelUpTarget.level >= MAX_NUMBER_LEVEL ? 100 : Math.min(100, (levelUpTarget.card_count / CARDS_PER_LEVEL) * 100)}%`,
+                    }}
+                  />
+                </div>
+
+                {levelUpTarget.level < MAX_NUMBER_LEVEL ? (
+                  <>
+                    <ul className="levelup-costs">
+                      <li>
+                        <span>Cards</span>
+                        <strong>
+                          {levelUpTarget.card_count} → {Math.max(0, levelUpTarget.card_count - CARDS_PER_LEVEL)}
+                        </strong>
+                        <em>−{CARDS_PER_LEVEL}</em>
+                      </li>
+                      <li>
+                        <span>Gold</span>
+                        <strong>
+                          {coins.toLocaleString()} → {Math.max(0, coins - GOLD_PER_LEVEL).toLocaleString()}
+                        </strong>
+                        <em>−{GOLD_PER_LEVEL.toLocaleString()}</em>
+                      </li>
+                    </ul>
+                    <button disabled={!levelUpReady || levelUpLoading} onClick={confirmLevelUp}>
+                      {levelUpLoading ? "LEVELING..." : `LEVEL UP TO ${levelUpTarget.level + 1}`}
+                    </button>
+                    {!levelUpReady && (
+                      <p className="levelup-blocked">
+                        {levelUpTarget.card_count < CARDS_PER_LEVEL
+                          ? `Need ${CARDS_PER_LEVEL - levelUpTarget.card_count} more cards.`
+                          : `Need ${(GOLD_PER_LEVEL - coins).toLocaleString()} more gold.`}
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <p className="card-detail-maxed">This card is max level.</p>
+                )}
+              </>
+            ) : (
+              <p className="levelup-blocked">
+                {skillUnlockHint(levelUpSkillId)}
+              </p>
+            )}
+
+            <button className="secondary-button" disabled={levelUpLoading} onClick={() => setLevelUpSkillId(null)}>
+              CLOSE
+            </button>
+          </div>
+        </div>
+      )}
+
       <section
         className="pager"
         ref={pagerRef}
@@ -477,7 +719,7 @@ function HomeContent() {
           <div className="play-zone">
             <Link
               className="play-button"
-              href="/play"
+              href={`/play?arena=${recommendedArena.id}`}
               onClick={(event) => {
                 if (!player) {
                   event.preventDefault();
@@ -488,7 +730,8 @@ function HomeContent() {
                 sessionStorage.setItem("activeProfileId", player.profile.id);
               }}
             >
-              PLAY
+              <span>Recommended Battle</span>
+              <small>{recommendedArena.title}</small>
             </Link>
           </div>
 
@@ -506,41 +749,120 @@ function HomeContent() {
         <section className="page-slide">
           <div className="map-view">
             <div className="section-heading">
-              <h2>World Map <span>CHESTS REVEAL ROWS</span></h2>
-              <div className="map-score">{unlockedNumbers.length} / 13 rows</div>
+              <h2>World Map <span>CHOOSE YOUR BATTLE</span></h2>
+              <div className="map-score">{recommendedArena.worldTitle} · {completedInWorld} / 6 cleared</div>
             </div>
-            <div className="map-board">
-              <div className="cloud c1" />
-              <div className="cloud c2" />
-              <div className="path" />
-              <div className="map-node start">6<small>Start</small></div>
-              <div className="map-node current">{selectedNumber}<small>Current</small></div>
-              <div className="map-node locked">?</div>
-              <div className="map-node final">12<small>Boss</small></div>
-              <div className="map-label">CHEST DROPS EXPAND THE MAP</div>
+            <div className="operation-map-board">
+              <div className="operation-path" aria-hidden="true" />
+              <Link
+                className="recommended-card"
+                href={`/play?arena=${recommendedArena.id}`}
+                onClick={(event) => {
+                  if (!player) {
+                    event.preventDefault();
+                    setShowSignin(true);
+                    setMessage("Choose a username before playing.");
+                    return;
+                  }
+                  sessionStorage.setItem("activeProfileId", player.profile.id);
+                }}
+              >
+                <span>Recommended</span>
+                <strong>{recommendedArena.title}</strong>
+                <small>{recommendedArena.focus}</small>
+              </Link>
+              {arenaStates.map((state) => (
+                <ArenaNode
+                  key={state.arena.id}
+                  arena={state.arena}
+                  lockedReason={state.lockedReason}
+                  completed={state.completed}
+                  current={state.arena.id === recommendedArena.id}
+                  unlocked={state.unlocked}
+                  onLocked={() => setMessage(state.lockedReason)}
+                  playerId={player?.profile.id}
+                />
+              ))}
             </div>
           </div>
         </section>
 
         <section className="page-slide">
           <div className="numbers">
-            <div className="number-grid">
-              {allNumbers.map((number) => {
-                const unlocked = unlockedNumbers.includes(number);
-                return (
-                  <button
-                    className={`number-card ${unlocked ? "" : "locked-number"} ${selectedNumber === number ? "chosen" : ""}`}
-                    disabled={!unlocked}
-                    key={number}
-                    onClick={() => selectNumber(number)}
-                  >
-                    <div className="number-gem">{unlocked ? number : "?"}</div>
-                    <strong>{number}s</strong>
-                  </button>
-                );
-              })}
+            <div className="numbers-subtabs" role="tablist" aria-label="Number collections">
+              <button className={numbersSubtab === "multiplication" ? "active" : ""} onClick={() => setNumbersSubtab("multiplication")} aria-label="Multiplication">
+                × {multiplicationUpgrades > 0 && <span className="upgrade-count">{multiplicationUpgrades}</span>}
+              </button>
+              <button className={numbersSubtab === "addition" ? "active" : ""} onClick={() => setNumbersSubtab("addition")} aria-label="Addition">
+                + {additionUpgrades > 0 && <span className="upgrade-count">{additionUpgrades}</span>}
+              </button>
+              <button className={numbersSubtab === "subtraction" ? "active" : ""} onClick={() => setNumbersSubtab("subtraction")} aria-label="Subtraction">
+                − {subtractionUpgrades > 0 && <span className="upgrade-count">{subtractionUpgrades}</span>}
+              </button>
+              <button className={numbersSubtab === "division" ? "active" : ""} onClick={() => setNumbersSubtab("division")} aria-label="Division">
+                ÷ {divisionUpgrades > 0 && <span className="upgrade-count">{divisionUpgrades}</span>}
+              </button>
             </div>
-            <div className="selected-note">Selected row: {selectedNumber}s.</div>
+            {numbersSubtab === "multiplication" || numbersSubtab === "division" ? (
+              <div className="number-grid">
+                {(numberCollectionIsDivision ? DIVISION_NUMBERS : allNumbers).map((number) => {
+                  const unlocked = numberCollectionIsDivision || unlockedNumbers.includes(number);
+                  const card = numberCollectionIsDivision ? getDivisionCard(number) : getNumberCard(number);
+                  const ready = unlocked && canLevelUp(card.level, card.card_count, coins);
+                  const skillId = numberCollectionIsDivision ? divisionSkillId(number) : multiplicationSkillId(number);
+
+                  return (
+                    <button
+                      key={number}
+                      type="button"
+                      className={`number-card ${unlocked ? "" : "locked-number"} ${ready ? "upgrade-ready" : ""}`}
+                      aria-label={
+                        unlocked
+                          ? `${numberCollectionIsDivision ? `Divide by ${number}` : `${number}s`}, level ${card.level}`
+                          : `${number} locked`
+                      }
+                      onClick={() => {
+                        if (unlocked && !numberCollectionIsDivision) selectNumber(number);
+                        setLevelUpSkillId(skillId);
+                      }}
+                    >
+                      <span className="number-gem">
+                        {unlocked ? number : "?"}
+                        {ready && <span className="upgrade-ready-badge" aria-label="Ready to level up">!</span>}
+                      </span>
+                      <span className="number-level">{unlocked ? `Lv ${card.level}` : "Locked"}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="addition-tree-layout concept-only">
+                <div className="addition-skill-tree" aria-label={`${numbersSubtab} skill tree`}>
+                  <svg className="addition-tree-path" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                    <path className="addition-tree-path-shadow" d="M 10 25 H 90 V 75 H 10" />
+                    <path className="addition-tree-path-line" d="M 10 25 H 90 V 75 H 10" />
+                  </svg>
+                  {activeSkills.map((skill, index) => {
+                    const card = getSkillCard(skill.id);
+                    const ready = card.unlocked && canLevelUp(card.level, card.card_count, coins);
+                    return (
+                      <div className={`addition-tree-step step-${index + 1}`} key={skill.id}>
+                        <button
+                          aria-label={`${skill.title}${card.unlocked ? `, level ${card.level}` : ", locked"}`}
+                          className={`addition-skill-icon concept-card ${card.unlocked ? "unlocked" : "locked"} ${ready ? "upgrade-ready" : ""}`}
+                          onClick={() => setLevelUpSkillId(skill.id)}
+                          type="button"
+                        >
+                          <strong>{card.unlocked ? skill.title : "Locked"}</strong>
+                          <small>{card.unlocked ? `Lv ${card.level}` : "Locked"}</small>
+                          {ready && <b className="upgrade-ready-badge" aria-label="Ready to level up">!</b>}
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </section>
       </section>
@@ -553,6 +875,110 @@ function HomeContent() {
         ))}
       </nav>
     </main>
+  );
+}
+
+type ArenaState = {
+  arena: OperationArena;
+  unlocked: boolean;
+  completed: boolean;
+  lockedReason: string;
+};
+
+function getArenaStates(completedLevelIds: string[]): ArenaState[] {
+  return OPERATION_ARENAS.map((arena) => {
+    const completed = completedLevelIds.includes(arena.id);
+    const unlocked = completed || isArenaUnlocked(arena.id, completedLevelIds);
+    const prior = OPERATION_ARENAS[OPERATION_ARENAS.findIndex((entry) => entry.id === arena.id) - 1];
+    return {
+      arena,
+      completed,
+      unlocked,
+      lockedReason: prior ? `Clear ${prior.title}` : "",
+    };
+  });
+}
+
+function ArenaNode({
+  arena,
+  completed,
+  current,
+  lockedReason,
+  onLocked,
+  playerId,
+  unlocked,
+}: {
+  arena: OperationArena;
+  completed: boolean;
+  current: boolean;
+  lockedReason: string;
+  onLocked: () => void;
+  playerId?: string;
+  unlocked: boolean;
+}) {
+  const label = arena.level === "B" ? `${arena.worldTitle}-B` : `${arena.worldTitle}-${arena.level}`;
+  const content = (
+    <>
+      <span>{label}</span>
+      <strong>{arena.title.split(": ")[1] ?? arena.title}</strong>
+      <small>{unlocked ? `${arena.enemyCount} enemies · ${arena.enemyHealthMultiplier}x HP` : lockedReason}</small>
+      {current && <b>Next</b>}
+      {completed && <b className="done">Done</b>}
+    </>
+  );
+
+  if (!unlocked) {
+    return (
+      <button className={`arena-node arena-${arena.id} locked`} onClick={onLocked} type="button">
+        {content}
+      </button>
+    );
+  }
+
+  return (
+    <Link
+      className={`arena-node arena-${arena.id} ${current ? "recommended" : ""} ${completed ? "completed" : ""}`}
+      href={`/play?arena=${arena.id}`}
+      onClick={() => {
+        if (playerId) sessionStorage.setItem("activeProfileId", playerId);
+      }}
+    >
+      {content}
+    </Link>
+  );
+}
+
+function AdditionSkillDetail({
+  card,
+  coins,
+  onLevelUp,
+  skill,
+}: {
+  card: { card_count: number; level: number; unlocked: boolean };
+  coins: number;
+  onLevelUp: () => void;
+  skill: (typeof ADDITION_SKILLS)[number];
+}) {
+  const progress = Math.min(100, (card.card_count / CARDS_PER_LEVEL) * 100);
+  const ready = card.unlocked && canLevelUp(card.level, card.card_count, coins);
+  return (
+    <aside className={`addition-skill-detail ${card.unlocked ? "unlocked" : "locked"}`} aria-live="polite">
+      <div className="addition-detail-icon">{card.unlocked ? skillIcon(skill.id) : "?"}</div>
+      <span className="addition-detail-status">{card.unlocked ? `Level ${card.level}` : "Locked"}</span>
+      <h3>{skill.title}</h3>
+      {card.unlocked && <p>{skill.description}</p>}
+      {card.unlocked ? <>
+        <div className="card-track" aria-label={`${card.card_count} of ${CARDS_PER_LEVEL} cards`}>
+          <span style={{ width: `${card.level >= MAX_NUMBER_LEVEL ? 100 : progress}%` }} />
+        </div>
+        <small>{card.level >= MAX_NUMBER_LEVEL ? `${card.card_count} cards · Max level` : `${card.card_count} / ${CARDS_PER_LEVEL} cards`}</small>
+        <button className={ready ? "number-levelup ready" : "number-levelup"} disabled={card.level >= MAX_NUMBER_LEVEL} onClick={onLevelUp}>
+          {card.level >= MAX_NUMBER_LEVEL ? "MAX" : "Level Up"}
+        </button>
+      </> : (
+        <small>Master {skill.prerequisiteId ? skillTitle(skill.prerequisiteId) : "the previous concept"} to make this concept chest-eligible.</small>
+      )}
+    </aside>
   );
 }
 
@@ -580,7 +1006,77 @@ async function createNewProfile(username: string, pinCode: string, sprite_name: 
 async function loadPlayerState(profile: Profile): Promise<PlayerState> {
   const progress = await loadOrCreateProgress(profile.id);
   const chests = await loadOrCreateChestSlots(profile.id);
-  return { profile, progress, chests };
+  const skillCards = await loadSkillCards(profile.id);
+  const completedLevelIds = await loadCompletedProgressionLevelIds(profile.id);
+  const chestIds = chests.map((chest) => chest.id);
+  const { data: chestRewards, error } = chestIds.length
+    ? await supabase!.from("chest_rewards").select().in("chest_id", chestIds).order("reward_order")
+    : { data: [], error: null };
+  if (error) throw error;
+  return { profile, progress, chests, skillCards, chestRewards: chestRewards ?? [], completedLevelIds };
+}
+
+async function loadCompletedProgressionLevelIds(profileId: string) {
+  if (!supabase) return [];
+
+  const progressionIds = OPERATION_ARENAS.map((arena) => arena.id);
+  const { data, error } = await supabase
+    .from("match_speed_stats")
+    .select("arena_id")
+    .eq("profile_id", profileId)
+    .in("arena_id", progressionIds);
+
+  if (error) return [];
+  return Array.from(new Set((data ?? []).map((row) => row.arena_id).filter((id) => progressionIds.includes(id))));
+}
+
+async function loadSkillCards(profileId: string) {
+  if (!supabase) throw new Error("Supabase is not configured.");
+
+  const { data, error } = await supabase
+    .from("skill_cards")
+    .select()
+    .eq("profile_id", profileId)
+    .order("skill_id");
+
+  if (error) throw error;
+  const starters = [
+    [STARTER_ADDITION_SKILL_ID, "addition"],
+    [STARTER_SUBTRACTION_SKILL_ID, "subtraction"],
+  ] as const;
+  const divisionRows = [0, ...DIVISION_NUMBERS].map((number) => [divisionSkillId(number), "division"] as const);
+  const missing = [...starters, ...divisionRows].filter(([skillId]) => !(data ?? []).some((card) => card.skill_id === skillId));
+  if (missing.length) {
+    await Promise.all(missing.map(([skillId, operation]) => grantSkillCards(profileId, skillId, operation, 0)));
+    return loadSkillCards(profileId);
+  }
+  return data ?? [];
+}
+
+async function grantSkillCards(profileId: string, skillId: string, operation: "multiplication" | "addition" | "subtraction" | "division", amount: number) {
+  if (!supabase || amount < 0) return;
+
+  const { data: existing, error: lookupError } = await supabase
+    .from("skill_cards")
+    .select("card_count, level")
+    .eq("profile_id", profileId)
+    .eq("skill_id", skillId)
+    .maybeSingle();
+
+  if (lookupError) throw lookupError;
+
+  const { error } = await supabase.from("skill_cards").upsert(
+    {
+      profile_id: profileId,
+      skill_id: skillId,
+      operation,
+      card_count: clampCardCount((existing?.card_count ?? 0) + amount),
+      level: existing?.level ?? 1,
+    },
+    { onConflict: "profile_id,skill_id" },
+  );
+
+  if (error) throw error;
 }
 
 async function loadOrCreateProgress(profileId: string) {
@@ -692,4 +1188,61 @@ function formatRemainingTime(dateValue: string | null, now: number) {
   const minutes = totalMinutes % 60;
   if (hours <= 0) return `${minutes}m`;
   return `${hours}h ${minutes.toString().padStart(2, "0")}m`;
+}
+
+function skillTitle(skillId: string) {
+  const skill = [...ADDITION_SKILLS, ...SUBTRACTION_SKILLS].find((entry) => entry.id === skillId);
+  if (skill) return skill.title;
+  const divisionRow = skillId.match(/^division\.row\.(\d+)$/)?.[1];
+  if (divisionRow) return `Divide by ${divisionRow}`;
+  const row = skillId.match(/^multiplication\.row\.(\d+)$/)?.[1];
+  return row ? `${row}s` : skillId;
+}
+
+function skillDescription(skillId: string) {
+  const skill = [...ADDITION_SKILLS, ...SUBTRACTION_SKILLS].find((entry) => entry.id === skillId);
+  if (skill) return skill.description;
+  const divisionRow = skillId.match(/^division\.row\.(\d+)$/)?.[1];
+  if (divisionRow) return `Division facts for dividing by ${divisionRow}. Higher levels deal more damage in battle.`;
+  const row = skillId.match(/^multiplication\.row\.(\d+)$/)?.[1];
+  if (row) return `Times-table facts for the ${row}s. Higher levels deal more damage in battle.`;
+  return "Collect cards from battles to level this up.";
+}
+
+function skillUnlockHint(skillId: string) {
+  const skill = [...ADDITION_SKILLS, ...SUBTRACTION_SKILLS].find((entry) => entry.id === skillId);
+  if (skill?.prerequisiteId) {
+    return `Master ${skillTitle(skill.prerequisiteId)} to unlock this concept.`;
+  }
+  if (skillId.startsWith("multiplication.")) {
+    return "Unlock this number from chests and battles to start collecting cards.";
+  }
+  return "Keep playing to unlock this card.";
+}
+
+function cardDetailGlyph(skillId: string) {
+  const divisionRow = skillId.match(/^division\.row\.(\d+)$/)?.[1];
+  if (divisionRow) return divisionRow;
+  const row = skillId.match(/^multiplication\.row\.(\d+)$/)?.[1];
+  if (row) return row;
+  return skillIcon(skillId);
+}
+
+function skillIcon(skillId: string) {
+  const icons: Record<string, string> = {
+    "addition.single-digit": "N",
+    "addition.doubles": "2+2",
+    "addition.near-doubles": "6+5",
+    "addition.make-ten": "10",
+    "addition.eleven-twenty": "NN",
+    "addition.three": "1+2+3",
+    "addition.ten-multiples": "10+20",
+    "addition.simple-two-digit": "23+14",
+    "addition.regrouping-ones": "27+15",
+    "addition.two-digit": "48+37",
+  };
+  if (icons[skillId]) return icons[skillId];
+  if (skillId.startsWith("subtraction.")) return "−";
+  if (skillId.startsWith("division.")) return "÷";
+  return "+";
 }
