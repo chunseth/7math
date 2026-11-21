@@ -7,17 +7,17 @@ import {
   login,
   one,
   rows,
+  studentCookie as cookie,
   transaction,
   uuid,
 } from "../../../lib/mentalist/db";
 import { start, submit } from "../../../lib/mentalist/battle";
-import { studentState } from "../../../lib/mentalist/student";
+import { publishedLevelIds, studentState } from "../../../lib/mentalist/student";
 import { economy } from "../../../lib/mentalist/economy";
 import { faculty, teacherUser } from "../../../lib/mentalist/teacher";
 import { craft } from "../../../lib/mentalist/craft";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-const cookie = "mentalist_session";
 function json(data: unknown, status = 200) {
   return NextResponse.json(data, { status, headers: { "Cache-Control": "private, no-store" } });
 }
@@ -46,14 +46,7 @@ export async function POST(req: NextRequest) {
       throw new GameError("Invalid request.");
     }
     if (!b || typeof b.action !== "string") throw new GameError("Specify an action.");
-    if (b.action === "publicTrail")
-      return json(
-        await transaction(async (db) =>
-          (await rows<{ level: string }>(db, "select level from published_levels where version=1")).map(
-            (r) => r.level,
-          ),
-        ),
-      );
+    if (b.action === "publicTrail") return json(await transaction(publishedLevelIds));
     if (b.action === "login") {
       const res = await transaction((db) =>
         login(db, String(b.username), String(b.pin), String(b.sprite), b.create === true),

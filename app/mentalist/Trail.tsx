@@ -20,7 +20,6 @@ import { Inventory, Rewards } from "./components/Inventory";
 import { Visual } from "./components/Visual";
 import "./trail.css";
 
-const guest = accessMap(new Set<string>(), [], new Set(), new Set(), new Set());
 function Sheet({ children, close }: { children: ReactNode; close: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
@@ -52,8 +51,14 @@ function Sheet({ children, close }: { children: ReactNode; close: () => void }) 
     </dialog>
   );
 }
-export default function Trail() {
-  const [state, setState] = useState<StudentState | null>(null),
+export default function Trail({
+  initialStudent,
+  published,
+}: {
+  initialStudent: StudentState | null;
+  published: string[];
+}) {
+  const [state, setState] = useState<StudentState | null>(initialStudent),
     [run, setRun] = useState<RunView | null>(null),
     [tab, setTab] = useState("Map"),
     [selected, select] = useState<string | null>(null);
@@ -71,43 +76,24 @@ export default function Trail() {
     lock = useRef(false),
     map = useRef<HTMLDivElement>(null),
     anchor = useRef<string | null>(null);
-  const [publicAccess, setPublicAccess] = useState(guest);
+  const [publicAccess, setPublicAccess] = useState(() =>
+    accessMap(new Set(published), [], new Set(), new Set(), new Set()),
+  );
   const access = state?.access ?? publicAccess,
     byId = new Map(access.map((a) => [a.id, a])),
-    rec = state?.recommendation?.level ?? "signed.add.1";
+    rec =
+      state?.recommendation?.level ??
+      (publicAccess.some((a) => a.id === "signed.add.1" && playable(a))
+        ? "signed.add.1"
+        : publicAccess.find(playable)?.id);
   const show = (id: string, behavior: ScrollBehavior = "auto") => {
     const l = levelById.get(id);
     if (l) setWorld(skillById.get(l.skill)!.world);
     document.getElementById("stop-" + id)?.scrollIntoView({ block: "center", behavior });
   };
+  const initialFocus = useRef(rec);
   useEffect(() => {
-    let mounted = true;
-    post<StudentState>({ action: "state" })
-      .then((s) => {
-        if (mounted) {
-          setState(s);
-          anchor.current = s.recommendation?.level ?? null;
-          requestAnimationFrame(() => anchor.current && show(anchor.current));
-        }
-      })
-      .catch((e) => {
-        if (!mounted) return;
-        if (e instanceof RequestError && e.status === 401) {
-          void post<string[]>({ action: "publicTrail" })
-            .then((ids) => {
-              if (mounted) {
-                setPublicAccess(accessMap(new Set(ids), [], new Set(), new Set(), new Set()));
-                if (ids.includes("signed.add.1")) requestAnimationFrame(() => show("signed.add.1"));
-              }
-            })
-            .catch((err) => {
-              if (mounted) setMessage(err.message);
-            });
-        } else setMessage(e.message);
-      });
-    return () => {
-      mounted = false;
-    };
+    if (initialFocus.current) show(initialFocus.current);
   }, []);
   useEffect(() => {
     if (!run && tab === "Map" && anchor.current) show(anchor.current);

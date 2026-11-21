@@ -11,8 +11,13 @@ import {
 } from "./model";
 import { rows, one, type Identity } from "./db";
 
+export async function publishedLevelIds(db: PoolClient): Promise<string[]> {
+  const records = await rows<{ level: string }>(db, "select level from published_levels where version=1");
+  return records.map((record) => record.level);
+}
+
 export async function course(db: PoolClient, who: Identity) {
-  const published = await rows(db, "select level as id from published_levels where version=1");
+  const published = await publishedLevelIds(db);
   const clears = await rows<Progress>(db, "select level,stars,review_due from clears where profile=$1", [
     who.profile,
   ]);
@@ -29,7 +34,7 @@ export async function course(db: PoolClient, who: Identity) {
   const assigned = new Set<string>(decisions.filter((d) => d.kind === "assignment").map((d) => d.skill));
   const placed = new Set<string>(decisions.filter((d) => d.kind === "placement").map((d) => d.skill));
   const access = accessMap(
-    new Set(published.map((l) => l.id)),
+    new Set(published),
     clears,
     new Set(history.map((r) => r.level)),
     assigned,

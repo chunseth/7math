@@ -10,6 +10,7 @@ export class GameError extends Error {
     super(message);
   }
 }
+export const studentCookie = "mentalist_session";
 export const enabled = () => process.env.MENTALIST_CURRICULUM === "1";
 let pool: Pool | undefined;
 export async function transaction<T>(fn: (db: PoolClient) => Promise<T>): Promise<T> {

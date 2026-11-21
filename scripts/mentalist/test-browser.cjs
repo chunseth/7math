@@ -14,6 +14,20 @@ if (!base || !url || ![base, url].every((u) => ["127.0.0.1", "localhost"].includ
   const db = new Client({ connectionString: url });
   await db.connect();
   try {
+    // Check the document itself so a successful hydration cannot mask incorrect initial labels.
+    const guest = await browser.newContext({ javaScriptEnabled: false });
+    try {
+      const page = await guest.newPage();
+      await page.goto(base + "/mentalist", { waitUntil: "domcontentloaded" });
+      const published = (
+        await db.query("select count(*)::int as count from mentalist.published_levels where version=1")
+      ).rows[0].count;
+      const stops = page.locator(".mt-node");
+      assert.equal((await stops.count()) - (await page.locator(".mt-node.state-planned").count()), published);
+      assert.ok((await page.locator(".mt-node.state-ready").count()) > 0);
+    } finally {
+      await guest.close();
+    }
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true });
     const p = await ctx.newPage();
     p.setDefaultTimeout(10000);
