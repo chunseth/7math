@@ -50,7 +50,7 @@ function event(run, raw) {
     raw,
   };
 }
-async function solve(run, misses = 0) {
+async function solve(run, misses = 0, elapsed = () => 5) {
   while (run.encounter) {
     const { answer, control } = await key(run);
     if (misses > 0) {
@@ -63,9 +63,39 @@ async function solve(run, misses = 0) {
       run = (await api(event(run, wrong))).data.run;
       misses--;
     }
-    run = (await api(event(run, answer))).data.run;
+    run = (await api({ ...event(run, answer), elapsed: elapsed(run.encounter.position) })).data.run;
   }
   return run;
+}
+async function checkLeaderboard(name) {
+  const level = "review.add.1";
+  const board = async () => (await api({ action: "leaderboard", level })).data;
+  const originalCookie = cookie;
+  const other = "test_" + randomUUID().slice(0, 8);
+  const login = await api({ action: "login", username: other, pin: "42", sprite: "raijin", create: true });
+  cookie = login.cookie.split(";")[0];
+  const missed = await solve(await start(level), 1);
+  assert.equal(missed.result.stars, 2);
+  assert.equal(missed.leaderboardRank, undefined);
+  assert.ok(!(await board()).some(row => row.username === other));
+  const tied = await solve(await start(level));
+  const tiedBoard = await board();
+  const studentRow = tiedBoard.find(row => row.username === name);
+  assert.equal(tied.leaderboardRank, studentRow.totalRank);
+  assert.equal(tiedBoard.find(row => row.username === other).problemRank, studentRow.problemRank);
+  await solve(await start(level), 0, () => 4);
+  cookie = originalCookie;
+  const replay = await solve(await start(level), 0, pos => pos === 1 ? 1 : 10);
+  const scores = await board();
+  const mine = scores.find(row => row.username === name);
+  const theirs = scores.find(row => row.username === other);
+  assert.equal(scores.filter(row => row.username === name).length, 1);
+  assert.equal(mine.totalMs, 60);
+  assert.equal(mine.fastestProblemMs, 1);
+  assert.equal(replay.result.activeMs, 111);
+  assert.equal(replay.leaderboardRank, mine.totalRank);
+  assert.ok(theirs.totalRank < mine.totalRank && theirs.problemRank > mine.problemRank);
+  assert.ok(!(await api({ action: "leaderboard", level: "review.add.2" })).data.some(row => row.username === other));
 }
 async function teacherChecks(name) {
   const ta = process.env.MENTALIST_TEST_TEACHER_A_TOKEN,
@@ -178,6 +208,7 @@ async function retryHistory() {
 async function main() {
   await db.connect();
   await api({ action: "state" }, 401);
+  await api({ action: "leaderboard", level: "review.add.1" }, 401);
   const name = "test_" + randomUUID().slice(0, 8);
   const login = await api({ action: "login", username: name, pin: "28", sprite: "raijin", create: true });
   assert.match(login.cookie, /HttpOnly/i);
@@ -191,6 +222,7 @@ async function main() {
   for (const skill of ["review.add", "review.subtract"]) {
     for (const level of [1, 2, 3]) await solve(await start(`${skill}.${level}`));
   }
+  await checkLeaderboard(name);
   assert.equal((await state()).access.find((a) => a.id === "signed.add.1").state, "ready");
   let run = await start("signed.add.1"),
     first = run.id;
@@ -209,6 +241,7 @@ async function main() {
   assert.equal((await state()).access.find((a) => a.id === "signed.add.2").state, "locked");
   run = await solve(await start("signed.add.1"), 2);
   assert.equal(run.result.firstTry, 10);
+  assert.equal(run.result.stars, 1);
   assert.ok(run.result.passed);
   const s2 = await solve(await start("signed.add.2"));
   assert.ok(s2.result.passed);

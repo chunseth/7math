@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import {
   accessMap,
   checkpoint,
@@ -17,42 +17,13 @@ import { LessonVideo, PreviewFeed } from "./components/PreviewFeed";
 import { previewGoal } from "../../lib/mentalist/preview-goals";
 import previews from "../../content/mentalist/previews.json";
 import { CurriculumMap } from "./components/CurriculumMap";
+import { Leaderboard } from "./components/Leaderboard";
+import { Sheet } from "./components/Sheet";
 import { Battle } from "./components/Battle";
 import { Inventory, Rewards } from "./components/Inventory";
 import { Visual } from "./components/Visual";
 import "./trail.css";
 
-function Sheet({ children, close }: { children: ReactNode; close: () => void }) {
-  const ref = useRef<HTMLDialogElement>(null);
-  useEffect(() => {
-    const d = ref.current!;
-    d.showModal();
-    return () => {
-      d.close();
-    };
-  }, []);
-  return (
-    <dialog
-      ref={ref}
-      className="mt-sheet"
-      onCancel={(e) => {
-        e.preventDefault();
-        close();
-      }}
-      onClick={(e) => {
-        if (e.target === ref.current) {
-          const r = ref.current!.getBoundingClientRect();
-          if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) close();
-        }
-      }}
-    >
-      <button className="mt-close" onClick={close} aria-label="Close">
-        ×
-      </button>
-      {children}
-    </dialog>
-  );
-}
 export default function Trail({
   initialStudent,
   published,
@@ -66,6 +37,7 @@ export default function Trail({
     [run, setRun] = useState<RunView | null>(null),
     [tab, setTab] = useState<string>(initialTab),
     [selected, select] = useState<string | null>(null);
+  const [boardLevel, setBoardLevel] = useState<string | null>(null);
   const [auth, setAuth] = useState(false),
     [create, setCreate] = useState(false),
     [name, setName] = useState(""),
@@ -159,6 +131,10 @@ export default function Trail({
       select(null);
     });
   }
+  function openLeaderboard(level: string) {
+    setBoardLevel(level);
+    if (!state) setAuth(true);
+  }
   function act(action: string, value: string) {
     const body = { action, value, id: crypto.randomUUID() };
     void request(async () => {
@@ -194,6 +170,7 @@ export default function Trail({
           key={run.id}
           initial={run}
           sprite={state!.profile.sprite_name}
+          username={state!.profile.username}
           onReturn={back}
           onRestart={(id) => enter(id, null)}
         />
@@ -238,13 +215,14 @@ export default function Trail({
         <div className="mt-map-progress">
           <span>Main path</span>
           <span>{main.cleared} of {main.total} levels cleared</span>
+          <button onClick={() => openLeaderboard(main.next ?? main.target ?? "review.add.1")}>Leaderboards</button>
         </div>
         {main.total === 0 && <p className="mt-map-status">Lessons are awaiting publication.</p>}
         {main.target && !main.next && <p className="mt-map-status">Your next foundation is awaiting publication.</p>}
         <CurriculumMap access={byId} main={main} open={id => { setMessage(""); select(id); }} />
       </>}
       {tab === "More Topics" && <PreviewFeed access={access} onTry={tryPreview} pinned={pinned}
-        obscured={auth || account || !!selected} />}
+        obscured={auth || account || !!selected || !!boardLevel} />}
       {tab !== "Map" && tab !== "More Topics" &&
         (state ? (
           tab === "Collection" ? (
@@ -273,7 +251,8 @@ export default function Trail({
           </button>
         ))}
       </nav>
-      {level && entry && !auth && (
+      {boardLevel && state && !auth && <Leaderboard initialLevel={boardLevel} username={state.profile.username} close={() => setBoardLevel(null)} />}
+      {level && entry && !auth && !boardLevel && (
         <Sheet close={() => !busy && select(null)}>
           <small>
             {skillById.get(level.skill)!.title} · Level {level.ordinal}
@@ -285,7 +264,8 @@ export default function Trail({
             <Visual data={level.preview.visual} />
           </div>
           <LessonVideo level={level.id} />
-          <p>12 questions · Clear with 10 first-try correct.</p>
+          <p>Clear with 10 of 12 correct on the first try. For 3 stars, answer all 12 without a miss and meet the time target.</p>
+          <button onClick={() => openLeaderboard(level.id)}>View leaderboard</button>
           {state?.offer && level.id === checkpoint.review && (
             <p className="mt-bonus">
               Perfect review +25 coins. This offer is used when you start. Answer all 12 correctly on the
@@ -313,6 +293,7 @@ export default function Trail({
             if (!busy) {
               requestedGoal.current = null;
               setAuth(false);
+              setBoardLevel(null);
               setMessage("");
             }
           }}

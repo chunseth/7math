@@ -1,9 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { levelById, skillById, type RunView, type Outcome, sprites } from "../../../lib/mentalist/model";
+import { formatRunTime, levelById, skillById, type RunView, type Outcome, sprites } from "../../../lib/mentalist/model";
 import { post, RequestError } from "../../../lib/mentalist/client";
 import Answer from "./Answer";
 import { Visual } from "./Visual";
+import { Leaderboard } from "./Leaderboard";
 type Pending = {
   action: "answer";
   id: string;
@@ -16,11 +17,13 @@ type Pending = {
 export function Battle({
   initial,
   sprite,
+  username,
   onReturn,
   onRestart,
 }: {
   initial: RunView;
   sprite: string;
+  username: string;
   onReturn: (id: string) => void;
   onRestart: (id: string) => void;
 }) {
@@ -34,6 +37,7 @@ export function Battle({
     [hit, setHit] = useState({ n: 0, type: "" });
   const [simulated, setSimulated] = useState("");
   const [leaving, setLeaving] = useState(false);
+  const [showBoard, setShowBoard] = useState(false);
   const pending = useRef<Pending | null>(null),
     sending = useRef(false);
   const time = useRef({ sum: 0, start: performance.now() as number | null });
@@ -141,8 +145,14 @@ export function Battle({
               <strong className="mt-result-score">{r.firstTry} / 12</strong>
               <p>Correct on the first try</p>
               <dl>
-                <dt>Active answering time</dt>
-                <dd>{r.activeMs === null ? "Unavailable" : (r.activeMs / 1000).toFixed(1) + " s"}</dd>
+                <dt>Total time · 12 problems</dt>
+                <dd>{formatRunTime(r.activeMs)}</dd>
+                <dt>Fastest problem</dt>
+                <dd>{formatRunTime(r.fastestProblemMs)}</dd>
+                {r.stars === 3 && <>
+                  <dt>Your rank by best total time</dt>
+                  <dd>#{run.leaderboardRank}</dd>
+                </>}
                 <dt>Fluency target</dt>
                 <dd>{r.targetMs / 1000} s</dd>
                 <dt>Attempt accuracy</dt>
@@ -152,6 +162,7 @@ export function Battle({
                   {r.retries} · {r.simplifications}
                 </dd>
               </dl>
+              {r.stars < 3 && <p>Get 3 stars to join the leaderboards.</p>}
             </>
           ) : (
             <p>You resolved {run.resolved} of 12 questions. Your earned rewards are saved.</p>
@@ -184,6 +195,7 @@ export function Battle({
               {levelById.get(run.next.level)!.title}
             </p>
           )}
+          {r && <button onClick={() => setShowBoard(true)}>View leaderboard</button>}
           {!r && (
             <button className="mt-primary" onClick={() => onRestart(run.level)}>
               Restart level
@@ -193,6 +205,7 @@ export function Battle({
             Return to trail
           </button>
         </section>
+        {showBoard && <Leaderboard initialLevel={run.level} username={username} close={() => setShowBoard(false)} />}
       </main>
     );
   }

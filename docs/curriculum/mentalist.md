@@ -4,6 +4,10 @@ The map, main-path recommendation and skill preview order follow the 93 lesson g
 
 The map connects all levels in plan order. Only the current stop and earlier cleared levels can be opened from the path. More Topics offers one card per unfinished skill with zero or one unfinished prerequisite skill across its entire dependency chain. Its clip demonstrates the first unfinished level in the destination skill. “Try it” pins that destination and opens the next playable prerequisite or destination level. A clear earned through either route counts everywhere. Each map level also has its own worked-example video. Regenerate the MP4s and posters from `content/mentalist/previews.json` with `node scripts/mentalist/ink/render.cjs` and an H.264-enabled ffmpeg on the path. The approved assessment bank and its level IDs are independent of this media.
 
+Clearing a level requires 10 of 12 problems correct on the first scored attempt. Three stars require zero wrong answers and a total active answering time within the level target. Two stars require at most one wrong answer and a time within 1.5 times the target. Other clears earn one star. Fraction simplifications count toward answering time and preserve accuracy.
+
+Each level leaderboard lists one row per student with a three-star finish. The two columns track each student's best total time and fastest single problem across qualifying runs. Either column sorts fastest first, and identical times share a rank. The completion screen shows times for the run just played and, for three stars, the student's rank by personal-best total time.
+
 The signed-addition Different Signs checkpoint offers the 9× review. Its shortcut points to the existing review stop. Opening a preview preserves the offer. The first committed battle entry consumes it, and 12 first-try correct earns 25 extra coins. Clearing Mixed Signs and Zero before entering expires the offer. Replaying the checkpoint cannot create another.
 
 ## Local setup and staged rollout

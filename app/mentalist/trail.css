@@ -138,6 +138,24 @@
   border-bottom: 1px solid #dce4dc;
 }
 .mt-map-progress span:first-child { color: var(--ink); font-weight: 700; }
+#mt-board-level { width: 100%; min-width: 0; margin-top: 5px; }
+.mt-leaderboard {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .85rem;
+  font-variant-numeric: tabular-nums;
+}
+.mt-leaderboard td, .mt-leaderboard th {
+  padding: .55rem .22rem;
+  border-bottom: 1px solid var(--border);
+  text-align: right;
+}
+.mt-leaderboard th:nth-child(2), .mt-leaderboard th[scope="row"] {
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.mt-shell .mt-leaderboard button { font: inherit; padding: .25rem; }
+.mt-leaderboard [aria-sort] button, .mt-own-record { background: #e5f0e6; color: var(--green); }
 .mt-map-status { padding-inline: 1rem; }
 .mt-trail,
 .mt-panel {

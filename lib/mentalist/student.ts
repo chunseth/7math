@@ -9,8 +9,16 @@ import {
   type StudentState,
   type Progress,
   type Access,
+  type LevelRecord,
 } from "./model";
-import { rows, one, type Identity } from "./db";
+import { GameError, rows, one, type Identity } from "./db";
+
+export function leaderboard(db: PoolClient, level: string) {
+  if (!levelById.has(level)) throw new GameError("Unknown level.", 404);
+  return rows<LevelRecord>(db, `select p.username,l.total_ms as "totalMs",l.fastest_ms as "fastestProblemMs",
+    l.total_rank as "totalRank",l.problem_rank as "problemRank" from level_leaderboard l
+    join public.profiles p on p.id=l.profile where l.level=$1 order by l.total_rank,p.username`, [level]);
+}
 
 export async function publishedLevelIds(db: PoolClient): Promise<string[]> {
   const records = await rows<{ level: string }>(db, "select level from published_levels where version=1");

@@ -60,7 +60,10 @@ export async function runView(db: PoolClient, profile: string, id: string): Prom
           profile,
         ])
       : [];
-  return { ...r, next, encounter: r.status === "active" ? e : undefined } as RunView;
+  const rank = r.result?.stars === 3
+    ? await one(db, "select total_rank from level_leaderboard where level=$1 and profile=$2", [r.level, profile])
+    : undefined;
+  return { ...r, next, leaderboardRank: rank?.total_rank, encounter: r.status === "active" ? e : undefined } as RunView;
 }
 export async function start(db: PoolClient, who: Identity, level: string, previous: string | null) {
   const data = await course(db, who),

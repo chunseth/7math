@@ -18,15 +18,18 @@ async function audit() {
           bool_and(a.active_ms is not null) timed,sum(a.active_ms) ms
         from encounters e join events a on a.encounter=e.id group by e.run,e.position
       ), metrics as (select run,count(*) n,count(*) filter(where first_scored='correct') first_try,sum(retries) retries,
-           sum(simplifications) simplifications,case when bool_and(timed) then sum(ms) end ms from question group by run)
+           sum(simplifications) simplifications,case when bool_and(timed) then sum(ms) end ms,
+           case when bool_and(timed) then min(ms) end fastest from question group by run)
       select count(*) from runs r left join metrics m on m.run=r.id where case when status='completed' then
         m.n is distinct from 12 or r.result is null or
         (r.result->>'firstTry')::int is distinct from m.first_try or
         (r.result->>'passed')::boolean is distinct from (m.first_try>=(r.policy->>'pass')::int) or
         (r.result->>'retries')::int is distinct from m.retries or (r.result->>'simplifications')::int is distinct from m.simplifications or
         (r.result->>'activeMs')::numeric is distinct from m.ms or
+        (r.result->>'fastestProblemMs')::numeric is distinct from m.fastest or
         (r.result->>'stars')::int is distinct from (case when m.first_try<(r.policy->>'pass')::int then 0
-          when m.ms<=(r.policy->>'targetMs')::numeric then 3 when m.ms<=1.5*(r.policy->>'targetMs')::numeric then 2 else 1 end)
+          when m.retries=0 and m.ms<=(r.policy->>'targetMs')::numeric then 3
+          when m.retries<=1 and m.ms<=1.5*(r.policy->>'targetMs')::numeric then 2 else 1 end)
         else r.result is not null end`,
     };
     for (const [name, sql] of Object.entries(checks)) {

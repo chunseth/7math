@@ -12,7 +12,7 @@ import {
   uuid,
 } from "../../../lib/mentalist/db";
 import { start, submit } from "../../../lib/mentalist/battle";
-import { publishedLevelIds, studentState } from "../../../lib/mentalist/student";
+import { leaderboard, publishedLevelIds, studentState } from "../../../lib/mentalist/student";
 import { economy } from "../../../lib/mentalist/economy";
 import { faculty, teacherUser } from "../../../lib/mentalist/teacher";
 import { craft } from "../../../lib/mentalist/craft";
@@ -69,6 +69,7 @@ export async function POST(req: NextRequest) {
     const result = await transaction(async (db) => {
       const who = await identity(db, req.cookies.get(cookie)?.value);
       if (b.action === "state") return studentState(db, who);
+      if (b.action === "leaderboard") return leaderboard(db, b.level);
       if (b.action === "logout") {
         await db.query("update sessions set ended=now() where token=$1", [who.token]);
         await db.query(

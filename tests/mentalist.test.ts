@@ -61,10 +61,21 @@ test("first-scored accuracy, revisions, simplifications and fluency thresholds a
   assert.equal(evaluate(p, 12000)?.stars, 3);
   assert.equal(evaluate(p, 8000)?.stars, 2);
   assert.equal(evaluate(p, 7999)?.stars, 1);
+  assert.equal(evaluate(p, 12000)?.fastestProblemMs, 1000);
+  p[0] = [{ outcome: "simplification", active_ms: 250 }, { outcome: "correct", active_ms: 100 }];
+  assert.equal(evaluate(p, 12000)?.fastestProblemMs, 350);
+  assert.equal(evaluate(p, 12000)?.stars, 3);
+  p[0].unshift({ outcome: "incorrect", active_ms: 100 });
+  assert.equal(evaluate(p, 12000)?.stars, 2);
+  assert.equal(evaluate(p, 7000)?.stars, 1);
+  p[0].unshift({ outcome: "incorrect", active_ms: 100 });
+  assert.equal(evaluate(p, 12000)?.stars, 1);
+  p[0] = [{ outcome: "correct", active_ms: 1000 }];
   p[0].unshift({ outcome: "simplification", active_ms: 900 });
   assert.equal(evaluate(p, 12000)?.firstTry, 12);
   for (const idx of [0, 1]) p[idx].unshift({ outcome: "incorrect", active_ms: 100 });
   p[3][0].active_ms = null;
+  assert.equal(evaluate(p, 12000)?.fastestProblemMs, null);
   assert.deepEqual(
     [evaluate(p, 12000)?.firstTry, evaluate(p, 12000)?.stars, evaluate(p, 12000)?.activeMs],
     [10, 1, null],

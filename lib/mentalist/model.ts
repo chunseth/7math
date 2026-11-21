@@ -90,6 +90,7 @@ export type Result = {
   scored: number;
   attemptAccuracy: number;
   activeMs: number | null;
+  fastestProblemMs: number | null;
   targetMs: number;
   retries: number;
   simplifications: number;
@@ -102,24 +103,28 @@ export function evaluate(positions: Recorded[][], targetMs: number): Result | nu
   const firstTry = positions.filter(
     (group) => group.find((e) => e.outcome !== "simplification")?.outcome === "correct",
   ).length;
-  const activeMs = events.every((e) => e.active_ms !== null)
-    ? events.reduce((sum, e) => sum + e.active_ms!, 0)
-    : null;
+  const times = positions.map(group => group.every(e => e.active_ms !== null)
+    ? group.reduce((sum, e) => sum + e.active_ms!, 0)
+    : null);
+  const timed = times.filter((ms): ms is number => ms !== null);
+  const activeMs = timed.length === 12 ? timed.reduce((sum, ms) => sum + ms, 0) : null;
+  const retries = scored.length - 12;
   const passed = firstTry >= 10;
   return {
     firstTry,
     passed,
     stars: passed
       ? 1 +
-        Number(activeMs !== null && activeMs <= 1.5 * targetMs) +
-        Number(activeMs !== null && activeMs <= targetMs)
+        Number(retries <= 1 && activeMs !== null && activeMs <= 1.5 * targetMs) +
+        Number(retries === 0 && activeMs !== null && activeMs <= targetMs)
       : 0,
     correct: 12,
     scored: scored.length,
     attemptAccuracy: 12 / scored.length,
     activeMs,
+    fastestProblemMs: activeMs === null ? null : Math.min(...timed),
     targetMs,
-    retries: scored.length - 12,
+    retries,
     simplifications: events.length - scored.length,
   };
 }
@@ -271,8 +276,19 @@ export type RunView = {
   next?: { level: string; reason: string };
   chest: boolean;
   result: Result | null;
+  leaderboardRank?: number;
   encounter?: { id: string; revision: number; position: number; question: Question };
 };
+export type LevelRecord = {
+  username: string;
+  totalMs: number;
+  fastestProblemMs: number;
+  totalRank: number;
+  problemRank: number;
+};
+export function formatRunTime(ms: number | null) {
+  return ms == null ? "Unavailable" : (ms / 1000).toFixed(3) + " s";
+}
 export type StudentState = {
   profile: { id: string; username: string; sprite_name: string; coins: number; xp: number };
   access: Access[];
