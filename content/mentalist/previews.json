@@ -1,0 +1,50 @@
+[
+  {
+    "skill": "review.multiply.9", "topic": "Multiplication", "prompt": "What is 9 × 7?", "model": "groups", "color": "#20654c",
+    "steps": [
+      {"label": "Start with ten groups of seven.", "math": "10 × 7 = 70"},
+      {"label": "Take away one group.", "math": "70 − 7 = 63"}
+    ],
+    "result": "9 × 7 = 63", "answer": "63"
+  },
+  {
+    "skill": "signed.add", "topic": "Signed addition", "prompt": "What is 3 + (−7)?", "model": "numberline", "color": "#315c92",
+    "steps": [
+      {"label": "Move three left to reach zero.", "math": "3 − 3 = 0"},
+      {"label": "Four more steps take you below zero.", "math": "0 − 4 = −4"}
+    ],
+    "result": "3 + (−7) = −4", "answer": "−4"
+  },
+  {
+    "skill": "fraction.add", "topic": "Fraction addition", "prompt": "What is ½ + ⅓?", "model": "strips", "color": "#7b4947",
+    "steps": [
+      {"label": "Split both strips into sixths.", "math": "1/2 = 3/6"},
+      {"label": "A third covers two sixths.", "math": "1/3 = 2/6"}
+    ],
+    "result": "3/6 + 2/6 = 5/6", "answer": "5/6"
+  },
+  {
+    "skill": "ratio.unit", "topic": "Unit rates", "prompt": "Three notebooks cost $12.", "subprompt": "What does one notebook cost?", "model": "notebooks", "color": "#466392",
+    "steps": [
+      {"label": "Share the cost across three notebooks.", "math": "12 ÷ 3 = 4"},
+      {"label": "Check three equal shares.", "math": "4 + 4 + 4 = 12"}
+    ],
+    "result": "$4", "unit": "per notebook", "answer": "$4 per notebook"
+  },
+  {
+    "skill": "algebra.equation", "topic": "Two-step equations", "prompt": "Solve 3x + 2 = 14.", "model": "balance", "color": "#764d79",
+    "steps": [
+      {"label": "Subtract two from each side.", "math": "3x = 14 − 2"},
+      {"label": "Divide both sides by three.", "math": "x = 12 ÷ 3"}
+    ],
+    "result": "x = 4", "answer": "x = 4"
+  },
+  {
+    "skill": "geometry.angles", "topic": "Triangle angles", "prompt": "Find the missing angle.", "model": "triangle", "color": "#86601d",
+    "steps": [
+      {"label": "Add the two known angles.", "math": "48° + 67° = 115°"},
+      {"label": "A triangle’s angles total 180°.", "math": "180° − 115° = 65°"}
+    ],
+    "result": "x = 65°", "answer": "65°"
+  }
+]

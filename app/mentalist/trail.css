@@ -151,6 +151,43 @@
   width: clamp(100px, 28vw, 190px);
   font-size: 13px;
 }
+.mt-main-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px clamp(12px, 4vw, 36px);
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+.mt-main-card > div {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+.mt-main-card small {
+  font-size: 11px;
+  font-weight: 750;
+  color: #526b61;
+}
+.mt-main-card strong {
+  font-size: 14px;
+  line-height: 1.2;
+}
+.mt-main-card span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.mt-main-card button {
+  flex: none;
+  background: #216c53;
+  border-color: #216c53;
+  color: #fff;
+}
+@media (max-width: 420px) {
+  .mt-main-card { align-items: stretch; flex-direction: column; }
+  .mt-main-card button { align-self: start; }
+}
 .mt-trail,
 .mt-panel {
   flex: 1 1 0;

@@ -34,6 +34,7 @@ export default async function Page() {
         <h1>Mentalist</h1>
         <p role="alert">Lesson availability could not be loaded.</p>
         <a href="/mentalist">Retry loading the trail</a>
+        <a href="/mentalist/previews">Watch skill previews</a>
       </main>
     );
   }

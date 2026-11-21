@@ -79,7 +79,10 @@ async function teacherChecks(name) {
   await teach("enroll", { classId, username: name });
   const child = { classId, profile: student };
   await teach("assignment", { ...child, skill: "fraction.add" });
+  for (const skill of ["review.fractions", "signed.add", "signed.subtract", "signed.multiply", "signed.divide"])
+    await teach("placement", { ...child, skill });
   await teach("placement", { ...child, skill: "ratio.equivalent" });
+  await teach("placement", { ...child, skill: "review.conversions" });
   await teach("timing", { ...child, multiplier: 1.5 });
   const st = await state();
   assert.equal(st.access.find((a) => a.id === "fraction.add.1").reason, "Teacher assignment");
@@ -182,8 +185,16 @@ async function main() {
   student = login.data.id;
   assert.equal((await state()).access.length, 250);
   await api({ action: "start", id: randomUUID(), level: "signed.add.2" }, 403);
+  await api({ action: "start", id: randomUUID(), level: "signed.add.1" }, 403);
+  const initialPath = await state();
+  assert.equal(initialPath.recommendation.level, "review.add.1");
+  for (const skill of ["review.add", "review.subtract"]) {
+    for (const level of [1, 2, 3]) await solve(await start(`${skill}.${level}`));
+  }
+  assert.equal((await state()).access.find((a) => a.id === "signed.add.1").state, "ready");
   let run = await start("signed.add.1"),
     first = run.id;
+  const initialCoins = (await state()).profile.coins;
   const a = await key(run),
     request = event(run, a.answer);
   assert.equal(JSON.stringify(run).includes('"answer":'), false);
@@ -191,7 +202,7 @@ async function main() {
   assert.deepEqual(left.data, right.data);
   run = left.data.run;
   await api({ ...request, raw: "0" }, 409);
-  assert.equal((await state()).profile.coins, 10010);
+  assert.equal((await state()).profile.coins, initialCoins + 10);
   run = await solve(run, 3);
   assert.equal(run.result.firstTry, 9);
   assert.equal(run.result.passed, false);

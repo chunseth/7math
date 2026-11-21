@@ -34,7 +34,7 @@ if (!base || !url || ![base, url].every((u) => ["127.0.0.1", "localhost"].includ
     const errors = [];
     p.on("pageerror", (e) => errors.push(e.message));
     await p.goto(base + "/mentalist", { waitUntil: "domcontentloaded" });
-    const node = p.getByRole("button", { name: "Signed addition, Same signs, Ready to play", exact: true });
+    const node = p.getByRole("button", { name: "Addition, Facts/make ten, Ready to play", exact: true });
     await node.click();
     await p.getByRole("button", { name: "Play", exact: true }).click();
     await p.getByRole("button", { name: "Create a player", exact: true }).click();
@@ -78,6 +78,10 @@ if (!base || !url || ![base, url].every((u) => ["127.0.0.1", "localhost"].includ
     await db.query(
       "insert into mentalist.decisions(class,profile,skill,teacher,kind) values($1,$2,'fraction.add',$3,'assignment')",
       [c, profile, t],
+    );
+    await db.query(
+      "insert into mentalist.decisions(class,profile,skill,teacher,kind) select $1,$2,unnest($3::text[]),$4,'placement'",
+      [c, profile, ["review.fractions", "signed.add", "signed.subtract", "signed.multiply", "signed.divide"], t],
     );
     await p.reload({ waitUntil: "domcontentloaded" });
     await p

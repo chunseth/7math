@@ -9,6 +9,7 @@ export const worldTitles = branchTitles;
 export const worlds = [...new Set(skills.map((s) => s.world))];
 export const skillById = new Map(skills.map((s) => [s.id, s]));
 export const levelById = new Map(levels.map((l) => [l.id, l]));
+export const mainPathLevels = levels.filter((l) => skillById.get(l.skill)?.world !== "review");
 export const sprites = [
   "raijin",
   "phoenix",
@@ -189,8 +190,8 @@ export function accessMap(
     const previous = `${l.skill}.${l.ordinal - 1}`;
     if (l.ordinal > 1 && !passed.has(previous))
       return { ...entry, state: "locked", reason: `Clear ${levelById.get(previous)!.title} first` };
-    const missing = skill.prerequisites.filter((id) => !id.startsWith("review.") && !finished(id));
-    if (missing.length && !assigned.has(l.skill) && !placed.has(l.skill))
+    const missing = skill.prerequisites.filter((id) => !finished(id));
+    if (missing.length && !placed.has(l.skill))
       return {
         ...entry,
         state: "locked",
@@ -202,6 +203,53 @@ export function accessMap(
   });
 }
 export const playable = (a: Access) => a.state !== "locked" && a.state !== "planned";
+export type MainPathProgress = {
+  cleared: number;
+  total: number;
+  target: string | null;
+  next: string | null;
+};
+export function mainPathProgress(access: Access[]): MainPathProgress {
+  const byId = new Map(access.map((entry) => [entry.id, entry]));
+  const published = mainPathLevels.filter((level) => {
+    const state = byId.get(level.id)?.state;
+    return state !== undefined && state !== "planned";
+  });
+  const target = published.find((level) => byId.get(level.id)?.state !== "cleared");
+  const firstUnfinished = (skill: string) => {
+    const first = skillById.get(skill)!.levels
+      .map((_, index) => `${skill}.${index + 1}`)
+      .find((id) => byId.get(id)?.state !== "cleared");
+    return first && byId.get(first)?.state !== "placed" ? first : null;
+  };
+  const visited = new Set<string>();
+  function nextAction(id: string): string | null {
+    if (visited.has(id)) return null;
+    visited.add(id);
+    const entry = byId.get(id);
+    if (!entry || entry.state === "planned") return null;
+    if (playable(entry)) return id;
+    const level = levelById.get(id)!;
+    if (level.ordinal > 1) {
+      const previous = `${level.skill}.${level.ordinal - 1}`;
+      if (byId.get(previous)?.state !== "cleared") return nextAction(previous);
+    }
+    for (const prerequisite of skillById.get(level.skill)!.prerequisites) {
+      const missing = firstUnfinished(prerequisite);
+      if (missing) {
+        const action = nextAction(missing);
+        if (action) return action;
+      }
+    }
+    return null;
+  }
+  return {
+    cleared: published.filter((level) => byId.get(level.id)?.state === "cleared").length,
+    total: published.length,
+    target: target?.id ?? null,
+    next: target ? nextAction(target.id) : null,
+  };
+}
 export type RunView = {
   id: string;
   level: string;

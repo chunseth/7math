@@ -3,6 +3,7 @@ import {
   accessMap,
   checkpoint,
   levelById,
+  mainPathProgress,
   playable,
   skills,
   type StudentState,
@@ -55,13 +56,17 @@ export async function recommend(db: PoolClient, who: Identity, data: Awaited<Ret
     });
   const unfinished = access.filter((a) => playable(a) && a.state !== "cleared");
   const due = new Set(clears.filter((c) => +new Date(c.review_due) <= Date.now()).map((c) => c.level));
+  const main = mainPathProgress(access);
+  const mainEntry = main.next ? access.find((entry) => entry.id === main.next) : null;
   const categories: [Access[], string][] = [
     [unfinished.filter((a) => assigned.has(levelById.get(a.id)!.skill)), "Teacher assignment"],
-    [unfinished.filter((a) => !a.id.startsWith("review.")), "Ready to practice"],
+    [mainEntry ? [mainEntry] : [], main.next === main.target ? "Next on main path" : "Required foundation"],
     [access.filter((a) => a.state === "cleared" && due.has(a.id)), "Due for review"],
   ];
   const category = categories.find(([items]) => items.length);
-  const level = category ? sorted(category[0])[0].id : null,
+  const level = category
+      ? (category[1] === "Teacher assignment" ? sorted(category[0])[0] : category[0][0]).id
+      : null,
     reason = category?.[1] ?? null;
   await db.query(
     `insert into recommendations(profile,level,reason) values($1,$2,$3) on conflict(profile) do update set level=excluded.level,reason=excluded.reason,updated=now() where (recommendations.level,recommendations.reason) is distinct from (excluded.level,excluded.reason)`,

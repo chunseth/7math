@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { accessMap, complete, evaluate, grade, levels, skills, type Recorded } from "../lib/mentalist/model";
+import { accessMap, complete, evaluate, grade, levels, mainPathProgress, skills, type Recorded } from "../lib/mentalist/model";
+import { previewGoal } from "../lib/mentalist/preview-goals";
 import { gunzipSync } from "node:zlib";
 import { readFileSync } from "node:fs";
 type Bank = {
@@ -72,23 +73,76 @@ test("first-scored accuracy, revisions, simplifications and fluency thresholds a
   assert.equal(r.passed, false);
   assert.equal(r.attemptAccuracy, 12 / 15);
 });
-test("assignment and placement grant access without manufacturing cleared levels", () => {
+test("prerequisites lock assigned skills while placement grants access without clears", () => {
   const ids = new Set(levels.map((l) => l.id)),
     empty = new Set<string>();
   const access = (assigned: Set<string>, placed: Set<string>) => accessMap(ids, [], empty, assigned, placed);
   const base = access(empty, empty);
   assert.equal(base.find((a) => a.id === "decimal.add.1")?.state, "locked");
-  assert.equal(base.find((a) => a.id === "signed.add.1")?.state, "ready");
+  assert.equal(base.find((a) => a.id === "signed.add.1")?.state, "locked");
+  assert.match(base.find((a) => a.id === "signed.add.1")?.reason ?? "", /Addition|Subtraction/);
+  assert.equal(base.find((a) => a.id === "review.add.1")?.state, "ready");
   assert.equal(base.find((a) => a.id === "review.multiply.9.1")?.state, "ready");
+  assert.deepEqual([mainPathProgress(base).target, mainPathProgress(base).next], ["number.sets.1", "review.multiply.0.1"]);
   const override = access(new Set(["decimal.add"]), empty);
-  assert.equal(override.find((a) => a.id === "decimal.add.1")?.reason, "Teacher assignment");
+  assert.equal(override.find((a) => a.id === "decimal.add.1")?.state, "locked");
   assert.equal(override.find((a) => a.id === "decimal.add.2")?.state, "locked");
+  assert.equal(access(empty, new Set(["decimal.add"])).find((a) => a.id === "decimal.add.1")?.state, "placed");
   const placed = access(
     empty,
-    new Set(["signed.add", "signed.subtract", "signed.multiply", "signed.divide"]),
+    new Set(["signed.add", "signed.subtract", "signed.multiply", "signed.divide", "review.conversions"]),
   );
   assert.equal(placed.find((a) => a.id === "signed.add.1")?.state, "placed");
   assert.equal(placed.find((a) => a.id === "decimal.add.1")?.state, "ready");
   ids.delete("signed.add.1");
   assert.equal(access(empty, empty).find((a) => a.id === "signed.add.1")?.state, "planned");
+});
+test("main path points through hard prerequisites without losing the core target", () => {
+  const included = new Set(["review.add", "review.subtract", "signed.add"]);
+  const published = new Set(levels.filter((l) => included.has(l.skill)).map((l) => l.id));
+  const state = (cleared: string[]) => {
+    const access = accessMap(
+      published,
+      cleared.map((level) => ({ level, stars: 1, review_due: "2099-01-01" })),
+      new Set(),
+      new Set(),
+      new Set(),
+    );
+    return mainPathProgress(access);
+  };
+  assert.deepEqual([state([]).target, state([]).next, state([]).total], ["signed.add.1", "review.add.1", 3]);
+  assert.equal(
+    mainPathProgress(accessMap(published, [], new Set(), new Set(), new Set(["review.add"]))).next,
+    "review.subtract.1",
+  );
+  const addition = levels.filter((l) => l.skill === "review.add").map((l) => l.id);
+  assert.equal(state(addition).next, "review.subtract.1");
+  const subtraction = levels.filter((l) => l.skill === "review.subtract").map((l) => l.id);
+  assert.equal(state([...addition, ...subtraction]).next, "signed.add.1");
+  assert.equal(state([...addition, ...subtraction, "signed.add.1"]).next, "signed.add.2");
+  assert.equal(state([...addition, ...subtraction, "signed.add.1", "signed.add.2", "signed.add.3"]).target, null);
+});
+
+test("quick goals count the entire unfinished chain once and follow shared clears and placements", () => {
+  const published = new Set(levels.map(l => l.id));
+  const access = (done: string[] = [], placed: string[] = []) => accessMap(published,
+    done.map(level => ({level, stars: 1, review_due: ""})), new Set(), new Set(), new Set(placed));
+  const initial = previewGoal("ratio.unit", access());
+  assert.equal(initial.quick, false);
+  assert.equal(initial.foundations.includes("review.multiply.9"), true);
+  assert.equal(initial.foundations.includes("ratio.equivalent"), true);
+  const foundations = levels.filter(l => l.skill === "review.fractions").map(l => l.id);
+  const quick = previewGoal("ratio.unit", access(foundations));
+  assert.equal(quick.quick, true);
+  assert.deepEqual(quick.foundations, ["ratio.equivalent"]);
+  assert.equal(quick.next, "ratio.equivalent.1");
+  assert.equal(quick.remaining, 6);
+  assert.equal(previewGoal("ratio.unit", access([], ["ratio.equivalent"])).next, "ratio.unit.1");
+  const completed = previewGoal("review.multiply.9", access(["review.multiply.9.1"]));
+  assert.equal(completed.complete, true);
+  assert.equal(completed.quick, false);
+  const fractions = previewGoal("fraction.add", access());
+  assert.equal(fractions.foundations.filter(id => id === "review.add").length, 1);
+  published.delete("ratio.unit.2");
+  assert.equal(previewGoal("ratio.unit", access(foundations)).quick, false);
 });

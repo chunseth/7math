@@ -6,6 +6,7 @@ import {
   checkpoint,
   levelById,
   levels,
+  mainPathProgress,
   playable,
   skillById,
   sprites,
@@ -15,6 +16,9 @@ import {
   type StudentState,
 } from "../../lib/mentalist/model";
 import { post, RequestError } from "../../lib/mentalist/client";
+import { PreviewFeed } from "./components/PreviewFeed";
+import { previewGoal } from "../../lib/mentalist/preview-goals";
+import previews from "../../content/mentalist/previews.json";
 import { Battle } from "./components/Battle";
 import { Inventory, Rewards } from "./components/Inventory";
 import { Visual } from "./components/Visual";
@@ -81,11 +85,39 @@ export default function Trail({
   );
   const access = state?.access ?? publicAccess,
     byId = new Map(access.map((a) => [a.id, a])),
+    main = mainPathProgress(access),
     rec =
       state?.recommendation?.level ??
-      (publicAccess.some((a) => a.id === "signed.add.1" && playable(a))
-        ? "signed.add.1"
-        : publicAccess.find(playable)?.id);
+      main.next ??
+      publicAccess.find(playable)?.id;
+  const mainTarget = main.target ? levelById.get(main.target)! : null,
+    mainAction = main.next ? levelById.get(main.next)! : null;
+  const requestedGoal = useRef<string | null>(null);
+  const pinKey = state ? "mentalist:preview-goal:" + state.profile.id : null;
+  const [savedPin, setSavedPin] = useState<{ key: string; skill: string } | null>(null);
+  const pinned = savedPin?.key === pinKey ? savedPin?.skill : null;
+  const goal = pinned ? previewGoal(pinned, access) : null;
+  useEffect(() => {
+    if (!pinKey) return;
+    try {
+      const stored = localStorage.getItem(pinKey);
+      setSavedPin(stored && previews.some(clip => clip.skill === stored) ? {key: pinKey, skill: stored} : null);
+    } catch { /* The current visit can use the in-memory pin. */ }
+  }, [pinKey]);
+  function saveGoal(key: string, skill: string | null) {
+    setSavedPin(skill ? { key, skill } : null);
+    try {
+      if (skill) localStorage.setItem(key, skill);
+      else localStorage.removeItem(key);
+    } catch { setMessage("Your goal will stay pinned for this visit."); }
+  }
+  function pinGoal(skill: string | null) {
+    if (pinKey) saveGoal(pinKey, skill);
+    else {
+      requestedGoal.current = skill;
+      setAuth(true);
+    }
+  }
   const show = (id: string, behavior: ScrollBehavior = "auto") => {
     const l = levelById.get(id);
     if (l) setWorld(skillById.get(l.skill)!.world);
@@ -170,7 +202,13 @@ export default function Trail({
       const s = await post<StudentState>({ action: "state" });
       setState(s);
       setAuth(false);
-      if (!selected && s.recommendation) show(s.recommendation.level);
+      const requested = requestedGoal.current;
+      requestedGoal.current = null;
+      if (requested && previewGoal(requested, s.access).quick) {
+        saveGoal("mentalist:preview-goal:" + s.profile.id, requested);
+      } else if (requested) {
+        setMessage("Choose an available quick quest for this player.");
+      } else if (!selected && s.recommendation) show(s.recommendation.level);
     });
   }
   if (run)
@@ -244,12 +282,42 @@ export default function Trail({
           </select>
         </label>
       </div>
-      <div ref={map} className="mt-trail" hidden={tab !== "Map"} aria-label="Level trail">
+      <div className="mt-main-card" hidden={tab !== "Map"}>
+        <div>
+          <small>Main path · {main.cleared} of {main.total} available stops cleared</small>
+          {mainTarget ? (
+            <>
+              <strong>{skillById.get(mainTarget.skill)!.title}: {mainTarget.title}</strong>
+              {mainAction && mainAction.id !== mainTarget.id && (
+                <span>First, clear {skillById.get(mainAction.skill)!.title}: {mainAction.title}</span>
+              )}
+              {!mainAction && <span>Required content is awaiting publication.</span>}
+            </>
+          ) : (
+            <strong>{main.total ? "Available path complete" : "Main path awaiting publication"}</strong>
+          )}
+        </div>
+        {mainAction && (
+          <button onClick={() => { show(mainAction.id, "smooth"); select(mainAction.id); }}>
+            {mainAction.id === mainTarget?.id ? "Continue" : "Go to foundation"}
+          </button>
+        )}
+      </div>
+      {tab === "Map" && pinned && goal && <aside className="mt-main-card">
+        <div><small>Pinned goal</small><strong>{skillById.get(pinned)!.title}</strong>
+          <span>{goal.complete ? "Goal complete" : goal.next
+            ? "Next · " + skillById.get(levelById.get(goal.next)!.skill)!.title + " · " + levelById.get(goal.next)!.title
+            : "Awaiting publication"}</span>
+        </div>
+        {goal.next && <button onClick={() => select(goal.next!)}>Visit level</button>}
+        <button aria-label="Unpin goal" onClick={() => pinGoal(null)}>Unpin</button>
+      </aside>}
+      <div ref={map} className="mt-trail" hidden={tab !== "Map"} aria-label="Main path and required foundations">
         {worlds.map((w, wi) => (
           <section data-world={w} key={w} className={"mt-world tone-" + (wi % 4)}>
             <h2>
               {worldTitles[w]}
-              {w === "review" && <small>Optional</small>}
+              {w === "review" && <small>Required foundations</small>}
             </h2>
             {levels
               .filter((l) => skillById.get(l.skill)!.world === w)
@@ -323,7 +391,9 @@ export default function Trail({
           </section>
         ))}
       </div>
-      {tab !== "Map" &&
+      {tab === "Previews" && <PreviewFeed access={access} pinned={pinned} onPin={pinGoal}
+        obscured={auth || account || !!selected} />}
+      {tab !== "Map" && tab !== "Previews" &&
         (state ? (
           tab === "Collection" ? (
             <Inventory state={state} act={act} busy={busy} />
@@ -337,7 +407,7 @@ export default function Trail({
           </section>
         ))}
       <nav className="mt-nav" aria-label="Mentalist menus">
-        {["Map", "Collection", "Rewards"].map((s, i) => (
+        {["Map", "Previews", "Collection", "Rewards"].map((s, i) => (
           <button
             key={s}
             aria-current={tab === s ? "page" : undefined}
@@ -346,7 +416,7 @@ export default function Trail({
               setTab(s);
             }}
           >
-            <span aria-hidden="true">{["⌁", "▤", "✧"][i]}</span>
+            <span aria-hidden="true">{["⌁", "▷", "▤", "✧"][i]}</span>
             {s}
           </button>
         ))}
@@ -385,6 +455,7 @@ export default function Trail({
         <Sheet
           close={() => {
             if (!busy) {
+              requestedGoal.current = null;
               setAuth(false);
               setMessage("");
             }

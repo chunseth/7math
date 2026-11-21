@@ -21,15 +21,24 @@ async function publish() {
     throw new Error(
       "Record the release reviewer in MENTALIST_CONTENT_REVIEWER before publishing reviewed sets.",
     );
-  const selected = bank.levels.filter(
-    (l) =>
+  const bySkill = new Map(bank.skills.map((skill) => [skill.id, skill]));
+  const included = new Set();
+  function include(id) {
+    if (included.has(id)) return;
+    const skill = bySkill.get(id);
+    if (!skill) throw new Error(`Unknown prerequisite ${id}`);
+    included.add(id);
+    skill.prerequisites.forEach(include);
+  }
+  for (const skill of bank.skills) {
+    if (
       stage === "complete" ||
       (stage === "slice"
-        ? l.skill === "signed.add"
-        : /^(signed[.]|decimal[.]|fraction[.]|review[.](multiply|divide)[.]|percent[.]parts$|algebra[.]equation$)/.test(
-            l.skill,
-          )),
-  );
+        ? skill.id === "signed.add"
+        : /^(signed[.]|decimal[.]|fraction[.]|review[.](multiply|divide)[.]|percent[.]parts$|algebra[.]equation$)/.test(skill.id))
+    ) include(skill.id);
+  }
+  const selected = bank.levels.filter((level) => included.has(level.skill));
   const digest = createHash("sha256").update(raw).digest("hex");
   const client = new Client({ connectionString: process.env.MENTALIST_DATABASE_URL });
   await client.connect();
