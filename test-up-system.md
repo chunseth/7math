@@ -1,5 +1,7 @@
 # Test Up System
 
+The curriculum release uses concept levels, first-try clears, and optional fluency stars. This document describes the earlier design. [Current Mentalist rules and rollout](docs/curriculum/mentalist.md)
+
 The "test up" system lets students prove they are ready to unlock a higher level, rarity tier, or harder world path. It is timed both per problem and overall. The final target time is personalized using the student's own previous performance.
 
 ## Core Idea

@@ -1,0 +1,2784 @@
+[
+ {
+  "id": "number.sets.1",
+  "skill": "number.sets",
+  "title": "Membership and classification",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "What is the smallest listed set containing 32?"
+  }
+ },
+ {
+  "id": "number.sets.2",
+  "skill": "number.sets",
+  "title": "Nested sets and containment",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "32 belongs to the natural numbers (1, 2, …). Which listed set is the next larger standard set containing all natural numbers (1, 2, …)?"
+  }
+ },
+ {
+  "id": "signed.add.1",
+  "skill": "signed.add",
+  "title": "Same signs",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "12 + 11"
+  }
+ },
+ {
+  "id": "signed.add.2",
+  "skill": "signed.add",
+  "title": "Different signs",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "12 + (-11)"
+  }
+ },
+ {
+  "id": "signed.add.3",
+  "skill": "signed.add",
+  "title": "Mixed signs and zero",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Combine the positive and negative chips. What signed sum remains?",
+   "visual": {
+    "kind": "chips",
+    "values": [
+     3,
+     2
+    ]
+   }
+  }
+ },
+ {
+  "id": "signed.subtract.1",
+  "skill": "signed.subtract",
+  "title": "Positive subtrahends",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "12 − 11"
+  }
+ },
+ {
+  "id": "signed.subtract.2",
+  "skill": "signed.subtract",
+  "title": "Subtracting negatives",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "12 − (-11)"
+  }
+ },
+ {
+  "id": "signed.subtract.3",
+  "skill": "signed.subtract",
+  "title": "Mixed expressions and zero",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "12 − 11"
+  }
+ },
+ {
+  "id": "signed.multiply.1",
+  "skill": "signed.multiply",
+  "title": "Sign patterns and zero",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "12 × 11"
+  }
+ },
+ {
+  "id": "signed.multiply.2",
+  "skill": "signed.multiply",
+  "title": "Mixed short applications",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "A lift moves 11 m each minute for 12 minutes. What is its change in height in meters?"
+  }
+ },
+ {
+  "id": "signed.divide.1",
+  "skill": "signed.divide",
+  "title": "Sign patterns and zero dividends",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "132 ÷ 11"
+  }
+ },
+ {
+  "id": "signed.divide.2",
+  "skill": "signed.divide",
+  "title": "Mixed short applications",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "The temperature changes 132° over 11 equal hours. What is the change per hour?"
+  }
+ },
+ {
+  "id": "decimal.add.1",
+  "skill": "decimal.add",
+  "title": "Place value",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "4.1 + 1.4"
+  }
+ },
+ {
+  "id": "decimal.add.2",
+  "skill": "decimal.add",
+  "title": "Signed values",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "-4.1 + 1.4"
+  }
+ },
+ {
+  "id": "decimal.add.3",
+  "skill": "decimal.add",
+  "title": "Short applications",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Two ribbons measure 4.1 m and 1.4 m. Find their combined length in meters."
+  }
+ },
+ {
+  "id": "decimal.subtract.1",
+  "skill": "decimal.subtract",
+  "title": "Place value",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "4.1 − 1.4"
+  }
+ },
+ {
+  "id": "decimal.subtract.2",
+  "skill": "decimal.subtract",
+  "title": "Signed values",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "-4.1 − 1.4"
+  }
+ },
+ {
+  "id": "decimal.subtract.3",
+  "skill": "decimal.subtract",
+  "title": "Short applications",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "A trail marker is at 4.1 km and the next at 1.4 km. Find the signed change from the second marker to the first."
+  }
+ },
+ {
+  "id": "decimal.multiply.1",
+  "skill": "decimal.multiply",
+  "title": "Decimal placement",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "4.1 × 1.4"
+  }
+ },
+ {
+  "id": "decimal.multiply.2",
+  "skill": "decimal.multiply",
+  "title": "Signed values",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "-4.1 × 1.4"
+  }
+ },
+ {
+  "id": "decimal.multiply.3",
+  "skill": "decimal.multiply",
+  "title": "Short applications",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "A rectangle is 4.1 m by 1.4 m. Find its area in square meters."
+  }
+ },
+ {
+  "id": "decimal.divide.1",
+  "skill": "decimal.divide",
+  "title": "Decimal divisors",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "5.74 ÷ 1.4"
+  }
+ },
+ {
+  "id": "decimal.divide.2",
+  "skill": "decimal.divide",
+  "title": "Signed values",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "-5.74 ÷ 1.4"
+  }
+ },
+ {
+  "id": "decimal.divide.3",
+  "skill": "decimal.divide",
+  "title": "Short applications",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "A 5.74 m strip is cut into pieces 1.4 m long. How many pieces does that length represent, including partial pieces?"
+  }
+ },
+ {
+  "id": "fraction.add.1",
+  "skill": "fraction.add",
+  "title": "Like denominators",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "13/8 + 5/8"
+  }
+ },
+ {
+  "id": "fraction.add.2",
+  "skill": "fraction.add",
+  "title": "Unlike denominators",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "13/8 + 1/2"
+  }
+ },
+ {
+  "id": "fraction.add.3",
+  "skill": "fraction.add",
+  "title": "Signed fractions",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "-13/8 + 1/2"
+  }
+ },
+ {
+  "id": "fraction.add.4",
+  "skill": "fraction.add",
+  "title": "Mixed-number operands",
+  "ordinal": 4,
+  "preview": {
+   "prompt": "2 1/8 + 1 1/9"
+  }
+ },
+ {
+  "id": "fraction.subtract.1",
+  "skill": "fraction.subtract",
+  "title": "Like denominators",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "13/8 − 5/8"
+  }
+ },
+ {
+  "id": "fraction.subtract.2",
+  "skill": "fraction.subtract",
+  "title": "Unlike denominators",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "13/8 − 1/2"
+  }
+ },
+ {
+  "id": "fraction.subtract.3",
+  "skill": "fraction.subtract",
+  "title": "Signed fractions",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "-13/8 − 1/2"
+  }
+ },
+ {
+  "id": "fraction.subtract.4",
+  "skill": "fraction.subtract",
+  "title": "Mixed-number operands",
+  "ordinal": 4,
+  "preview": {
+   "prompt": "2 1/8 − 1 1/9"
+  }
+ },
+ {
+  "id": "fraction.multiply.1",
+  "skill": "fraction.multiply",
+  "title": "Products and cancellation",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "13/8 × 1/2"
+  }
+ },
+ {
+  "id": "fraction.multiply.2",
+  "skill": "fraction.multiply",
+  "title": "Signed fractions",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "-13/8 × 1/2"
+  }
+ },
+ {
+  "id": "fraction.multiply.3",
+  "skill": "fraction.multiply",
+  "title": "Mixed-number operands",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "2 1/8 × 1 1/9"
+  }
+ },
+ {
+  "id": "fraction.divide.1",
+  "skill": "fraction.divide",
+  "title": "Reciprocals",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "13/8 ÷ 1/2"
+  }
+ },
+ {
+  "id": "fraction.divide.2",
+  "skill": "fraction.divide",
+  "title": "Signed fractions",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "-13/8 ÷ 1/2"
+  }
+ },
+ {
+  "id": "fraction.divide.3",
+  "skill": "fraction.divide",
+  "title": "Mixed-number operands",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "2 1/8 ÷ 1 1/9"
+  }
+ },
+ {
+  "id": "number.mixed.1",
+  "skill": "number.mixed",
+  "title": "Operation order",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "(32 − 8) × 2 + 5"
+  }
+ },
+ {
+  "id": "number.mixed.2",
+  "skill": "number.mixed",
+  "title": "Mixed representations",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "32.5 − 8/2"
+  }
+ },
+ {
+  "id": "number.mixed.3",
+  "skill": "number.mixed",
+  "title": "Multistep expressions and estimation",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Round each factor to the nearest whole before multiplying: 32.1 × 8.8."
+  }
+ },
+ {
+  "id": "number.context.1",
+  "skill": "number.context",
+  "title": "Temperature/elevation",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "At −32 m, a diver rises 8 m. New elevation in meters?"
+  }
+ },
+ {
+  "id": "number.context.2",
+  "skill": "number.context",
+  "title": "Financial changes",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "A balance of $−32 receives a $8 deposit. New balance in dollars?"
+  }
+ },
+ {
+  "id": "number.context.3",
+  "skill": "number.context",
+  "title": "Multistep situations",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "It was −32°. It warmed 8° and then cooled 4°. Final temperature?"
+  }
+ },
+ {
+  "id": "ratio.equivalent.1",
+  "skill": "ratio.equivalent",
+  "title": "Ratio meaning",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "A bowl holds 32 pears and 8 plums. In the ratio of pears to all fruit, 32 to □, fill the blank."
+  }
+ },
+ {
+  "id": "ratio.equivalent.2",
+  "skill": "ratio.equivalent",
+  "title": "Equivalent ratios",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "32 : 8 = 224 : □"
+  }
+ },
+ {
+  "id": "ratio.equivalent.3",
+  "skill": "ratio.equivalent",
+  "title": "Tables and missing values",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Complete the proportional table.",
+   "visual": {
+    "kind": "data",
+    "headers": [
+     "x",
+     "y"
+    ],
+    "rows": [
+     [
+      "1",
+      "7"
+     ],
+     [
+      "32",
+      "?"
+     ],
+     [
+      "33",
+      "?"
+     ]
+    ]
+   }
+  }
+ },
+ {
+  "id": "ratio.unit.1",
+  "skill": "ratio.unit",
+  "title": "Calculate",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "32 books cost $256. Dollars per book?"
+  }
+ },
+ {
+  "id": "ratio.unit.2",
+  "skill": "ratio.unit",
+  "title": "Fractional rates",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "32/2 liters cover 8/2 m². Liters per m²?"
+  }
+ },
+ {
+  "id": "ratio.unit.3",
+  "skill": "ratio.unit",
+  "title": "Compare and interpret",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "32 bars cost $256. A second shop sells bars for $7 each. Which is cheaper per bar?"
+  }
+ },
+ {
+  "id": "ratio.constant.1",
+  "skill": "ratio.constant",
+  "title": "Tables",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Find y/x using the row x = 32.",
+   "visual": {
+    "kind": "data",
+    "headers": [
+     "x",
+     "y"
+    ],
+    "rows": [
+     [
+      "1",
+      "7"
+     ],
+     [
+      "2",
+      "14"
+     ],
+     [
+      "32",
+      "224"
+     ]
+    ]
+   }
+  }
+ },
+ {
+  "id": "ratio.constant.2",
+  "skill": "ratio.constant",
+  "title": "Graphs",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "The line continues for 32 hours. What is its constant rate in km/h?",
+   "visual": {
+    "kind": "plot",
+    "points": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      7
+     ],
+     [
+      2,
+      14
+     ]
+    ],
+    "labels": [
+     "Hours",
+     "Kilometers"
+    ]
+   }
+  }
+ },
+ {
+  "id": "ratio.constant.3",
+  "skill": "ratio.constant",
+  "title": "Equations and contexts",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "32 identical packs contain 224 pens. In y = kx, find k for pens per pack."
+  }
+ },
+ {
+  "id": "ratio.represent.1",
+  "skill": "ratio.represent",
+  "title": "Pictures/words",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Each box contains 7 pencils. How many pencils in 32 boxes?"
+  }
+ },
+ {
+  "id": "ratio.represent.2",
+  "skill": "ratio.represent",
+  "title": "Tables",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Use the table to predict y for x = 33.",
+   "visual": {
+    "kind": "data",
+    "headers": [
+     "x",
+     "y"
+    ],
+    "rows": [
+     [
+      "1",
+      "7"
+     ],
+     [
+      "2",
+      "14"
+     ],
+     [
+      "32",
+      "224"
+     ]
+    ]
+   }
+  }
+ },
+ {
+  "id": "ratio.represent.3",
+  "skill": "ratio.represent",
+  "title": "Graphs",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Use the graph to predict distance at 32 hours.",
+   "visual": {
+    "kind": "plot",
+    "points": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      7
+     ],
+     [
+      2,
+      14
+     ]
+    ],
+    "labels": [
+     "Hours",
+     "Kilometers"
+    ]
+   }
+  }
+ },
+ {
+  "id": "ratio.represent.4",
+  "skill": "ratio.represent",
+  "title": "Connect representations",
+  "ordinal": 4,
+  "preview": {
+   "prompt": "Which equation fits these pairs, including (32, 224)?",
+   "visual": {
+    "kind": "data",
+    "headers": [
+     "x",
+     "y"
+    ],
+    "rows": [
+     [
+      "1",
+      "7"
+     ],
+     [
+      "2",
+      "14"
+     ],
+     [
+      "32",
+      "224"
+     ]
+    ]
+   }
+  }
+ },
+ {
+  "id": "ratio.travel.1",
+  "skill": "ratio.travel",
+  "title": "Find distance",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "At 32 km/h for 8 hours, find distance in km."
+  }
+ },
+ {
+  "id": "ratio.travel.2",
+  "skill": "ratio.travel",
+  "title": "Find rate",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Traveling 256 km in 8 hours, find km/h."
+  }
+ },
+ {
+  "id": "ratio.travel.3",
+  "skill": "ratio.travel",
+  "title": "Find time",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "At 32 km/h, how many hours for 256 km?"
+  }
+ },
+ {
+  "id": "ratio.solve.1",
+  "skill": "ratio.solve",
+  "title": "Proportions",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "8 portions need 256 g of oats. Grams for 7 portions?"
+  }
+ },
+ {
+  "id": "ratio.solve.2",
+  "skill": "ratio.solve",
+  "title": "Comparisons",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "One tap fills 256 L in 8 minutes, another 39 L/min. Difference in L/min?"
+  }
+ },
+ {
+  "id": "ratio.solve.3",
+  "skill": "ratio.solve",
+  "title": "Multistep applications",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "32 crates each hold 8 packs of 7 cans. How many cans?"
+  }
+ },
+ {
+  "id": "ratio.units.1",
+  "skill": "ratio.units",
+  "title": "Unit-rate method",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Use 1 in = 2.54 cm. Convert 32 inches to centimeters."
+  }
+ },
+ {
+  "id": "ratio.units.2",
+  "skill": "ratio.units",
+  "title": "Proportion method and applications",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Use 1 in = 2.54 cm. Set up a proportion to convert 32 inches to centimeters."
+  }
+ },
+ {
+  "id": "percent.parts.1",
+  "skill": "percent.parts",
+  "title": "Find part",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "What is 40% of 3200?"
+  }
+ },
+ {
+  "id": "percent.parts.2",
+  "skill": "percent.parts",
+  "title": "Find whole",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "1280 is 40% of what whole?"
+  }
+ },
+ {
+  "id": "percent.parts.3",
+  "skill": "percent.parts",
+  "title": "Find percent",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "1280 is what percent of 3200?"
+  }
+ },
+ {
+  "id": "percent.change.1",
+  "skill": "percent.change",
+  "title": "Increase/decrease",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "A price changes from $3200 to $4480. Find the size of the percent change."
+  }
+ },
+ {
+  "id": "percent.change.2",
+  "skill": "percent.change",
+  "title": "New amounts",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Change $3200 by a 40% increase. New price?"
+  }
+ },
+ {
+  "id": "percent.change.3",
+  "skill": "percent.change",
+  "title": "Original amounts",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "After a 40% increase the price is $4480. Original price?"
+  }
+ },
+ {
+  "id": "percent.multistep.1",
+  "skill": "percent.multistep",
+  "title": "Successive changes",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "An item is $3200. Apply 40% off and then a further 10% discount. Final price?"
+  }
+ },
+ {
+  "id": "percent.multistep.2",
+  "skill": "percent.multistep",
+  "title": "Discount and tax",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "An item is $3200. Apply 40% off and then 10% sales tax. Final price?"
+  }
+ },
+ {
+  "id": "percent.multistep.3",
+  "skill": "percent.multistep",
+  "title": "Compare offers",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "On $3200, compare 40% off with $1285 off. How much more does the better offer save?"
+  }
+ },
+ {
+  "id": "similar.attributes.1",
+  "skill": "similar.attributes",
+  "title": "Correspondence",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "△ABC ∼ △DEF. If AB is 32 cm, which side corresponds to AB?"
+  }
+ },
+ {
+  "id": "similar.attributes.2",
+  "skill": "similar.attributes",
+  "title": "Ratios within/between figures",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Corresponding sides are 32 cm and 224 cm. Scale from the first triangle to the second?"
+  }
+ },
+ {
+  "id": "similar.attributes.3",
+  "skill": "similar.attributes",
+  "title": "Similar and nonsimilar examples",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Triangles have sides (32,33,34) and (64,66,68). Similar?"
+  }
+ },
+ {
+  "id": "similar.lengths.1",
+  "skill": "similar.lengths",
+  "title": "Scale factors",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "An image changes a 224 cm side to 32 cm. Find its scale factor."
+  }
+ },
+ {
+  "id": "similar.lengths.2",
+  "skill": "similar.lengths",
+  "title": "Missing sides",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Scale factor 7: a side is 32 cm before scaling. Length after?"
+  }
+ },
+ {
+  "id": "similar.lengths.3",
+  "skill": "similar.lengths",
+  "title": "Indirect measurement",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "A 8 m pole casts a 7 m shadow. A tree casts a 224 m shadow. Height in m?"
+  }
+ },
+ {
+  "id": "similar.drawings.1",
+  "skill": "similar.drawings",
+  "title": "Actual distances",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Scale: 1 cm represents 7 km. Distance in km for 32 cm?"
+  }
+ },
+ {
+  "id": "similar.drawings.2",
+  "skill": "similar.drawings",
+  "title": "Drawing distances",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Scale: 1 cm represents 7 km. Length in cm for 224 km?"
+  }
+ },
+ {
+  "id": "similar.drawings.3",
+  "skill": "similar.drawings",
+  "title": "Create/complete drawings",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Complete the scale drawing. A rectangle begins at (0,0), width 12 m and height 4 m. Plot its opposite corner at 2 m per square."
+  }
+ },
+ {
+  "id": "chance.space.1",
+  "skill": "chance.space",
+  "title": "Simple events",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "A spinner has 32 uniquely labeled spaces. How many possible labels?"
+  }
+ },
+ {
+  "id": "chance.space.2",
+  "skill": "chance.space",
+  "title": "Compound lists",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Choose one of 32 shirts and one of 8 hats. How many ordered outfits?"
+  }
+ },
+ {
+  "id": "chance.space.3",
+  "skill": "chance.space",
+  "title": "Tree diagrams",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Complete a tree for 32 colors followed by 8 letters."
+  }
+ },
+ {
+  "id": "chance.theoretical.1",
+  "skill": "chance.theoretical",
+  "title": "Simple events",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "A bag has 32 red and 8 blue counters. Uniform draw: P(red)?"
+  }
+ },
+ {
+  "id": "chance.theoretical.2",
+  "skill": "chance.theoretical",
+  "title": "Compound events",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Flip a fair coin and roll a fair 32-sided die numbered 1–32. P(heads and 1)?"
+  }
+ },
+ {
+  "id": "chance.theoretical.3",
+  "skill": "chance.theoretical",
+  "title": "Predictions",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "With probability 1/8 of winning, predict wins in 256 trials."
+  }
+ },
+ {
+  "id": "chance.complement.1",
+  "skill": "chance.complement",
+  "title": "Calculate complements",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "P(rain) = 32/40. P(no rain)?"
+  }
+ },
+ {
+  "id": "chance.complement.2",
+  "skill": "chance.complement",
+  "title": "Interpret event/complement relationships",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "P(winning) = 32/40. P(not winning)?"
+  }
+ },
+ {
+  "id": "chance.experimental.1",
+  "skill": "chance.experimental",
+  "title": "Simple trials",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "In 40 spinner trials, a target event occurs 32 times. Estimate its probability."
+  }
+ },
+ {
+  "id": "chance.experimental.2",
+  "skill": "chance.experimental",
+  "title": "Compound trials",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "In 40 two-coin trials, a target event occurs 32 times. Estimate its probability."
+  }
+ },
+ {
+  "id": "chance.experimental.3",
+  "skill": "chance.experimental",
+  "title": "Predictions",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "In 40 spinner trials, a target event occurs 32 times. Predict its count in twice as many trials."
+  }
+ },
+ {
+  "id": "chance.simulate.1",
+  "skill": "chance.simulate",
+  "title": "Select a model",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "A bag has 32 equally likely colors. Which simulation gives each a fair chance?"
+  }
+ },
+ {
+  "id": "chance.simulate.2",
+  "skill": "chance.simulate",
+  "title": "Execute/record trials",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Run trial sequence 32 and record the outcomes.",
+   "visual": {
+    "kind": "simulation",
+    "outcomes": [
+     "T",
+     "T",
+     "H",
+     "H",
+     "T",
+     "T",
+     "H",
+     "H"
+    ]
+   }
+  }
+ },
+ {
+  "id": "chance.simulate.3",
+  "skill": "chance.simulate",
+  "title": "Interpret results",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "32 successes in 40 simulations. Predict successes in 120 more."
+  }
+ },
+ {
+  "id": "chance.compare.1",
+  "skill": "chance.compare",
+  "title": "Experimental versus theoretical",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "A fair coin lands heads 32 times in 66 trials. How does the observed heads rate compare with 1/2?"
+  }
+ },
+ {
+  "id": "chance.compare.2",
+  "skill": "chance.compare",
+  "title": "Qualitative/quantitative predictions",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "A spinner landed on green 32 times in 40 trials. Based on the data, predict green outcomes in 160 trials."
+  }
+ },
+ {
+  "id": "stats.graphs.1",
+  "skill": "stats.graphs",
+  "title": "Bar/dot plots",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "How many trips are represented?",
+   "visual": {
+    "kind": "bars",
+    "values": [
+     32,
+     8
+    ],
+    "labels": [
+     "Walk",
+     "Bike"
+    ]
+   }
+  }
+ },
+ {
+  "id": "stats.graphs.2",
+  "skill": "stats.graphs",
+  "title": "Circle graphs",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "What fraction of all trips are walks?",
+   "visual": {
+    "kind": "pie",
+    "values": [
+     32,
+     8
+    ],
+    "labels": [
+     "Walk",
+     "Bike"
+    ]
+   }
+  }
+ },
+ {
+  "id": "stats.graphs.3",
+  "skill": "stats.graphs",
+  "title": "Part comparisons and equivalents",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "What fraction of all trips are walks?",
+   "visual": {
+    "kind": "bars",
+    "values": [
+     32,
+     8
+    ],
+    "labels": [
+     "Walk",
+     "Bike"
+    ]
+   }
+  }
+ },
+ {
+  "id": "stats.groups.1",
+  "skill": "stats.groups",
+  "title": "Shape",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Which group has a longer right whisker on the common scale starting at 32?",
+   "visual": {
+    "kind": "boxes",
+    "rows": [
+     [
+      32,
+      33,
+      34,
+      35,
+      36
+     ],
+     [
+      32,
+      33,
+      36,
+      40,
+      46
+     ]
+    ],
+    "labels": [
+     "Group A",
+     "Group B"
+    ]
+   }
+  }
+ },
+ {
+  "id": "stats.groups.2",
+  "skill": "stats.groups",
+  "title": "Center",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Compare the medians on the common scale starting at 32. How much larger is B’s?",
+   "visual": {
+    "kind": "boxes",
+    "rows": [
+     [
+      32,
+      33,
+      34,
+      35,
+      36
+     ],
+     [
+      32,
+      33,
+      36,
+      40,
+      46
+     ]
+    ],
+    "labels": [
+     "Group A",
+     "Group B"
+    ]
+   }
+  }
+ },
+ {
+  "id": "stats.groups.3",
+  "skill": "stats.groups",
+  "title": "Spread using comparative dot/box plots",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Compare the IQRs on the common scale starting at 32. How much larger is B’s?",
+   "visual": {
+    "kind": "boxes",
+    "rows": [
+     [
+      32,
+      33,
+      34,
+      35,
+      36
+     ],
+     [
+      32,
+      33,
+      36,
+      40,
+      46
+     ]
+    ],
+    "labels": [
+     "Group A",
+     "Group B"
+    ]
+   }
+  }
+ },
+ {
+  "id": "stats.sample.1",
+  "skill": "stats.sample",
+  "title": "Estimate from random samples",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "32 of 40 randomly sampled students walk. Estimate walkers in a school of 400."
+  }
+ },
+ {
+  "id": "stats.sample.2",
+  "skill": "stats.sample",
+  "title": "Supported conclusions and uncertainty",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "32 of 40 randomly sampled students bike. What can this sample support?"
+  }
+ },
+ {
+  "id": "stats.populations.1",
+  "skill": "stats.populations",
+  "title": "Compare samples",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Sample A has mean 32; sample B has mean 40. Difference in means?"
+  }
+ },
+ {
+  "id": "stats.populations.2",
+  "skill": "stats.populations",
+  "title": "Informal population conclusions",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Random samples have means 32 and 40. Which conclusion is supported?"
+  }
+ },
+ {
+  "id": "linear.read.1",
+  "skill": "linear.read",
+  "title": "Rate",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Find the rate in liters per hour.",
+   "visual": {
+    "kind": "data",
+    "headers": [
+     "Hours",
+     "Liters"
+    ],
+    "rows": [
+     [
+      "0",
+      "8"
+     ],
+     [
+      "1",
+      "15"
+     ],
+     [
+      "32",
+      "232"
+     ]
+    ]
+   }
+  }
+ },
+ {
+  "id": "linear.read.2",
+  "skill": "linear.read",
+  "title": "Initial value",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Find the initial amount in liters.",
+   "visual": {
+    "kind": "data",
+    "headers": [
+     "Hours",
+     "Liters"
+    ],
+    "rows": [
+     [
+      "0",
+      "8"
+     ],
+     [
+      "1",
+      "15"
+     ],
+     [
+      "32",
+      "232"
+     ]
+    ]
+   }
+  }
+ },
+ {
+  "id": "linear.read.3",
+  "skill": "linear.read",
+  "title": "Interpretation",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "After 32 hours, how many more liters than at the start?",
+   "visual": {
+    "kind": "data",
+    "headers": [
+     "Hours",
+     "Liters"
+    ],
+    "rows": [
+     [
+      "0",
+      "8"
+     ],
+     [
+      "1",
+      "15"
+     ],
+     [
+      "32",
+      "232"
+     ]
+    ]
+   }
+  }
+ },
+ {
+  "id": "linear.represent.1",
+  "skill": "linear.represent",
+  "title": "Tables",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Complete the table for y = 7x + 8."
+  }
+ },
+ {
+  "id": "linear.represent.2",
+  "skill": "linear.represent",
+  "title": "Graphs",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Plot the point at x = 3 on y = 2x + 1."
+  }
+ },
+ {
+  "id": "linear.represent.3",
+  "skill": "linear.represent",
+  "title": "Equations",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Which equation matches the table at x = 32?",
+   "visual": {
+    "kind": "data",
+    "headers": [
+     "Hours",
+     "Liters"
+    ],
+    "rows": [
+     [
+      "0",
+      "8"
+     ],
+     [
+      "1",
+      "15"
+     ],
+     [
+      "32",
+      "232"
+     ]
+    ]
+   }
+  }
+ },
+ {
+  "id": "linear.represent.4",
+  "skill": "linear.represent",
+  "title": "Connect all representations",
+  "ordinal": 4,
+  "preview": {
+   "prompt": "Which equation matches the table at x = 32?",
+   "visual": {
+    "kind": "data",
+    "headers": [
+     "Hours",
+     "Liters"
+    ],
+    "rows": [
+     [
+      "0",
+      "8"
+     ],
+     [
+      "1",
+      "15"
+     ],
+     [
+      "32",
+      "232"
+     ]
+    ]
+   }
+  }
+ },
+ {
+  "id": "algebra.check.1",
+  "skill": "algebra.check",
+  "title": "Equations",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Does x = 32 satisfy 7x + 8 = 232?"
+  }
+ },
+ {
+  "id": "algebra.check.2",
+  "skill": "algebra.check",
+  "title": "Inequalities",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Does x = 32 satisfy 7x + 8 ≤ 232?"
+  }
+ },
+ {
+  "id": "algebra.equation.1",
+  "skill": "algebra.equation",
+  "title": "Models",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Each box has the same value. Find the value of one box.",
+   "visual": {
+    "kind": "balance",
+    "values": [
+     7,
+     8,
+     232
+    ]
+   }
+  }
+ },
+ {
+  "id": "algebra.equation.2",
+  "skill": "algebra.equation",
+  "title": "Integer coefficients",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "7x − 8 = 216. Find x."
+  }
+ },
+ {
+  "id": "algebra.equation.3",
+  "skill": "algebra.equation",
+  "title": "Rational coefficients",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "x/7 + 8/2 = 40/2. Find x as a fraction."
+  }
+ },
+ {
+  "id": "algebra.equation.4",
+  "skill": "algebra.equation",
+  "title": "Applications/checking",
+  "ordinal": 4,
+  "preview": {
+   "prompt": "A ride costs $8 plus $7 per mile. The total is $232. How many miles?"
+  }
+ },
+ {
+  "id": "algebra.inequality.1",
+  "skill": "algebra.inequality",
+  "title": "Models",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Solve 7x + 8 < 232.",
+   "visual": {
+    "kind": "data",
+    "headers": [
+     "Coefficient",
+     "Added units"
+    ],
+    "rows": [
+     [
+      "7",
+      "8"
+     ]
+    ]
+   }
+  }
+ },
+ {
+  "id": "algebra.inequality.2",
+  "skill": "algebra.inequality",
+  "title": "Positive coefficients",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Solve 7x + 8 < 232."
+  }
+ },
+ {
+  "id": "algebra.inequality.3",
+  "skill": "algebra.inequality",
+  "title": "Negative coefficients",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Solve -7x + 8 < -216."
+  }
+ },
+ {
+  "id": "algebra.inequality.4",
+  "skill": "algebra.inequality",
+  "title": "Contextual solutions",
+  "ordinal": 4,
+  "preview": {
+   "prompt": "Entry costs $8 and tickets cost $7 each. With $233, what is the maximum whole number of tickets?"
+  }
+ },
+ {
+  "id": "algebra.write.1",
+  "skill": "algebra.write",
+  "title": "Equations",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "A fee of $8 plus $7 per ticket costs exactly $232. Which constraint uses x for tickets?"
+  }
+ },
+ {
+  "id": "algebra.write.2",
+  "skill": "algebra.write",
+  "title": "Inequalities",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "A fee of $8 plus $7 per ticket costs at most $232. Which constraint uses x for tickets?"
+  }
+ },
+ {
+  "id": "algebra.write.3",
+  "skill": "algebra.write",
+  "title": "Distinguish and translate constraints",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "A fee of $8 plus $7 per ticket costs exactly $232. Which constraint uses x for tickets?"
+  }
+ },
+ {
+  "id": "algebra.story.1",
+  "skill": "algebra.story",
+  "title": "Guided equation stories",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Build a ticket-price story for 7x + 8 = 232."
+  }
+ },
+ {
+  "id": "algebra.story.2",
+  "skill": "algebra.story",
+  "title": "Guided inequality stories",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Build a ticket-price story for 7x + 8 ≤ 232."
+  }
+ },
+ {
+  "id": "algebra.graph.1",
+  "skill": "algebra.graph",
+  "title": "Equation points",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Mark the solution: x + 8 = 9."
+  }
+ },
+ {
+  "id": "algebra.graph.2",
+  "skill": "algebra.graph",
+  "title": "Strict inequalities",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Construct the number line for x < 1."
+  }
+ },
+ {
+  "id": "algebra.graph.3",
+  "skill": "algebra.graph",
+  "title": "Inclusive inequalities",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Construct the number line for x ≤ 1."
+  }
+ },
+ {
+  "id": "geometry.angles.1",
+  "skill": "geometry.angles",
+  "title": "Complementary/supplementary",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Two angles sum to 180°. One measures 32°. Find the other."
+  }
+ },
+ {
+  "id": "geometry.angles.2",
+  "skill": "geometry.angles",
+  "title": "Vertical/triangle angles",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Two vertical angles measure 2x and 64 degrees. Find x."
+  }
+ },
+ {
+  "id": "geometry.angles.3",
+  "skill": "geometry.angles",
+  "title": "Multistep diagrams",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Find x in the triangle.",
+   "visual": {
+    "kind": "triangle",
+    "labels": [
+     "32°",
+     "8°",
+     "x°"
+    ]
+   }
+  }
+ },
+ {
+  "id": "circle.pi.1",
+  "skill": "circle.pi",
+  "title": "Π and circumference models",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "A circle has diameter 32 cm and circumference 100.48 cm. Estimate π as C ÷ d."
+  }
+ },
+ {
+  "id": "circle.pi.2",
+  "skill": "circle.pi",
+  "title": "Area models and formula connections",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Circle sectors form a near-rectangle of height 32 and base π × 32. What number multiplies π in the area?"
+  }
+ },
+ {
+  "id": "circle.measure.1",
+  "skill": "circle.measure",
+  "title": "Circumference",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Use π = 3.14. Find circumference for diameter 32 cm."
+  }
+ },
+ {
+  "id": "circle.measure.2",
+  "skill": "circle.measure",
+  "title": "Area",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Use π = 3.14. Find area in cm² for radius 32 cm."
+  }
+ },
+ {
+  "id": "circle.measure.3",
+  "skill": "circle.measure",
+  "title": "Reverse problems",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Circumference is 200.96 cm. Use π = 3.14. Find radius in cm."
+  }
+ },
+ {
+  "id": "circle.measure.4",
+  "skill": "circle.measure",
+  "title": "Mixed applications",
+  "ordinal": 4,
+  "preview": {
+   "prompt": "Use π = 3.14. Find circumference for diameter 32 cm."
+  }
+ },
+ {
+  "id": "area.composite.1",
+  "skill": "area.composite",
+  "title": "Rectangular components",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "A 32 × 10 rectangle has a 2 × 8 corner removed. Area remaining in square units?"
+  }
+ },
+ {
+  "id": "area.composite.2",
+  "skill": "area.composite",
+  "title": "Triangles/parallelograms",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "A rectangle of area 256 m² adjoins a triangle with base 64 m and height 8 m. Combined area?"
+  }
+ },
+ {
+  "id": "area.composite.3",
+  "skill": "area.composite",
+  "title": "Trapezoids",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "A trapezoid with bases 32 and 34 and height 8 joins a square of side 7. Combined area?"
+  }
+ },
+ {
+  "id": "area.composite.4",
+  "skill": "area.composite",
+  "title": "Circle parts",
+  "ordinal": 4,
+  "preview": {
+   "prompt": "A semicircle of radius 32 joins a rectangle of area 256. Use π = 3.14. Total area?"
+  }
+ },
+ {
+  "id": "area.composite.5",
+  "skill": "area.composite",
+  "title": "Mixed decomposition",
+  "ordinal": 5,
+  "preview": {
+   "prompt": "A 34 × 10 rectangle loses a 2 × 2 corner and gains a triangle with base 4 and height 7. New area?"
+  }
+ },
+ {
+  "id": "solid.prism.1",
+  "skill": "solid.prism",
+  "title": "Rectangular prisms",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "A prism has a rectangular base, 64 cm across by 8 cm perpendicular base height. Solid height 21 cm. Volume in cm³?"
+  }
+ },
+ {
+  "id": "solid.prism.2",
+  "skill": "solid.prism",
+  "title": "Triangular prisms",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "A prism has a triangular base, 64 cm across by 8 cm perpendicular base height. Solid height 21 cm. Volume in cm³?"
+  }
+ },
+ {
+  "id": "solid.prism.3",
+  "skill": "solid.prism",
+  "title": "Mixed applications",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "A prism has a rectangular base, 64 cm across by 8 cm perpendicular base height. Solid height 21 cm. Volume in cm³?"
+  }
+ },
+ {
+  "id": "solid.models.1",
+  "skill": "solid.models",
+  "title": "Rectangular relationship",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "A rectangular prism has volume 10752 cm³. A pyramid shares its base and height. Pyramid volume?"
+  }
+ },
+ {
+  "id": "solid.models.2",
+  "skill": "solid.models",
+  "title": "Triangular relationship",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "A triangular prism has volume 5376 cm³. A pyramid shares its base and height. Pyramid volume?"
+  }
+ },
+ {
+  "id": "solid.pyramid.1",
+  "skill": "solid.pyramid",
+  "title": "Rectangular pyramids",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "A pyramid has a rectangular base, 64 cm across by 8 cm perpendicular base height. Solid height 21 cm. Volume in cm³?"
+  }
+ },
+ {
+  "id": "solid.pyramid.2",
+  "skill": "solid.pyramid",
+  "title": "Triangular pyramids",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "A pyramid has a triangular base, 64 cm across by 8 cm perpendicular base height. Solid height 21 cm. Volume in cm³?"
+  }
+ },
+ {
+  "id": "solid.pyramid.3",
+  "skill": "solid.pyramid",
+  "title": "Mixed applications",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "A pyramid has a rectangular base, 64 cm across by 8 cm perpendicular base height. Solid height 21 cm. Volume in cm³?"
+  }
+ },
+ {
+  "id": "solid.nets.1",
+  "skill": "solid.nets",
+  "title": "Rectangular prism",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Complete the face record for this rectangular prism net. The labeled numbers are face areas.",
+   "visual": {
+    "kind": "net",
+    "solid": 1,
+    "values": [
+     256,
+     256,
+     224,
+     224,
+     56,
+     56
+    ]
+   }
+  }
+ },
+ {
+  "id": "solid.nets.2",
+  "skill": "solid.nets",
+  "title": "Triangular prism",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Complete the face record for this triangular prism net. The labeled numbers are face areas.",
+   "visual": {
+    "kind": "net",
+    "solid": 2,
+    "values": [
+     6144,
+     6144,
+     672,
+     896,
+     1120
+    ]
+   }
+  }
+ },
+ {
+  "id": "solid.nets.3",
+  "skill": "solid.nets",
+  "title": "Rectangular pyramid",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Complete the face record for this square pyramid net. The labeled numbers are face areas.",
+   "visual": {
+    "kind": "net",
+    "solid": 3,
+    "values": [
+     1024,
+     1280,
+     1280,
+     1280,
+     1280
+    ]
+   }
+  }
+ },
+ {
+  "id": "solid.nets.4",
+  "skill": "solid.nets",
+  "title": "Triangular pyramid",
+  "ordinal": 4,
+  "preview": {
+   "prompt": "Complete the face record for this triangular pyramid net. The labeled numbers are face areas.",
+   "visual": {
+    "kind": "net",
+    "solid": 4,
+    "values": [
+     6144,
+     6144,
+     6144,
+     6144
+    ]
+   }
+  }
+ },
+ {
+  "id": "solid.surface.1",
+  "skill": "solid.surface",
+  "title": "Rectangular prism",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Find total area of the rectangular prism. Face areas are shown in cm².",
+   "visual": {
+    "kind": "net",
+    "solid": 1,
+    "values": [
+     256,
+     256,
+     224,
+     224,
+     56,
+     56
+    ]
+   }
+  }
+ },
+ {
+  "id": "solid.surface.2",
+  "skill": "solid.surface",
+  "title": "Triangular prism",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Find total area of the triangular prism. Face areas are shown in cm².",
+   "visual": {
+    "kind": "net",
+    "solid": 2,
+    "values": [
+     6144,
+     6144,
+     672,
+     896,
+     1120
+    ]
+   }
+  }
+ },
+ {
+  "id": "solid.surface.3",
+  "skill": "solid.surface",
+  "title": "Rectangular pyramid",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Find total area of the square pyramid. Face areas are shown in cm².",
+   "visual": {
+    "kind": "net",
+    "solid": 3,
+    "values": [
+     1024,
+     1280,
+     1280,
+     1280,
+     1280
+    ]
+   }
+  }
+ },
+ {
+  "id": "solid.surface.4",
+  "skill": "solid.surface",
+  "title": "Triangular pyramid",
+  "ordinal": 4,
+  "preview": {
+   "prompt": "Find total area of the triangular pyramid. Face areas are shown in cm².",
+   "visual": {
+    "kind": "net",
+    "solid": 4,
+    "values": [
+     6144,
+     6144,
+     6144,
+     6144
+    ]
+   }
+  }
+ },
+ {
+  "id": "finance.tax.1",
+  "skill": "finance.tax",
+  "title": "Sales tax/total purchase",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "An item costs $3200; the stated sales tax is 8%. Find tax alone."
+  }
+ },
+ {
+  "id": "finance.tax.2",
+  "skill": "finance.tax",
+  "title": "Income tax",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "For this exercise, a worker earns $3200 and pays a flat 8% tax. Tax in dollars?"
+  }
+ },
+ {
+  "id": "finance.budget.1",
+  "skill": "finance.budget",
+  "title": "Components",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "A monthly budget includes $256 for rent. Classify this entry."
+  }
+ },
+ {
+  "id": "finance.budget.2",
+  "skill": "finance.budget",
+  "title": "Category percentages",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Of $3200 income, $256 goes to retirement. What percent is this?"
+  }
+ },
+ {
+  "id": "finance.budget.3",
+  "skill": "finance.budget",
+  "title": "Guided budget construction",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Budget $3200: fixed costs 60%, savings 10%, variable costs the remainder."
+  }
+ },
+ {
+  "id": "finance.networth.1",
+  "skill": "finance.networth",
+  "title": "Assets/liabilities",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Classify a cash balance of $256."
+  }
+ },
+ {
+  "id": "finance.networth.2",
+  "skill": "finance.networth",
+  "title": "Construct records and statements",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Cash $256; debt $8. Complete the statement."
+  }
+ },
+ {
+  "id": "finance.household.1",
+  "skill": "finance.household",
+  "title": "Read local estimator data",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "2 adult(s), 1 working, 1 child(ren). Use the estimator table to find required pre-tax household dollars per year.",
+   "visual": {
+    "kind": "data",
+    "headers": [
+     "Harris County, TX · Feb 2026",
+     "Annual dollars"
+    ],
+    "rows": [
+     [
+      "Required pre-tax household income",
+      "72410"
+     ]
+    ],
+    "source": "https://livingwage.mit.edu/counties/48201"
+   }
+  }
+ },
+ {
+  "id": "finance.household.2",
+  "skill": "finance.household",
+  "title": "Calculate needed hourly wages",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "2 adult(s), 1 working, 1 child(ren). Each worker works 2,080 hours a year at equal pay. Required hourly wage per worker, nearest cent?",
+   "visual": {
+    "kind": "data",
+    "headers": [
+     "Harris County, TX · Feb 2026",
+     "Annual dollars"
+    ],
+    "rows": [
+     [
+      "Required pre-tax household income",
+      "72410"
+     ]
+    ],
+    "source": "https://livingwage.mit.edu/counties/48201"
+   }
+  }
+ },
+ {
+  "id": "finance.simple.1",
+  "skill": "finance.simple",
+  "title": "Interest",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "$3200 earns 8% simple interest per year for 7 years. Find interest in dollars."
+  }
+ },
+ {
+  "id": "finance.simple.2",
+  "skill": "finance.simple",
+  "title": "Ending balance and applications",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "$3200 earns 8% simple interest per year for 7 years. Find ending balance in dollars."
+  }
+ },
+ {
+  "id": "finance.compound.1",
+  "skill": "finance.compound",
+  "title": "Repeated periods",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "$3200 earns 8% compounded annually. Complete the two balances."
+  }
+ },
+ {
+  "id": "finance.compound.2",
+  "skill": "finance.compound",
+  "title": "Ending balances",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "$3200 earns 8% compounded annually for two years. Find the ending balance."
+  }
+ },
+ {
+  "id": "finance.compound.3",
+  "skill": "finance.compound",
+  "title": "Compare with simple interest",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "$3200 earns 8% compounded annually for two years. Find the extra earnings over simple interest at the same rate."
+  }
+ },
+ {
+  "id": "finance.deals.1",
+  "skill": "finance.deals",
+  "title": "Sales",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "A $3200 bike is 8% off. Find its sale price."
+  }
+ },
+ {
+  "id": "finance.deals.2",
+  "skill": "finance.deals",
+  "title": "Coupons/rebates",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "A $3200 bike comes with a $32 rebate. Net cost?"
+  }
+ },
+ {
+  "id": "finance.deals.3",
+  "skill": "finance.deals",
+  "title": "Combined offers",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "A $3200 bike is 8% off, then a $7 coupon applies. What is the final cost?"
+  }
+ },
+ {
+  "id": "review.add.1",
+  "skill": "review.add",
+  "title": "Facts/make ten",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "9 + 4"
+  }
+ },
+ {
+  "id": "review.add.2",
+  "skill": "review.add",
+  "title": "Within 100",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "44 + 11"
+  }
+ },
+ {
+  "id": "review.add.3",
+  "skill": "review.add",
+  "title": "Larger numbers/missing addends",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "313 + 54"
+  }
+ },
+ {
+  "id": "review.subtract.1",
+  "skill": "review.subtract",
+  "title": "Facts",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "13 − 9"
+  }
+ },
+ {
+  "id": "review.subtract.2",
+  "skill": "review.subtract",
+  "title": "Within 100",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "55 − 44"
+  }
+ },
+ {
+  "id": "review.subtract.3",
+  "skill": "review.subtract",
+  "title": "Larger numbers/missing differences",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "367 − 313"
+  }
+ },
+ {
+  "id": "review.multiply.0.1",
+  "skill": "review.multiply.0",
+  "title": "Multiply by 0",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "0 × 0"
+  }
+ },
+ {
+  "id": "review.multiply.1.1",
+  "skill": "review.multiply.1",
+  "title": "Multiply by 1",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "1 × 0"
+  }
+ },
+ {
+  "id": "review.multiply.2.1",
+  "skill": "review.multiply.2",
+  "title": "Multiply by 2",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "2 × 0"
+  }
+ },
+ {
+  "id": "review.multiply.3.1",
+  "skill": "review.multiply.3",
+  "title": "Multiply by 3",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "3 × 0"
+  }
+ },
+ {
+  "id": "review.multiply.4.1",
+  "skill": "review.multiply.4",
+  "title": "Multiply by 4",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "4 × 0"
+  }
+ },
+ {
+  "id": "review.multiply.5.1",
+  "skill": "review.multiply.5",
+  "title": "Multiply by 5",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "5 × 0"
+  }
+ },
+ {
+  "id": "review.multiply.6.1",
+  "skill": "review.multiply.6",
+  "title": "Multiply by 6",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "6 × 0"
+  }
+ },
+ {
+  "id": "review.multiply.7.1",
+  "skill": "review.multiply.7",
+  "title": "Multiply by 7",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "7 × 0"
+  }
+ },
+ {
+  "id": "review.multiply.8.1",
+  "skill": "review.multiply.8",
+  "title": "Multiply by 8",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "8 × 0"
+  }
+ },
+ {
+  "id": "review.multiply.9.1",
+  "skill": "review.multiply.9",
+  "title": "Multiply by 9",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "9 × 0"
+  }
+ },
+ {
+  "id": "review.multiply.10.1",
+  "skill": "review.multiply.10",
+  "title": "Multiply by 10",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "10 × 0"
+  }
+ },
+ {
+  "id": "review.multiply.11.1",
+  "skill": "review.multiply.11",
+  "title": "Multiply by 11",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "11 × 0"
+  }
+ },
+ {
+  "id": "review.multiply.12.1",
+  "skill": "review.multiply.12",
+  "title": "Multiply by 12",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "12 × 0"
+  }
+ },
+ {
+  "id": "review.divide.1.1",
+  "skill": "review.divide.1",
+  "title": "Divide by 1",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "0 ÷ 1"
+  }
+ },
+ {
+  "id": "review.divide.2.1",
+  "skill": "review.divide.2",
+  "title": "Divide by 2",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "0 ÷ 2"
+  }
+ },
+ {
+  "id": "review.divide.3.1",
+  "skill": "review.divide.3",
+  "title": "Divide by 3",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "0 ÷ 3"
+  }
+ },
+ {
+  "id": "review.divide.4.1",
+  "skill": "review.divide.4",
+  "title": "Divide by 4",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "0 ÷ 4"
+  }
+ },
+ {
+  "id": "review.divide.5.1",
+  "skill": "review.divide.5",
+  "title": "Divide by 5",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "0 ÷ 5"
+  }
+ },
+ {
+  "id": "review.divide.6.1",
+  "skill": "review.divide.6",
+  "title": "Divide by 6",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "0 ÷ 6"
+  }
+ },
+ {
+  "id": "review.divide.7.1",
+  "skill": "review.divide.7",
+  "title": "Divide by 7",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "0 ÷ 7"
+  }
+ },
+ {
+  "id": "review.divide.8.1",
+  "skill": "review.divide.8",
+  "title": "Divide by 8",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "0 ÷ 8"
+  }
+ },
+ {
+  "id": "review.divide.9.1",
+  "skill": "review.divide.9",
+  "title": "Divide by 9",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "0 ÷ 9"
+  }
+ },
+ {
+  "id": "review.divide.10.1",
+  "skill": "review.divide.10",
+  "title": "Divide by 10",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "0 ÷ 10"
+  }
+ },
+ {
+  "id": "review.divide.11.1",
+  "skill": "review.divide.11",
+  "title": "Divide by 11",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "0 ÷ 11"
+  }
+ },
+ {
+  "id": "review.divide.12.1",
+  "skill": "review.divide.12",
+  "title": "Divide by 12",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "0 ÷ 12"
+  }
+ },
+ {
+  "id": "review.whole.1",
+  "skill": "review.whole",
+  "title": "Missing operands",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "15 × □ = 30"
+  }
+ },
+ {
+  "id": "review.whole.2",
+  "skill": "review.whole",
+  "title": "Multiples of ten",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "150 × 2"
+  }
+ },
+ {
+  "id": "review.whole.3",
+  "skill": "review.whole",
+  "title": "Multiplication",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "26 × 12"
+  }
+ },
+ {
+  "id": "review.whole.4",
+  "skill": "review.whole",
+  "title": "Division",
+  "ordinal": 4,
+  "preview": {
+   "prompt": "30 ÷ 2"
+  }
+ },
+ {
+  "id": "review.factors.1",
+  "skill": "review.factors",
+  "title": "Factors/common factors",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Find the greatest common factor of 30 and 45."
+  }
+ },
+ {
+  "id": "review.factors.2",
+  "skill": "review.factors",
+  "title": "Multiples/common multiples",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Find the least common multiple of 30 and 45."
+  }
+ },
+ {
+  "id": "review.fractions.1",
+  "skill": "review.fractions",
+  "title": "Equivalence",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Fill the numerator: 1/15 = □/30."
+  }
+ },
+ {
+  "id": "review.fractions.2",
+  "skill": "review.fractions",
+  "title": "Simplification",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Simplify 2/30."
+  }
+ },
+ {
+  "id": "review.fractions.3",
+  "skill": "review.fractions",
+  "title": "Comparison",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Which is greater: 1/15 or 1/16?"
+  }
+ },
+ {
+  "id": "review.fractions.4",
+  "skill": "review.fractions",
+  "title": "Mixed/improper forms",
+  "ordinal": 4,
+  "preview": {
+   "prompt": "Write 15 1/2 as an improper fraction."
+  }
+ },
+ {
+  "id": "review.conversions.1",
+  "skill": "review.conversions",
+  "title": "Fraction/decimal",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Write 15/20 as a decimal."
+  }
+ },
+ {
+  "id": "review.conversions.2",
+  "skill": "review.conversions",
+  "title": "Decimal/percent",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Write 0.15 as a percent."
+  }
+ },
+ {
+  "id": "review.conversions.3",
+  "skill": "review.conversions",
+  "title": "Fraction/percent",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Write 15% as a fraction."
+  }
+ },
+ {
+  "id": "review.conversions.4",
+  "skill": "review.conversions",
+  "title": "Comparisons/estimates",
+  "ordinal": 4,
+  "preview": {
+   "prompt": "Which is closest to 15.89?"
+  }
+ },
+ {
+  "id": "review.numberline.1",
+  "skill": "review.numberline",
+  "title": "Opposites/absolute value",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Find the absolute value of −15."
+  }
+ },
+ {
+  "id": "review.numberline.2",
+  "skill": "review.numberline",
+  "title": "Comparisons/order",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Which is smallest: −15, 0, or 15?"
+  }
+ },
+ {
+  "id": "review.numberline.3",
+  "skill": "review.numberline",
+  "title": "Number lines",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Place 1 on the number line."
+  }
+ },
+ {
+  "id": "review.expressions.1",
+  "skill": "review.expressions",
+  "title": "Operation order",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "15 + 2 × 3"
+  }
+ },
+ {
+  "id": "review.expressions.2",
+  "skill": "review.expressions",
+  "title": "Substitution",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Find 2x + 2 when x = 15."
+  }
+ },
+ {
+  "id": "review.expressions.3",
+  "skill": "review.expressions",
+  "title": "Like terms",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "15x + 2x = □x"
+  }
+ },
+ {
+  "id": "review.expressions.4",
+  "skill": "review.expressions",
+  "title": "Distribution",
+  "ordinal": 4,
+  "preview": {
+   "prompt": "15(x + 2) = 15x + □"
+  }
+ },
+ {
+  "id": "review.coordinate.1",
+  "skill": "review.coordinate",
+  "title": "Ordered pairs/quadrants",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Plot (-3, -1)."
+  }
+ },
+ {
+  "id": "review.coordinate.2",
+  "skill": "review.coordinate",
+  "title": "Scales and quantities",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Each square represents 2 liters. How many liters do 15 squares represent?"
+  }
+ },
+ {
+  "id": "review.area.1",
+  "skill": "review.area",
+  "title": "Rectangle/square",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "A rectangle is 15 cm by 2 cm. Area in cm²?"
+  }
+ },
+ {
+  "id": "review.area.2",
+  "skill": "review.area",
+  "title": "Parallelogram",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Parallelogram base 15 cm, perpendicular height 2 cm. Area in cm²?"
+  }
+ },
+ {
+  "id": "review.area.3",
+  "skill": "review.area",
+  "title": "Triangle",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Triangle base 30 cm, perpendicular height 2 cm. Area in cm²?"
+  }
+ },
+ {
+  "id": "review.area.4",
+  "skill": "review.area",
+  "title": "Trapezoid",
+  "ordinal": 4,
+  "preview": {
+   "prompt": "Trapezoid bases 15 and 17 cm, height 2 cm. Area in cm²?"
+  }
+ },
+ {
+  "id": "review.area.5",
+  "skill": "review.area",
+  "title": "Mixed applications",
+  "ordinal": 5,
+  "preview": {
+   "prompt": "Parallelogram base 15 cm, perpendicular height 2 cm. Area in cm²?"
+  }
+ },
+ {
+  "id": "review.angles.1",
+  "skill": "review.angles",
+  "title": "Complementary/supplementary",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Two angles total 90°. One is 15°. Find the other."
+  }
+ },
+ {
+  "id": "review.angles.2",
+  "skill": "review.angles",
+  "title": "Vertical angles",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "An angle is 15°. Find its vertical angle."
+  }
+ },
+ {
+  "id": "review.angles.3",
+  "skill": "review.angles",
+  "title": "Triangle sum",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Two angles in a triangle are 15° and 2°. Find the third."
+  }
+ },
+ {
+  "id": "review.data.1",
+  "skill": "review.data",
+  "title": "Center",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "Find the median of 15, 17, 19."
+  }
+ },
+ {
+  "id": "review.data.2",
+  "skill": "review.data",
+  "title": "Range/iqr",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "Quartiles are 15, 17, 19. Find the IQR."
+  }
+ },
+ {
+  "id": "review.data.3",
+  "skill": "review.data",
+  "title": "Distribution shape",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Describe the shape around 17.",
+   "visual": {
+    "kind": "dots",
+    "values": [
+     1,
+     2,
+     3,
+     2,
+     1
+    ],
+    "labels": [
+     "15",
+     "16",
+     "17",
+     "18",
+     "19"
+    ]
+   }
+  }
+ },
+ {
+  "id": "review.data.4",
+  "skill": "review.data",
+  "title": "Single dot/box plots",
+  "ordinal": 4,
+  "preview": {
+   "prompt": "What value occurs most often?",
+   "visual": {
+    "kind": "dots",
+    "values": [
+     1,
+     2,
+     3,
+     2,
+     1
+    ],
+    "labels": [
+     "15",
+     "16",
+     "17",
+     "18",
+     "19"
+    ]
+   }
+  }
+ },
+ {
+  "id": "review.onestep.1",
+  "skill": "review.onestep",
+  "title": "Equations",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "x + 2 = 17. Find x."
+  }
+ },
+ {
+  "id": "review.onestep.2",
+  "skill": "review.onestep",
+  "title": "Inequalities",
+  "ordinal": 2,
+  "preview": {
+   "prompt": "x + 2 > 17. What is the boundary value?"
+  }
+ },
+ {
+  "id": "review.onestep.3",
+  "skill": "review.onestep",
+  "title": "Number-line solutions",
+  "ordinal": 3,
+  "preview": {
+   "prompt": "Mark the solution to x + 2 = 6."
+  }
+ }
+]

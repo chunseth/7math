@@ -152,9 +152,51 @@ export type MatchSpeedStatsRow = {
   created_at: string;
 };
 
+export type CraftersProgress = {
+  profile_id: string;
+  stamina: number;
+  stamina_refilled_at: string;
+  active_mining_resource_id: string | null;
+  active_mining_resource_name: string | null;
+  active_mining_ore_id: string | null;
+  active_mining_ore_name: string | null;
+  mining_complete_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CraftersInventory = {
+  profile_id: string;
+  ore_id: string;
+  ore_name: string;
+  quantity: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ConceptAssignment = {
+  id: string;
+  profile_id: string;
+  concept_id: string;
+  teacher_id: string;
+  created_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
+      curriculum_concepts: {
+        Row: { id: string; title: string };
+        Insert: { id: string; title: string };
+        Update: { title?: string };
+        Relationships: [];
+      };
+      concept_assignments: {
+        Row: ConceptAssignment;
+        Insert: { id?: string; profile_id: string; concept_id: string; teacher_id: string; created_at?: string };
+        Update: never;
+        Relationships: [];
+      };
       profiles: {
         Row: Profile;
         Insert: {
@@ -347,9 +389,44 @@ export type Database = {
         Update: Partial<Omit<MatchSpeedStatsRow, "match_id" | "profile_id" | "created_at">>;
         Relationships: [];
       };
+      crafters_progress: {
+        Row: CraftersProgress;
+        Insert: {
+          profile_id: string;
+          stamina?: number;
+          stamina_refilled_at?: string;
+          active_mining_resource_id?: string | null;
+          active_mining_resource_name?: string | null;
+          active_mining_ore_id?: string | null;
+          active_mining_ore_name?: string | null;
+          mining_complete_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Omit<CraftersProgress, "profile_id" | "created_at">>;
+        Relationships: [];
+      };
+      crafters_inventory: {
+        Row: CraftersInventory;
+        Insert: {
+          profile_id: string;
+          ore_id: string;
+          ore_name: string;
+          quantity?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Omit<CraftersInventory, "profile_id" | "ore_id" | "created_at">>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      get_concept_assignments: {
+        Args: { player_username: string; player_pin: string };
+        Returns: { concept_id: string }[];
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };

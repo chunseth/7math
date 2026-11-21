@@ -1,0 +1,1448 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "texas-grade7-standard",
+  "status": "design-only",
+  "source": "https://tea.texas.gov/laws-and-rules/texas-administrative-code/19-tac-chapter-111",
+  "standard": "19 TAC 111.27(b)",
+  "checkedOn": "2026-11-17",
+  "prerequisitePolicy": "recommended-all; diagnostic or teacher override; review is never a global gate",
+  "branches": [
+    {
+      "id": "review",
+      "formats": [
+        "numeric",
+        "choice",
+        "number_line",
+        "graph",
+        "structured"
+      ]
+    },
+    {
+      "id": "number",
+      "formats": [
+        "numeric",
+        "choice",
+        "diagram",
+        "explanation"
+      ]
+    },
+    {
+      "id": "ratio",
+      "formats": [
+        "numeric",
+        "choice",
+        "table",
+        "graph",
+        "explanation"
+      ]
+    },
+    {
+      "id": "percent",
+      "formats": [
+        "numeric",
+        "choice",
+        "diagram",
+        "explanation"
+      ]
+    },
+    {
+      "id": "similar",
+      "formats": [
+        "numeric",
+        "choice",
+        "diagram",
+        "drawing",
+        "explanation"
+      ]
+    },
+    {
+      "id": "chance",
+      "formats": [
+        "numeric",
+        "choice",
+        "tree",
+        "simulation",
+        "explanation"
+      ]
+    },
+    {
+      "id": "stats",
+      "formats": [
+        "numeric",
+        "choice",
+        "graph",
+        "explanation"
+      ]
+    },
+    {
+      "id": "linear",
+      "formats": [
+        "numeric",
+        "choice",
+        "table",
+        "graph",
+        "equation",
+        "explanation"
+      ]
+    },
+    {
+      "id": "algebra",
+      "formats": [
+        "numeric",
+        "choice",
+        "diagram",
+        "number_line",
+        "equation",
+        "explanation"
+      ]
+    },
+    {
+      "id": "geometry",
+      "formats": [
+        "numeric",
+        "diagram",
+        "equation",
+        "explanation"
+      ]
+    },
+    {
+      "id": "circle",
+      "formats": [
+        "numeric",
+        "diagram",
+        "explanation"
+      ]
+    },
+    {
+      "id": "area",
+      "formats": [
+        "numeric",
+        "diagram",
+        "explanation"
+      ]
+    },
+    {
+      "id": "solid",
+      "formats": [
+        "numeric",
+        "diagram",
+        "net",
+        "explanation"
+      ]
+    },
+    {
+      "id": "finance",
+      "formats": [
+        "numeric",
+        "choice",
+        "table",
+        "structured",
+        "estimator",
+        "explanation"
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "id": "review.add",
+      "title": "Addition",
+      "branch": "review",
+      "scope": "review",
+      "prerequisites": [],
+      "teks": [],
+      "requiredVariants": [
+        "facts",
+        "make ten",
+        "within 100",
+        "larger whole numbers",
+        "missing addends",
+        "mental strategies"
+      ]
+    },
+    {
+      "id": "review.subtract",
+      "title": "Subtraction",
+      "branch": "review",
+      "scope": "review",
+      "prerequisites": [],
+      "teks": [],
+      "requiredVariants": [
+        "facts",
+        "within 100",
+        "larger whole numbers",
+        "missing differences",
+        "mental strategies"
+      ]
+    },
+    {
+      "id": "review.multiply",
+      "title": "Multiplication facts",
+      "branch": "review",
+      "scope": "review",
+      "prerequisites": [],
+      "teks": [],
+      "requiredVariants": [
+        "families 0 through 12, independently assignable"
+      ]
+    },
+    {
+      "id": "review.divide",
+      "title": "Division facts",
+      "branch": "review",
+      "scope": "review",
+      "prerequisites": [],
+      "teks": [],
+      "requiredVariants": [
+        "families 1 through 12, independently assignable",
+        "zero dividend",
+        "never zero divisor"
+      ]
+    },
+    {
+      "id": "review.whole",
+      "title": "Whole-number operations",
+      "branch": "review",
+      "scope": "review",
+      "prerequisites": [
+        "review.add",
+        "review.subtract",
+        "review.multiply",
+        "review.divide"
+      ],
+      "teks": [],
+      "requiredVariants": [
+        "missing factors and dividends",
+        "multiples of ten",
+        "multi-digit multiplication",
+        "whole-number division",
+        "related equations"
+      ]
+    },
+    {
+      "id": "review.factors",
+      "title": "Factors and multiples",
+      "branch": "review",
+      "scope": "review",
+      "prerequisites": [
+        "review.multiply"
+      ],
+      "teks": [],
+      "requiredVariants": [
+        "factors",
+        "multiples",
+        "common factors",
+        "common multiples"
+      ]
+    },
+    {
+      "id": "review.fractions",
+      "title": "Fraction representations",
+      "branch": "review",
+      "scope": "review",
+      "prerequisites": [
+        "review.factors"
+      ],
+      "teks": [],
+      "requiredVariants": [
+        "equivalence",
+        "simplify",
+        "compare and order",
+        "mixed and improper forms"
+      ]
+    },
+    {
+      "id": "review.conversions",
+      "title": "Fraction decimal percent equivalence",
+      "branch": "review",
+      "scope": "review",
+      "prerequisites": [
+        "review.fractions"
+      ],
+      "teks": [],
+      "requiredVariants": [
+        "fraction to decimal",
+        "decimal to fraction",
+        "decimal to percent and back",
+        "fraction to percent and back",
+        "compare and order decimals",
+        "estimates"
+      ]
+    },
+    {
+      "id": "review.numberline",
+      "title": "Rational-number sense",
+      "branch": "review",
+      "scope": "review",
+      "prerequisites": [
+        "review.fractions"
+      ],
+      "teks": [],
+      "requiredVariants": [
+        "opposites",
+        "absolute value",
+        "compare and order signed numbers",
+        "locate fractions and decimals on number lines"
+      ]
+    },
+    {
+      "id": "review.expressions",
+      "title": "Expression foundations",
+      "branch": "review",
+      "scope": "review",
+      "prerequisites": [
+        "review.whole"
+      ],
+      "teks": [],
+      "requiredVariants": [
+        "order of operations",
+        "evaluate by substitution",
+        "combine like terms",
+        "distributive property",
+        "expression versus equation"
+      ]
+    },
+    {
+      "id": "review.coordinate",
+      "title": "Coordinate plane",
+      "branch": "review",
+      "scope": "review",
+      "prerequisites": [
+        "review.numberline"
+      ],
+      "teks": [],
+      "requiredVariants": [
+        "ordered pairs",
+        "all four quadrants",
+        "axis scales",
+        "independent and dependent quantities"
+      ]
+    },
+    {
+      "id": "review.area",
+      "title": "Area foundations",
+      "branch": "review",
+      "scope": "review",
+      "prerequisites": [
+        "review.fractions"
+      ],
+      "teks": [],
+      "requiredVariants": [
+        "rectangle",
+        "square",
+        "parallelogram",
+        "triangle",
+        "trapezoid",
+        "perpendicular height",
+        "square units"
+      ]
+    },
+    {
+      "id": "review.angles",
+      "title": "Angle foundations",
+      "branch": "review",
+      "scope": "review",
+      "prerequisites": [],
+      "teks": [],
+      "requiredVariants": [
+        "complementary",
+        "supplementary",
+        "vertical",
+        "triangle sum"
+      ]
+    },
+    {
+      "id": "review.data",
+      "title": "Data foundations",
+      "branch": "review",
+      "scope": "review",
+      "prerequisites": [
+        "review.conversions"
+      ],
+      "teks": [],
+      "requiredVariants": [
+        "mean",
+        "median",
+        "range",
+        "IQR",
+        "quartiles",
+        "clusters",
+        "gaps",
+        "symmetry",
+        "reading single dot and box plots"
+      ]
+    },
+    {
+      "id": "review.onestep",
+      "title": "One-step equations and inequalities",
+      "branch": "review",
+      "scope": "review",
+      "prerequisites": [
+        "review.expressions",
+        "review.numberline"
+      ],
+      "teks": [],
+      "requiredVariants": [
+        "inverse operations",
+        "equality",
+        "inequality symbols",
+        "boundary points",
+        "number-line solutions"
+      ]
+    },
+    {
+      "id": "number.sets",
+      "title": "Rational-number set relationships",
+      "branch": "number",
+      "scope": "grade7",
+      "prerequisites": [
+        "review.numberline"
+      ],
+      "teks": [
+        "7.2"
+      ],
+      "requiredVariants": [
+        "nested set diagrams",
+        "membership versus containment",
+        "whole numbers within integers within rationals",
+        "natural-number convention stated"
+      ]
+    },
+    {
+      "id": "number.integer-add",
+      "title": "Signed addition and subtraction",
+      "branch": "number",
+      "scope": "grade7",
+      "prerequisites": [
+        "review.add",
+        "review.subtract"
+      ],
+      "teks": [
+        "7.3A"
+      ],
+      "requiredVariants": [
+        "same signs",
+        "different signs",
+        "subtract negatives",
+        "models connected to algorithms"
+      ]
+    },
+    {
+      "id": "number.integer-multiply",
+      "title": "Signed multiplication and division",
+      "branch": "number",
+      "scope": "grade7",
+      "prerequisites": [
+        "review.multiply",
+        "review.divide"
+      ],
+      "teks": [
+        "7.3A"
+      ],
+      "requiredVariants": [
+        "sign combinations",
+        "zero",
+        "nonzero divisors"
+      ]
+    },
+    {
+      "id": "number.decimal",
+      "title": "Decimal operations",
+      "branch": "number",
+      "scope": "grade7",
+      "prerequisites": [
+        "review.conversions",
+        "number.integer-add",
+        "number.integer-multiply"
+      ],
+      "teks": [
+        "7.3A"
+      ],
+      "requiredVariants": [
+        "all four operations",
+        "positive and negative decimals"
+      ]
+    },
+    {
+      "id": "number.fraction",
+      "title": "Fraction operations",
+      "branch": "number",
+      "scope": "grade7",
+      "prerequisites": [
+        "review.fractions",
+        "number.integer-add",
+        "number.integer-multiply"
+      ],
+      "teks": [
+        "7.3A"
+      ],
+      "requiredVariants": [
+        "all four operations",
+        "unlike denominators",
+        "signed fractions",
+        "mixed numbers"
+      ]
+    },
+    {
+      "id": "number.mixed",
+      "title": "Mixed rational expressions",
+      "branch": "number",
+      "scope": "grade7",
+      "prerequisites": [
+        "number.decimal",
+        "number.fraction",
+        "review.expressions"
+      ],
+      "teks": [
+        "7.3A"
+      ],
+      "requiredVariants": [
+        "mixed representations",
+        "multiple operations",
+        "parentheses",
+        "estimates"
+      ]
+    },
+    {
+      "id": "number.context",
+      "title": "Rational-number applications",
+      "branch": "number",
+      "scope": "grade7",
+      "prerequisites": [
+        "number.mixed"
+      ],
+      "teks": [
+        "7.3B"
+      ],
+      "requiredVariants": [
+        "temperature",
+        "balances",
+        "elevation",
+        "multistep situations",
+        "explain and check results"
+      ]
+    },
+    {
+      "id": "ratio.equivalent",
+      "title": "Ratios and ratio tables",
+      "branch": "ratio",
+      "scope": "grade7",
+      "prerequisites": [
+        "review.fractions"
+      ],
+      "teks": [
+        "7.4D"
+      ],
+      "requiredVariants": [
+        "part to part",
+        "part to whole",
+        "equivalent ratios",
+        "missing table entries",
+        "proportions"
+      ]
+    },
+    {
+      "id": "ratio.unit",
+      "title": "Unit rates",
+      "branch": "ratio",
+      "scope": "grade7",
+      "prerequisites": [
+        "ratio.equivalent"
+      ],
+      "teks": [
+        "7.4B"
+      ],
+      "requiredVariants": [
+        "fractional rates",
+        "money per unit",
+        "compare prices",
+        "interpret units"
+      ]
+    },
+    {
+      "id": "ratio.constant",
+      "title": "Constant of proportionality",
+      "branch": "ratio",
+      "scope": "grade7",
+      "prerequisites": [
+        "ratio.unit",
+        "review.coordinate"
+      ],
+      "teks": [
+        "7.4C"
+      ],
+      "requiredVariants": [
+        "k from tables",
+        "graphs",
+        "equations",
+        "contexts",
+        "y/x only where x is nonzero"
+      ]
+    },
+    {
+      "id": "ratio.represent",
+      "title": "Constant-rate representations",
+      "branch": "ratio",
+      "scope": "grade7",
+      "prerequisites": [
+        "ratio.constant"
+      ],
+      "teks": [
+        "7.4A"
+      ],
+      "requiredVariants": [
+        "pictures",
+        "tables",
+        "words",
+        "numbers",
+        "graphs",
+        "equations",
+        "move between representations",
+        "proportional versus nonproportional examples"
+      ]
+    },
+    {
+      "id": "ratio.travel",
+      "title": "Distance rate and time",
+      "branch": "ratio",
+      "scope": "grade7",
+      "prerequisites": [
+        "ratio.represent"
+      ],
+      "teks": [
+        "7.4A"
+      ],
+      "requiredVariants": [
+        "solve for d",
+        "r",
+        "t",
+        "compatible units"
+      ]
+    },
+    {
+      "id": "ratio.solve",
+      "title": "Multistep ratio and rate situations",
+      "branch": "ratio",
+      "scope": "grade7",
+      "prerequisites": [
+        "ratio.unit",
+        "number.context"
+      ],
+      "teks": [
+        "7.4D"
+      ],
+      "requiredVariants": [
+        "missing values",
+        "comparisons",
+        "chained rates",
+        "contextual interpretation"
+      ]
+    },
+    {
+      "id": "ratio.units",
+      "title": "Between-system conversions",
+      "branch": "ratio",
+      "scope": "grade7",
+      "prerequisites": [
+        "ratio.unit"
+      ],
+      "teks": [
+        "7.4E"
+      ],
+      "requiredVariants": [
+        "customary to metric",
+        "metric to customary",
+        "supplied conversion factors",
+        "proportions and unit rates",
+        "within-system review"
+      ]
+    },
+    {
+      "id": "percent.parts",
+      "title": "Percent part whole and rate",
+      "branch": "percent",
+      "scope": "grade7",
+      "prerequisites": [
+        "review.conversions",
+        "ratio.equivalent"
+      ],
+      "teks": [
+        "7.4D"
+      ],
+      "requiredVariants": [
+        "find part",
+        "find whole",
+        "find percent",
+        "visual percent models"
+      ]
+    },
+    {
+      "id": "percent.change",
+      "title": "Percent change",
+      "branch": "percent",
+      "scope": "grade7",
+      "prerequisites": [
+        "percent.parts"
+      ],
+      "teks": [
+        "7.4D"
+      ],
+      "requiredVariants": [
+        "increase",
+        "decrease",
+        "find new amount",
+        "find original amount",
+        "original amount as denominator"
+      ]
+    },
+    {
+      "id": "percent.multistep",
+      "title": "Multistep percent applications",
+      "branch": "percent",
+      "scope": "grade7",
+      "prerequisites": [
+        "percent.change"
+      ],
+      "teks": [
+        "7.4D"
+      ],
+      "requiredVariants": [
+        "successive changes",
+        "discount then tax",
+        "compare offers",
+        "distinguish percent from percentage points"
+      ]
+    },
+    {
+      "id": "similar.attributes",
+      "title": "Similarity relationships",
+      "branch": "similar",
+      "scope": "grade7",
+      "prerequisites": [
+        "ratio.equivalent",
+        "review.angles"
+      ],
+      "teks": [
+        "7.5A"
+      ],
+      "requiredVariants": [
+        "corresponding sides and angles",
+        "angle agreement",
+        "ratios within each figure and between figures",
+        "nonexamples"
+      ]
+    },
+    {
+      "id": "similar.lengths",
+      "title": "Scale factors and missing sides",
+      "branch": "similar",
+      "scope": "grade7",
+      "prerequisites": [
+        "similar.attributes",
+        "ratio.solve"
+      ],
+      "teks": [
+        "7.5C"
+      ],
+      "requiredVariants": [
+        "enlargement",
+        "reduction",
+        "corresponding side lengths",
+        "indirect height problems"
+      ]
+    },
+    {
+      "id": "similar.drawings",
+      "title": "Scale drawings",
+      "branch": "similar",
+      "scope": "grade7",
+      "prerequisites": [
+        "similar.lengths",
+        "ratio.units"
+      ],
+      "teks": [
+        "7.5C"
+      ],
+      "requiredVariants": [
+        "actual distance",
+        "drawing distance",
+        "create a drawing",
+        "complete a drawing",
+        "stated scale and units"
+      ]
+    },
+    {
+      "id": "chance.space",
+      "title": "Sample spaces",
+      "branch": "chance",
+      "scope": "grade7",
+      "prerequisites": [
+        "review.multiply"
+      ],
+      "teks": [
+        "7.6A"
+      ],
+      "requiredVariants": [
+        "simple and compound events",
+        "organized lists",
+        "construct and complete tree diagrams",
+        "ordered outcomes"
+      ]
+    },
+    {
+      "id": "chance.theoretical",
+      "title": "Theoretical probability",
+      "branch": "chance",
+      "scope": "grade7",
+      "prerequisites": [
+        "chance.space",
+        "review.fractions"
+      ],
+      "teks": [
+        "7.6D",
+        "7.6I"
+      ],
+      "requiredVariants": [
+        "simple and compound events",
+        "equally likely outcomes stated",
+        "favorable over total",
+        "predictions for repeated trials"
+      ]
+    },
+    {
+      "id": "chance.complement",
+      "title": "Events and complements",
+      "branch": "chance",
+      "scope": "grade7",
+      "prerequisites": [
+        "chance.theoretical"
+      ],
+      "teks": [
+        "7.6E"
+      ],
+      "requiredVariants": [
+        "not event",
+        "sum to one",
+        "impossible and certain events"
+      ]
+    },
+    {
+      "id": "chance.experimental",
+      "title": "Experimental probability",
+      "branch": "chance",
+      "scope": "grade7",
+      "prerequisites": [
+        "review.conversions"
+      ],
+      "teks": [
+        "7.6C",
+        "7.6I"
+      ],
+      "requiredVariants": [
+        "simple and compound trials",
+        "frequencies",
+        "probability estimates",
+        "predicted counts"
+      ]
+    },
+    {
+      "id": "chance.simulate",
+      "title": "Select and run simulations",
+      "branch": "chance",
+      "scope": "grade7",
+      "prerequisites": [
+        "chance.space",
+        "chance.experimental"
+      ],
+      "teks": [
+        "7.6B"
+      ],
+      "requiredVariants": [
+        "simple and compound events",
+        "physical tools",
+        "technology",
+        "fairness",
+        "repeated trials",
+        "record outcomes"
+      ]
+    },
+    {
+      "id": "chance.compare",
+      "title": "Experiment predictions and comparisons",
+      "branch": "chance",
+      "scope": "grade7",
+      "prerequisites": [
+        "chance.theoretical",
+        "chance.simulate"
+      ],
+      "teks": [
+        "7.6H",
+        "7.6C",
+        "7.6D",
+        "7.6I"
+      ],
+      "requiredVariants": [
+        "qualitative and quantitative comparisons",
+        "observed versus theoretical results",
+        "sample variation",
+        "predictions supported by experiment data"
+      ]
+    },
+    {
+      "id": "stats.graphs",
+      "title": "Graph comparisons and equivalence",
+      "branch": "stats",
+      "scope": "grade7",
+      "prerequisites": [
+        "review.data",
+        "percent.parts"
+      ],
+      "teks": [
+        "7.6G"
+      ],
+      "requiredVariants": [
+        "bar graphs",
+        "dot plots",
+        "circle graphs",
+        "part to whole",
+        "part to part",
+        "fractions and percents",
+        "compute from graphs"
+      ]
+    },
+    {
+      "id": "stats.groups",
+      "title": "Compare distributions",
+      "branch": "stats",
+      "scope": "grade7",
+      "prerequisites": [
+        "review.data"
+      ],
+      "teks": [
+        "7.12A"
+      ],
+      "requiredVariants": [
+        "comparative dot plots and box plots",
+        "shape",
+        "center",
+        "spread",
+        "same versus different scales",
+        "support comparisons with evidence"
+      ]
+    },
+    {
+      "id": "stats.sample",
+      "title": "Population inferences",
+      "branch": "stats",
+      "scope": "grade7",
+      "prerequisites": [
+        "stats.graphs"
+      ],
+      "teks": [
+        "7.6F",
+        "7.12B"
+      ],
+      "requiredVariants": [
+        "random sample",
+        "sample versus population",
+        "estimate counts and proportions",
+        "uncertainty",
+        "avoid unsupported certainty"
+      ]
+    },
+    {
+      "id": "stats.populations",
+      "title": "Compare populations",
+      "branch": "stats",
+      "scope": "grade7",
+      "prerequisites": [
+        "stats.sample",
+        "stats.groups"
+      ],
+      "teks": [
+        "7.12C"
+      ],
+      "requiredVariants": [
+        "two random samples",
+        "informal comparative conclusions",
+        "variability",
+        "limits of evidence"
+      ]
+    },
+    {
+      "id": "linear.read",
+      "title": "Rate and initial value",
+      "branch": "linear",
+      "scope": "grade7",
+      "prerequisites": [
+        "ratio.represent",
+        "review.coordinate"
+      ],
+      "teks": [
+        "7.7"
+      ],
+      "requiredVariants": [
+        "tables",
+        "graphs",
+        "contexts",
+        "rise over run",
+        "starting value",
+        "units",
+        "proportional special case"
+      ]
+    },
+    {
+      "id": "linear.represent",
+      "title": "Connect linear representations",
+      "branch": "linear",
+      "scope": "grade7",
+      "prerequisites": [
+        "linear.read",
+        "review.expressions"
+      ],
+      "teks": [
+        "7.7"
+      ],
+      "requiredVariants": [
+        "words",
+        "tables",
+        "graphs",
+        "equations simplifying to y=mx+b",
+        "generate and match representations",
+        "interpret m and b"
+      ]
+    },
+    {
+      "id": "algebra.check",
+      "title": "Check proposed solutions",
+      "branch": "algebra",
+      "scope": "grade7",
+      "prerequisites": [
+        "review.onestep",
+        "number.mixed"
+      ],
+      "teks": [
+        "7.11B"
+      ],
+      "requiredVariants": [
+        "two-step equations and inequalities",
+        "rational values",
+        "true and false candidates"
+      ]
+    },
+    {
+      "id": "algebra.equation",
+      "title": "Model and solve two-step equations",
+      "branch": "algebra",
+      "scope": "grade7",
+      "prerequisites": [
+        "review.onestep",
+        "number.mixed"
+      ],
+      "teks": [
+        "7.11A"
+      ],
+      "requiredVariants": [
+        "concrete and pictorial models",
+        "rational coefficients and constants",
+        "inverse operations",
+        "check solution"
+      ]
+    },
+    {
+      "id": "algebra.inequality",
+      "title": "Model and solve two-step inequalities",
+      "branch": "algebra",
+      "scope": "grade7",
+      "prerequisites": [
+        "algebra.equation",
+        "review.onestep"
+      ],
+      "teks": [
+        "7.11A"
+      ],
+      "requiredVariants": [
+        "strict and inclusive bounds",
+        "negative coefficients",
+        "reverse relation when appropriate",
+        "contextual integer answers"
+      ]
+    },
+    {
+      "id": "algebra.write",
+      "title": "Write constraints as mathematics",
+      "branch": "algebra",
+      "scope": "grade7",
+      "prerequisites": [
+        "algebra.equation",
+        "algebra.inequality"
+      ],
+      "teks": [
+        "7.10A"
+      ],
+      "requiredVariants": [
+        "two-step equations",
+        "two-step inequalities",
+        "variables and units",
+        "realistic constraints"
+      ]
+    },
+    {
+      "id": "algebra.story",
+      "title": "Create a corresponding situation",
+      "branch": "algebra",
+      "scope": "grade7",
+      "prerequisites": [
+        "algebra.write"
+      ],
+      "teks": [
+        "7.10C"
+      ],
+      "requiredVariants": [
+        "choose a matching story",
+        "write an original story for an equation",
+        "write an original story for an inequality"
+      ]
+    },
+    {
+      "id": "algebra.graph",
+      "title": "Represent solution sets",
+      "branch": "algebra",
+      "scope": "grade7",
+      "prerequisites": [
+        "algebra.equation",
+        "algebra.inequality"
+      ],
+      "teks": [
+        "7.10B"
+      ],
+      "requiredVariants": [
+        "point for equation solution",
+        "open or closed boundary",
+        "ray direction",
+        "rational boundary",
+        "create and interpret number lines"
+      ]
+    },
+    {
+      "id": "geometry.angles",
+      "title": "Build and solve angle equations",
+      "branch": "geometry",
+      "scope": "grade7",
+      "prerequisites": [
+        "algebra.equation",
+        "review.angles"
+      ],
+      "teks": [
+        "7.11C"
+      ],
+      "requiredVariants": [
+        "triangle sum",
+        "complementary",
+        "supplementary",
+        "vertical",
+        "diagram to equation",
+        "multistep angle relationships"
+      ]
+    },
+    {
+      "id": "circle.pi",
+      "title": "Circle ratio and formula models",
+      "branch": "circle",
+      "scope": "grade7",
+      "prerequisites": [
+        "ratio.unit",
+        "review.area"
+      ],
+      "teks": [
+        "7.5B",
+        "7.8C"
+      ],
+      "requiredVariants": [
+        "radius and diameter",
+        "circumference divided by diameter",
+        "measurement estimates",
+        "circumference model",
+        "rearranged area model",
+        "explain formula connections"
+      ]
+    },
+    {
+      "id": "circle.measure",
+      "title": "Circle measurements",
+      "branch": "circle",
+      "scope": "grade7",
+      "prerequisites": [
+        "circle.pi",
+        "number.decimal"
+      ],
+      "teks": [
+        "7.9B"
+      ],
+      "requiredVariants": [
+        "circumference and area",
+        "radius or diameter given",
+        "reverse problems",
+        "state pi approximation and rounding"
+      ]
+    },
+    {
+      "id": "area.composite",
+      "title": "Composite area",
+      "branch": "area",
+      "scope": "grade7",
+      "prerequisites": [
+        "review.area",
+        "circle.measure"
+      ],
+      "teks": [
+        "7.9C"
+      ],
+      "requiredVariants": [
+        "combine or subtract",
+        "rectangles",
+        "squares",
+        "parallelograms",
+        "trapezoids",
+        "triangles",
+        "semicircles",
+        "quarter circles",
+        "decomposition",
+        "missing dimensions"
+      ]
+    },
+    {
+      "id": "solid.prism",
+      "title": "Prism volume",
+      "branch": "solid",
+      "scope": "grade7",
+      "prerequisites": [
+        "review.area",
+        "number.fraction"
+      ],
+      "teks": [
+        "7.9A"
+      ],
+      "requiredVariants": [
+        "rectangular and triangular prisms",
+        "base area times perpendicular height",
+        "cubic units",
+        "contextual problems"
+      ]
+    },
+    {
+      "id": "solid.models",
+      "title": "Prism and pyramid volume models",
+      "branch": "solid",
+      "scope": "grade7",
+      "prerequisites": [
+        "solid.prism"
+      ],
+      "teks": [
+        "7.8A",
+        "7.8B"
+      ],
+      "requiredVariants": [
+        "congruent bases and heights",
+        "rectangular models",
+        "triangular models",
+        "physical or virtual comparison",
+        "explain verbally and symbolically",
+        "connect to formulas"
+      ]
+    },
+    {
+      "id": "solid.pyramid",
+      "title": "Pyramid volume",
+      "branch": "solid",
+      "scope": "grade7",
+      "prerequisites": [
+        "solid.models"
+      ],
+      "teks": [
+        "7.9A"
+      ],
+      "requiredVariants": [
+        "rectangular and triangular pyramids",
+        "one third base area times height",
+        "perpendicular height versus slant height"
+      ]
+    },
+    {
+      "id": "solid.nets",
+      "title": "Read and construct nets",
+      "branch": "solid",
+      "scope": "grade7",
+      "prerequisites": [
+        "review.area"
+      ],
+      "teks": [
+        "7.9D"
+      ],
+      "requiredVariants": [
+        "rectangular prism",
+        "triangular prism",
+        "rectangular pyramid",
+        "triangular pyramid",
+        "bases versus lateral faces",
+        "supplied face heights"
+      ]
+    },
+    {
+      "id": "solid.surface",
+      "title": "Lateral and total surface area",
+      "branch": "solid",
+      "scope": "grade7",
+      "prerequisites": [
+        "solid.nets",
+        "area.composite"
+      ],
+      "teks": [
+        "7.9D"
+      ],
+      "requiredVariants": [
+        "all four solid types",
+        "sum lateral face areas",
+        "sum all face areas",
+        "net dimensions",
+        "covering versus capacity"
+      ]
+    },
+    {
+      "id": "finance.tax",
+      "title": "Purchase and wage taxes",
+      "branch": "finance",
+      "scope": "grade7",
+      "prerequisites": [
+        "percent.parts"
+      ],
+      "teks": [
+        "7.13A"
+      ],
+      "requiredVariants": [
+        "sales tax",
+        "total after sales tax",
+        "income tax on stated wages and supplied rate",
+        "no live tax-law assumptions"
+      ]
+    },
+    {
+      "id": "finance.budget",
+      "title": "Personal budget",
+      "branch": "finance",
+      "scope": "grade7",
+      "prerequisites": [
+        "percent.parts"
+      ],
+      "teks": [
+        "7.13B"
+      ],
+      "requiredVariants": [
+        "income",
+        "college savings",
+        "retirement savings",
+        "emergency savings",
+        "taxes",
+        "fixed and variable expenses",
+        "each category percent of total budget",
+        "organize allocations"
+      ]
+    },
+    {
+      "id": "finance.networth",
+      "title": "Assets liabilities and net worth",
+      "branch": "finance",
+      "scope": "grade7",
+      "prerequisites": [
+        "number.context"
+      ],
+      "teks": [
+        "7.13C"
+      ],
+      "requiredVariants": [
+        "classify",
+        "create and organize records",
+        "construct net worth statement",
+        "positive and negative net worth"
+      ]
+    },
+    {
+      "id": "finance.household",
+      "title": "Family budget estimator",
+      "branch": "finance",
+      "scope": "grade7",
+      "prerequisites": [
+        "finance.budget",
+        "ratio.unit"
+      ],
+      "teks": [
+        "7.13D"
+      ],
+      "requiredVariants": [
+        "use an estimator with stated location and household assumptions",
+        "minimum household costs",
+        "average hourly wage",
+        "stated workers and work hours",
+        "dated source data"
+      ]
+    },
+    {
+      "id": "finance.simple",
+      "title": "Simple interest",
+      "branch": "finance",
+      "scope": "grade7",
+      "prerequisites": [
+        "percent.parts"
+      ],
+      "teks": [
+        "7.13E"
+      ],
+      "requiredVariants": [
+        "principal",
+        "rate",
+        "time",
+        "interest versus balance",
+        "consistent time units"
+      ]
+    },
+    {
+      "id": "finance.compound",
+      "title": "Compound interest comparison",
+      "branch": "finance",
+      "scope": "grade7",
+      "prerequisites": [
+        "finance.simple",
+        "number.decimal"
+      ],
+      "teks": [
+        "7.13E"
+      ],
+      "requiredVariants": [
+        "period-by-period balances",
+        "compounding schedule",
+        "simple versus compound earnings with matched conditions",
+        "rounding policy"
+      ]
+    },
+    {
+      "id": "finance.deals",
+      "title": "Compare incentives",
+      "branch": "finance",
+      "scope": "grade7",
+      "prerequisites": [
+        "percent.multistep",
+        "finance.tax"
+      ],
+      "teks": [
+        "7.13F"
+      ],
+      "requiredVariants": [
+        "sales",
+        "rebates",
+        "coupons",
+        "combinations",
+        "restrictions and order stated",
+        "compare final cost and savings"
+      ]
+    }
+  ]
+}

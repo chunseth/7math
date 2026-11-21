@@ -5,18 +5,28 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "node scripts/test.cjs",
+    "typecheck": "tsc --noEmit",
+    "mentalist:validate": "python3 -B scripts/mentalist/build.py --check",
+    "mentalist:publish": "node scripts/mentalist/publish.cjs",
+    "mentalist:audit": "node scripts/mentalist/audit.cjs",
+    "mentalist:integration": "node scripts/mentalist/test-integration.cjs",
+    "mentalist:browser": "node scripts/mentalist/test-browser.cjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.8",
     "next": "^15.5.15",
+    "pg": "^8.23.1",
     "react": "19.0.0",
     "react-dom": "19.0.0"
   },
   "devDependencies": {
     "@types/node": "22.13.4",
+    "@types/pg": "^8.23.1",
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4",
+    "playwright-core": "^1.65.1",
     "typescript": "5.7.3"
   }
 }

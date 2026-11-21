@@ -1,5 +1,7 @@
 # 7th Grade Math Gamified Progression System
 
+The curriculum release uses concept levels, first-try clears, and optional fluency stars. This document describes the earlier design. [Current Mentalist rules and rollout](docs/curriculum/mentalist.md)
+
 This document breaks the Grade 7 math curriculum into purchasable progression steps for a gamified learning app. Students earn in-game currency by practicing, completing lessons, watching examples, doing timed tests, and replaying weak skills. They spend that currency to unlock new math "cards," levels, modes, cosmetics, and challenge tiers.
 
 The design goal is simple: students should feel like they are building a powerful math loadout, while the app quietly moves them through TEKS-aligned mastery.

@@ -1,5 +1,7 @@
 # Adaptive Hints And Leaderboards
 
+The curriculum release uses concept levels, first-try clears, and optional fluency stars. This document describes the earlier design. [Current Mentalist rules and rollout](docs/curriculum/mentalist.md)
+
 This document describes how the app should track time on each problem, provide useful hints as students work, and support leaderboards without punishing students for using help.
 
 ## Core Principle

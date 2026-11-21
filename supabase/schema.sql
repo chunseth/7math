@@ -341,6 +341,45 @@ on public.problem_attempts (match_id, attempt_order);
 create index if not exists matches_profile_created_at_idx
 on public.matches (profile_id, created_at desc);
 
+create table if not exists public.crafters_progress (
+  profile_id uuid primary key references public.profiles(id) on delete cascade,
+  stamina int not null default 20 check (stamina between 0 and 20),
+  stamina_refilled_at timestamptz not null default now(),
+  active_mining_resource_id text,
+  active_mining_resource_name text,
+  active_mining_ore_id text,
+  active_mining_ore_name text,
+  mining_complete_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint active_mining_payload_check check (
+    (
+      active_mining_resource_id is null
+      and active_mining_resource_name is null
+      and active_mining_ore_id is null
+      and active_mining_ore_name is null
+      and mining_complete_at is null
+    )
+    or (
+      active_mining_resource_id is not null
+      and active_mining_resource_name is not null
+      and active_mining_ore_id is not null
+      and active_mining_ore_name is not null
+      and mining_complete_at is not null
+    )
+  )
+);
+
+create table if not exists public.crafters_inventory (
+  profile_id uuid not null references public.profiles(id) on delete cascade,
+  ore_id text not null,
+  ore_name text not null,
+  quantity int not null default 0 check (quantity >= 0),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  primary key (profile_id, ore_id)
+);
+
 -- Power the teacher dashboard's live match and answer feed. The guarded block
 -- makes this schema safe to run again after the tables join the publication.
 do $$
@@ -417,6 +456,16 @@ create trigger arena_speed_profiles_set_updated_at
 before update on public.arena_speed_profiles
 for each row execute function public.set_updated_at();
 
+drop trigger if exists crafters_progress_set_updated_at on public.crafters_progress;
+create trigger crafters_progress_set_updated_at
+before update on public.crafters_progress
+for each row execute function public.set_updated_at();
+
+drop trigger if exists crafters_inventory_set_updated_at on public.crafters_inventory;
+create trigger crafters_inventory_set_updated_at
+before update on public.crafters_inventory
+for each row execute function public.set_updated_at();
+
 alter table public.profiles enable row level security;
 alter table public.teachers enable row level security;
 alter table public.student_progress enable row level security;
@@ -428,6 +477,8 @@ alter table public.skill_cards enable row level security;
 alter table public.chest_rewards enable row level security;
 alter table public.arena_speed_profiles enable row level security;
 alter table public.match_speed_stats enable row level security;
+alter table public.crafters_progress enable row level security;
+alter table public.crafters_inventory enable row level security;
 
 drop policy if exists "Teachers can read own membership" on public.teachers;
 create policy "Teachers can read own membership"
@@ -726,4 +777,30 @@ on public.match_speed_stats for all to anon using (true) with check (true);
 drop policy if exists "Teachers can read match speed stats" on public.match_speed_stats;
 create policy "Teachers can read match speed stats"
 on public.match_speed_stats for select to authenticated
+using (exists (select 1 from public.teachers where teachers.auth_user_id = auth.uid() and teachers.is_active));
+
+drop policy if exists "Students own crafters progress" on public.crafters_progress;
+drop policy if exists "Students can use username crafters progress" on public.crafters_progress;
+create policy "Students own crafters progress"
+on public.crafters_progress for all to authenticated
+using (exists (select 1 from public.profiles where profiles.id = crafters_progress.profile_id and profiles.auth_user_id = auth.uid()))
+with check (exists (select 1 from public.profiles where profiles.id = crafters_progress.profile_id and profiles.auth_user_id = auth.uid()));
+create policy "Students can use username crafters progress"
+on public.crafters_progress for all to anon using (true) with check (true);
+drop policy if exists "Teachers can read crafters progress" on public.crafters_progress;
+create policy "Teachers can read crafters progress"
+on public.crafters_progress for select to authenticated
+using (exists (select 1 from public.teachers where teachers.auth_user_id = auth.uid() and teachers.is_active));
+
+drop policy if exists "Students own crafters inventory" on public.crafters_inventory;
+drop policy if exists "Students can use username crafters inventory" on public.crafters_inventory;
+create policy "Students own crafters inventory"
+on public.crafters_inventory for all to authenticated
+using (exists (select 1 from public.profiles where profiles.id = crafters_inventory.profile_id and profiles.auth_user_id = auth.uid()))
+with check (exists (select 1 from public.profiles where profiles.id = crafters_inventory.profile_id and profiles.auth_user_id = auth.uid()));
+create policy "Students can use username crafters inventory"
+on public.crafters_inventory for all to anon using (true) with check (true);
+drop policy if exists "Teachers can read crafters inventory" on public.crafters_inventory;
+create policy "Teachers can read crafters inventory"
+on public.crafters_inventory for select to authenticated
 using (exists (select 1 from public.teachers where teachers.auth_user_id = auth.uid() and teachers.is_active));

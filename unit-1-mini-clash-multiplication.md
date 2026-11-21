@@ -1,5 +1,7 @@
 # Unit 1 Mini Clash: Multiplication Monster Match
 
+The curriculum release uses concept levels, first-try clears, and optional fluency stars. This document describes the earlier design. [Current Mentalist rules and rollout](docs/curriculum/mentalist.md)
+
 This document describes the Unit 1 starter game for Mathematical Reasoning and Number Review. It is a small Clash Royale-inspired loop built around multiplication fluency, collection, chests, and fast matches.
 
 ## Unit Connection

@@ -963,3 +963,30 @@ export function getNextUnlockPreview(unlockedNumbers: number[]) {
 
   return null;
 }
+
+/** Rarity tiers ordered weakest to strongest. A chest can draw from its own tier or any tier below it. */
+export const RARITY_ORDER: Rarity[] = ["common", "rare", "epic", "legendary"];
+
+/**
+ * Pick a multiplication number for a chest of the given rarity to unlock.
+ *
+ * The chest tries its own tier first so a legendary still feels legendary, then
+ * falls back down through the lower tiers. That way a high-rarity chest is never
+ * wasted just because its headline numbers are already owned. Returns null once
+ * every number the chest could reach is unlocked.
+ */
+export function rollNumberUnlock(
+  rarity: Rarity,
+  unlockedNumbers: number[],
+  rng: () => number = Math.random,
+): number | null {
+  const unlocked = new Set([...STARTING_UNLOCKED_NUMBERS, ...unlockedNumbers]);
+  const maxTier = RARITY_ORDER.indexOf(rarity);
+
+  for (let tier = maxTier; tier >= 0; tier -= 1) {
+    const candidates = chestNumberPools[RARITY_ORDER[tier]].filter((number) => !unlocked.has(number));
+    if (candidates.length) return candidates[Math.floor(rng() * candidates.length)] ?? candidates[0];
+  }
+
+  return null;
+}

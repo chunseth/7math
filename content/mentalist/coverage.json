@@ -1,0 +1,2703 @@
+[
+ {
+  "group": "review.add",
+  "requirement": "facts",
+  "levels": [
+   "review.add.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.add",
+  "requirement": "make ten",
+  "levels": [
+   "review.add.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.add",
+  "requirement": "within 100",
+  "levels": [
+   "review.add.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.add",
+  "requirement": "larger whole numbers",
+  "levels": [
+   "review.add.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.add",
+  "requirement": "missing addends",
+  "levels": [
+   "review.add.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.add",
+  "requirement": "mental strategies",
+  "levels": [
+   "review.add.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.subtract",
+  "requirement": "facts",
+  "levels": [
+   "review.subtract.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.subtract",
+  "requirement": "within 100",
+  "levels": [
+   "review.subtract.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.subtract",
+  "requirement": "larger whole numbers",
+  "levels": [
+   "review.subtract.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.subtract",
+  "requirement": "missing differences",
+  "levels": [
+   "review.subtract.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.subtract",
+  "requirement": "mental strategies",
+  "levels": [
+   "review.subtract.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.multiply",
+  "requirement": "families 0 through 12, independently assignable",
+  "levels": [
+   "review.multiply.0.1",
+   "review.multiply.1.1",
+   "review.multiply.2.1",
+   "review.multiply.3.1",
+   "review.multiply.4.1",
+   "review.multiply.5.1",
+   "review.multiply.6.1",
+   "review.multiply.7.1",
+   "review.multiply.8.1",
+   "review.multiply.9.1",
+   "review.multiply.10.1",
+   "review.multiply.11.1",
+   "review.multiply.12.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.divide",
+  "requirement": "families 1 through 12, independently assignable",
+  "levels": [
+   "review.divide.1.1",
+   "review.divide.2.1",
+   "review.divide.3.1",
+   "review.divide.4.1",
+   "review.divide.5.1",
+   "review.divide.6.1",
+   "review.divide.7.1",
+   "review.divide.8.1",
+   "review.divide.9.1",
+   "review.divide.10.1",
+   "review.divide.11.1",
+   "review.divide.12.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.divide",
+  "requirement": "zero dividend",
+  "levels": [
+   "review.divide.1.1",
+   "review.divide.2.1",
+   "review.divide.3.1",
+   "review.divide.4.1",
+   "review.divide.5.1",
+   "review.divide.6.1",
+   "review.divide.7.1",
+   "review.divide.8.1",
+   "review.divide.9.1",
+   "review.divide.10.1",
+   "review.divide.11.1",
+   "review.divide.12.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.divide",
+  "requirement": "never zero divisor",
+  "levels": [
+   "review.divide.1.1",
+   "review.divide.2.1",
+   "review.divide.3.1",
+   "review.divide.4.1",
+   "review.divide.5.1",
+   "review.divide.6.1",
+   "review.divide.7.1",
+   "review.divide.8.1",
+   "review.divide.9.1",
+   "review.divide.10.1",
+   "review.divide.11.1",
+   "review.divide.12.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.whole",
+  "requirement": "missing factors and dividends",
+  "levels": [
+   "review.whole.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.whole",
+  "requirement": "multiples of ten",
+  "levels": [
+   "review.whole.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.whole",
+  "requirement": "multi-digit multiplication",
+  "levels": [
+   "review.whole.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.whole",
+  "requirement": "whole-number division",
+  "levels": [
+   "review.whole.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.whole",
+  "requirement": "related equations",
+  "levels": [
+   "review.whole.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.factors",
+  "requirement": "factors",
+  "levels": [
+   "review.factors.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.factors",
+  "requirement": "multiples",
+  "levels": [
+   "review.factors.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.factors",
+  "requirement": "common factors",
+  "levels": [
+   "review.factors.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.factors",
+  "requirement": "common multiples",
+  "levels": [
+   "review.factors.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.fractions",
+  "requirement": "equivalence",
+  "levels": [
+   "review.fractions.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.fractions",
+  "requirement": "simplify",
+  "levels": [
+   "review.fractions.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.fractions",
+  "requirement": "compare and order",
+  "levels": [
+   "review.fractions.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.fractions",
+  "requirement": "mixed and improper forms",
+  "levels": [
+   "review.fractions.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.conversions",
+  "requirement": "fraction to decimal",
+  "levels": [
+   "review.conversions.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.conversions",
+  "requirement": "decimal to fraction",
+  "levels": [
+   "review.conversions.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.conversions",
+  "requirement": "decimal to percent and back",
+  "levels": [
+   "review.conversions.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.conversions",
+  "requirement": "fraction to percent and back",
+  "levels": [
+   "review.conversions.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.conversions",
+  "requirement": "compare and order decimals",
+  "levels": [
+   "review.conversions.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.conversions",
+  "requirement": "estimates",
+  "levels": [
+   "review.conversions.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.numberline",
+  "requirement": "opposites",
+  "levels": [
+   "review.numberline.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.numberline",
+  "requirement": "absolute value",
+  "levels": [
+   "review.numberline.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.numberline",
+  "requirement": "compare and order signed numbers",
+  "levels": [
+   "review.numberline.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.numberline",
+  "requirement": "locate fractions and decimals on number lines",
+  "levels": [
+   "review.numberline.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.expressions",
+  "requirement": "order of operations",
+  "levels": [
+   "review.expressions.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.expressions",
+  "requirement": "evaluate by substitution",
+  "levels": [
+   "review.expressions.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.expressions",
+  "requirement": "combine like terms",
+  "levels": [
+   "review.expressions.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.expressions",
+  "requirement": "distributive property",
+  "levels": [
+   "review.expressions.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.expressions",
+  "requirement": "expression versus equation",
+  "levels": [
+   "review.expressions.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.coordinate",
+  "requirement": "ordered pairs",
+  "levels": [
+   "review.coordinate.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.coordinate",
+  "requirement": "all four quadrants",
+  "levels": [
+   "review.coordinate.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.coordinate",
+  "requirement": "axis scales",
+  "levels": [
+   "review.coordinate.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.coordinate",
+  "requirement": "independent and dependent quantities",
+  "levels": [
+   "review.coordinate.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.area",
+  "requirement": "rectangle",
+  "levels": [
+   "review.area.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.area",
+  "requirement": "square",
+  "levels": [
+   "review.area.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.area",
+  "requirement": "parallelogram",
+  "levels": [
+   "review.area.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.area",
+  "requirement": "triangle",
+  "levels": [
+   "review.area.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.area",
+  "requirement": "trapezoid",
+  "levels": [
+   "review.area.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.area",
+  "requirement": "perpendicular height",
+  "levels": [
+   "review.area.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.area",
+  "requirement": "square units",
+  "levels": [
+   "review.area.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.angles",
+  "requirement": "complementary",
+  "levels": [
+   "review.angles.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.angles",
+  "requirement": "supplementary",
+  "levels": [
+   "review.angles.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.angles",
+  "requirement": "vertical",
+  "levels": [
+   "review.angles.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.angles",
+  "requirement": "triangle sum",
+  "levels": [
+   "review.angles.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.data",
+  "requirement": "mean",
+  "levels": [
+   "review.data.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.data",
+  "requirement": "median",
+  "levels": [
+   "review.data.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.data",
+  "requirement": "range",
+  "levels": [
+   "review.data.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.data",
+  "requirement": "IQR",
+  "levels": [
+   "review.data.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.data",
+  "requirement": "quartiles",
+  "levels": [
+   "review.data.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.data",
+  "requirement": "clusters",
+  "levels": [
+   "review.data.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.data",
+  "requirement": "gaps",
+  "levels": [
+   "review.data.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.data",
+  "requirement": "symmetry",
+  "levels": [
+   "review.data.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.data",
+  "requirement": "reading single dot and box plots",
+  "levels": [
+   "review.data.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.onestep",
+  "requirement": "inverse operations",
+  "levels": [
+   "review.onestep.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.onestep",
+  "requirement": "equality",
+  "levels": [
+   "review.onestep.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.onestep",
+  "requirement": "inequality symbols",
+  "levels": [
+   "review.onestep.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.onestep",
+  "requirement": "boundary points",
+  "levels": [
+   "review.onestep.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "review.onestep",
+  "requirement": "number-line solutions",
+  "levels": [
+   "review.onestep.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.sets",
+  "requirement": "nested set diagrams",
+  "levels": [
+   "number.sets.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.sets",
+  "requirement": "membership versus containment",
+  "levels": [
+   "number.sets.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.sets",
+  "requirement": "whole numbers within integers within rationals",
+  "levels": [
+   "number.sets.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.sets",
+  "requirement": "natural-number convention stated",
+  "levels": [
+   "number.sets.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.integer-add",
+  "requirement": "same signs",
+  "levels": [
+   "signed.add.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.integer-add",
+  "requirement": "different signs",
+  "levels": [
+   "signed.add.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.integer-add",
+  "requirement": "subtract negatives",
+  "levels": [
+   "signed.subtract.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.integer-add",
+  "requirement": "models connected to algorithms",
+  "levels": [
+   "signed.add.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.integer-multiply",
+  "requirement": "sign combinations",
+  "levels": [
+   "signed.multiply.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.integer-multiply",
+  "requirement": "zero",
+  "levels": [
+   "signed.multiply.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.integer-multiply",
+  "requirement": "nonzero divisors",
+  "levels": [
+   "signed.divide.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.decimal",
+  "requirement": "all four operations",
+  "levels": [
+   "decimal.add.1",
+   "decimal.add.2",
+   "decimal.add.3",
+   "decimal.subtract.1",
+   "decimal.subtract.2",
+   "decimal.subtract.3",
+   "decimal.multiply.1",
+   "decimal.multiply.2",
+   "decimal.multiply.3",
+   "decimal.divide.1",
+   "decimal.divide.2",
+   "decimal.divide.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.decimal",
+  "requirement": "positive and negative decimals",
+  "levels": [
+   "decimal.add.1",
+   "decimal.add.2",
+   "decimal.add.3",
+   "decimal.subtract.1",
+   "decimal.subtract.2",
+   "decimal.subtract.3",
+   "decimal.multiply.1",
+   "decimal.multiply.2",
+   "decimal.multiply.3",
+   "decimal.divide.1",
+   "decimal.divide.2",
+   "decimal.divide.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.fraction",
+  "requirement": "all four operations",
+  "levels": [
+   "fraction.add.1",
+   "fraction.add.2",
+   "fraction.add.3",
+   "fraction.add.4",
+   "fraction.subtract.1",
+   "fraction.subtract.2",
+   "fraction.subtract.3",
+   "fraction.subtract.4",
+   "fraction.multiply.1",
+   "fraction.multiply.2",
+   "fraction.multiply.3",
+   "fraction.divide.1",
+   "fraction.divide.2",
+   "fraction.divide.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.fraction",
+  "requirement": "unlike denominators",
+  "levels": [
+   "fraction.add.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.fraction",
+  "requirement": "signed fractions",
+  "levels": [
+   "fraction.add.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.fraction",
+  "requirement": "mixed numbers",
+  "levels": [
+   "fraction.add.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.mixed",
+  "requirement": "mixed representations",
+  "levels": [
+   "number.mixed.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.mixed",
+  "requirement": "multiple operations",
+  "levels": [
+   "number.mixed.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.mixed",
+  "requirement": "parentheses",
+  "levels": [
+   "number.mixed.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.mixed",
+  "requirement": "estimates",
+  "levels": [
+   "number.mixed.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.context",
+  "requirement": "temperature",
+  "levels": [
+   "number.context.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.context",
+  "requirement": "balances",
+  "levels": [
+   "number.context.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.context",
+  "requirement": "elevation",
+  "levels": [
+   "number.context.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.context",
+  "requirement": "multistep situations",
+  "levels": [
+   "number.context.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "number.context",
+  "requirement": "explain and check results",
+  "levels": [
+   "number.context.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.equivalent",
+  "requirement": "part to part",
+  "levels": [
+   "ratio.equivalent.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.equivalent",
+  "requirement": "part to whole",
+  "levels": [
+   "ratio.equivalent.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.equivalent",
+  "requirement": "equivalent ratios",
+  "levels": [
+   "ratio.equivalent.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.equivalent",
+  "requirement": "missing table entries",
+  "levels": [
+   "ratio.equivalent.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.equivalent",
+  "requirement": "proportions",
+  "levels": [
+   "ratio.equivalent.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.unit",
+  "requirement": "fractional rates",
+  "levels": [
+   "ratio.unit.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.unit",
+  "requirement": "money per unit",
+  "levels": [
+   "ratio.unit.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.unit",
+  "requirement": "compare prices",
+  "levels": [
+   "ratio.unit.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.unit",
+  "requirement": "interpret units",
+  "levels": [
+   "ratio.unit.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.constant",
+  "requirement": "k from tables",
+  "levels": [
+   "ratio.constant.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.constant",
+  "requirement": "graphs",
+  "levels": [
+   "ratio.constant.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.constant",
+  "requirement": "equations",
+  "levels": [
+   "ratio.constant.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.constant",
+  "requirement": "contexts",
+  "levels": [
+   "ratio.constant.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.constant",
+  "requirement": "y/x only where x is nonzero",
+  "levels": [
+   "ratio.constant.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.represent",
+  "requirement": "pictures",
+  "levels": [
+   "ratio.represent.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.represent",
+  "requirement": "tables",
+  "levels": [
+   "ratio.represent.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.represent",
+  "requirement": "words",
+  "levels": [
+   "ratio.represent.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.represent",
+  "requirement": "numbers",
+  "levels": [
+   "ratio.represent.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.represent",
+  "requirement": "graphs",
+  "levels": [
+   "ratio.represent.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.represent",
+  "requirement": "equations",
+  "levels": [
+   "ratio.represent.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.represent",
+  "requirement": "move between representations",
+  "levels": [
+   "ratio.represent.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.represent",
+  "requirement": "proportional versus nonproportional examples",
+  "levels": [
+   "ratio.represent.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.travel",
+  "requirement": "solve for d",
+  "levels": [
+   "ratio.travel.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.travel",
+  "requirement": "r",
+  "levels": [
+   "ratio.travel.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.travel",
+  "requirement": "t",
+  "levels": [
+   "ratio.travel.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.travel",
+  "requirement": "compatible units",
+  "levels": [
+   "ratio.travel.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.solve",
+  "requirement": "missing values",
+  "levels": [
+   "ratio.solve.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.solve",
+  "requirement": "comparisons",
+  "levels": [
+   "ratio.solve.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.solve",
+  "requirement": "chained rates",
+  "levels": [
+   "ratio.solve.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.solve",
+  "requirement": "contextual interpretation",
+  "levels": [
+   "ratio.solve.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.units",
+  "requirement": "customary to metric",
+  "levels": [
+   "ratio.units.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.units",
+  "requirement": "metric to customary",
+  "levels": [
+   "ratio.units.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.units",
+  "requirement": "supplied conversion factors",
+  "levels": [
+   "ratio.units.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.units",
+  "requirement": "proportions and unit rates",
+  "levels": [
+   "ratio.units.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "ratio.units",
+  "requirement": "within-system review",
+  "levels": [
+   "ratio.units.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "percent.parts",
+  "requirement": "find part",
+  "levels": [
+   "percent.parts.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "percent.parts",
+  "requirement": "find whole",
+  "levels": [
+   "percent.parts.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "percent.parts",
+  "requirement": "find percent",
+  "levels": [
+   "percent.parts.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "percent.parts",
+  "requirement": "visual percent models",
+  "levels": [
+   "percent.parts.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "percent.change",
+  "requirement": "increase",
+  "levels": [
+   "percent.change.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "percent.change",
+  "requirement": "decrease",
+  "levels": [
+   "percent.change.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "percent.change",
+  "requirement": "find new amount",
+  "levels": [
+   "percent.change.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "percent.change",
+  "requirement": "find original amount",
+  "levels": [
+   "percent.change.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "percent.change",
+  "requirement": "original amount as denominator",
+  "levels": [
+   "percent.change.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "percent.multistep",
+  "requirement": "successive changes",
+  "levels": [
+   "percent.multistep.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "percent.multistep",
+  "requirement": "discount then tax",
+  "levels": [
+   "percent.multistep.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "percent.multistep",
+  "requirement": "compare offers",
+  "levels": [
+   "percent.multistep.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "percent.multistep",
+  "requirement": "distinguish percent from percentage points",
+  "levels": [
+   "percent.multistep.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "similar.attributes",
+  "requirement": "corresponding sides and angles",
+  "levels": [
+   "similar.attributes.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "similar.attributes",
+  "requirement": "angle agreement",
+  "levels": [
+   "similar.attributes.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "similar.attributes",
+  "requirement": "ratios within each figure and between figures",
+  "levels": [
+   "similar.attributes.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "similar.attributes",
+  "requirement": "nonexamples",
+  "levels": [
+   "similar.attributes.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "similar.lengths",
+  "requirement": "enlargement",
+  "levels": [
+   "similar.lengths.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "similar.lengths",
+  "requirement": "reduction",
+  "levels": [
+   "similar.lengths.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "similar.lengths",
+  "requirement": "corresponding side lengths",
+  "levels": [
+   "similar.lengths.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "similar.lengths",
+  "requirement": "indirect height problems",
+  "levels": [
+   "similar.lengths.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "similar.drawings",
+  "requirement": "actual distance",
+  "levels": [
+   "similar.drawings.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "similar.drawings",
+  "requirement": "drawing distance",
+  "levels": [
+   "similar.drawings.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "similar.drawings",
+  "requirement": "create a drawing",
+  "levels": [
+   "similar.drawings.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "similar.drawings",
+  "requirement": "complete a drawing",
+  "levels": [
+   "similar.drawings.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "similar.drawings",
+  "requirement": "stated scale and units",
+  "levels": [
+   "similar.drawings.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.space",
+  "requirement": "simple and compound events",
+  "levels": [
+   "chance.space.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.space",
+  "requirement": "organized lists",
+  "levels": [
+   "chance.space.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.space",
+  "requirement": "construct and complete tree diagrams",
+  "levels": [
+   "chance.space.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.space",
+  "requirement": "ordered outcomes",
+  "levels": [
+   "chance.space.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.theoretical",
+  "requirement": "simple and compound events",
+  "levels": [
+   "chance.theoretical.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.theoretical",
+  "requirement": "equally likely outcomes stated",
+  "levels": [
+   "chance.theoretical.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.theoretical",
+  "requirement": "favorable over total",
+  "levels": [
+   "chance.theoretical.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.theoretical",
+  "requirement": "predictions for repeated trials",
+  "levels": [
+   "chance.theoretical.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.complement",
+  "requirement": "not event",
+  "levels": [
+   "chance.complement.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.complement",
+  "requirement": "sum to one",
+  "levels": [
+   "chance.complement.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.complement",
+  "requirement": "impossible and certain events",
+  "levels": [
+   "chance.complement.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.experimental",
+  "requirement": "simple and compound trials",
+  "levels": [
+   "chance.experimental.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.experimental",
+  "requirement": "frequencies",
+  "levels": [
+   "chance.experimental.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.experimental",
+  "requirement": "probability estimates",
+  "levels": [
+   "chance.experimental.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.experimental",
+  "requirement": "predicted counts",
+  "levels": [
+   "chance.experimental.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.simulate",
+  "requirement": "simple and compound events",
+  "levels": [
+   "chance.simulate.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.simulate",
+  "requirement": "physical tools",
+  "levels": [
+   "chance.simulate.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.simulate",
+  "requirement": "technology",
+  "levels": [
+   "chance.simulate.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.simulate",
+  "requirement": "fairness",
+  "levels": [
+   "chance.simulate.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.simulate",
+  "requirement": "repeated trials",
+  "levels": [
+   "chance.simulate.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.simulate",
+  "requirement": "record outcomes",
+  "levels": [
+   "chance.simulate.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.compare",
+  "requirement": "qualitative and quantitative comparisons",
+  "levels": [
+   "chance.compare.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.compare",
+  "requirement": "observed versus theoretical results",
+  "levels": [
+   "chance.compare.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.compare",
+  "requirement": "sample variation",
+  "levels": [
+   "chance.compare.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "chance.compare",
+  "requirement": "predictions supported by experiment data",
+  "levels": [
+   "chance.compare.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.graphs",
+  "requirement": "bar graphs",
+  "levels": [
+   "stats.graphs.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.graphs",
+  "requirement": "dot plots",
+  "levels": [
+   "stats.graphs.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.graphs",
+  "requirement": "circle graphs",
+  "levels": [
+   "stats.graphs.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.graphs",
+  "requirement": "part to whole",
+  "levels": [
+   "stats.graphs.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.graphs",
+  "requirement": "part to part",
+  "levels": [
+   "stats.graphs.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.graphs",
+  "requirement": "fractions and percents",
+  "levels": [
+   "stats.graphs.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.graphs",
+  "requirement": "compute from graphs",
+  "levels": [
+   "stats.graphs.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.groups",
+  "requirement": "comparative dot plots and box plots",
+  "levels": [
+   "stats.groups.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.groups",
+  "requirement": "shape",
+  "levels": [
+   "stats.groups.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.groups",
+  "requirement": "center",
+  "levels": [
+   "stats.groups.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.groups",
+  "requirement": "spread",
+  "levels": [
+   "stats.groups.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.groups",
+  "requirement": "same versus different scales",
+  "levels": [
+   "stats.groups.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.groups",
+  "requirement": "support comparisons with evidence",
+  "levels": [
+   "stats.groups.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.sample",
+  "requirement": "random sample",
+  "levels": [
+   "stats.sample.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.sample",
+  "requirement": "sample versus population",
+  "levels": [
+   "stats.sample.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.sample",
+  "requirement": "estimate counts and proportions",
+  "levels": [
+   "stats.sample.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.sample",
+  "requirement": "uncertainty",
+  "levels": [
+   "stats.sample.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.sample",
+  "requirement": "avoid unsupported certainty",
+  "levels": [
+   "stats.sample.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.populations",
+  "requirement": "two random samples",
+  "levels": [
+   "stats.populations.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.populations",
+  "requirement": "informal comparative conclusions",
+  "levels": [
+   "stats.populations.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.populations",
+  "requirement": "variability",
+  "levels": [
+   "stats.populations.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "stats.populations",
+  "requirement": "limits of evidence",
+  "levels": [
+   "stats.populations.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "linear.read",
+  "requirement": "tables",
+  "levels": [
+   "linear.read.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "linear.read",
+  "requirement": "graphs",
+  "levels": [
+   "linear.read.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "linear.read",
+  "requirement": "contexts",
+  "levels": [
+   "linear.read.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "linear.read",
+  "requirement": "rise over run",
+  "levels": [
+   "linear.read.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "linear.read",
+  "requirement": "starting value",
+  "levels": [
+   "linear.read.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "linear.read",
+  "requirement": "units",
+  "levels": [
+   "linear.read.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "linear.read",
+  "requirement": "proportional special case",
+  "levels": [
+   "linear.read.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "linear.represent",
+  "requirement": "words",
+  "levels": [
+   "linear.represent.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "linear.represent",
+  "requirement": "tables",
+  "levels": [
+   "linear.represent.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "linear.represent",
+  "requirement": "graphs",
+  "levels": [
+   "linear.represent.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "linear.represent",
+  "requirement": "equations simplifying to y=mx+b",
+  "levels": [
+   "linear.represent.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "linear.represent",
+  "requirement": "generate and match representations",
+  "levels": [
+   "linear.represent.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "linear.represent",
+  "requirement": "interpret m and b",
+  "levels": [
+   "linear.represent.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.check",
+  "requirement": "two-step equations and inequalities",
+  "levels": [
+   "algebra.check.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.check",
+  "requirement": "rational values",
+  "levels": [
+   "algebra.check.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.check",
+  "requirement": "true and false candidates",
+  "levels": [
+   "algebra.check.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.equation",
+  "requirement": "concrete and pictorial models",
+  "levels": [
+   "algebra.equation.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.equation",
+  "requirement": "rational coefficients and constants",
+  "levels": [
+   "algebra.equation.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.equation",
+  "requirement": "inverse operations",
+  "levels": [
+   "algebra.equation.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.equation",
+  "requirement": "check solution",
+  "levels": [
+   "algebra.equation.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.inequality",
+  "requirement": "strict and inclusive bounds",
+  "levels": [
+   "algebra.inequality.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.inequality",
+  "requirement": "negative coefficients",
+  "levels": [
+   "algebra.inequality.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.inequality",
+  "requirement": "reverse relation when appropriate",
+  "levels": [
+   "algebra.inequality.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.inequality",
+  "requirement": "contextual integer answers",
+  "levels": [
+   "algebra.inequality.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.write",
+  "requirement": "two-step equations",
+  "levels": [
+   "algebra.write.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.write",
+  "requirement": "two-step inequalities",
+  "levels": [
+   "algebra.write.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.write",
+  "requirement": "variables and units",
+  "levels": [
+   "algebra.write.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.write",
+  "requirement": "realistic constraints",
+  "levels": [
+   "algebra.write.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.story",
+  "requirement": "choose a matching story",
+  "levels": [
+   "algebra.story.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.story",
+  "requirement": "write an original story for an equation",
+  "levels": [],
+  "status": "outstanding"
+ },
+ {
+  "group": "algebra.story",
+  "requirement": "write an original story for an inequality",
+  "levels": [],
+  "status": "outstanding"
+ },
+ {
+  "group": "algebra.graph",
+  "requirement": "point for equation solution",
+  "levels": [
+   "algebra.graph.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.graph",
+  "requirement": "open or closed boundary",
+  "levels": [
+   "algebra.graph.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.graph",
+  "requirement": "ray direction",
+  "levels": [
+   "algebra.graph.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.graph",
+  "requirement": "rational boundary",
+  "levels": [
+   "algebra.graph.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "algebra.graph",
+  "requirement": "create and interpret number lines",
+  "levels": [
+   "algebra.graph.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "geometry.angles",
+  "requirement": "triangle sum",
+  "levels": [
+   "geometry.angles.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "geometry.angles",
+  "requirement": "complementary",
+  "levels": [
+   "geometry.angles.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "geometry.angles",
+  "requirement": "supplementary",
+  "levels": [
+   "geometry.angles.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "geometry.angles",
+  "requirement": "vertical",
+  "levels": [
+   "geometry.angles.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "geometry.angles",
+  "requirement": "diagram to equation",
+  "levels": [
+   "geometry.angles.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "geometry.angles",
+  "requirement": "multistep angle relationships",
+  "levels": [
+   "geometry.angles.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "circle.pi",
+  "requirement": "radius and diameter",
+  "levels": [
+   "circle.pi.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "circle.pi",
+  "requirement": "circumference divided by diameter",
+  "levels": [
+   "circle.pi.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "circle.pi",
+  "requirement": "measurement estimates",
+  "levels": [
+   "circle.pi.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "circle.pi",
+  "requirement": "circumference model",
+  "levels": [
+   "circle.pi.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "circle.pi",
+  "requirement": "rearranged area model",
+  "levels": [
+   "circle.pi.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "circle.pi",
+  "requirement": "explain formula connections",
+  "levels": [
+   "circle.pi.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "circle.measure",
+  "requirement": "circumference and area",
+  "levels": [
+   "circle.measure.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "circle.measure",
+  "requirement": "radius or diameter given",
+  "levels": [
+   "circle.measure.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "circle.measure",
+  "requirement": "reverse problems",
+  "levels": [
+   "circle.measure.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "circle.measure",
+  "requirement": "state pi approximation and rounding",
+  "levels": [
+   "circle.measure.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "area.composite",
+  "requirement": "combine or subtract",
+  "levels": [
+   "area.composite.5"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "area.composite",
+  "requirement": "rectangles",
+  "levels": [
+   "area.composite.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "area.composite",
+  "requirement": "squares",
+  "levels": [
+   "area.composite.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "area.composite",
+  "requirement": "parallelograms",
+  "levels": [
+   "area.composite.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "area.composite",
+  "requirement": "trapezoids",
+  "levels": [
+   "area.composite.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "area.composite",
+  "requirement": "triangles",
+  "levels": [
+   "area.composite.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "area.composite",
+  "requirement": "semicircles",
+  "levels": [
+   "area.composite.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "area.composite",
+  "requirement": "quarter circles",
+  "levels": [
+   "area.composite.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "area.composite",
+  "requirement": "decomposition",
+  "levels": [
+   "area.composite.5"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "area.composite",
+  "requirement": "missing dimensions",
+  "levels": [
+   "area.composite.5"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.prism",
+  "requirement": "rectangular and triangular prisms",
+  "levels": [
+   "solid.prism.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.prism",
+  "requirement": "base area times perpendicular height",
+  "levels": [
+   "solid.prism.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.prism",
+  "requirement": "cubic units",
+  "levels": [
+   "solid.prism.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.prism",
+  "requirement": "contextual problems",
+  "levels": [
+   "solid.prism.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.models",
+  "requirement": "congruent bases and heights",
+  "levels": [
+   "solid.models.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.models",
+  "requirement": "rectangular models",
+  "levels": [
+   "solid.models.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.models",
+  "requirement": "triangular models",
+  "levels": [
+   "solid.models.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.models",
+  "requirement": "physical or virtual comparison",
+  "levels": [
+   "solid.models.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.models",
+  "requirement": "explain verbally and symbolically",
+  "levels": [],
+  "status": "outstanding"
+ },
+ {
+  "group": "solid.models",
+  "requirement": "connect to formulas",
+  "levels": [
+   "solid.models.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.pyramid",
+  "requirement": "rectangular and triangular pyramids",
+  "levels": [
+   "solid.pyramid.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.pyramid",
+  "requirement": "one third base area times height",
+  "levels": [
+   "solid.pyramid.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.pyramid",
+  "requirement": "perpendicular height versus slant height",
+  "levels": [
+   "solid.pyramid.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.nets",
+  "requirement": "rectangular prism",
+  "levels": [
+   "solid.nets.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.nets",
+  "requirement": "triangular prism",
+  "levels": [
+   "solid.nets.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.nets",
+  "requirement": "rectangular pyramid",
+  "levels": [
+   "solid.nets.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.nets",
+  "requirement": "triangular pyramid",
+  "levels": [
+   "solid.nets.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.nets",
+  "requirement": "bases versus lateral faces",
+  "levels": [
+   "solid.nets.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.nets",
+  "requirement": "supplied face heights",
+  "levels": [
+   "solid.nets.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.surface",
+  "requirement": "all four solid types",
+  "levels": [
+   "solid.surface.1",
+   "solid.surface.2",
+   "solid.surface.3",
+   "solid.surface.4"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.surface",
+  "requirement": "sum lateral face areas",
+  "levels": [
+   "solid.surface.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.surface",
+  "requirement": "sum all face areas",
+  "levels": [
+   "solid.surface.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.surface",
+  "requirement": "net dimensions",
+  "levels": [
+   "solid.surface.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "solid.surface",
+  "requirement": "covering versus capacity",
+  "levels": [
+   "solid.surface.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.tax",
+  "requirement": "sales tax",
+  "levels": [
+   "finance.tax.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.tax",
+  "requirement": "total after sales tax",
+  "levels": [
+   "finance.tax.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.tax",
+  "requirement": "income tax on stated wages and supplied rate",
+  "levels": [
+   "finance.tax.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.tax",
+  "requirement": "no live tax-law assumptions",
+  "levels": [
+   "finance.tax.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.budget",
+  "requirement": "income",
+  "levels": [
+   "finance.budget.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.budget",
+  "requirement": "college savings",
+  "levels": [
+   "finance.budget.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.budget",
+  "requirement": "retirement savings",
+  "levels": [
+   "finance.budget.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.budget",
+  "requirement": "emergency savings",
+  "levels": [
+   "finance.budget.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.budget",
+  "requirement": "taxes",
+  "levels": [
+   "finance.budget.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.budget",
+  "requirement": "fixed and variable expenses",
+  "levels": [
+   "finance.budget.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.budget",
+  "requirement": "each category percent of total budget",
+  "levels": [
+   "finance.budget.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.budget",
+  "requirement": "organize allocations",
+  "levels": [
+   "finance.budget.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.networth",
+  "requirement": "classify",
+  "levels": [
+   "finance.networth.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.networth",
+  "requirement": "create and organize records",
+  "levels": [
+   "finance.networth.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.networth",
+  "requirement": "construct net worth statement",
+  "levels": [
+   "finance.networth.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.networth",
+  "requirement": "positive and negative net worth",
+  "levels": [
+   "finance.networth.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.household",
+  "requirement": "use an estimator with stated location and household assumptions",
+  "levels": [
+   "finance.household.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.household",
+  "requirement": "minimum household costs",
+  "levels": [
+   "finance.household.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.household",
+  "requirement": "average hourly wage",
+  "levels": [
+   "finance.household.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.household",
+  "requirement": "stated workers and work hours",
+  "levels": [
+   "finance.household.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.household",
+  "requirement": "dated source data",
+  "levels": [
+   "finance.household.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.simple",
+  "requirement": "principal",
+  "levels": [
+   "finance.simple.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.simple",
+  "requirement": "rate",
+  "levels": [
+   "finance.simple.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.simple",
+  "requirement": "time",
+  "levels": [
+   "finance.simple.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.simple",
+  "requirement": "interest versus balance",
+  "levels": [
+   "finance.simple.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.simple",
+  "requirement": "consistent time units",
+  "levels": [
+   "finance.simple.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.compound",
+  "requirement": "period-by-period balances",
+  "levels": [
+   "finance.compound.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.compound",
+  "requirement": "compounding schedule",
+  "levels": [
+   "finance.compound.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.compound",
+  "requirement": "simple versus compound earnings with matched conditions",
+  "levels": [
+   "finance.compound.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.compound",
+  "requirement": "rounding policy",
+  "levels": [
+   "finance.compound.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.deals",
+  "requirement": "sales",
+  "levels": [
+   "finance.deals.1"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.deals",
+  "requirement": "rebates",
+  "levels": [
+   "finance.deals.2"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.deals",
+  "requirement": "coupons",
+  "levels": [
+   "finance.deals.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.deals",
+  "requirement": "combinations",
+  "levels": [
+   "finance.deals.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.deals",
+  "requirement": "restrictions and order stated",
+  "levels": [
+   "finance.deals.3"
+  ],
+  "status": "mapped"
+ },
+ {
+  "group": "finance.deals",
+  "requirement": "compare final cost and savings",
+  "levels": [
+   "finance.deals.3"
+  ],
+  "status": "mapped"
+ }
+]
