@@ -1,5 +1,5 @@
-// Regenerate the six checked-in MP4s and posters with Node, sharp, and an H.264-enabled ffmpeg.
-// FFMPEG=/path/to/ffmpeg node scripts/mentalist/ink/render.cjs [skill-id]
+// Regenerate the curriculum MP4s and posters with Node, sharp, and an H.264-enabled ffmpeg.
+// FFMPEG=/path/to/ffmpeg node scripts/mentalist/ink/render.cjs [level-or-skill-id]
 const {spawn} = require('node:child_process');
 const {join} = require('node:path');
 const {Readable} = require('node:stream');
@@ -9,14 +9,15 @@ const sharp = require('sharp');
 const clips = require('../../../content/mentalist/previews.json');
 const {board} = require('./boards.cjs');
 const output = join(__dirname,'../../../public/mentalist/previews');
-const fps = 20;
-const seconds = 21;
+const fps = 32;
+const speed = 4; // A 300% increase over the original drawing speed.
+const seconds = 21 / speed;
 async function render(clip) {
-  const base = join(output,clip.skill);
-  await sharp(board(clip,4.9)).webp({quality:88}).toFile(base+'.webp');
+  const base = join(output,clip.model === 'worked' ? clip.level : clip.skill);
+  await sharp(board(clip,clip.model === "worked" ? 5.8 : 4.9)).webp({quality:88}).toFile(base+'.webp');
   async function* frames() {
     for (let frame=0; frame<fps*seconds; frame++)
-      yield await sharp(board(clip,frame/fps)).removeAlpha().raw().toBuffer();
+      yield await sharp(board(clip,frame * speed / fps)).removeAlpha().raw().toBuffer();
   }
   const encoder = spawn(process.env.FFMPEG || 'ffmpeg', ['-hide_banner','-loglevel','error','-y',
     '-f','rawvideo','-pix_fmt','rgb24','-s','432x768','-r',String(fps),'-i','pipe:0',
@@ -27,12 +28,13 @@ async function render(clip) {
     encoder.once('close',code=>code===0?resolve():reject(Error('Encoder exited with '+code)));
   });
   await Promise.all([pipeline(Readable.from(frames()),encoder.stdin),done]);
-  console.log('Rendered',clip.skill);
+  console.log('Rendered',clip.level);
 }
 async function main() {
   await mkdir(output,{recursive:true});
-  const selected = clips.filter(c=>!process.argv[2] || c.skill===process.argv[2]);
+  const selected = clips.filter(c=>!process.argv[2] || (c.skill===process.argv[2] || c.level===process.argv[2]));
   if (!selected.length) throw Error('Unknown skill');
-  for(const clip of selected) await render(clip);
+  // Bound encoder concurrency so a full rebuild also works on a laptop.
+  for (let i=0; i<selected.length; i+=3) await Promise.all(selected.slice(i,i+3).map(render));
 }
 main().catch(e=>{console.error(e);process.exitCode=1});

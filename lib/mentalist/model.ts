@@ -1,4 +1,5 @@
 import skillData from "../../content/mentalist/skills.json";
+import lessonPlan from "../../content/mentalist/lesson-plan.json";
 import trailData from "../../content/mentalist/trail.json";
 import { branchTitles } from "../curriculum/catalog";
 import { equal, formatRational, parseAnswer } from "../curriculum/rational";
@@ -9,7 +10,13 @@ export const worldTitles = branchTitles;
 export const worlds = [...new Set(skills.map((s) => s.world))];
 export const skillById = new Map(skills.map((s) => [s.id, s]));
 export const levelById = new Map(levels.map((l) => [l.id, l]));
-export const mainPathLevels = levels.filter((l) => skillById.get(l.skill)?.world !== "review");
+export const lessonStops = lessonPlan.map((ids) => {
+  const first = skillById.get(ids[0])!;
+  const title = ids.length === 1 ? first.title :
+    first.title.replace(/\d+$/, "") + new Intl.ListFormat("en", { style: "long", type: "conjunction" }).format(ids.map(id => id.split(".").pop()!));
+  return { title, levels: ids.flatMap(id => levels.filter(level => level.skill === id)) };
+});
+export const mainPathLevels = lessonStops.flatMap(stop => stop.levels);
 export const sprites = [
   "raijin",
   "phoenix",
@@ -215,7 +222,8 @@ export function mainPathProgress(access: Access[]): MainPathProgress {
     const state = byId.get(level.id)?.state;
     return state !== undefined && state !== "planned";
   });
-  const target = published.find((level) => byId.get(level.id)?.state !== "cleared");
+  const placed = new Set(access.filter(entry => entry.state === "placed").map(entry => levelById.get(entry.id)!.skill));
+  const target = published.find(level => !placed.has(level.skill) && byId.get(level.id)?.state !== "cleared");
   const firstUnfinished = (skill: string) => {
     const first = skillById.get(skill)!.levels
       .map((_, index) => `${skill}.${index + 1}`)

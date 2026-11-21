@@ -1,23 +1,26 @@
-.mp-feed { flex: 1; min-height: 0; display: flex; flex-direction: column; background: #edf0e9; }
-.mp-bar, .mp-caption, .mp-pager { display: flex; align-items: center; gap: .65rem; }
-.mp-bar { padding: .55rem clamp(.75rem, 3vw, 1.5rem); justify-content: space-between; }
-.mt-shell .mp-bar h1 { font-size: clamp(1.1rem, 3vw, 1.55rem); margin: 0; }
-.mp-filters { display: flex; border-radius: 20px; background: #dde5db; padding: 2px; }
-.mt-shell .mp-filters button { font-size: .79rem; padding: .3rem .7rem; min-height: 32px; background: transparent; border: 0; border-radius: 18px; }
-.mt-shell .mp-filters button[aria-pressed=true] { color: white; background: #245847; }
-.mp-scroll { position: relative; overflow-y: auto; flex: 1; min-height: 0; scroll-snap-type: y mandatory; overscroll-behavior-y: contain; scrollbar-width: none; }
-.mp-scroll::-webkit-scrollbar { display: none; }
-.mp-card { height: 100%; display: flex; flex-direction: column; scroll-snap-align: start; scroll-snap-stop: always; }
-.mp-paper { flex: 1; min-height: 0; display: flex; justify-content: center; background: #e2e6dc; }
-.mp-paper video { display: block; height: 100%; max-width: 100%; aspect-ratio: 9 / 16; object-fit: contain; background: #fbf9f0; }
-.mp-caption { justify-content: center; flex-wrap: wrap; gap: .35rem .55rem; padding: .55rem .75rem .2rem; }
-.mp-caption > div { flex: 1 1 8rem; }
-.mt-shell .mp-caption h2 { margin: 0; font-size: 1rem; }
-.mp-caption small { display: block; line-height: 1.25; color: #486459; }
-.mt-shell .mp-caption button { padding: .35rem .65rem; font-size: .8rem; min-height: 35px; }
-.mt-shell .mp-pin { color: white; background: #245847; }
-.mp-pager { justify-content: center; padding: 4px; font-size: .8rem; }
-.mt-shell .mp-pager button { min-height: 32px; padding: 2px; width: 40px; }
-.mp-empty { padding: 1rem; }
-.mp-feed dialog li { margin: .65rem 0; }
-.mp-feed dialog li strong { display: block; }
+.mt-home.mp-home { max-width: none; width: 100%; border: 0; }
+.mp-home > .mt-nav { flex: none; }
+.mp-feed { position: relative; flex: 1; min-height: 0; isolation: isolate; background: #fbf9f0; }
+.mp-scroll { position: absolute; inset: 0; overflow-y: auto; scroll-snap-type: y mandatory; overscroll-behavior-y: contain; scrollbar-width: none; }
+.mp-scroll::-webkit-scrollbar, .mp-card video::-webkit-media-controls { display: none !important; }
+.mp-card { position: relative; height: 100%; overflow: hidden; scroll-snap-align: start; scroll-snap-stop: always; background: #fbf9f0; }
+.mp-card video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.mt-shell .mp-tap { position: absolute; inset: 0; width: 100%; height: 100%; display: grid; place-items: center; border: 0; border-radius: 0; background: transparent; touch-action: pan-y pinch-zoom; -webkit-tap-highlight-color: transparent; }
+.mt-shell .mp-tap:focus-visible { outline-offset: -4px; }
+.mp-play { display: grid; place-items: center; width: 3rem; height: 3rem; padding-left: .15rem; color: white; background: #173c32d9; border-radius: 50%; }
+.mp-filters { position: absolute; z-index: 2; top: max(.6rem, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); display: flex; gap: .2rem; padding: 3px; border-radius: 3rem; background: #233b32ed; }
+.mt-shell .mp-filters button { min-height: 36px; padding: .35rem .9rem; border: 0; border-radius: 3rem; font-size: .87rem; color: #fff; background: transparent; white-space: nowrap; }
+.mt-shell .mp-filters button[aria-pressed=true] { background: #fffdf3; color: #163d31; }
+.mp-caption { position: absolute; inset: auto 0 0; display: flex; align-items: center; justify-content: space-between; gap: .8rem; color: white; padding: 2.2rem max(1rem, calc((100% - 42rem) / 2)) 1rem; background: linear-gradient(transparent, #142d25dc 52%, #142d25); pointer-events: none; }
+.mt-shell .mp-caption h2 { color: white; font-size: clamp(1.2rem, 3.5vw, 1.7rem); margin: 0; }
+.mt-shell .mp-caption p { margin: .15rem 0 0; font-size: .9rem; color: #f5f6ed; }
+.mt-shell .mp-try { pointer-events: auto; flex: none; min-height: 44px; padding-inline: 1.4rem; color: #163d31; background: #fffdf3; border: 0; border-radius: 2rem; }
+.mp-empty { position: absolute; top: 42%; width: 100%; padding-inline: 1rem; text-align: center; }
+.mp-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+@media (max-height: 520px) {
+  .mp-filters { top: .2rem; }
+  .mp-caption { padding-block: .65rem .35rem; }
+}
+.mp-library-nav > * { flex: 1; padding: .65rem; text-align: center; font-weight: 650; }
+
+.mp-lesson-player { width: min(100%, 19rem); height: auto; aspect-ratio: 9 / 16; margin: .6rem auto; border-radius: 12px; }

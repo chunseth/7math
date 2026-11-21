@@ -116,17 +116,6 @@
   color: #85641d;
   font-weight: 750;
 }
-.mt-map-head {
-  background: #edf2e9;
-  padding: 14px clamp(12px, 4vw, 36px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid var(--border);
-}
-.mt-map-head small,
-.mt-label small,
 .mt-sheet > small,
 .mt-example > small,
 .mt-chests small,
@@ -137,57 +126,19 @@
   text-transform: uppercase;
   color: #526b61;
 }
-.mt-map-head h1 {
-  font-size: clamp(21px, 4vw, 30px);
-  margin: 2px 0;
-}
-.mt-map-head label {
-  display: grid;
-  text-align: right;
-  font-size: 11px;
-  color: var(--muted);
-}
-.mt-map-head select {
-  width: clamp(100px, 28vw, 190px);
-  font-size: 13px;
-}
-.mt-main-card {
+.mt-map-progress {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  padding: 10px clamp(12px, 4vw, 36px);
-  background: #fff;
-  border-bottom: 1px solid var(--border);
-}
-.mt-main-card > div {
-  display: grid;
-  min-width: 0;
-  gap: 2px;
-}
-.mt-main-card small {
-  font-size: 11px;
-  font-weight: 750;
-  color: #526b61;
-}
-.mt-main-card strong {
-  font-size: 14px;
-  line-height: 1.2;
-}
-.mt-main-card span {
-  font-size: 12px;
+  padding: .65rem clamp(16px, 4vw, 32px);
+  font-size: .77rem;
   color: var(--muted);
+  background: #fafbf7;
+  border-bottom: 1px solid #dce4dc;
 }
-.mt-main-card button {
-  flex: none;
-  background: #216c53;
-  border-color: #216c53;
-  color: #fff;
-}
-@media (max-width: 420px) {
-  .mt-main-card { align-items: stretch; flex-direction: column; }
-  .mt-main-card button { align-self: start; }
-}
+.mt-map-progress span:first-child { color: var(--ink); font-weight: 700; }
+.mt-map-status { padding-inline: 1rem; }
 .mt-trail,
 .mt-panel {
   flex: 1 1 0;
@@ -195,121 +146,85 @@
   overflow: auto;
   overscroll-behavior: contain;
 }
-.mt-world {
-  --path: #a7cbb9;
-  --wash: #f6faf4;
-  background: var(--wash);
-  padding: 16px 0 34px;
-}
-.mt-world.tone-1 {
-  --path: #a8cbd3;
-  --wash: #f2f8fa;
-}
-.mt-world.tone-2 {
-  --path: #d2b98c;
-  --wash: #fbf8ef;
-}
-.mt-world.tone-3 {
-  --path: #c7bed9;
-  --wash: #f8f5fc;
-}
-.mt-world h2 {
-  font-size: 18px;
-  margin: 0 auto 42px;
-  text-align: center;
-}
-.mt-world h2 small {
-  font-size: 12px;
-  margin-left: 8px;
-}
-.mt-stop {
-  height: 112px;
+.mt-route {
+  --route-width: 610px;
   position: relative;
-  max-width: 610px;
-  margin: auto;
+  isolation: isolate;
 }
-.mt-stop > svg {
+.mt-route ol { list-style: none; padding: 0; margin: 0; }
+.mt-route li { background: hsl(var(--hue) 38% 94%); }
+.mt-route-line {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  z-index: 1;
   inset: 0;
+  margin-inline: auto;
+  width: min(100%, var(--route-width));
+  height: 100%;
   pointer-events: none;
-  overflow: visible;
 }
-.mt-stop path {
+.mt-route-line path {
   fill: none;
-  stroke: var(--path);
-  stroke-width: 6;
-  vector-effect: non-scaling-stroke;
+  stroke: #a9bdb0;
+  stroke-width: 5px;
   stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
 }
-.mt-shell .mt-node {
+.mt-route-row {
+  position: relative;
+  max-width: var(--route-width);
+  height: 112px;
+  margin-inline: auto;
+}
+.mt-shell .mt-route-entry {
+  --radius: 24px;
   position: absolute;
-  left: var(--spot);
-  top: 0;
-  transform: translate(-50%, -50%);
+  z-index: 2;
+  inset-inline: calc(var(--spot) - var(--radius)) 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  width: fit-content;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius) 8px 8px var(--radius);
+  color: #465b4e;
+  background: transparent;
+  text-align: left;
+}
+.mt-route-number {
   display: grid;
-  align-content: center;
-  justify-items: center;
-  width: 52px;
-  height: 52px;
-  line-height: 1.1;
-  border: 2px solid #387c66;
-  color: #155b44;
+  place-items: center;
+  flex: none;
+  width: calc(2 * var(--radius));
+  height: calc(2 * var(--radius));
+  border: 1.5px solid #a6b8ac;
   border-radius: 50%;
-  background: #d9eee0;
-  box-shadow: 0 4px 0 #96b5a6;
+  background: hsl(var(--hue) 27% 93%);
+  color: #53685d;
+  font-size: 1rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
-.mt-node strong {
-  font-size: 20px;
-}
-.mt-node span {
-  font-size: 9px;
-}
-.mt-shell .mt-node.state-locked,
-.mt-shell .mt-node.state-planned {
-  background: #f0f2ee;
-  color: #66726c;
-  border-color: #bdc9c1;
-  box-shadow: 0 3px 0 #c6cec6;
-}
-.mt-shell .mt-node.state-cleared {
-  background: #246f58;
+.mt-route-entry.is-current .mt-route-number {
+  background: #24634d;
   color: white;
+  border-color: #24634d;
+  outline: 2px solid #7ea590;
+  outline-offset: 4px;
 }
-.mt-node.recommended {
-  outline: 2px solid #ad8228;
-  outline-offset: 5px;
+.mt-route-entry.is-complete .mt-route-number {
+  background: #cce2d4;
+  color: #275740;
+  border-color: #77a28a;
 }
-.mt-label {
-  position: absolute;
-  left: calc(var(--spot) + 35px);
-  right: 5px;
-  top: -24px;
-  display: grid;
-  align-content: start;
-  gap: 1px;
-  pointer-events: none;
-}
-.mt-label small {
-  font-size: 9px;
-  letter-spacing: 0.045em;
-}
-.mt-label b {
-  font-size: 14px;
-  line-height: 1.18;
-}
-.mt-label em {
-  font-style: normal;
-  font-size: 11px;
-  color: #49645a;
-}
-.mt-label button {
-  pointer-events: auto;
-  font-size: 11px;
-  min-height: 28px;
-  justify-self: start;
-}
+.mt-route-label { display: grid; gap: 2px; line-height: 1.25; }
+.mt-route-label small, .mt-route-label > span { font-size: .74rem; font-weight: 500; }
+.mt-route-label strong { font-size: .93rem; font-weight: 620; }
+.mt-route-entry.is-current .mt-route-label { color: #194a36; }
+.mt-route-entry.is-current .mt-route-label > span { font-weight: 700; }
+.mt-route-entry.is-upcoming .mt-route-label { color: #657469; }
 .mt-nav {
   display: flex;
   background: white;
@@ -319,6 +234,9 @@
 }
 .mt-nav button {
   flex: 1;
+  min-width: 0;
+  padding-inline: .2rem;
+  white-space: nowrap;
   display: grid;
   justify-items: center;
   gap: 0;
@@ -722,18 +640,8 @@
     border-radius: 20px 20px 0 0;
     padding-bottom: max(22px, env(safe-area-inset-bottom));
   }
-  .mt-label b {
-    font-size: 13px;
-  }
-  .mt-label {
-    right: 4px;
-  }
-  .mt-world h2 {
-    font-size: 16px;
-  }
-  .mt-stop {
-    height: 108px;
-  }
+  .mt-route-row { height: 102px; }
+  .mt-shell .mt-route-entry { --radius: 21px; gap: 10px; }
   .mt-top {
     gap: 7px;
   }

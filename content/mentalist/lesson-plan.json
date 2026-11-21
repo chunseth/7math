@@ -1,0 +1,23 @@
+[
+  ["review.add"], ["review.subtract"], ["review.multiply.0","review.multiply.1"],
+  ["review.multiply.2","review.multiply.3","review.multiply.4"], ["review.multiply.5","review.multiply.10"],
+  ["review.multiply.6"], ["review.multiply.7"], ["review.multiply.8"], ["review.multiply.9"],
+  ["review.multiply.11"], ["review.multiply.12"], ["review.divide.1","review.divide.2"],
+  ["review.divide.3","review.divide.4"], ["review.divide.5","review.divide.10"], ["review.divide.6"],
+  ["review.divide.7"], ["review.divide.8"], ["review.divide.9"], ["review.divide.11"], ["review.divide.12"],
+  ["review.factors"], ["review.fractions"], ["ratio.equivalent"], ["ratio.unit"], ["review.numberline"],
+  ["number.sets"], ["review.coordinate"], ["ratio.constant"], ["ratio.represent"], ["signed.add"],
+  ["signed.subtract"], ["review.whole"], ["review.conversions"], ["signed.multiply"], ["signed.divide"],
+  ["percent.parts"], ["finance.tax"], ["finance.budget"], ["percent.change"], ["percent.multistep"],
+  ["finance.simple"], ["finance.household"], ["review.expressions"], ["review.onestep"], ["linear.read"],
+  ["linear.represent"], ["chance.space"], ["chance.theoretical"], ["chance.complement"],
+  ["chance.experimental"], ["chance.simulate"], ["chance.compare"], ["decimal.add"], ["decimal.subtract"],
+  ["decimal.multiply"], ["decimal.divide"], ["ratio.travel"], ["finance.compound"], ["review.data"],
+  ["stats.graphs"], ["stats.groups"], ["stats.sample"], ["stats.populations"], ["fraction.add"],
+  ["fraction.subtract"], ["fraction.multiply"], ["fraction.divide"], ["ratio.units"], ["review.area"],
+  ["review.angles"], ["circle.pi"], ["circle.measure"], ["area.composite"], ["similar.attributes"],
+  ["number.mixed"], ["number.context"], ["ratio.solve"], ["similar.lengths"], ["similar.drawings"],
+  ["algebra.check"], ["algebra.equation"], ["algebra.inequality"], ["algebra.write"], ["algebra.story"],
+  ["algebra.graph"], ["geometry.angles"], ["solid.prism"], ["solid.models"], ["solid.pyramid"],
+  ["solid.nets"], ["solid.surface"], ["finance.networth"], ["finance.deals"]
+]

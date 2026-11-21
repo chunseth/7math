@@ -19,12 +19,10 @@ if (!base || !url || ![base, url].every((u) => ["127.0.0.1", "localhost"].includ
     try {
       const page = await guest.newPage();
       await page.goto(base + "/mentalist", { waitUntil: "domcontentloaded" });
-      const published = (
-        await db.query("select count(*)::int as count from mentalist.published_levels where version=1")
-      ).rows[0].count;
-      const stops = page.locator(".mt-node");
-      assert.equal((await stops.count()) - (await page.locator(".mt-node.state-planned").count()), published);
-      assert.ok((await page.locator(".mt-node.state-ready").count()) > 0);
+      const map = page.getByRole("region", { name: "Curriculum map" });
+      assert.equal(await map.locator("li").count(), 250);
+      assert.equal(await map.getByRole("button").count(), 1);
+      assert.equal(await map.locator('[aria-current="step"]').count(), 1);
     } finally {
       await guest.close();
     }
@@ -34,7 +32,7 @@ if (!base || !url || ![base, url].every((u) => ["127.0.0.1", "localhost"].includ
     const errors = [];
     p.on("pageerror", (e) => errors.push(e.message));
     await p.goto(base + "/mentalist", { waitUntil: "domcontentloaded" });
-    const node = p.getByRole("button", { name: "Addition, Facts/make ten, Ready to play", exact: true });
+    const node = p.getByRole("button", { name: "Addition, Facts/make ten, Current level", exact: true });
     await node.click();
     await p.getByRole("button", { name: "Play", exact: true }).click();
     await p.getByRole("button", { name: "Create a player", exact: true }).click();
@@ -58,7 +56,7 @@ if (!base || !url || ![base, url].every((u) => ["127.0.0.1", "localhost"].includ
     await p.getByText("2 / 12", { exact: true }).waitFor();
     await p.getByRole("button", { name: "Leave battle", exact: true }).click();
     await p.locator("[role=dialog]").getByRole("button", { name: "Leave battle", exact: true }).click();
-    await p.getByLabel("Jump to world").selectOption("review");
+    assert.equal(await p.getByLabel("Jump to lesson").count(), 0);
     await p.getByRole("button", { name: "Rewards", exact: true }).click();
     await p.getByText("Chest slots", { exact: true }).waitFor();
     await p.getByRole("button", { name: "Collection", exact: true }).click();
@@ -84,9 +82,10 @@ if (!base || !url || ![base, url].every((u) => ["127.0.0.1", "localhost"].includ
       [c, profile, ["review.fractions", "signed.add", "signed.subtract", "signed.multiply", "signed.divide"], t],
     );
     await p.reload({ waitUntil: "domcontentloaded" });
-    await p
-      .getByRole("button", { name: "Fraction addition, Like denominators, Teacher assignment", exact: true })
-      .click();
+    await p.getByRole("button", { name: "More Topics", exact: true }).click();
+    await p.locator('.mp-card[aria-label="Fraction addition"]').first().scrollIntoViewIfNeeded();
+    await p.getByRole("article", { name: "Fraction addition", exact: true })
+      .getByRole("button", { name: "Try it" }).click();
     await p.getByRole("button", { name: "Play", exact: true }).click();
     await p.locator(".mt-keypad").waitFor();
     const expected = await key(),

@@ -1,13 +1,7 @@
-import Link from "next/link";
-import { PreviewFeed } from "../components/PreviewFeed";
-import "../trail.css";
+import MentalistScreen from "../MentalistScreen";
+
+export const dynamic = "force-dynamic";
 
 export default function PreviewsPage() {
-  return <main className="mt-shell mt-home">
-    <header className="mt-top">
-      <Link href="/mentalist" aria-label="Back to Mentalist">‹</Link>
-      <strong>Mentalist</strong>
-    </header>
-    <PreviewFeed />
-  </main>;
+  return <MentalistScreen initialTab="More Topics" />;
 }

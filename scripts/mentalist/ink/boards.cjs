@@ -2,8 +2,9 @@ const {ink, lettering} = require('./pen.cjs');
 const navy = '#183831';
 const faint = '#779289';
 const clamp = n => Math.max(0, Math.min(1,n));
+const escape = value => String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
 const text = (x,y,s,size,color=navy,bold=500) =>
-  `<text x="${x}" y="${y}" font-family="Helvetica,Arial,sans-serif" font-size="${size}" font-weight="${bold}" fill="${color}">${s}</text>`;
+  `<text x="${x}" y="${y}" font-family="Helvetica,Arial,sans-serif" font-size="${size}" font-weight="${bold}" fill="${color}">${escape(s)}</text>`;
 const rect = (x,y,w,h,r,fill) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${fill}"/>`;
 const circle = (x,y,r,color) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${color}"/>`;
 const box = (x,y,w,h) => [[x,y],[x+w,y+1],[x+w-1,y+h],[x,y+h-1],[x,y]];
@@ -66,27 +67,54 @@ function diagram(model,t,color) {
     default: throw Error('Unknown diagram ' + model);
   }
 }
+// Wrap by a conservative Helvetica width estimate. The longest prompts keep their own space above the pen work.
+function wrapped(value, x, y, size, color, weight, maxWidth = 365) {
+  const lines = [''];
+  const measure = word => [...word].reduce((n,c) => n + (/[il.,:;'! ]/.test(c) ? .29 : /[MW@%]/.test(c) ? .92 : /[A-Z]/.test(c) ? .72 : .58) * size, 0);
+  for (const word of value.split(' ')) {
+    const i = lines.length - 1, next = lines[i] ? lines[i] + ' ' + word : word;
+    if (lines[i] && measure(next) > maxWidth) lines.push(word);
+    else lines[i] = next;
+  }
+  return lines.map((line, i) => text(x, y + i * size * 1.2, line, size, color, weight)).join('');
+}
+function worked(clip,t) {
+  const color = clip.color;
+  const promptSize = clip.prompt.length > 95 ? 22 : 26;
+  const rows = clip.steps.map((step,i) => {
+    const start = .5 + i * 6.1, y = 265 + 123*i;
+    const alpha = clamp((t-start)/.6);
+    return `<g opacity="${alpha}">${wrapped(step.label,31,y,18,navy,550)}
+      ${ink(lettering(step.math,32,y+39,1.47,364),clamp((t-start-.6)/4.5),color,3.2)}</g>`;
+  });
+  return Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="432" height="768">
+    ${rect(0,0,432,768,0,'#fbf9f0')}${rect(31,86,30,4,2,color)}
+    ${wrapped(clip.prompt,30,130,promptSize,navy,700)}
+    ${rows.join('')}
+    <g opacity="${clamp((t-13)/.6)}">${rect(20,511,392,110,12,'#e8eee2')}${text(40,540,'Answer',17,color,650)}</g>
+    ${ink(lettering(clip.result,40,556,1.61,349),clamp((t-13.7)/3.7),color,3.6)}</svg>`);
+}
 function board(clip,t) {
+  if (clip.model === "worked") return worked(clip,t);
   const color=clip.color;
   const opacity = (at) => clamp((t-at)/.4);
   const group = (alpha,body) => alpha ? `<g opacity="${alpha}">${body}</g>` : '';
   const pad=31;
   const math=(value,x,y,size,start,duration,max) => ink(lettering(value,x,y,size,max),clamp((t-start)/duration),color,3.8);
   const rows = clip.steps.map((step,i)=>{
-    const y=370+i*111, start=5+i*5;
+    const y=335+i*89, start=5+i*5;
     return group(opacity(start),text(pad,y,step.label,18,navy,500)) +
       math(step.math,pad+3,y+16,1.61,start+.45,3.1,365);
   });
   return Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="432" height="768">
     <defs><pattern id="grid" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.85" fill="#cbd5ca"/></pattern></defs>
-    ${rect(0,0,432,768,0,'#fbf9f0')}${rect(0,149,432,191,0,'url(#grid)')}
-    ${rect(31,35,30,4,2,color)}${text(31,68,clip.topic,17,color,650)}
+    ${rect(0,0,432,768,0,'#fbf9f0')}${rect(0,145,432,165,0,'url(#grid)')}
     ${text(29,112,clip.prompt,clip.prompt.length>23?27:32,navy,700)}
     ${clip.subprompt?text(31,140,clip.subprompt,19):''}
-    ${diagram(clip.model,t,color)}${rows.join('')}
-    ${group(opacity(15),rect(22,604,388,120,13,'#e8eee2')+text(42,639,'Answer',17,color,650))}
-    ${math(clip.result,43,657,1.72,15.4,2.6,342)}
-    ${clip.unit?group(opacity(17),text(121,697,clip.unit,23,navy)):''}
+    <g transform="translate(0,-24)">${diagram(clip.model,t,color)}</g>${rows.join('')}
+    ${group(opacity(15),rect(22,500,388,110,13,'#e8eee2')+text(42,532,'Answer',17,color,650))}
+    ${math(clip.result,43,546,1.72,15.4,2.6,342)}
+    ${clip.unit?group(opacity(17),text(121,591,clip.unit,23,navy)):''}
     </svg>`);
 }
 module.exports = {board};

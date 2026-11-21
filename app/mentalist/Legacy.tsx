@@ -539,7 +539,7 @@ function HomeContent() {
             <button disabled={loading || !isSupabaseConfigured} onClick={signInWithUsername}>
               {loading ? "LOADING" : "ENTER"}
             </button>
-            <Link href="/mentalist/previews">Watch skill previews</Link>
+            <Link href="/mentalist/previews">More Topics</Link>
             <p>{message || "New usernames start with 10,000 coins, 0 XP, and empty chest slots."}</p>
           </div>
         </div>
@@ -747,7 +747,7 @@ function HomeContent() {
               <span>Recommended Battle</span>
               <small>{recommendedArena.title}</small>
             </Link>
-            <Link href="/mentalist/previews">Skill previews</Link>
+            <Link href="/mentalist/previews">More Topics</Link>
           </div>
 
           <div className="chest-section">
