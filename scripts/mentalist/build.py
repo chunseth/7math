@@ -1,9 +1,9 @@
 """Compile fixed sets offline. Rebuild with python3 -B scripts/mentalist/build.py."""
 
-import gzip, hashlib, json, sys
+import gzip, hashlib, json, random, sys
 from fractions import Fraction
 from pathlib import Path
-from arithmetic import arithmetic, review
+from arithmetic import arithmetic, fact, review
 from topics import topic
 from formats import verify_expression
 from coverage import matrix
@@ -78,8 +78,6 @@ def variants(s, l):
             "negative-negative",
             "zero",
         ]
-    if s.startswith(("review.multiply.", "review.divide.")):
-        return ["zero", "identity", "small-facts", "larger-facts"]
     return ["form-a", "form-b", "form-c"]
 
 
@@ -92,27 +90,25 @@ for skill in skills:
         for bank in range(5):
             positions = []
             used = set()
+            tables = skill.get("tables", [])
+            # Reproducible, balanced samples for publication. Play order is shuffled per run.
+            samples = []
+            rng = random.Random(f"{lid}.set{bank+1}")
+            for table in tables:
+                operands = range(2, 13) if table == 0 and skill["group"] == "review.divide" else range(13)
+                samples.extend((table, n) for n in rng.sample(operands, 12 // len(tables)))
             for slot in range(12):
                 tags = variants(s, l)
+                n = slot + bank * 7 + 1
                 v = slot % len(tags)
-                n = (
-                    (slot + bank * 3) % 13
-                    if s.startswith(("review.multiply.", "review.divide."))
-                    else slot + bank * 7 + 1
-                )
-                if s.startswith(("review.multiply.", "review.divide.")):
-                    # One zero, one identity, five small and five larger facts.
-                    fixed = (
-                        [0, 1]
-                        + [2 + (i + bank) % 5 for i in range(5)]
-                        + [7 + (i + bank) % 6 for i in range(5)]
-                    )
-                    n = fixed[slot]
-                    v = 0 if n == 0 else 1 if n == 1 else 2 if n <= 6 else 3
+                if tables:
+                    v, n = samples[slot]
                 for attempt in range(256):
                     extra = extension(s, l, n, v)
-                    if extra:
-                        tag, row = extra
+                    if tables:
+                        row = fact(skill["group"], v, n)
+                    elif extra:
+                        _, row = extra
                     elif s.startswith(("signed.", "fraction.", "decimal.")):
                         row = arithmetic(s, l, n, v)
                     elif s.startswith("review."):
@@ -144,7 +140,7 @@ for skill in skills:
                 if ident in questions:
                     assert questions[ident] == row, (lid, ident)
                 questions[ident] = row
-                tag = extra[0] if extra else tags[v]
+                tag = f"table-{v}" if tables else extra[0] if extra else tags[v]
                 variant = f"{lid}.{tag}"
                 templates[variant] = dict(
                     id=variant,
@@ -204,11 +200,11 @@ assert (
     len(levels),
     len(sets),
     sum(len(s["positions"]) for s in sets),
-) == (100, 250, 1250, 15000)
+) == (87, 237, 1185, 14220)
 coverage = matrix(catalog["nodes"], levels, skills)
 bank = dict(
     coverage=coverage,
-    version=1,
+    version=2,
     templates=list(templates.values()),
     skills=skills,
     levels=levels,
@@ -229,7 +225,7 @@ files = {
     / "coverage.json": (
         json.dumps(coverage, ensure_ascii=False, indent=1) + "\n"
     ).encode(),
-    OUT / "bank-v1.json.gz": gzip.compress(data, mtime=0),
+    OUT / "bank-v2.json.gz": gzip.compress(data, mtime=0),
     OUT
     / "trail.json": (json.dumps(preview, ensure_ascii=False, indent=1) + "\n").encode(),
 }
@@ -244,5 +240,5 @@ for p, data in files.items():
     else:
         p.write_bytes(data)
 print(
-    f"Validated {len(skills)} skills, {len(levels)} levels, {len(sets)} sets, 15,000 positions, {len(questions)} distinct questions."
+    f"Validated {len(skills)} skills, {len(levels)} levels, {len(sets)} sets, {12 * len(sets):,} positions, {len(questions)} distinct questions."
 )

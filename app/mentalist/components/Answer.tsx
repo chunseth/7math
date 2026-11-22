@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { complete, type Control } from "../../../lib/mentalist/model";
 export default function Answer({
   control: c,
@@ -32,19 +32,21 @@ export default function Answer({
     : fraction
       ? value + "/" + den
       : value;
+  const ready = visible && !disabled && complete(c, raw);
+  const check = useCallback(() => {
+    if (!ready || sent.current === revision) return;
+    sent.current = revision;
+    send.current(raw);
+  }, [ready, raw, revision]);
   useEffect(() => {
-    if (!visible || disabled || sent.current === revision || !complete(c, raw)) return;
-    const check = () => {
-      sent.current = revision;
-      send.current(raw);
-    };
+    if (!ready || sent.current === revision) return;
     if (!fraction) {
       check();
       return;
     }
     const timer = setTimeout(check, 800);
     return () => clearTimeout(timer);
-  }, [c, raw, revision, disabled, fraction, visible]);
+  }, [check, ready, revision, fraction]);
   function edit(key: string) {
     if (disabled) return;
     if (key === "/" && fraction) {
@@ -87,6 +89,12 @@ export default function Answer({
     const press = (e: KeyboardEvent) => {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
       let key = e.key;
+      if (key === "Enter" && fraction && ready && !e.repeat &&
+          (e.target === document.body || (e.target instanceof Element && e.target.closest(".mt-entry")))) {
+        e.preventDefault();
+        check();
+        return;
+      }
       if (key === "-") {
         if (!c.signed) return;
         key = "Sign";
@@ -98,7 +106,7 @@ export default function Answer({
     };
     window.addEventListener("keydown", press);
     return () => window.removeEventListener("keydown", press);
-  }, [numeric, c.signed]);
+  }, [numeric, c.signed, fraction, ready, check]);
   if (c.options)
     return (
       <div className="mt-options">
@@ -254,6 +262,7 @@ export default function Answer({
             {field === 0 ? "Denominator" : "Numerator"}
           </button>
         )}
+        {fraction && <button disabled={!ready || sent.current === revision} onClick={check}>Check answer</button>}
       </div>
     </div>
   );

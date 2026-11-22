@@ -328,6 +328,18 @@ button {
   box-shadow: 0 8px 0 #172b1e, 0 16px 28px #24412f33;
 }
 
+.mode-select-survivor {
+  background: linear-gradient(135deg, #1b3029 0 46%, #3f7559 46% 100%);
+  box-shadow: 0 8px 0 #142620, 0 16px 28px #24463b33;
+}
+
+@media (min-width: 900px) {
+  .mode-select-grid:has(.mode-select-survivor) {
+    width: min(1060px, 100%);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 .mode-card strong {
   font: 900 clamp(36px, 9vw, 72px) "Barlow Condensed", sans-serif;
   letter-spacing: 0;
@@ -3720,196 +3732,6 @@ button.student-row > strong {
 
   .game-summary-row > span {
     display: none;
-  }
-}
-
-.crafters-shell {
-  background: linear-gradient(145deg, #edf4ed, #d9e6df);
-}
-
-.mode-back-link,
-.mode-back-link:visited {
-  border-radius: 7px;
-  padding: 8px 10px;
-  background: #fff;
-  color: #17404e;
-  box-shadow: 0 2px 4px #b4c9c633;
-  font: 900 12px "Barlow Condensed", sans-serif;
-  letter-spacing: 1.2px;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
-.crafters-content {
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow: hidden;
-  padding: 0 14px 14px;
-}
-
-.crafter-map-window {
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  border: 5px solid #fff;
-  border-radius: 8px;
-  background: #8abf95;
-  box-shadow: 0 4px 10px #789a9880;
-}
-
-.crafter-map-world {
-  position: relative;
-  width: 1600px;
-  height: 980px;
-  min-width: 100%;
-  min-height: 100%;
-  background:
-    radial-gradient(ellipse at 18% 18%, #b9d7a4 0 8%, transparent 8.5%),
-    radial-gradient(ellipse at 73% 28%, #d4c684 0 9%, transparent 9.5%),
-    radial-gradient(ellipse at 40% 76%, #8bc2b1 0 11%, transparent 11.5%),
-    linear-gradient(130deg, transparent 0 42%, #b49b65 42% 47%, transparent 47% 100%),
-    linear-gradient(160deg, #97cf9d, #6aad86 56%, #5a9b79);
-}
-
-.crafter-map-world::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 10% 60%, #ffffff66 0 2%, transparent 2.4%),
-    radial-gradient(circle at 64% 18%, #ffffff55 0 1.5%, transparent 1.9%),
-    radial-gradient(circle at 86% 74%, #ffffff4d 0 2.6%, transparent 3%);
-  pointer-events: none;
-}
-
-.crafter-map-label {
-  position: absolute;
-  left: 34px;
-  top: 28px;
-  z-index: 1;
-  border: 3px solid #fff;
-  border-radius: 8px;
-  padding: 10px 14px;
-  background: #173f4d;
-  color: #fff;
-  box-shadow: 0 5px 0 #0f2d38;
-  font: 900 22px "Barlow Condensed", sans-serif;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.resource-node {
-  position: absolute;
-  z-index: 2;
-  width: 138px;
-  min-height: 74px;
-  border: 4px solid #fff;
-  border-radius: 8px;
-  padding: 8px;
-  display: grid;
-  align-content: center;
-  gap: 2px;
-  background: #f5efe0;
-  color: #253c44;
-  box-shadow: 0 7px 0 #8b7d62, 0 12px 20px #153b4530;
-  text-align: center;
-  transform: translate(-50%, -50%);
-}
-
-.resource-node span {
-  font: 900 16px/1 "Barlow Condensed", sans-serif;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.resource-node small {
-  color: #6c5a38;
-  font-size: 11px;
-  font-weight: 900;
-}
-
-.resource-node:hover,
-.resource-node:focus-visible {
-  background: #fff8df;
-  outline: 4px solid #168e9e;
-  outline-offset: 3px;
-}
-
-.crafter-inventory {
-  height: 100%;
-  overflow: auto;
-  border: 5px solid #fff;
-  border-radius: 8px;
-  padding: 16px;
-  background: #edf8f0;
-  box-shadow: 0 4px 10px #789a9880;
-}
-
-.ore-list {
-  display: grid;
-  gap: 10px;
-}
-
-.ore-row {
-  min-height: 58px;
-  border: 1px solid #c9d9cf;
-  border-radius: 8px;
-  padding: 12px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #fff;
-  box-shadow: 0 3px 6px #b6cac733;
-}
-
-.ore-row span {
-  color: #253c44;
-  font-weight: 900;
-}
-
-.ore-row strong {
-  min-width: 38px;
-  border-radius: 999px;
-  padding: 5px 9px;
-  background: #e2f0e5;
-  color: #2f784a;
-  text-align: center;
-}
-
-.empty-inventory {
-  min-height: 180px;
-  display: grid;
-  place-items: center;
-  border: 2px dashed #a9c1b1;
-  border-radius: 8px;
-  color: #5d7881;
-  font-weight: 900;
-  text-align: center;
-}
-
-.mine-modal .secondary-button {
-  background: #dbe9ee;
-  color: #355965;
-  box-shadow: inset 0 -3px #b9cdd4;
-}
-
-@media (max-width: 700px) {
-  .crafter-map-world {
-    width: 1180px;
-    height: 820px;
-  }
-
-  .resource-node {
-    width: 118px;
-    min-height: 66px;
-  }
-
-  .resource-node span {
-    font-size: 14px;
-  }
-
-  .crafters-tabs {
-    gap: 48px;
   }
 }
 

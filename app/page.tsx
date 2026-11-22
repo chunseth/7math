@@ -14,17 +14,23 @@ const gameModes = [
     title: "Mentalist",
   },
   {
-    description: "Explore resource sites, spend stamina to mine, and build an ore inventory.",
+    description: "Spend energy to mine ore, then craft pickaxes and swords for your player.",
     href: "/crafters",
     kicker: "New Mode",
     title: "Crafters",
+  },
+  {
+    description: "Dodge enemy fire, solve math from your Mentalist clears, and face the boss at three minutes.",
+    href: "/survivor",
+    kicker: "Arena Survival",
+    title: "Survivor",
   },
 ];
 
 export const dynamic="force-dynamic";
 export default function Home() {
   const curriculum=process.env.MENTALIST_CURRICULUM==="1";
-  const modes=curriculum?gameModes.filter(m=>m.href!=="/skills").map(m=>m.href==="/mentalist"?{...m,description:"Follow the Grade 7 trail, practice a concept, and collect skill cards."}:m):gameModes;
+  const modes=curriculum?gameModes.filter(m=>m.href!=="/skills").map(m=>m.href==="/mentalist"?{...m,description:"Follow the Grade 7 trail, practice a concept, and collect topic cards."}:m):gameModes.filter(m=>m.href!=="/survivor");
   return (
     <main className="shell mode-select-shell">
       <section className="mode-menu mode-select-menu">
@@ -34,7 +40,7 @@ export default function Home() {
 
         <div className="mode-select-grid">
           {modes.map((mode) => (
-            <article className="mode-card mode-select-card" key={mode.title}>
+            <article className={`mode-card mode-select-card${mode.href === "/survivor" ? " mode-select-survivor" : ""}`} key={mode.title}>
               <span className="mode-badge">{mode.kicker}</span>
               <strong>{mode.title}</strong>
               <small>{mode.description}</small>

@@ -7,6 +7,7 @@ import {
   skills,
   levels,
   levelById,
+  currentSkill,
   skillById,
   type Visual as VisualData,
   type Result,
@@ -256,7 +257,7 @@ export default function School() {
                             {s.username}
                           </button>
                         </td>
-                        <td>{skillById.get(s.skill ?? "")?.title ?? "—"}</td>
+                        <td>{skillById.get(currentSkill(s.skill ?? ""))?.title ?? "—"}</td>
                         <td>{s.cleared}</td>
                         <td>{s.accuracy === null ? "—" : s.accuracy + "%"}</td>
                         <td>{s.completed}</td>
@@ -336,7 +337,7 @@ export default function School() {
               </div>
               {detail.decisions.map((d) => (
                 <p key={d.id}>
-                  {skillById.get(d.skill)?.title} · {d.kind} {d.due && " · " + d.due}{" "}
+                  {skillById.get(currentSkill(d.skill))?.title} · {d.kind} {d.due && " · " + d.due}{" "}
                   <button onClick={() => update("remove", { decision: d.id })}>Remove</button>
                 </p>
               ))}

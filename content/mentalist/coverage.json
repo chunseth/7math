@@ -89,40 +89,27 @@
  },
  {
   "group": "review.multiply",
-  "requirement": "families 0 through 12, independently assignable",
+  "requirement": "sampled multiplication facts across six mixed-table groups",
   "levels": [
-   "review.multiply.0.1",
-   "review.multiply.1.1",
-   "review.multiply.2.1",
-   "review.multiply.3.1",
-   "review.multiply.4.1",
-   "review.multiply.5.1",
-   "review.multiply.6.1",
-   "review.multiply.7.1",
-   "review.multiply.8.1",
-   "review.multiply.9.1",
-   "review.multiply.10.1",
-   "review.multiply.11.1",
-   "review.multiply.12.1"
+   "review.multiply.0-1.1",
+   "review.multiply.2-3-4.1",
+   "review.multiply.5-10.1",
+   "review.multiply.6-7.1",
+   "review.multiply.8-9.1",
+   "review.multiply.11-12.1"
   ],
   "status": "mapped"
  },
  {
   "group": "review.divide",
-  "requirement": "families 1 through 12, independently assignable",
+  "requirement": "sampled division facts across six mixed-table groups",
   "levels": [
-   "review.divide.1.1",
-   "review.divide.2.1",
-   "review.divide.3.1",
-   "review.divide.4.1",
-   "review.divide.5.1",
-   "review.divide.6.1",
-   "review.divide.7.1",
-   "review.divide.8.1",
-   "review.divide.9.1",
-   "review.divide.10.1",
-   "review.divide.11.1",
-   "review.divide.12.1"
+   "review.divide.0-1.1",
+   "review.divide.2-3-4.1",
+   "review.divide.5-10.1",
+   "review.divide.6-7.1",
+   "review.divide.8-9.1",
+   "review.divide.11-12.1"
   ],
   "status": "mapped"
  },
@@ -130,18 +117,7 @@
   "group": "review.divide",
   "requirement": "zero dividend",
   "levels": [
-   "review.divide.1.1",
-   "review.divide.2.1",
-   "review.divide.3.1",
-   "review.divide.4.1",
-   "review.divide.5.1",
-   "review.divide.6.1",
-   "review.divide.7.1",
-   "review.divide.8.1",
-   "review.divide.9.1",
-   "review.divide.10.1",
-   "review.divide.11.1",
-   "review.divide.12.1"
+   "review.divide.0-1.1"
   ],
   "status": "mapped"
  },
@@ -149,18 +125,12 @@
   "group": "review.divide",
   "requirement": "never zero divisor",
   "levels": [
-   "review.divide.1.1",
-   "review.divide.2.1",
-   "review.divide.3.1",
-   "review.divide.4.1",
-   "review.divide.5.1",
-   "review.divide.6.1",
-   "review.divide.7.1",
-   "review.divide.8.1",
-   "review.divide.9.1",
-   "review.divide.10.1",
-   "review.divide.11.1",
-   "review.divide.12.1"
+   "review.divide.0-1.1",
+   "review.divide.2-3-4.1",
+   "review.divide.5-10.1",
+   "review.divide.6-7.1",
+   "review.divide.8-9.1",
+   "review.divide.11-12.1"
   ],
   "status": "mapped"
  },

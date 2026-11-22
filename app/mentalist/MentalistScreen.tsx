@@ -17,7 +17,7 @@ function PreviewLibrary() {
   </main>;
 }
 
-export default async function MentalistScreen({initialTab}: {initialTab: "Map" | "More Topics"}) {
+export default async function MentalistScreen({initialTab}: {initialTab: "Map" | "More Topics" | "Collection"}) {
   if (!enabled()) return initialTab === "More Topics" ? <PreviewLibrary /> : <Legacy />;
   const token = (await cookies()).get(studentCookie)?.value;
   try {
@@ -39,7 +39,12 @@ export default async function MentalistScreen({initialTab}: {initialTab: "Map" |
     });
     return <Trail {...initial} initialTab={initialTab} />;
   } catch (error) {
-    console.error("Could not load Mentalist trail", (error as { code?: string })?.code);
+    const code = (error as { code?: string } | null)?.code;
+    if (code === "42P01" && error instanceof Error) {
+      console.error("Could not load Mentalist trail", code, error.message);
+    } else {
+      console.error("Could not load Mentalist trail", code);
+    }
     if (initialTab === "More Topics") return <PreviewLibrary />;
     return (
       <main className="mt-shell mt-panel">

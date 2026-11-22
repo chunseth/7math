@@ -11,6 +11,7 @@ export class GameError extends Error {
   }
 }
 export const studentCookie = "mentalist_session";
+export const studentSessionMaxAge = 30 * 24 * 60 * 60;
 export const enabled = () => process.env.MENTALIST_CURRICULUM === "1";
 let pool: Pool | undefined;
 export async function transaction<T>(fn: (db: PoolClient) => Promise<T>): Promise<T> {
@@ -115,9 +116,10 @@ export async function login(db: PoolClient, username: string, pin: string, sprit
   );
   const token = randomBytes(32).toString("hex");
   await db.query("delete from login_limits where name=$1", [name]);
-  await db.query("insert into sessions(token,profile,expires) values($1,$2,now()+interval '12 hours')", [
+  await db.query("insert into sessions(token,profile,expires) values($1,$2,now()+$3 * interval '1 second')", [
     hash(token),
     profile.id,
+    studentSessionMaxAge,
   ]);
   return { token, id: profile.id };
 }

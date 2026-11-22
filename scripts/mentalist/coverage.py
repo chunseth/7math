@@ -7,7 +7,7 @@ EVIDENCE = {
     "review.add": "1 1 2 3 3 -",
     "review.subtract": "1 2 3 3 -",
     "review.multiply": "*",
-    "review.divide": "* * *",
+    "review.divide": "* review.divide.0-1.1 *",
     "review.whole": "1 2 3 4 -",
     "review.factors": "1 2 1 2",
     "review.fractions": "1 2 3 4",

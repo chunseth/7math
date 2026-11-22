@@ -26,6 +26,7 @@ import {
   type OperationArena,
 } from "../../lib/gameplay";
 import { isSupabaseConfigured, supabase } from "../../lib/supabase";
+import { clearActiveProfileId, getActiveProfileId, setActiveProfileId } from "../../lib/legacy-profile";
 import type { ChestReward, ChestSlot, Profile, SkillCard, StudentProgress } from "../../lib/database.types";
 
 const allNumbers = Array.from({ length: 12 }, (_, number) => number + 1);
@@ -94,7 +95,7 @@ function HomeContent() {
 
   useEffect(() => {
     async function restorePlayer() {
-      const activeProfileId = sessionStorage.getItem("activeProfileId");
+      const activeProfileId = getActiveProfileId();
       if (!supabase || !activeProfileId) {
         setShowSignin(true);
         setHasCheckedSession(true);
@@ -111,7 +112,7 @@ function HomeContent() {
 
         if (error) throw error;
         if (!profile) {
-          sessionStorage.removeItem("activeProfileId");
+          clearActiveProfileId();
           setShowSignin(true);
           setHasCheckedSession(true);
           return;
@@ -196,7 +197,7 @@ function HomeContent() {
       const nextPlayer = await loadPlayerState(profile);
 
       setPlayer(nextPlayer);
-      sessionStorage.setItem("activeProfileId", profile.id);
+      setActiveProfileId(profile.id);
       setSelectedNumber(nextPlayer.progress.selected_number ?? STARTING_UNLOCKED_NUMBERS[0]);
       setShowSignin(false);
       setShowUserMenu(false);
@@ -215,7 +216,7 @@ function HomeContent() {
       const profile = await createNewProfile(username.trim().toLowerCase(), pinCode, selectedSprite);
       const nextPlayer = await loadPlayerState(profile);
       setPlayer(nextPlayer);
-      sessionStorage.setItem("activeProfileId", profile.id);
+      setActiveProfileId(profile.id);
       setSelectedNumber(nextPlayer.progress.selected_number ?? STARTING_UNLOCKED_NUMBERS[0]);
       setShowCharacterSelect(false);
       setShowSignin(false);
@@ -227,7 +228,7 @@ function HomeContent() {
   }
 
   function changeUser() {
-    sessionStorage.removeItem("activeProfileId");
+    clearActiveProfileId();
     setPlayer(null);
     setUsername("");
     setPinCode("");
@@ -741,7 +742,7 @@ function HomeContent() {
                   setMessage("Choose a username before playing.");
                   return;
                 }
-                sessionStorage.setItem("activeProfileId", player.profile.id);
+                setActiveProfileId(player.profile.id);
               }}
             >
               <span>Recommended Battle</span>
@@ -779,7 +780,7 @@ function HomeContent() {
                     setMessage("Choose a username before playing.");
                     return;
                   }
-                  sessionStorage.setItem("activeProfileId", player.profile.id);
+                  setActiveProfileId(player.profile.id);
                 }}
               >
                 <span>Recommended</span>
@@ -955,7 +956,7 @@ function ArenaNode({
       className={`arena-node arena-${arena.id} ${current ? "recommended" : ""} ${completed ? "completed" : ""}`}
       href={`/play?arena=${arena.id}`}
       onClick={() => {
-        if (playerId) sessionStorage.setItem("activeProfileId", playerId);
+        if (playerId) setActiveProfileId(playerId);
       }}
     >
       {content}

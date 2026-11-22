@@ -10,8 +10,8 @@ Numeric answers alone cannot complete this catalog. See the implementation contr
 |---|---|---|---|---|
 | review.add | Addition | Entry | Review | facts; make ten; within 100; larger whole numbers; missing addends; mental strategies |
 | review.subtract | Subtraction | Entry | Review | facts; within 100; larger whole numbers; missing differences; mental strategies |
-| review.multiply | Multiplication facts | Entry | Review | families 0 through 12, independently assignable |
-| review.divide | Division facts | Entry | Review | families 1 through 12, independently assignable; zero dividend; never zero divisor |
+| review.multiply | Multiplication facts | Entry | Review | sampled multiplication facts across six mixed-table groups |
+| review.divide | Division facts | Entry | Review | sampled division facts across six mixed-table groups; zero dividend; never zero divisor |
 | review.whole | Whole-number operations | review.add, review.subtract, review.multiply, review.divide | Review | missing factors and dividends; multiples of ten; multi-digit multiplication; whole-number division; related equations |
 | review.factors | Factors and multiples | review.multiply | Review | factors; multiples; common factors; common multiples |
 | review.fractions | Fraction representations | review.factors | Review | equivalence; simplify; compare and order; mixed and improper forms |

@@ -1,370 +1,221 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
-import { isSupabaseConfigured, supabase } from "../../lib/supabase";
-import type { CraftersInventory, CraftersProgress } from "../../lib/database.types";
+import { useEffect, useRef, useState } from "react";
+import { post, RequestError } from "../../lib/mentalist/client";
+import {
+  ENERGY_REFILL_MS, MAX_ENERGY, MINE_DURATION_MS, energyAt, miningCost, pickaxes, resources, swords,
+  type CraftState,
+} from "../../lib/mentalist/resources";
+import type { View } from "./Screen";
 
-import {resources,MAX_STAMINA,MINE_DURATION_MS,STAMINA_REFILL_MS,type ResourceNode,type MiningJob} from "../../lib/mentalist/resources";
-import {post} from "../../lib/mentalist/client";
+type Action = "mine" | "collect" | "craftTool" | "equipPickaxe" | "craftState";
+type Command = { action: Action; node?: string; tool?: string; id?: string };
 
-export default function CraftersPage({secure=false}:{secure?:boolean}) {
-  const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"map" | "inventory">("map");
-  const [selectedResource, setSelectedResource] = useState<ResourceNode | null>(null);
-  const [profileId, setProfileId] = useState<string | null>(null);
-  const [progress, setProgress] = useState<CraftersProgress | null>(null);
-  const [inventory, setInventory] = useState<CraftersInventory[]>([]);
-  const [now, setNow] = useState(() => Date.now());
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState("Choose a resource site to mine.");
-
-  useEffect(() => {
-    if (secure) { setProfileId("session"); return; }
-    const activeProfileId = sessionStorage.getItem("activeProfileId");
-    if (!activeProfileId) {
-      setLoading(false);
-      setMessage("Choose a Mentalist player before crafting.");
-      return;
-    }
-    setProfileId(activeProfileId);
-  }, []);
+export default function Game({ view, initial }: { view: View; initial: CraftState }) {
+  const [state, setState] = useState(initial);
+  const [now, setNow] = useState(initial.serverNow);
+  const [status, setStatus] = useState(initial.collectedOre ? `Mined 1 ${initial.collectedOre}.` : "");
+  const [error, setError] = useState<{ message: string; retry: Command } | null>(null);
+  const [busy, setBusy] = useState(false);
+  const pending = useRef(false);
+  const autoCollected = useRef<number | null>(null);
+  const { inventory, equipment, job, serverNow } = state;
+  const pickaxe = pickaxes.find((item) => item.id === equipment.equippedPickaxe);
+  const energy = energyAt(state.energy, state.refilledAt, now);
+  const refillSeconds = Math.max(0, Math.ceil((energy.refilledAt + ENERGY_REFILL_MS - now) / 1000));
+  const left = job ? Math.max(0, job.completeAt - now) : 0;
 
   useEffect(() => {
-    const timer = window.setInterval(() => setNow(Date.now()), 250);
+    const started = performance.now();
+    setNow(serverNow);
+    const timer = window.setInterval(() => setNow(serverNow + performance.now() - started), job ? 125 : 1000);
     return () => window.clearInterval(timer);
-  }, []);
+  }, [serverNow, job]);
 
   useEffect(() => {
-    if (!profileId) return;
-    loadCraftersState(profileId);
-  }, [profileId]);
+    if (!job || left > 0 || busy || autoCollected.current === job.completeAt) return;
+    autoCollected.current = job.completeAt;
+    void send({ action: "collect" });
+  }, [job, left, busy]);
 
-  useEffect(() => {
-    if (!profileId || !progress?.mining_complete_at || saving) return;
-    if (now < new Date(progress.mining_complete_at).getTime()) return;
-
-    claimFinishedMining(profileId, progress);
-  }, [profileId, progress, now, saving]);
-
-  const staminaState = useMemo(() => {
-    if (!progress) return { stamina: MAX_STAMINA, refillAt: null as number | null };
-    return calculateStamina(progress, now);
-  }, [progress, now]);
-
-  const miningJob = useMemo<MiningJob | null>(() => {
-    if (!progress?.mining_complete_at || !progress.active_mining_resource_name || !progress.active_mining_ore_id || !progress.active_mining_ore_name) {
-      return null;
-    }
-
-    return {
-      resourceName: progress.active_mining_resource_name,
-      oreId: progress.active_mining_ore_id,
-      oreName: progress.active_mining_ore_name,
-      completeAt: new Date(progress.mining_complete_at).getTime(),
-    };
-  }, [progress]);
-
-  const miningSecondsLeft = useMemo(() => {
-    if (!miningJob) return 0;
-    return Math.max(0, Math.ceil((miningJob.completeAt - now) / 1000));
-  }, [miningJob, now]);
-
-  const refillMinutesLeft = staminaState.refillAt
-    ? Math.max(1, Math.ceil((staminaState.refillAt - now) / 60000))
-    : null;
-
-  async function savedCraft(action:string,node?:string) {
-    setSaving(true);
+  async function send(command: Command) {
+    if (pending.current) return;
+    pending.current = true;
+    setError(null);
+    setStatus("");
+    setBusy(true);
     try {
-      const result=await post<{progress:CraftersProgress;inventory:CraftersInventory[]}>({scope:"craft",action,node});
-      setProgress(result.progress); setInventory(result.inventory);
-      setMessage(result.progress.mining_complete_at?"Mining is underway.":"Choose a resource site to mine.");
-      if(action==="mine")setSelectedResource(null);
-      if(action==="collect")setActiveTab("inventory");
-    } catch(error) {setMessage(error instanceof Error?error.message:"Could not save crafting.");}
-    finally {setSaving(false);setLoading(false);}
-  }
-  async function loadCraftersState(activeProfileId: string) {
-    if(secure)return savedCraft("craftState");
-    if (!supabase) {
-      setLoading(false);
-      setMessage("Add Supabase env values before crafting.");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const nextProgress = await loadOrCreateCraftersProgress(activeProfileId);
-      const normalizedProgress = await persistCalculatedStamina(nextProgress, Date.now());
-      const nextInventory = await loadCraftersInventory(activeProfileId);
-      setProgress(normalizedProgress);
-      setInventory(nextInventory);
-      setMessage(normalizedProgress.mining_complete_at ? "Mining is underway." : "Choose a resource site to mine.");
+      const next = await post<CraftState>({ scope: "craft", ...command });
+      setState(next);
+      const tool = [...pickaxes, ...swords].find((item) => item.id === command.tool);
+      if (next.collectedOre) setStatus(`Mined 1 ${next.collectedOre}.`);
+      else if (command.action === "craftTool" && tool) setStatus(`Crafted ${tool.name}.`);
+      else if (command.action === "equipPickaxe") setStatus(tool ? `Equipped ${tool.name}.` : "Pickaxe unequipped.");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Could not load Crafters.");
+      if (error instanceof RequestError && error.status === 401) {
+        window.location.replace(view === "crafting" ? "/crafters/sign-in?next=crafting" : "/crafters/sign-in");
+        return;
+      }
+      setError({
+        message: error instanceof Error ? error.message : "Could not save your progress.",
+        retry: error instanceof RequestError && error.status < 500 ? { action: "craftState" } : command,
+      });
     } finally {
-      setLoading(false);
+      pending.current = false;
+      setBusy(false);
     }
   }
 
-  async function startMining() {
-    if(secure){if(selectedResource && !saving)await savedCraft("mine",selectedResource.id);return;}
-    if (!supabase || !profileId || !progress || !selectedResource || miningJob || saving) return;
-
-    const currentStamina = calculateStamina(progress, Date.now());
-    if (currentStamina.stamina < selectedResource.cost) return;
-
-    setSaving(true);
-    try {
-      const nextStamina = currentStamina.stamina - selectedResource.cost;
-      const nextRefilledAt = nextStamina >= MAX_STAMINA ? new Date().toISOString() : new Date(Date.now()).toISOString();
-      const nextProgress = {
-        ...progress,
-        stamina: nextStamina,
-        stamina_refilled_at: nextRefilledAt,
-        active_mining_resource_id: selectedResource.id,
-        active_mining_resource_name: selectedResource.name,
-        active_mining_ore_id: selectedResource.oreId,
-        active_mining_ore_name: selectedResource.oreName,
-        mining_complete_at: new Date(Date.now() + MINE_DURATION_MS).toISOString(),
-      };
-
-      const { data, error } = await supabase
-        .from("crafters_progress")
-        .update({
-          stamina: nextProgress.stamina,
-          stamina_refilled_at: nextProgress.stamina_refilled_at,
-          active_mining_resource_id: nextProgress.active_mining_resource_id,
-          active_mining_resource_name: nextProgress.active_mining_resource_name,
-          active_mining_ore_id: nextProgress.active_mining_ore_id,
-          active_mining_ore_name: nextProgress.active_mining_ore_name,
-          mining_complete_at: nextProgress.mining_complete_at,
-        })
-        .eq("profile_id", profileId)
-        .select()
-        .single();
-
-      if (error) throw error;
-      setProgress(data);
-      setMessage(`Mining ${selectedResource.name}. Check back in 10s.`);
-      setSelectedResource(null);
-    } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Could not start mining.");
-    } finally {
-      setSaving(false);
-    }
+  function mine(node: string) {
+    void send({ action: "mine", node, id: crypto.randomUUID() });
   }
 
-  async function claimFinishedMining(activeProfileId: string, currentProgress: CraftersProgress) {
-    if (!supabase || !currentProgress.active_mining_ore_id || !currentProgress.active_mining_ore_name) return;
-
-    setSaving(true);
-    try {
-      await grantOre(activeProfileId, currentProgress.active_mining_ore_id, currentProgress.active_mining_ore_name, 1);
-      const { data, error } = await supabase
-        .from("crafters_progress")
-        .update({
-          active_mining_resource_id: null,
-          active_mining_resource_name: null,
-          active_mining_ore_id: null,
-          active_mining_ore_name: null,
-          mining_complete_at: null,
-        })
-        .eq("profile_id", activeProfileId)
-        .select()
-        .single();
-
-      if (error) throw error;
-      setProgress(await persistCalculatedStamina(data, Date.now()));
-      setInventory(await loadCraftersInventory(activeProfileId));
-      setMessage(`${currentProgress.active_mining_resource_name} produced 1 ${currentProgress.active_mining_ore_name}.`);
-      setActiveTab("inventory");
-    } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Could not claim mined ore.");
-    } finally {
-      setSaving(false);
-    }
+  function useTool(action: "craftTool" | "equipPickaxe", tool: string) {
+    void send({ action, tool, id: crypto.randomUUID() });
   }
-
-  const inventoryRows = [...inventory].sort((oreA, oreB) => oreA.ore_name.localeCompare(oreB.ore_name));
-  const stamina = staminaState.stamina;
 
   return (
-    <main className="shell crafters-shell">
-      <header className="topbar">
-        <div className="player-header">
-          <Link className="mode-back-link" href="/">Modes</Link>
-          <strong>Crafters</strong>
-          <div className="resource inline-coins">Stamina <span>{stamina} / {MAX_STAMINA}</span></div>
+    <main className="cf-shell">
+      <header className="cf-header">
+        <div>
+          <Link href="/">Game modes</Link>
+          <h1>Crafters</h1>
+        </div>
+        <div className="cf-energy">
+          <div><strong>Energy</strong><span>{energy.energy} / {MAX_ENERGY}</span></div>
+          <progress aria-label="Energy" value={energy.energy} max={MAX_ENERGY} />
+          <small>{energy.energy === MAX_ENERGY
+            ? "Energy full"
+            : `+1 in ${Math.floor(refillSeconds / 60)}:${String(refillSeconds % 60).padStart(2, "0")}`}</small>
         </div>
       </header>
 
-      <div className="status-line">
-        {miningJob
-          ? `Mining: ${miningJob.resourceName} (${miningSecondsLeft}s)`
-          : stamina < MAX_STAMINA && refillMinutesLeft
-            ? `${message} +1 stamina in ${refillMinutesLeft}m.`
-            : message}
-      </div>
-
-      <section className="crafters-content">
-        {activeTab === "map" ? (
-          <div className="crafter-map-window" aria-label="Crafters resource map">
-            <div className="crafter-map-world">
-              <div className="crafter-map-label">Northern Quarry</div>
-              {resources.map((resource) => (
-                <button
-                  className="resource-node"
-                  key={resource.id}
-                  onClick={() => setSelectedResource(resource)}
-                  style={{ left: `${resource.x}%`, top: `${resource.y}%` }}
-                  type="button"
-                  disabled={loading || (!secure && !isSupabaseConfigured) || !profileId}
-                >
-                  <span>{resource.name}</span>
-                  <small>{resource.oreName}</small>
-                </button>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="crafter-inventory">
-            <div className="section-heading">
-              <h2>Inventory <span>ORES</span></h2>
-            </div>
-            {inventoryRows.length > 0 ? (
-              <div className="ore-list">
-                {inventoryRows.map((ore) => (
-                  <div className="ore-row" key={ore.ore_id}>
-                    <span>{ore.ore_name}</span>
-                    <strong>{ore.quantity}</strong>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="empty-inventory">Mine a resource to find your first ore.</div>
-            )}
-          </div>
-        )}
-      </section>
-
-      <nav className="tabs crafters-tabs" aria-label="Crafters sections">
-        <button className={activeTab === "map" ? "active" : ""} onClick={() => setActiveTab("map")} type="button">
-          Map
-        </button>
-        <button className={activeTab === "inventory" ? "active" : ""} onClick={() => setActiveTab("inventory")} type="button">
-          Inventory
-        </button>
+      <nav className="cf-nav" aria-label="Crafters sections">
+        <Link href="/crafters" prefetch={false} aria-current={view === "mining" ? "page" : undefined}>Mining</Link>
+        <Link href="/crafters/crafting" prefetch={false} aria-current={view === "crafting" ? "page" : undefined}>Crafting</Link>
       </nav>
 
-      {selectedResource && (
-        <div className="signin-overlay" role="dialog" aria-modal="true" aria-labelledby="mine-title">
-          <div className="signin-card mine-modal">
-            <h1 id="mine-title">{selectedResource.name}</h1>
-            <p>Mine this site for {selectedResource.oreName}. Costs {selectedResource.cost} stamina and takes 10s.</p>
-            <button disabled={saving || Boolean(miningJob) || stamina < selectedResource.cost} onClick={startMining} type="button">
-              {saving ? "SAVING" : miningJob ? "MINING" : stamina < selectedResource.cost ? "LOW STAMINA" : "MINE"}
-            </button>
-            <button className="secondary-button" onClick={() => setSelectedResource(null)} type="button">CLOSE</button>
+      <div className="cf-notice">
+        <p role="status">{status || (job ? `Mining ${job.oreName}…` : "")}</p>
+        {error && <div role="alert">{error.message} <button disabled={busy} onClick={() => void send(error.retry)}>
+          {error.retry.action === "craftState" ? "Refresh" : "Retry"}
+        </button></div>}
+      </div>
+
+      {view === "mining" ? (
+        <section aria-labelledby="mine-title" className="cf-card">
+          <div className="cf-section-heading">
+            <div>
+              <h2 id="mine-title">Mine ore</h2>
+              <p>{pickaxe ? `${pickaxe.name} equipped` : "Basic mining"}</p>
+            </div>
+            <span>1 ore per 10s</span>
           </div>
-        </div>
+          <ul className="cf-list">
+            {resources.map((node) => {
+              const active = node.id === job?.node;
+              const finished = active && left === 0;
+              const required = pickaxes.find((item) => item.tier === node.tier);
+              const locked = node.tier > (pickaxe?.tier ?? 0);
+              const cost = miningCost(node, pickaxe);
+              return (
+                <li key={node.id} className={active ? "cf-active" : undefined}>
+                  <img className="cf-sprite" src={`/crafters/${node.oreId}.png`} alt="" width={48} height={48} />
+                  <div className="cf-item">
+                    <h3>{node.oreName}</h3>
+                    <progress
+                      aria-label={`${node.oreName} mining progress`}
+                      value={active ? MINE_DURATION_MS - Math.min(left, MINE_DURATION_MS) : 0}
+                      max={MINE_DURATION_MS}
+                    />
+                    <small>
+                      {inventory[node.oreId] ?? 0} owned · {locked ? `Requires ${required?.name}` : `${cost} energy`}
+                    </small>
+                  </div>
+                  {active ? (
+                    finished ? <button disabled={busy} onClick={() => void send({ action: "collect" })}>Collect</button>
+                      : <span className="cf-countdown">{Math.ceil(left / 1000)}s</span>
+                  ) : (
+                    <button type="button" disabled={busy || !!job || locked || energy.energy < cost}
+                      aria-label={`Mine ${node.oreName}`} onClick={() => mine(node.id)}>
+                      {locked ? "Locked" : "Mine"}
+                    </button>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ) : (
+        <>
+          <section className="cf-card" aria-labelledby="materials-title">
+            <div className="cf-section-heading"><h2 id="materials-title">Materials</h2></div>
+            <ul className="cf-materials">
+              {resources.map((node) => (
+                <li key={node.oreId}>
+                  <img className="cf-sprite" src={`/crafters/${node.oreId}.png`} alt="" width={28} height={28} />
+                  {node.oreName} <strong>{inventory[node.oreId] ?? 0}</strong>
+                </li>
+              ))}
+            </ul>
+          </section>
+          <div className="cf-recipes">
+            {[
+              { heading: "Pickaxes", slot: "pickaxe", recipes: pickaxes },
+              { heading: "Swords", slot: "sword", recipes: swords },
+            ].map(({ heading, slot, recipes }) => (
+              <section className="cf-card" key={slot} aria-labelledby={`recipes-${slot}`}>
+                <div className="cf-section-heading">
+                  <div>
+                    <h2 id={`recipes-${slot}`}>{heading}</h2>
+                    {slot === "sword" && <Link href="/mentalist?tab=inventory" prefetch={false}>Equip in Mentalist inventory</Link>}
+                  </div>
+                </div>
+                <ul className="cf-list cf-tool-list">
+                  {recipes.map((tool) => {
+                    const owned = equipment.ownedTools.includes(tool.id);
+                    const equipped = tool.id === (tool.slot === "pickaxe" ? equipment.equippedPickaxe : equipment.equippedSword);
+                    const ingredients = Object.entries(tool.ingredients);
+                    const canCraft = ingredients.every(([ore, count]) => (inventory[ore] ?? 0) >= count);
+                    const unlocked = tool.slot === "pickaxe"
+                      ? resources.filter((node) => node.tier === tool.tier).map((node) => node.oreName)
+                      : [];
+                    return (
+                      <li key={tool.id}>
+                        <img className="cf-sprite" src={`/crafters/${tool.slot}.png`} alt="" width={40} height={40} />
+                        <div className="cf-item">
+                          <h3>{tool.name}</h3>
+                          <small>{tool.slot === "pickaxe"
+                            ? `Energy cost −${tool.discount} (minimum 1)`
+                            : `+${tool.damage} damage per correct answer`}</small>
+                          {unlocked.length > 0 && <small>Unlocks {unlocked.join(", ")}</small>}
+                          {!owned && <small className="cf-ingredients">
+                            {ingredients.map(([ore, count]) => (
+                              <span key={ore}>{inventory[ore] ?? 0}/{count} {resources.find((node) => node.oreId === ore)?.oreName}</span>
+                            ))}
+                          </small>}
+                        </div>
+                        {owned ? (
+                          tool.slot === "pickaxe" ? (
+                            <button disabled={busy} aria-label={`${equipped ? "Unequip" : "Equip"} ${tool.name}`}
+                              onClick={() => useTool("equipPickaxe", equipped ? "" : tool.id)}>
+                              {equipped ? "Unequip" : "Equip"}
+                            </button>
+                          ) : <span className="cf-owned">{equipped ? "Equipped" : "Crafted"}</span>
+                        ) : (
+                          <button disabled={busy || !canCraft} aria-label={`Craft ${tool.name}`}
+                            onClick={() => useTool("craftTool", tool.id)}>Craft</button>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            ))}
+          </div>
+        </>
       )}
     </main>
   );
-}
-
-function calculateStamina(progress: CraftersProgress, timestamp: number) {
-  if (progress.stamina >= MAX_STAMINA) {
-    return { stamina: MAX_STAMINA, refillAt: null as number | null, refilledAt: new Date(timestamp).toISOString() };
-  }
-
-  const anchor = new Date(progress.stamina_refilled_at).getTime();
-  const gained = Math.max(0, Math.floor((timestamp - anchor) / STAMINA_REFILL_MS));
-  const stamina = Math.min(MAX_STAMINA, progress.stamina + gained);
-  if (stamina >= MAX_STAMINA) {
-    return { stamina, refillAt: null as number | null, refilledAt: new Date(timestamp).toISOString() };
-  }
-
-  const refilledAt = new Date(anchor + gained * STAMINA_REFILL_MS).toISOString();
-  return { stamina, refillAt: new Date(refilledAt).getTime() + STAMINA_REFILL_MS, refilledAt };
-}
-
-async function loadOrCreateCraftersProgress(profileId: string) {
-  if (!supabase) throw new Error("Supabase is not configured.");
-
-  const { data: existing, error: lookupError } = await supabase
-    .from("crafters_progress")
-    .select()
-    .eq("profile_id", profileId)
-    .maybeSingle();
-
-  if (lookupError) throw lookupError;
-  if (existing) return existing;
-
-  const { data, error } = await supabase
-    .from("crafters_progress")
-    .insert({ profile_id: profileId })
-    .select()
-    .single();
-
-  if (error) throw error;
-  return data;
-}
-
-async function persistCalculatedStamina(progress: CraftersProgress, timestamp: number) {
-  if (!supabase) throw new Error("Supabase is not configured.");
-
-  const next = calculateStamina(progress, timestamp);
-  if (next.stamina === progress.stamina && next.refilledAt === progress.stamina_refilled_at) return progress;
-
-  const { data, error } = await supabase
-    .from("crafters_progress")
-    .update({ stamina: next.stamina, stamina_refilled_at: next.refilledAt })
-    .eq("profile_id", progress.profile_id)
-    .select()
-    .single();
-
-  if (error) throw error;
-  return data;
-}
-
-async function loadCraftersInventory(profileId: string) {
-  if (!supabase) throw new Error("Supabase is not configured.");
-
-  const { data, error } = await supabase
-    .from("crafters_inventory")
-    .select()
-    .eq("profile_id", profileId)
-    .order("ore_name");
-
-  if (error) throw error;
-  return data ?? [];
-}
-
-async function grantOre(profileId: string, oreId: string, oreName: string, amount: number) {
-  if (!supabase) throw new Error("Supabase is not configured.");
-
-  const { data: existing, error: lookupError } = await supabase
-    .from("crafters_inventory")
-    .select("quantity")
-    .eq("profile_id", profileId)
-    .eq("ore_id", oreId)
-    .maybeSingle();
-
-  if (lookupError) throw lookupError;
-
-  const { error } = await supabase.from("crafters_inventory").upsert(
-    {
-      profile_id: profileId,
-      ore_id: oreId,
-      ore_name: oreName,
-      quantity: (existing?.quantity ?? 0) + amount,
-    },
-    { onConflict: "profile_id,ore_id" },
-  );
-
-  if (error) throw error;
 }

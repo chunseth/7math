@@ -13,7 +13,7 @@ const fps = 32;
 const speed = 4; // A 300% increase over the original drawing speed.
 const seconds = 21 / speed;
 async function render(clip) {
-  const base = join(output,clip.model === 'worked' ? clip.level : clip.skill);
+  const base = join(output,clip.media ?? (clip.model === 'worked' ? clip.level : clip.skill));
   await sharp(board(clip,clip.model === "worked" ? 5.8 : 4.9)).webp({quality:88}).toFile(base+'.webp');
   async function* frames() {
     for (let frame=0; frame<fps*seconds; frame++)

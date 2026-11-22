@@ -4,15 +4,15 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import {
   accessMap,
   checkpoint,
+  currentSkill,
   levelById,
   mainPathProgress,
   playable,
   skillById,
-  sprites,
-  type RunView,
   type StudentState,
 } from "../../lib/mentalist/model";
-import { post, RequestError } from "../../lib/mentalist/client";
+import type { LevelPack, RoundDraft, StartedRound } from "../../lib/mentalist/round";
+import { post, RequestError, restoreRound, storeRound } from "../../lib/mentalist/client";
 import { LessonVideo, PreviewFeed } from "./components/PreviewFeed";
 import { previewGoal } from "../../lib/mentalist/preview-goals";
 import previews from "../../content/mentalist/previews.json";
@@ -21,6 +21,7 @@ import { Leaderboard } from "./components/Leaderboard";
 import { Sheet } from "./components/Sheet";
 import { Battle } from "./components/Battle";
 import { Inventory, Rewards } from "./components/Inventory";
+import { emptyCredentials, PlayerFields } from "./components/PlayerFields";
 import { Visual } from "./components/Visual";
 import "./trail.css";
 
@@ -31,18 +32,16 @@ export default function Trail({
 }: {
   initialStudent: StudentState | null;
   published: string[];
-  initialTab?: "Map" | "More Topics";
+  initialTab?: "Map" | "More Topics" | "Collection";
 }) {
   const [state, setState] = useState<StudentState | null>(initialStudent),
-    [run, setRun] = useState<RunView | null>(null),
+    [run, setRun] = useState<RoundDraft | null>(null),
     [tab, setTab] = useState<string>(initialTab),
     [selected, select] = useState<string | null>(null);
   const [boardLevel, setBoardLevel] = useState<string | null>(null);
   const [auth, setAuth] = useState(false),
     [create, setCreate] = useState(false),
-    [name, setName] = useState(""),
-    [pin, setPin] = useState(""),
-    [sprite, setSprite] = useState(sprites[0]),
+    [credentials, setCredentials] = useState(emptyCredentials),
     [account, setAccount] = useState(false);
   const [busy, setBusy] = useState(false),
     [message, setMessage] = useState(""),
@@ -64,9 +63,37 @@ export default function Trail({
     if (!pinKey) return;
     try {
       const stored = localStorage.getItem(pinKey);
-      setSavedPin(stored && previews.some(clip => clip.skill === stored) ? {key: pinKey, skill: stored} : null);
+      setSavedPin(stored && previews.some(clip => clip.skill === currentSkill(stored)) ? {key: pinKey, skill: currentSkill(stored)} : null);
     } catch { /* The current visit can use the in-memory pin. */ }
   }, [pinKey]);
+  const packs = useRef(new Map<string, Promise<LevelPack>>());
+  function prepare(profile: string, level: string) {
+    const key = profile + "/" + level;
+    let pack = packs.current.get(key);
+    if (!pack) {
+      pack = post<LevelPack>({ action: "prepareLevel", level }).catch(error => {
+        packs.current.delete(key);
+        throw error;
+      });
+      packs.current.set(key, pack);
+    }
+    return pack;
+  }
+  useEffect(() => {
+    if (state && main.next && !run && tab === "Map")
+      void prepare(state.profile.id, main.next).catch(() => {});
+  }, [state?.profile.id, main.next, run, tab]);
+  const playerId = state?.profile.id;
+  const allowRestore = initialTab !== "Collection" || tab === "Map";
+  const restoredPlayer = useRef<string | null>(null);
+  useEffect(() => {
+    if (!playerId) restoredPlayer.current = null;
+    else if (allowRestore && restoredPlayer.current !== playerId) {
+      restoredPlayer.current = playerId;
+      const saved = restoreRound(playerId, state?.activeRun ?? null);
+      if (saved) setRun(saved);
+    }
+  }, [playerId, allowRestore, state?.activeRun]);
   function saveGoal(key: string, skill: string | null) {
     setSavedPin(skill ? { key, skill } : null);
     try {
@@ -81,6 +108,7 @@ export default function Trail({
       return;
     }
     saveGoal("mentalist:preview-goal:" + student.profile.id, skill);
+    void prepare(student.profile.id, target.next).catch(() => {});
     select(target.next);
   }
   function tryPreview(skill: string) {
@@ -124,10 +152,22 @@ export default function Trail({
       setAuth(true);
       return;
     }
-    const body = { action: "start", id: crypto.randomUUID(), level: id, previous };
+    const player = state.profile.id;
+    let pack: LevelPack | undefined;
+    const requestId = crypto.randomUUID();
     void request(async () => {
-      const r = await post<RunView>(body);
-      setRun(r);
+      pack ??= await prepare(player, id);
+      const body = { action: "start", id: requestId, level: id, previous, prepared: pack.set };
+      let started: StartedRound;
+      try { started = await post<StartedRound>(body); }
+      catch (error) {
+        if (error instanceof RequestError && error.status === 409) packs.current.delete(player + "/" + id);
+        throw error;
+      }
+      packs.current.delete(player + "/" + id);
+      const draft: RoundDraft = { run: started, pack, attempts: [], started: Date.now(), activeMs: 0, save: null };
+      storeRound(player, draft);
+      setRun(draft);
       select(null);
     });
   }
@@ -152,9 +192,8 @@ export default function Trail({
   async function sign(e: FormEvent) {
     e.preventDefault();
     await request(async () => {
-      const p = await post<{ id: string }>({ action: "login", username: name, pin, sprite, create });
-      sessionStorage.setItem("activeProfileId", p.id);
-      setPin("");
+      await post({ action: "login", ...credentials, create });
+      setCredentials({ ...credentials, pin: "" });
       const s = await post<StudentState>({ action: "state" });
       setState(s);
       setAuth(false);
@@ -167,8 +206,9 @@ export default function Trail({
     return (
       <>
         <Battle
-          key={run.id}
+          key={run.run.id}
           initial={run}
+          profile={state!.profile.id}
           sprite={state!.profile.sprite_name}
           username={state!.profile.username}
           onReturn={back}
@@ -226,7 +266,7 @@ export default function Trail({
       {tab !== "Map" && tab !== "More Topics" &&
         (state ? (
           tab === "Collection" ? (
-            <Inventory state={state} act={act} busy={busy} />
+            <Inventory state={state} act={act} busy={busy} initialSection={initialTab === "Collection" ? "Equipment" : undefined} />
           ) : (
             <Rewards state={state} act={act} busy={busy} />
           )
@@ -273,7 +313,7 @@ export default function Trail({
             </p>
           )}
           {state?.offer && level.id === checkpoint.level && byId.get(checkpoint.review)?.state === "cleared" && (
-            <button onClick={() => select(checkpoint.review)}>Visit 9× bonus</button>
+            <button onClick={() => select(checkpoint.review)}>Visit 8 and 9 multiplication bonus</button>
           )}
           {notice}
           {playable(entry) ? (
@@ -300,39 +340,7 @@ export default function Trail({
         >
           <h2>{create ? "Create a player" : "Player sign-in"}</h2>
           <form onSubmit={sign}>
-            <label>
-              Username
-              <input
-                autoComplete="username"
-                required
-                pattern="[a-zA-Z0-9_]{3,16}"
-                maxLength={16}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </label>
-            <label>
-              Two-digit PIN
-              <input
-                type="password"
-                inputMode="numeric"
-                required
-                pattern="[0-9]{2}"
-                maxLength={2}
-                value={pin}
-                onChange={(e) => setPin(e.target.value)}
-              />
-            </label>
-            {create && (
-              <label>
-                Character
-                <select value={sprite} onChange={(e) => setSprite(e.target.value)}>
-                  {sprites.map((s) => (
-                    <option key={s}>{s}</option>
-                  ))}
-                </select>
-              </label>
-            )}
+            <PlayerFields value={credentials} onChange={setCredentials} create={create} />
             {notice}
             <button className="mt-primary" disabled={busy}>
               {create ? "Create player" : "Sign in"}
@@ -375,7 +383,6 @@ export default function Trail({
             onClick={() =>
               request(async () => {
                 await post({ action: "logout" });
-                sessionStorage.removeItem("activeProfileId");
                 setAccount(false);
                 setPublicAccess(
                   accessMap(

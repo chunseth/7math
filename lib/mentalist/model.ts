@@ -3,19 +3,44 @@ import lessonPlan from "../../content/mentalist/lesson-plan.json";
 import trailData from "../../content/mentalist/trail.json";
 import { branchTitles } from "../curriculum/catalog";
 import { equal, formatRational, parseAnswer } from "../curriculum/rational";
+import type { Equipment } from "./resources";
 
-export const skills = skillData;
-export const levels: Level[] = trailData;
+// Keep each slash on the word before it, with a space before the next word ("Bar/ dot plots").
+const spaceSlashes = (title: string) => title.replace(/\s*\/\s*/g, "/ ");
+export const skills = skillData.map((skill) => ({
+  ...skill,
+  title: spaceSlashes(skill.title),
+  levels: skill.levels.map(spaceSlashes),
+}));
+export const levels: Level[] = trailData.map((level) => ({ ...level, title: spaceSlashes(level.title) }));
 export const worldTitles = branchTitles;
 export const worlds = [...new Set(skills.map((s) => s.world))];
 export const skillById = new Map(skills.map((s) => [s.id, s]));
 export const levelById = new Map(levels.map((l) => [l.id, l]));
-export const lessonStops = lessonPlan.map((ids) => {
-  const first = skillById.get(ids[0])!;
-  const title = ids.length === 1 ? first.title :
-    first.title.replace(/\d+$/, "") + new Intl.ListFormat("en", { style: "long", type: "conjunction" }).format(ids.map(id => id.split(".").pop()!));
-  return { title, levels: ids.flatMap(id => levels.filter(level => level.skill === id)) };
-});
+export const curriculumVersion = 2;
+const formerSkillIds = new Map<string, string>();
+for (const skill of skills)
+  for (const table of skill.tables ?? []) formerSkillIds.set(skill.group + "." + table, skill.id);
+
+export const currentSkill = (id: string) => formerSkillIds.get(id) ?? id;
+export function currentLevel(id: string) {
+  const ordinal = id.lastIndexOf(".");
+  return currentSkill(id.slice(0, ordinal)) + id.slice(ordinal);
+}
+export const cardTitles: Record<string, string> = {
+  ...worldTitles, multiplication: "Multiplication", division: "Division",
+};
+export function cardTopic(skillId: string) {
+  const skill = skillById.get(currentSkill(skillId));
+  if (!skill) throw new Error("Unknown card skill: " + skillId);
+  if (skill.group === "review.multiply") return "multiplication";
+  if (skill.group === "review.divide") return "division";
+  return skill.world;
+}
+export const lessonStops = lessonPlan.map(([id]) => ({
+  title: skillById.get(id)!.title,
+  levels: levels.filter(level => level.skill === id),
+}));
 export const mainPathLevels = lessonStops.flatMap(stop => stop.levels);
 export const sprites = [
   "raijin",
@@ -46,7 +71,7 @@ export const sprites = [
 ];
 export const checkpoint = {
   level: "signed.add.2",
-  review: "review.multiply.9.1",
+  review: "review.multiply.8-9.1",
   expiry: "signed.add.3",
   coins: 25,
 };
@@ -291,6 +316,7 @@ export function formatRunTime(ms: number | null) {
 }
 export type StudentState = {
   profile: { id: string; username: string; sprite_name: string; coins: number; xp: number };
+  equipment: Equipment;
   access: Access[];
   recommendation: { level: string; reason: string } | null;
   cards: { skill: string; amount: number; upgrade: number }[];

@@ -37,6 +37,7 @@ import {
   type Rarity,
 } from "../../lib/gameplay";
 import { supabase } from "../../lib/supabase";
+import { getActiveProfileId } from "../../lib/legacy-profile";
 
 type Feedback = "idle" | "correct" | "timeout";
 type Phase = "intro" | "combat" | "victory" | "defeat";
@@ -257,13 +258,13 @@ export default function PlayPage() {
   const isInputLocked = !currentProblem || feedback !== "idle" || phase !== "combat";
 
   useEffect(() => {
-    if (!sessionStorage.getItem("activeProfileId")) {
+    if (!getActiveProfileId()) {
       router.replace("/mentalist");
     }
   }, [router]);
 
   useEffect(() => {
-    const profileId = sessionStorage.getItem("activeProfileId");
+    const profileId = getActiveProfileId();
     if (!profileId) return;
     const activeProfileId = profileId;
 
@@ -625,7 +626,7 @@ export default function PlayPage() {
     });
     setLevelUpChestIndex(0);
 
-    const profileId = sessionStorage.getItem("activeProfileId");
+    const profileId = getActiveProfileId();
     if (!supabase || !profileId) {
       setSummary((prev) => (prev ? { ...prev, chestStatus: "missed" } : prev));
       return;
@@ -891,7 +892,7 @@ export default function PlayPage() {
 
   async function openLevelUpChest() {
     if (!summary || openingLevelUpChest) return;
-    const profileId = sessionStorage.getItem("activeProfileId");
+    const profileId = getActiveProfileId();
     const offer = summary.levelUpChests[levelUpChestIndex];
     if (!profileId || !offer || offer.opened) return;
 

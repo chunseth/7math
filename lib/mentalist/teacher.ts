@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import type { PoolClient } from "pg";
 import { GameError, one, rows, uuid } from "./db";
-import { skillById, levelById } from "./model";
+import { curriculumVersion, skillById, levelById } from "./model";
 
 export async function teacherUser(token: string) {
   if (!token) throw new GameError("Sign in with your teacher account.", 401);
@@ -45,9 +45,9 @@ export async function faculty(db: PoolClient, user: string, body: Record<string,
     if (enrolled.rowCount)
       await db.query(
         `insert into decisions(class,profile,skill,teacher,kind)
-      select $1,$2,s.id,$3,'assignment' from public.concept_assignments a join skills s on s.version=1 and s.definition->>'group'=a.concept_id
+      select $1,$2,s.id,$3,'assignment' from public.concept_assignments a join skills s on s.version=$4 and s.definition->>'group'=a.concept_id
       where a.profile_id=$2 and a.teacher_id=$3 on conflict do nothing`,
-        [c.id, p.id, teacher],
+        [c.id, p.id, teacher, curriculumVersion],
       );
   }
   if (body.action === "roster" || body.action === "enroll")
@@ -65,13 +65,13 @@ export async function faculty(db: PoolClient, user: string, body: Record<string,
   if (body.action === "coverage") {
     const published = await rows(
       db,
-      "select l.skill,count(distinct l.id)::int levels,count(s.id)::int sets from levels l join published_levels pub on (pub.level,pub.version)=(l.id,l.version) join sets s on (s.level,s.version)=(l.id,l.version) where l.version=1 group by l.skill",
+      "select l.skill,count(distinct l.id)::int levels,count(s.id)::int sets from levels l join published_levels pub on (pub.level,pub.version)=(l.id,l.version) join sets s on (s.level,s.version)=(l.id,l.version) where l.version=$1 group by l.skill", [curriculumVersion],
     );
     return {
       published,
       requirements: await rows(
         db,
-        'select group_id as "group",requirement,levels from evidence where version=1 order by group_id,requirement',
+        'select group_id as "group",requirement,levels from evidence where version=$1 order by group_id,requirement', [curriculumVersion],
       ),
       outstanding: "Unrestricted written explanations require a separate teacher-reviewed activity.",
     };
@@ -108,11 +108,12 @@ export async function faculty(db: PoolClient, user: string, body: Record<string,
     const positions = await rows(
       db,
       `select pos.n::int as position,q.definition->>'prompt' prompt,q.definition->'visual' visual,q.definition->>'answer' answer,pos.slot->>'variant' variant,
-      e.resolved,e.opened,coalesce(ev.events,'[]') events from sets s cross join lateral jsonb_array_elements(s.positions) with ordinality pos(slot,n)
+      e.resolved,e.opened,coalesce(ev.events,'[]') events from runs r join sets s on (r.version,r.set_id)=(s.version,s.id)
+      cross join lateral jsonb_array_elements(coalesce(r.policy->'positions',s.positions)) with ordinality pos(slot,n)
       join questions q on q.version=s.version and q.id=pos.slot->>'q' left join encounters e on e.run=$1 and e.position=pos.n
       left join lateral(select jsonb_agg(jsonb_build_object('raw',raw,'normalized',normalized,'outcome',outcome,'ms',active_ms,'at',created,'attempt',scored_number) order by ordinal) events from events where encounter=e.id) ev on true
-      where s.version=$2 and s.id=$3 order by pos.n`,
-      [r.id, r.version, r.set_id],
+      where r.id=$1 order by pos.n`,
+      [r.id],
     );
     return { run: r, positions };
   }

@@ -1,9 +1,11 @@
 import type { PoolClient } from "pg";
-import { randomInt } from "node:crypto";
+import { randomInt, randomUUID } from "node:crypto";
 import { damageRangeForLevel } from "../gameplay";
-import { checkpoint, evaluate, grade, playable, type Question, type Recorded, type RunView } from "./model";
+import { cardTopic, checkpoint, curriculumVersion, evaluate, grade, playable, type Question, type Recorded, type RunView } from "./model";
 import { course, recommend } from "./student";
-import { GameError, one, rows, uuid, type Identity } from "./db";
+import { advance, checkText, type Attempt, type LevelPack, type RoundRules } from "./round";
+import { GameError, hash, one, rows, uuid, type Identity } from "./db";
+import { swordDamage } from "./craft";
 
 export async function credit(
   db: PoolClient,
@@ -26,7 +28,7 @@ export async function credit(
   if (cards)
     await db.query(
       `insert into cards(profile,skill,amount) values($1,$2,$3) on conflict(profile,skill) do update set amount=cards.amount+excluded.amount`,
-      [profile, skill, cards],
+      [profile, cardTopic(skill!), cards],
     );
 }
 async function openEncounter(db: PoolClient, run: string, position: number) {
@@ -34,7 +36,7 @@ async function openEncounter(db: PoolClient, run: string, position: number) {
     `insert into encounters(run,position,question,version,snapshot)
     select r.id,$2,q.id,r.version,q.definition || jsonb_build_object('variant',p.item->>'variant','parameters',p.item->'parameters')
     from runs r join sets s on s.version=r.version and s.id=r.set_id
-    cross join lateral (select s.positions->($2::int-1) as item) p
+    cross join lateral (select coalesce(r.policy->'positions',s.positions)->($2::int-1) as item) p
     join questions q on q.id=p.item->>'q' and q.version=r.version where r.id=$1`,
     [run, position],
   );
@@ -65,23 +67,46 @@ export async function runView(db: PoolClient, profile: string, id: string): Prom
     : undefined;
   return { ...r, next, leaderboardRank: rank?.total_rank, encounter: r.status === "active" ? e : undefined } as RunView;
 }
-export async function start(db: PoolClient, who: Identity, level: string, previous: string | null) {
-  const data = await course(db, who),
-    entry = data.access.find((a) => a.id === level);
+async function selectSet(db: PoolClient, profile: string, level: string, preferred?: string) {
+  return one(db, `select s.id,l.skill,s.positions from sets s join levels l on (s.version,s.level)=(l.version,l.id)
+    left join lateral (select max(started) last from runs r where r.profile=$2 and r.version=s.version and r.set_id=s.id) played on true
+    where s.level=$1 and s.version=$3 order by played.last asc nulls first,(s.id=$4) desc,random() limit 1`,
+    [level, profile, curriculumVersion, preferred ?? null]);
+}
+
+async function checkAccess(db: PoolClient, who: Identity, level: string) {
+  const entry = (await course(db, who)).access.find(a => a.id === level);
   if (!entry || !playable(entry)) throw new GameError(entry?.reason ?? "Unknown level.", 403);
+}
+
+export async function prepareLevel(db: PoolClient, who: Identity, level: string): Promise<LevelPack> {
+  await checkAccess(db, who, level);
+  const set = await selectSet(db, who.profile, level);
+  const questions = await rows<{ definition: Question & { answer: string } }>(db,
+    `select q.definition from sets s cross join lateral jsonb_array_elements(s.positions) with ordinality p(slot,n)
+     join questions q on q.version=s.version and q.id=p.slot->>'q'
+     where s.version=$1 and s.id=$2 order by p.n`, [curriculumVersion, set.id]);
+  return { level, set: set.id, questions: questions.map(({definition: q}, i) => ({
+    prompt: q.prompt, control: q.control, visual: q.visual,
+    check: hash(checkText(set.id, i, q, q.answer)),
+  })) };
+}
+
+export async function start(db: PoolClient, who: Identity, level: string, previous: string | null, prepared?: string) {
+  await checkAccess(db, who, level);
   const [active] = await rows(db, "select id from runs where profile=$1 and status='active'", [who.profile]);
   if (active && active.id !== previous) throw new GameError("Another battle started. Reload the map.", 409);
+  const set = await selectSet(db, who.profile, level, prepared);
+  if (prepared && set.id !== prepared) throw new GameError("This practice set has changed. Select Play again.", 409);
   if (active) await db.query("update runs set status='interrupted',ended=now() where id=$1", [active.id]);
-  const set = await one(
-    db,
-    `select s.id,l.skill,s.positions from sets s join levels l on (s.version,s.level)=(l.version,l.id)
-    left join lateral (select max(started) last from runs r where r.profile=$2 and r.version=s.version and r.set_id=s.id) played on true
-    where s.level=$1 and s.version=1 order by played.last asc nulls first,s.id limit 1`,
-    [level, who.profile],
-  );
+  const order = set.positions.map((_: unknown, i: number) => i) as number[];
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = randomInt(i + 1);
+    [order[i], order[j]] = [order[j], order[i]];
+  }
   const [card] = await rows(db, "select upgrade from cards where profile=$1 and skill=$2", [
     who.profile,
-    set.skill,
+    cardTopic(set.skill),
   ]);
   const [roster] = await rows(db, "select multiplier from roster where profile=$1 and class=$2", [
     who.profile,
@@ -89,10 +114,13 @@ export async function start(db: PoolClient, who: Identity, level: string, previo
   ]);
   const upgrade = card?.upgrade ?? 1,
     multiplier = Number(roster?.multiplier ?? 1);
+  const bonus = await swordDamage(db, who.profile);
+  const [min, max] = damageRangeForLevel(upgrade);
   const policy = {
     version: 1,
+    positions: order.map(i => set.positions[i]),
     upgrade,
-    damage: damageRangeForLevel(upgrade),
+    damage: [min + bonus, max + bonus],
     multiplier,
     targetMs:
       set.positions.reduce((sum: number, p: { target: number }) => sum + p.target * 1000, 0) * multiplier,
@@ -100,10 +128,14 @@ export async function start(db: PoolClient, who: Identity, level: string, previo
     enemyHealth: 40,
     missDamage: 25,
   };
+  const [minHit, maxHit] = policy.damage;
+  const rules: RoundRules | undefined = prepared ? {
+    order, hits: order.map(() => randomInt(minHit, maxHit + 1)), missDamage: policy.missDamage, enemyHealth: policy.enemyHealth,
+  } : undefined;
   const run = await one(
     db,
-    `insert into runs(profile,session_token,class,version,level,skill,set_id,policy) values($1,$2,$3,1,$4,$5,$6,$7) returning id`,
-    [who.profile, who.token, who.classId, level, set.skill, set.id, policy],
+    `insert into runs(profile,session_token,class,version,level,skill,set_id,policy) values($1,$2,$3,$8,$4,$5,$6,$7) returning id`,
+    [who.profile, who.token, who.classId, level, set.skill, set.id, { ...policy, rules }, curriculumVersion],
   );
   const offer = await db.query(
     "update offers set run=$1 where profile=$2 and target=$3 and run is null and not expired returning checkpoint",
@@ -111,7 +143,7 @@ export async function start(db: PoolClient, who: Identity, level: string, previo
   );
   if (offer.rowCount) await db.query("update runs set bonus=true where id=$1", [run.id]);
   await openEncounter(db, run.id, 1);
-  return runView(db, who.profile, run.id);
+  return { ...await runView(db, who.profile, run.id), rules };
 }
 async function finish(db: PoolClient, who: Identity, r: Record<string, any>) {
   const positions = await rows<{ events: Recorded[] }>(
@@ -139,8 +171,8 @@ async function finish(db: PoolClient, who: Identity, r: Record<string, any>) {
     );
     if (r.level === checkpoint.level && clear.first_run === r.id)
       await db.query(
-        "insert into offers(profile,checkpoint,target,expires_level) select $1,$2,$3,$4 where exists(select from published_levels where version=1 and level=$3) on conflict do nothing",
-        [who.profile, r.level, checkpoint.review, checkpoint.expiry],
+        "insert into offers(profile,checkpoint,target,expires_level) select $1,$2,$3,$4 where exists(select from published_levels where version=$5 and level=$3) on conflict do nothing",
+        [who.profile, r.level, checkpoint.review, checkpoint.expiry, curriculumVersion],
       );
     await db.query("update offers set expired=true where profile=$1 and expires_level=$2 and run is null", [
       who.profile,
@@ -178,6 +210,7 @@ export async function submit(
 ) {
   const r = await one(db, "select * from runs where id=$1 and profile=$2", [uuid(input.run), who.profile]);
   if (r.status !== "active") throw new GameError("This battle has ended. Return to the trail.", 409);
+  if (r.policy.rules) throw new GameError("Save the answers for this level together.", 409);
   const e = await one(db, "select * from encounters where id=$1 and run=$2 and resolved is null", [
     uuid(input.encounter),
     r.id,
@@ -231,4 +264,72 @@ export async function submit(
     else await openEncounter(db, r.id, e.position + 1);
   }
   return { outcome: marked.outcome, run: await runView(db, who.profile, r.id) };
+}
+
+// Re-grade the transcript against the run's saved set. Nothing is committed until
+// every attempt is valid and the outer request transaction records its receipt.
+export async function saveBattle(db: PoolClient, who: Identity, id: string, attempts: Attempt[], leave: boolean) {
+  const r = await one(db, "select * from runs where id=$1 and profile=$2", [uuid(id), who.profile]);
+  const rules: RoundRules = r.policy.rules;
+  if (r.status !== "active" || !rules) throw new GameError("This battle has already ended.", 409);
+  if (!Array.isArray(attempts)) throw new GameError("Missing battle answers.");
+  const slots = await rows(db, `select q.id, q.definition || jsonb_build_object(
+      'variant',p.slot->>'variant','parameters',p.slot->'parameters') as snapshot,
+      coalesce(e.id,gen_random_uuid()) as encounter
+    from runs r cross join lateral jsonb_array_elements(r.policy->'positions') with ordinality p(slot,n)
+    join questions q on q.version=r.version and q.id=p.slot->>'q'
+    left join encounters e on e.run=r.id and e.position=p.n where r.id=$1 order by p.n`, [id]);
+  const startTime = new Date(r.started).getTime();
+  const wall = Math.max(0, Date.now() - startTime);
+  let state = { hp: r.hp as number, enemy_hp: r.enemy_hp as number, defeats: 0, resolved: 0 };
+  let lastAt = 0, ordinal = 0, scored = 0;
+  const encounters = [];
+  const events = [];
+  for (const a of attempts) {
+    if (!a || typeof a.raw !== "string" || !Number.isSafeInteger(a.at) || a.at < lastAt ||
+        !Number.isSafeInteger(a.elapsed) || a.elapsed < 1 || !state.hp || state.resolved === slots.length)
+      throw new GameError("Invalid battle transcript.", 422);
+    const slot = slots[state.resolved];
+    const marked = grade(slot.snapshot.control, slot.snapshot.answer, a.raw);
+    if (!marked) throw new GameError("Incomplete answer in saved battle.", 422);
+    const at = new Date(startTime + Math.min(a.at, wall));
+    const active = a.at <= wall + 250 && a.elapsed <= a.at - lastAt + 250 && a.elapsed <= 86400000 ? a.elapsed : null;
+    if (!ordinal) encounters.push({ id: slot.encounter, position: state.resolved + 1, question: slot.id,
+      snapshot: slot.snapshot, opened: new Date(startTime + Math.min(lastAt, wall)), resolved: null as Date | null });
+    events.push({ id: randomUUID(), encounter: slot.encounter, ordinal: ++ordinal,
+      scored_number: marked.outcome === "simplification" ? null : ++scored,
+      raw: a.raw, ...marked, active_ms: active, created: at });
+    lastAt = a.at;
+    state = advance(state, rules, marked.outcome);
+    if (marked.outcome === "correct") {
+      encounters[encounters.length - 1].resolved = at;
+      ordinal = 0;
+      scored = 0;
+    }
+  }
+  const completed = state.resolved === 12;
+  if (!leave && state.hp > 0 && !completed) throw new GameError("The level is still in progress.", 422);
+  if (leave && !completed && state.hp > 0 && ordinal === 0 && state.resolved > 0) {
+    const slot = slots[state.resolved];
+    encounters.push({ id: slot.encounter, position: state.resolved + 1, question: slot.id,
+      snapshot: slot.snapshot, opened: new Date(startTime + Math.min(lastAt, wall)), resolved: null });
+  }
+  await db.query(`insert into encounters(id,run,position,question,version,snapshot,opened,resolved)
+    select x.id,$1,x.position,x.question,$2,x.snapshot,x.opened,x.resolved from jsonb_to_recordset($3::jsonb)
+    x(id uuid,position int,question text,snapshot jsonb,opened timestamptz,resolved timestamptz)
+    on conflict(run,position) do update set resolved=excluded.resolved`, [id,r.version,JSON.stringify(encounters)]);
+  await db.query(`insert into events(id,encounter,ordinal,scored_number,raw,normalized,outcome,active_ms,created)
+    select * from jsonb_to_recordset($1::jsonb) x(id uuid,encounter uuid,ordinal int,scored_number int,
+    raw text,normalized text,outcome text,active_ms int,created timestamptz)`, [JSON.stringify(events)]);
+  if (state.resolved) await db.query(`with earned as (
+      insert into ledger(profile,source,skill,coins,xp,cards)
+      select $1,'encounter.'||id,$2,10,10,1 from encounters where run=$3 and resolved is not null returning coins,xp,cards
+    ), totals as (select sum(coins) as coins,sum(xp) as xp,sum(cards) as cards from earned),
+    balance as (update public.profiles p set coins=p.coins+t.coins,xp=p.xp+t.xp from totals t where p.id=$1)
+    insert into cards(profile,skill,amount) select $1,$4,cards from totals
+    on conflict(profile,skill) do update set amount=cards.amount+excluded.amount`, [who.profile,r.skill,id,cardTopic(r.skill)]);
+  await db.query(`update runs set hp=$2,enemy_hp=$3,defeats=$4,status=$5,ended=clock_timestamp() where id=$1`,
+    [id,state.hp,state.enemy_hp,state.defeats,completed ? "completed" : state.hp ? "interrupted" : "knockdown"]);
+  if (completed) await finish(db, who, r);
+  return runView(db, who.profile, id);
 }

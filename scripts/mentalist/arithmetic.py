@@ -103,20 +103,22 @@ def arithmetic(skill, level, n, v):
     return q(prompt, fn(a, b), kind, signed=family == "signed" or level > 1)
 
 
+def fact(operation, table, operand):
+    if operation == "review.multiply":
+        row = q(f"{table} × {operand}", table * operand)
+        row["id"] = f"fact.multiply.{table}.{operand}"
+        row["family"] = f"multiply.{min(table,operand)}.{max(table,operand)}"
+    else:
+        divisor, quotient = (operand, 0) if table == 0 else (table, operand)
+        dividend = divisor * quotient
+        row = q(f"{dividend} ÷ {divisor}", quotient)
+        row["id"] = f"fact.divide.{dividend}.{divisor}"
+    return row
+
+
 def review(s, l, n, v):
     a = 2 + n % 16
     b = 2 + (3 * n + 1) % 11
-    if s.startswith(("review.multiply.", "review.divide.")):
-        family = int(s.split(".")[-1])
-        operand = n % 13
-        if ".multiply." in s:
-            row = q(f"{family} × {operand}", family * operand)
-            row["id"] = f"fact.multiply.{family}.{operand}"
-            row["family"] = f"multiply.{min(family,operand)}.{max(family,operand)}"
-        else:
-            row = q(f"{family*operand} ÷ {family}", operand)
-            row["id"] = f"fact.divide.{family*operand}.{family}"
-        return row
     if s in ("review.add", "review.subtract"):
         if l == 1:
             a, b = n % 10, (10 - n % 10 if v == 1 else (n // 2 + v) % 10)

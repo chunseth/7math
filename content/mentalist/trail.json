@@ -2181,228 +2181,111 @@
   }
  },
  {
-  "id": "review.multiply.0.1",
-  "skill": "review.multiply.0",
-  "title": "Multiply by 0",
+  "id": "review.multiply.0-1.1",
+  "skill": "review.multiply.0-1",
+  "title": "Multiply by 0 and 1",
   "ordinal": 1,
   "preview": {
-   "prompt": "0 × 0"
+   "prompt": "0 × 10"
   }
  },
  {
-  "id": "review.multiply.1.1",
-  "skill": "review.multiply.1",
-  "title": "Multiply by 1",
+  "id": "review.multiply.2-3-4.1",
+  "skill": "review.multiply.2-3-4",
+  "title": "Multiply by 2, 3, and 4",
   "ordinal": 1,
   "preview": {
-   "prompt": "1 × 0"
+   "prompt": "2 × 9"
   }
  },
  {
-  "id": "review.multiply.2.1",
-  "skill": "review.multiply.2",
-  "title": "Multiply by 2",
+  "id": "review.multiply.5-10.1",
+  "skill": "review.multiply.5-10",
+  "title": "Multiply by 5 and 10",
   "ordinal": 1,
   "preview": {
-   "prompt": "2 × 0"
+   "prompt": "5 × 9"
   }
  },
  {
-  "id": "review.multiply.3.1",
-  "skill": "review.multiply.3",
-  "title": "Multiply by 3",
+  "id": "review.multiply.6-7.1",
+  "skill": "review.multiply.6-7",
+  "title": "Multiply by 6 and 7",
   "ordinal": 1,
   "preview": {
-   "prompt": "3 × 0"
+   "prompt": "6 × 6"
   }
  },
  {
-  "id": "review.multiply.4.1",
-  "skill": "review.multiply.4",
-  "title": "Multiply by 4",
+  "id": "review.multiply.8-9.1",
+  "skill": "review.multiply.8-9",
+  "title": "Multiply by 8 and 9",
   "ordinal": 1,
   "preview": {
-   "prompt": "4 × 0"
+   "prompt": "8 × 6"
   }
  },
  {
-  "id": "review.multiply.5.1",
-  "skill": "review.multiply.5",
-  "title": "Multiply by 5",
+  "id": "review.multiply.11-12.1",
+  "skill": "review.multiply.11-12",
+  "title": "Multiply by 11 and 12",
   "ordinal": 1,
   "preview": {
-   "prompt": "5 × 0"
+   "prompt": "11 × 2"
   }
  },
  {
-  "id": "review.multiply.6.1",
-  "skill": "review.multiply.6",
-  "title": "Multiply by 6",
-  "ordinal": 1,
-  "preview": {
-   "prompt": "6 × 0"
-  }
- },
- {
-  "id": "review.multiply.7.1",
-  "skill": "review.multiply.7",
-  "title": "Multiply by 7",
-  "ordinal": 1,
-  "preview": {
-   "prompt": "7 × 0"
-  }
- },
- {
-  "id": "review.multiply.8.1",
-  "skill": "review.multiply.8",
-  "title": "Multiply by 8",
-  "ordinal": 1,
-  "preview": {
-   "prompt": "8 × 0"
-  }
- },
- {
-  "id": "review.multiply.9.1",
-  "skill": "review.multiply.9",
-  "title": "Multiply by 9",
-  "ordinal": 1,
-  "preview": {
-   "prompt": "9 × 0"
-  }
- },
- {
-  "id": "review.multiply.10.1",
-  "skill": "review.multiply.10",
-  "title": "Multiply by 10",
-  "ordinal": 1,
-  "preview": {
-   "prompt": "10 × 0"
-  }
- },
- {
-  "id": "review.multiply.11.1",
-  "skill": "review.multiply.11",
-  "title": "Multiply by 11",
-  "ordinal": 1,
-  "preview": {
-   "prompt": "11 × 0"
-  }
- },
- {
-  "id": "review.multiply.12.1",
-  "skill": "review.multiply.12",
-  "title": "Multiply by 12",
-  "ordinal": 1,
-  "preview": {
-   "prompt": "12 × 0"
-  }
- },
- {
-  "id": "review.divide.1.1",
-  "skill": "review.divide.1",
-  "title": "Divide by 1",
-  "ordinal": 1,
-  "preview": {
-   "prompt": "0 ÷ 1"
-  }
- },
- {
-  "id": "review.divide.2.1",
-  "skill": "review.divide.2",
-  "title": "Divide by 2",
-  "ordinal": 1,
-  "preview": {
-   "prompt": "0 ÷ 2"
-  }
- },
- {
-  "id": "review.divide.3.1",
-  "skill": "review.divide.3",
-  "title": "Divide by 3",
-  "ordinal": 1,
-  "preview": {
-   "prompt": "0 ÷ 3"
-  }
- },
- {
-  "id": "review.divide.4.1",
-  "skill": "review.divide.4",
-  "title": "Divide by 4",
-  "ordinal": 1,
-  "preview": {
-   "prompt": "0 ÷ 4"
-  }
- },
- {
-  "id": "review.divide.5.1",
-  "skill": "review.divide.5",
-  "title": "Divide by 5",
-  "ordinal": 1,
-  "preview": {
-   "prompt": "0 ÷ 5"
-  }
- },
- {
-  "id": "review.divide.6.1",
-  "skill": "review.divide.6",
-  "title": "Divide by 6",
-  "ordinal": 1,
-  "preview": {
-   "prompt": "0 ÷ 6"
-  }
- },
- {
-  "id": "review.divide.7.1",
-  "skill": "review.divide.7",
-  "title": "Divide by 7",
-  "ordinal": 1,
-  "preview": {
-   "prompt": "0 ÷ 7"
-  }
- },
- {
-  "id": "review.divide.8.1",
-  "skill": "review.divide.8",
-  "title": "Divide by 8",
-  "ordinal": 1,
-  "preview": {
-   "prompt": "0 ÷ 8"
-  }
- },
- {
-  "id": "review.divide.9.1",
-  "skill": "review.divide.9",
-  "title": "Divide by 9",
-  "ordinal": 1,
-  "preview": {
-   "prompt": "0 ÷ 9"
-  }
- },
- {
-  "id": "review.divide.10.1",
-  "skill": "review.divide.10",
-  "title": "Divide by 10",
-  "ordinal": 1,
-  "preview": {
-   "prompt": "0 ÷ 10"
-  }
- },
- {
-  "id": "review.divide.11.1",
-  "skill": "review.divide.11",
-  "title": "Divide by 11",
+  "id": "review.divide.0-1.1",
+  "skill": "review.divide.0-1",
+  "title": "Division with 0 and 1",
   "ordinal": 1,
   "preview": {
    "prompt": "0 ÷ 11"
   }
  },
  {
-  "id": "review.divide.12.1",
-  "skill": "review.divide.12",
-  "title": "Divide by 12",
+  "id": "review.divide.2-3-4.1",
+  "skill": "review.divide.2-3-4",
+  "title": "Divide by 2, 3, and 4",
   "ordinal": 1,
   "preview": {
-   "prompt": "0 ÷ 12"
+   "prompt": "12 ÷ 2"
+  }
+ },
+ {
+  "id": "review.divide.5-10.1",
+  "skill": "review.divide.5-10",
+  "title": "Divide by 5 and 10",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "0 ÷ 5"
+  }
+ },
+ {
+  "id": "review.divide.6-7.1",
+  "skill": "review.divide.6-7",
+  "title": "Divide by 6 and 7",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "6 ÷ 6"
+  }
+ },
+ {
+  "id": "review.divide.8-9.1",
+  "skill": "review.divide.8-9",
+  "title": "Divide by 8 and 9",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "56 ÷ 8"
+  }
+ },
+ {
+  "id": "review.divide.11-12.1",
+  "skill": "review.divide.11-12",
+  "title": "Divide by 11 and 12",
+  "ordinal": 1,
+  "preview": {
+   "prompt": "88 ÷ 11"
   }
  },
  {
