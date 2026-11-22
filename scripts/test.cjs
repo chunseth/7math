@@ -4,7 +4,8 @@ const { join } = require("node:path");
 const { execFileSync } = require("node:child_process");
 const output = mkdtempSync(join(tmpdir(),"7math-tests-"));
 try {
-  execFileSync(process.execPath,[require.resolve("typescript/bin/tsc"),"tests/curriculum.test.ts","tests/mentalist.test.ts","--target","ES2022","--module","commonjs","--moduleResolution","node","--resolveJsonModule","--esModuleInterop","--strict","--skipLibCheck","--outDir",output],{stdio:"inherit"});
-  execFileSync(process.execPath,["--test",join(output,"tests/curriculum.test.js"),join(output,"tests/mentalist.test.js")],{stdio:"inherit"});
+  const suites = ["curriculum", "mentalist", "survivor"];
+  execFileSync(process.execPath,[require.resolve("typescript/bin/tsc"),...suites.map(name => `tests/${name}.test.ts`),"--target","ES2022","--module","commonjs","--moduleResolution","node","--resolveJsonModule","--esModuleInterop","--strict","--skipLibCheck","--outDir",output],{stdio:"inherit"});
+  execFileSync(process.execPath,["--test",...suites.map(name => join(output,"tests",`${name}.test.js`))],{stdio:"inherit"});
 } catch (error) { process.exitCode=error.status || 1; }
 finally { rmSync(output,{recursive:true,force:true}); }

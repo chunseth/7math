@@ -12,7 +12,7 @@ type Item = { clip: Clip; goal: ReturnType<typeof previewGoal> };
 function Playback({ clip, active, obscured }: { clip: Clip; active: boolean; obscured: boolean }) {
   const player = useRef<HTMLVideoElement>(null);
   const [paused, setPaused] = useState(false);
-  const base = "/mentalist/previews/" + (clip.model === "worked" ? clip.level : clip.skill);
+  const base = "/mentalist/previews/" + (clip.media ?? (clip.model === "worked" ? clip.level : clip.skill));
   useEffect(() => {
     if (!active || obscured) return;
     const video = player.current!;

@@ -2,15 +2,18 @@ import type { PoolClient } from "pg";
 import { legacyChest } from "./legacy-chest";
 import { credit } from "./battle";
 import { GameError, one, rows, uuid, type Identity } from "./db";
-import { playable, skillById, levelById, sprites } from "./model";
+import { cardTitles, cardTopic, currentSkill, playable, skillById, levelById, sprites } from "./model";
 import { course, quests, studentState } from "./student";
+import { equipTool } from "./craft";
 
 export async function economy(db: PoolClient, who: Identity, act: string, arg: string) {
   const p = who.profile;
+  if (act === "equipSword") return equipTool(db, p, "sword", arg);
   const { coins } = await one(db, "select coins from public.profiles where id=$1", [p]);
   if (act === "upgrade") {
+    if (skillById.has(currentSkill(arg))) arg = cardTopic(arg);
     const card = await one(db, "select amount,upgrade from cards where profile=$1 and skill=$2", [p, arg]);
-    if (!skillById.has(arg) || card.amount < 40 || coins < 2000 || card.upgrade >= 4)
+    if (!Object.hasOwn(cardTitles, arg) || card.amount < 40 || coins < 2000 || card.upgrade >= 4)
       throw new GameError("Upgrade requires 40 cards and 2,000 coins, up to level 4.");
     await db.query("update cards set amount=amount-40,upgrade=upgrade+1 where profile=$1 and skill=$2", [
       p,
@@ -55,7 +58,7 @@ export async function economy(db: PoolClient, who: Identity, act: string, arg: s
       }
       const data = await course(db, who);
       const available = data.access.filter(playable).map((a) => levelById.get(a.id)!.skill);
-      const cardSkill = available.includes(chest.skill) ? chest.skill : available[0];
+      const cardSkill = available.includes(currentSkill(chest.skill)) ? currentSkill(chest.skill) : available[0];
       const giveCard = chest.reward === "cards" && !!cardSkill;
       await credit(
         db,

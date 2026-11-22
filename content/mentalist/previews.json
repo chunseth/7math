@@ -114,8 +114,8 @@
     "answer": "235"
   },
   {
-    "level": "review.multiply.0.1",
-    "skill": "review.multiply.0",
+    "level": "review.multiply.0-1.1",
+    "skill": "review.multiply.0-1",
     "prompt": "What is 0 × 8?",
     "model": "worked",
     "color": "#764d79",
@@ -130,30 +130,12 @@
       }
     ],
     "result": "0",
-    "answer": "0"
+    "answer": "0",
+    "media": "review.multiply.0.1"
   },
   {
-    "level": "review.multiply.1.1",
-    "skill": "review.multiply.1",
-    "prompt": "What is 1 × 8?",
-    "model": "worked",
-    "color": "#764d79",
-    "steps": [
-      {
-        "label": "Make one group of eight.",
-        "math": "8"
-      },
-      {
-        "label": "One group keeps its original size.",
-        "math": "1 × 8"
-      }
-    ],
-    "result": "8",
-    "answer": "8"
-  },
-  {
-    "level": "review.multiply.2.1",
-    "skill": "review.multiply.2",
+    "level": "review.multiply.2-3-4.1",
+    "skill": "review.multiply.2-3-4",
     "prompt": "What is 2 × 7?",
     "model": "worked",
     "color": "#876124",
@@ -168,49 +150,12 @@
       }
     ],
     "result": "14",
-    "answer": "14"
+    "answer": "14",
+    "media": "review.multiply.2.1"
   },
   {
-    "level": "review.multiply.3.1",
-    "skill": "review.multiply.3",
-    "prompt": "What is 3 × 7?",
-    "model": "worked",
-    "color": "#876124",
-    "steps": [
-      {
-        "label": "Double seven.",
-        "math": "2 × 7 = 14"
-      },
-      {
-        "label": "Add one more group.",
-        "math": "14 + 7"
-      }
-    ],
-    "result": "21",
-    "answer": "21"
-  },
-  {
-    "level": "review.multiply.4.1",
-    "skill": "review.multiply.4",
-    "prompt": "What is 4 × 6?",
-    "model": "worked",
-    "color": "#876124",
-    "steps": [
-      {
-        "label": "Double six.",
-        "math": "6 + 6 = 12"
-      },
-      {
-        "label": "Double the result.",
-        "math": "12 + 12"
-      }
-    ],
-    "result": "24",
-    "answer": "24"
-  },
-  {
-    "level": "review.multiply.5.1",
-    "skill": "review.multiply.5",
+    "level": "review.multiply.5-10.1",
+    "skill": "review.multiply.5-10",
     "prompt": "What is 5 × 8?",
     "model": "worked",
     "color": "#834745",
@@ -225,30 +170,12 @@
       }
     ],
     "result": "40",
-    "answer": "40"
+    "answer": "40",
+    "media": "review.multiply.5.1"
   },
   {
-    "level": "review.multiply.10.1",
-    "skill": "review.multiply.10",
-    "prompt": "What is 10 × 7?",
-    "model": "worked",
-    "color": "#834745",
-    "steps": [
-      {
-        "label": "Ten groups of seven make seven tens.",
-        "math": "7 × 10"
-      },
-      {
-        "label": "Count seven tens in two parts.",
-        "math": "50 + 20"
-      }
-    ],
-    "result": "70",
-    "answer": "70"
-  },
-  {
-    "level": "review.multiply.6.1",
-    "skill": "review.multiply.6",
+    "level": "review.multiply.6-7.1",
+    "skill": "review.multiply.6-7",
     "prompt": "What is 6 × 7?",
     "model": "worked",
     "color": "#3b666e",
@@ -263,30 +190,12 @@
       }
     ],
     "result": "42",
-    "answer": "42"
+    "answer": "42",
+    "media": "review.multiply.6.1"
   },
   {
-    "level": "review.multiply.7.1",
-    "skill": "review.multiply.7",
-    "prompt": "What is 7 × 8?",
-    "model": "worked",
-    "color": "#20654c",
-    "steps": [
-      {
-        "label": "Split seven into five and two.",
-        "math": "5 × 8 = 40"
-      },
-      {
-        "label": "Add the remaining two groups.",
-        "math": "40 + 16"
-      }
-    ],
-    "result": "56",
-    "answer": "56"
-  },
-  {
-    "level": "review.multiply.8.1",
-    "skill": "review.multiply.8",
+    "level": "review.multiply.8-9.1",
+    "skill": "review.multiply.8-9",
     "prompt": "What is 8 × 6?",
     "model": "worked",
     "color": "#315c92",
@@ -301,31 +210,12 @@
       }
     ],
     "result": "48",
-    "answer": "48"
+    "answer": "48",
+    "media": "review.multiply.8.1"
   },
   {
-    "skill": "review.multiply.9",
-    "topic": "Multiplication",
-    "prompt": "What is 9 × 7?",
-    "model": "groups",
-    "color": "#20654c",
-    "steps": [
-      {
-        "label": "Start with ten groups of seven.",
-        "math": "10 × 7 = 70"
-      },
-      {
-        "label": "Take away one group.",
-        "math": "70 − 7 = 63"
-      }
-    ],
-    "result": "9 × 7 = 63",
-    "answer": "63",
-    "level": "review.multiply.9.1"
-  },
-  {
-    "level": "review.multiply.11.1",
-    "skill": "review.multiply.11",
+    "level": "review.multiply.11-12.1",
+    "skill": "review.multiply.11-12",
     "prompt": "What is 11 × 6?",
     "model": "worked",
     "color": "#876124",
@@ -340,30 +230,12 @@
       }
     ],
     "result": "66",
-    "answer": "66"
+    "answer": "66",
+    "media": "review.multiply.11.1"
   },
   {
-    "level": "review.multiply.12.1",
-    "skill": "review.multiply.12",
-    "prompt": "What is 12 × 7?",
-    "model": "worked",
-    "color": "#834745",
-    "steps": [
-      {
-        "label": "Split twelve into ten and two.",
-        "math": "10 × 7 = 70"
-      },
-      {
-        "label": "Add the two extra groups.",
-        "math": "70 + 14"
-      }
-    ],
-    "result": "84",
-    "answer": "84"
-  },
-  {
-    "level": "review.divide.1.1",
-    "skill": "review.divide.1",
+    "level": "review.divide.0-1.1",
+    "skill": "review.divide.0-1",
     "prompt": "What is 9 ÷ 1?",
     "model": "worked",
     "color": "#3b666e",
@@ -378,11 +250,12 @@
       }
     ],
     "result": "9",
-    "answer": "9"
+    "answer": "9",
+    "media": "review.divide.1.1"
   },
   {
-    "level": "review.divide.2.1",
-    "skill": "review.divide.2",
+    "level": "review.divide.2-3-4.1",
+    "skill": "review.divide.2-3-4",
     "prompt": "What is 12 ÷ 2?",
     "model": "worked",
     "color": "#3b666e",
@@ -397,49 +270,12 @@
       }
     ],
     "result": "6",
-    "answer": "6"
+    "answer": "6",
+    "media": "review.divide.2.1"
   },
   {
-    "level": "review.divide.3.1",
-    "skill": "review.divide.3",
-    "prompt": "What is 21 ÷ 3?",
-    "model": "worked",
-    "color": "#20654c",
-    "steps": [
-      {
-        "label": "Find the missing number of equal groups.",
-        "math": "3 × x = 21"
-      },
-      {
-        "label": "Count a known group, then the rest.",
-        "math": "3 × 6 + 3 = 21"
-      }
-    ],
-    "result": "7",
-    "answer": "7"
-  },
-  {
-    "level": "review.divide.4.1",
-    "skill": "review.divide.4",
-    "prompt": "What is 32 ÷ 4?",
-    "model": "worked",
-    "color": "#20654c",
-    "steps": [
-      {
-        "label": "Find the missing number of equal groups.",
-        "math": "4 × x = 32"
-      },
-      {
-        "label": "Count a known group, then the rest.",
-        "math": "4 × 7 + 4 = 32"
-      }
-    ],
-    "result": "8",
-    "answer": "8"
-  },
-  {
-    "level": "review.divide.5.1",
-    "skill": "review.divide.5",
+    "level": "review.divide.5-10.1",
+    "skill": "review.divide.5-10",
     "prompt": "What is 20 ÷ 5?",
     "model": "worked",
     "color": "#315c92",
@@ -454,30 +290,12 @@
       }
     ],
     "result": "4",
-    "answer": "4"
+    "answer": "4",
+    "media": "review.divide.5.1"
   },
   {
-    "level": "review.divide.10.1",
-    "skill": "review.divide.10",
-    "prompt": "What is 40 ÷ 10?",
-    "model": "worked",
-    "color": "#315c92",
-    "steps": [
-      {
-        "label": "Find the missing number of equal groups.",
-        "math": "10 × x = 40"
-      },
-      {
-        "label": "Count a known group, then the rest.",
-        "math": "10 × 3 + 10 = 40"
-      }
-    ],
-    "result": "4",
-    "answer": "4"
-  },
-  {
-    "level": "review.divide.6.1",
-    "skill": "review.divide.6",
+    "level": "review.divide.6-7.1",
+    "skill": "review.divide.6-7",
     "prompt": "What is 30 ÷ 6?",
     "model": "worked",
     "color": "#764d79",
@@ -492,30 +310,12 @@
       }
     ],
     "result": "5",
-    "answer": "5"
+    "answer": "5",
+    "media": "review.divide.6.1"
   },
   {
-    "level": "review.divide.7.1",
-    "skill": "review.divide.7",
-    "prompt": "What is 42 ÷ 7?",
-    "model": "worked",
-    "color": "#876124",
-    "steps": [
-      {
-        "label": "Find the missing number of equal groups.",
-        "math": "7 × x = 42"
-      },
-      {
-        "label": "Count a known group, then the rest.",
-        "math": "7 × 5 + 7 = 42"
-      }
-    ],
-    "result": "6",
-    "answer": "6"
-  },
-  {
-    "level": "review.divide.8.1",
-    "skill": "review.divide.8",
+    "level": "review.divide.8-9.1",
+    "skill": "review.divide.8-9",
     "prompt": "What is 56 ÷ 8?",
     "model": "worked",
     "color": "#834745",
@@ -530,30 +330,12 @@
       }
     ],
     "result": "7",
-    "answer": "7"
+    "answer": "7",
+    "media": "review.divide.8.1"
   },
   {
-    "level": "review.divide.9.1",
-    "skill": "review.divide.9",
-    "prompt": "What is 72 ÷ 9?",
-    "model": "worked",
-    "color": "#3b666e",
-    "steps": [
-      {
-        "label": "Find the missing number of equal groups.",
-        "math": "9 × x = 72"
-      },
-      {
-        "label": "Count a known group, then the rest.",
-        "math": "9 × 7 + 9 = 72"
-      }
-    ],
-    "result": "8",
-    "answer": "8"
-  },
-  {
-    "level": "review.divide.11.1",
-    "skill": "review.divide.11",
+    "level": "review.divide.11-12.1",
+    "skill": "review.divide.11-12",
     "prompt": "What is 55 ÷ 11?",
     "model": "worked",
     "color": "#20654c",
@@ -568,26 +350,8 @@
       }
     ],
     "result": "5",
-    "answer": "5"
-  },
-  {
-    "level": "review.divide.12.1",
-    "skill": "review.divide.12",
-    "prompt": "What is 72 ÷ 12?",
-    "model": "worked",
-    "color": "#315c92",
-    "steps": [
-      {
-        "label": "Find the missing number of equal groups.",
-        "math": "12 × x = 72"
-      },
-      {
-        "label": "Count a known group, then the rest.",
-        "math": "12 × 5 + 12 = 72"
-      }
-    ],
-    "result": "6",
-    "answer": "6"
+    "answer": "5",
+    "media": "review.divide.11.1"
   },
   {
     "level": "review.factors.1",

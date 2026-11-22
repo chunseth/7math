@@ -48,31 +48,18 @@
     "title": "Signed multiplication",
     "world": "number",
     "prerequisites": [
-      "review.multiply.0",
-      "review.multiply.1",
-      "review.multiply.2",
-      "review.multiply.3",
-      "review.multiply.4",
-      "review.multiply.5",
-      "review.multiply.6",
-      "review.multiply.7",
-      "review.multiply.8",
-      "review.multiply.9",
-      "review.multiply.10",
-      "review.multiply.11",
-      "review.multiply.12",
-      "review.divide.1",
-      "review.divide.2",
-      "review.divide.3",
-      "review.divide.4",
-      "review.divide.5",
-      "review.divide.6",
-      "review.divide.7",
-      "review.divide.8",
-      "review.divide.9",
-      "review.divide.10",
-      "review.divide.11",
-      "review.divide.12"
+      "review.multiply.0-1",
+      "review.multiply.2-3-4",
+      "review.multiply.5-10",
+      "review.multiply.6-7",
+      "review.multiply.8-9",
+      "review.multiply.11-12",
+      "review.divide.0-1",
+      "review.divide.2-3-4",
+      "review.divide.5-10",
+      "review.divide.6-7",
+      "review.divide.8-9",
+      "review.divide.11-12"
     ],
     "levels": [
       "Sign patterns and zero",
@@ -85,31 +72,18 @@
     "title": "Signed division",
     "world": "number",
     "prerequisites": [
-      "review.multiply.0",
-      "review.multiply.1",
-      "review.multiply.2",
-      "review.multiply.3",
-      "review.multiply.4",
-      "review.multiply.5",
-      "review.multiply.6",
-      "review.multiply.7",
-      "review.multiply.8",
-      "review.multiply.9",
-      "review.multiply.10",
-      "review.multiply.11",
-      "review.multiply.12",
-      "review.divide.1",
-      "review.divide.2",
-      "review.divide.3",
-      "review.divide.4",
-      "review.divide.5",
-      "review.divide.6",
-      "review.divide.7",
-      "review.divide.8",
-      "review.divide.9",
-      "review.divide.10",
-      "review.divide.11",
-      "review.divide.12"
+      "review.multiply.0-1",
+      "review.multiply.2-3-4",
+      "review.multiply.5-10",
+      "review.multiply.6-7",
+      "review.multiply.8-9",
+      "review.multiply.11-12",
+      "review.divide.0-1",
+      "review.divide.2-3-4",
+      "review.divide.5-10",
+      "review.divide.6-7",
+      "review.divide.8-9",
+      "review.divide.11-12"
     ],
     "levels": [
       "Sign patterns and zero dividends",
@@ -492,19 +466,12 @@
     "title": "Sample spaces",
     "world": "chance",
     "prerequisites": [
-      "review.multiply.0",
-      "review.multiply.1",
-      "review.multiply.2",
-      "review.multiply.3",
-      "review.multiply.4",
-      "review.multiply.5",
-      "review.multiply.6",
-      "review.multiply.7",
-      "review.multiply.8",
-      "review.multiply.9",
-      "review.multiply.10",
-      "review.multiply.11",
-      "review.multiply.12"
+      "review.multiply.0-1",
+      "review.multiply.2-3-4",
+      "review.multiply.5-10",
+      "review.multiply.6-7",
+      "review.multiply.8-9",
+      "review.multiply.11-12"
     ],
     "levels": [
       "Simple events",
@@ -784,7 +751,7 @@
       "review.area"
     ],
     "levels": [
-      "\u03a0 and circumference models",
+      "Π and circumference models",
       "Area models and formula connections"
     ]
   },
@@ -845,7 +812,7 @@
   {
     "id": "solid.models",
     "group": "solid.models",
-    "title": "Prism\u2013pyramid models",
+    "title": "Prism–pyramid models",
     "world": "solid",
     "prerequisites": [
       "solid.prism"
@@ -1025,253 +992,173 @@
     ]
   },
   {
-    "id": "review.multiply.0",
+    "id": "review.multiply.0-1",
     "group": "review.multiply",
-    "title": "Multiply by 0",
+    "title": "Multiply by 0 and 1",
     "world": "review",
     "prerequisites": [],
     "levels": [
-      "Multiply by 0"
+      "Multiply by 0 and 1"
+    ],
+    "tables": [
+      0,
+      1
     ]
   },
   {
-    "id": "review.multiply.1",
+    "id": "review.multiply.2-3-4",
     "group": "review.multiply",
-    "title": "Multiply by 1",
+    "title": "Multiply by 2, 3, and 4",
     "world": "review",
     "prerequisites": [],
     "levels": [
-      "Multiply by 1"
+      "Multiply by 2, 3, and 4"
+    ],
+    "tables": [
+      2,
+      3,
+      4
     ]
   },
   {
-    "id": "review.multiply.2",
+    "id": "review.multiply.5-10",
     "group": "review.multiply",
-    "title": "Multiply by 2",
+    "title": "Multiply by 5 and 10",
     "world": "review",
     "prerequisites": [],
     "levels": [
-      "Multiply by 2"
+      "Multiply by 5 and 10"
+    ],
+    "tables": [
+      5,
+      10
     ]
   },
   {
-    "id": "review.multiply.3",
+    "id": "review.multiply.6-7",
     "group": "review.multiply",
-    "title": "Multiply by 3",
+    "title": "Multiply by 6 and 7",
     "world": "review",
     "prerequisites": [],
     "levels": [
-      "Multiply by 3"
+      "Multiply by 6 and 7"
+    ],
+    "tables": [
+      6,
+      7
     ]
   },
   {
-    "id": "review.multiply.4",
+    "id": "review.multiply.8-9",
     "group": "review.multiply",
-    "title": "Multiply by 4",
+    "title": "Multiply by 8 and 9",
     "world": "review",
     "prerequisites": [],
     "levels": [
-      "Multiply by 4"
+      "Multiply by 8 and 9"
+    ],
+    "tables": [
+      8,
+      9
     ]
   },
   {
-    "id": "review.multiply.5",
+    "id": "review.multiply.11-12",
     "group": "review.multiply",
-    "title": "Multiply by 5",
+    "title": "Multiply by 11 and 12",
     "world": "review",
     "prerequisites": [],
     "levels": [
-      "Multiply by 5"
+      "Multiply by 11 and 12"
+    ],
+    "tables": [
+      11,
+      12
     ]
   },
   {
-    "id": "review.multiply.6",
-    "group": "review.multiply",
-    "title": "Multiply by 6",
-    "world": "review",
-    "prerequisites": [],
-    "levels": [
-      "Multiply by 6"
-    ]
-  },
-  {
-    "id": "review.multiply.7",
-    "group": "review.multiply",
-    "title": "Multiply by 7",
-    "world": "review",
-    "prerequisites": [],
-    "levels": [
-      "Multiply by 7"
-    ]
-  },
-  {
-    "id": "review.multiply.8",
-    "group": "review.multiply",
-    "title": "Multiply by 8",
-    "world": "review",
-    "prerequisites": [],
-    "levels": [
-      "Multiply by 8"
-    ]
-  },
-  {
-    "id": "review.multiply.9",
-    "group": "review.multiply",
-    "title": "Multiply by 9",
-    "world": "review",
-    "prerequisites": [],
-    "levels": [
-      "Multiply by 9"
-    ]
-  },
-  {
-    "id": "review.multiply.10",
-    "group": "review.multiply",
-    "title": "Multiply by 10",
-    "world": "review",
-    "prerequisites": [],
-    "levels": [
-      "Multiply by 10"
-    ]
-  },
-  {
-    "id": "review.multiply.11",
-    "group": "review.multiply",
-    "title": "Multiply by 11",
-    "world": "review",
-    "prerequisites": [],
-    "levels": [
-      "Multiply by 11"
-    ]
-  },
-  {
-    "id": "review.multiply.12",
-    "group": "review.multiply",
-    "title": "Multiply by 12",
-    "world": "review",
-    "prerequisites": [],
-    "levels": [
-      "Multiply by 12"
-    ]
-  },
-  {
-    "id": "review.divide.1",
+    "id": "review.divide.0-1",
     "group": "review.divide",
-    "title": "Divide by 1",
+    "title": "Division with 0 and 1",
     "world": "review",
     "prerequisites": [],
     "levels": [
-      "Divide by 1"
+      "Division with 0 and 1"
+    ],
+    "tables": [
+      0,
+      1
     ]
   },
   {
-    "id": "review.divide.2",
+    "id": "review.divide.2-3-4",
     "group": "review.divide",
-    "title": "Divide by 2",
+    "title": "Divide by 2, 3, and 4",
     "world": "review",
     "prerequisites": [],
     "levels": [
-      "Divide by 2"
+      "Divide by 2, 3, and 4"
+    ],
+    "tables": [
+      2,
+      3,
+      4
     ]
   },
   {
-    "id": "review.divide.3",
+    "id": "review.divide.5-10",
     "group": "review.divide",
-    "title": "Divide by 3",
+    "title": "Divide by 5 and 10",
     "world": "review",
     "prerequisites": [],
     "levels": [
-      "Divide by 3"
+      "Divide by 5 and 10"
+    ],
+    "tables": [
+      5,
+      10
     ]
   },
   {
-    "id": "review.divide.4",
+    "id": "review.divide.6-7",
     "group": "review.divide",
-    "title": "Divide by 4",
+    "title": "Divide by 6 and 7",
     "world": "review",
     "prerequisites": [],
     "levels": [
-      "Divide by 4"
+      "Divide by 6 and 7"
+    ],
+    "tables": [
+      6,
+      7
     ]
   },
   {
-    "id": "review.divide.5",
+    "id": "review.divide.8-9",
     "group": "review.divide",
-    "title": "Divide by 5",
+    "title": "Divide by 8 and 9",
     "world": "review",
     "prerequisites": [],
     "levels": [
-      "Divide by 5"
+      "Divide by 8 and 9"
+    ],
+    "tables": [
+      8,
+      9
     ]
   },
   {
-    "id": "review.divide.6",
+    "id": "review.divide.11-12",
     "group": "review.divide",
-    "title": "Divide by 6",
+    "title": "Divide by 11 and 12",
     "world": "review",
     "prerequisites": [],
     "levels": [
-      "Divide by 6"
-    ]
-  },
-  {
-    "id": "review.divide.7",
-    "group": "review.divide",
-    "title": "Divide by 7",
-    "world": "review",
-    "prerequisites": [],
-    "levels": [
-      "Divide by 7"
-    ]
-  },
-  {
-    "id": "review.divide.8",
-    "group": "review.divide",
-    "title": "Divide by 8",
-    "world": "review",
-    "prerequisites": [],
-    "levels": [
-      "Divide by 8"
-    ]
-  },
-  {
-    "id": "review.divide.9",
-    "group": "review.divide",
-    "title": "Divide by 9",
-    "world": "review",
-    "prerequisites": [],
-    "levels": [
-      "Divide by 9"
-    ]
-  },
-  {
-    "id": "review.divide.10",
-    "group": "review.divide",
-    "title": "Divide by 10",
-    "world": "review",
-    "prerequisites": [],
-    "levels": [
-      "Divide by 10"
-    ]
-  },
-  {
-    "id": "review.divide.11",
-    "group": "review.divide",
-    "title": "Divide by 11",
-    "world": "review",
-    "prerequisites": [],
-    "levels": [
-      "Divide by 11"
-    ]
-  },
-  {
-    "id": "review.divide.12",
-    "group": "review.divide",
-    "title": "Divide by 12",
-    "world": "review",
-    "prerequisites": [],
-    "levels": [
-      "Divide by 12"
+      "Divide by 11 and 12"
+    ],
+    "tables": [
+      11,
+      12
     ]
   },
   {
@@ -1282,31 +1169,18 @@
     "prerequisites": [
       "review.add",
       "review.subtract",
-      "review.multiply.0",
-      "review.multiply.1",
-      "review.multiply.2",
-      "review.multiply.3",
-      "review.multiply.4",
-      "review.multiply.5",
-      "review.multiply.6",
-      "review.multiply.7",
-      "review.multiply.8",
-      "review.multiply.9",
-      "review.multiply.10",
-      "review.multiply.11",
-      "review.multiply.12",
-      "review.divide.1",
-      "review.divide.2",
-      "review.divide.3",
-      "review.divide.4",
-      "review.divide.5",
-      "review.divide.6",
-      "review.divide.7",
-      "review.divide.8",
-      "review.divide.9",
-      "review.divide.10",
-      "review.divide.11",
-      "review.divide.12"
+      "review.multiply.0-1",
+      "review.multiply.2-3-4",
+      "review.multiply.5-10",
+      "review.multiply.6-7",
+      "review.multiply.8-9",
+      "review.multiply.11-12",
+      "review.divide.0-1",
+      "review.divide.2-3-4",
+      "review.divide.5-10",
+      "review.divide.6-7",
+      "review.divide.8-9",
+      "review.divide.11-12"
     ],
     "levels": [
       "Missing operands",
@@ -1321,19 +1195,12 @@
     "title": "Factors/multiples",
     "world": "review",
     "prerequisites": [
-      "review.multiply.0",
-      "review.multiply.1",
-      "review.multiply.2",
-      "review.multiply.3",
-      "review.multiply.4",
-      "review.multiply.5",
-      "review.multiply.6",
-      "review.multiply.7",
-      "review.multiply.8",
-      "review.multiply.9",
-      "review.multiply.10",
-      "review.multiply.11",
-      "review.multiply.12"
+      "review.multiply.0-1",
+      "review.multiply.2-3-4",
+      "review.multiply.5-10",
+      "review.multiply.6-7",
+      "review.multiply.8-9",
+      "review.multiply.11-12"
     ],
     "levels": [
       "Factors/common factors",

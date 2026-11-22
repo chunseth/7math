@@ -1,31 +1,59 @@
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import { skills, sprites, type StudentState } from "../../../lib/mentalist/model";
+import { cardTitles, sprites, type StudentState } from "../../../lib/mentalist/model";
+import { swords } from "../../../lib/mentalist/resources";
+
 export function Inventory({
   state,
   act,
   busy,
+  initialSection = "Topic cards",
 }: {
   state: StudentState;
   act: (a: string, v: string) => void;
   busy: boolean;
+  initialSection?: "Topic cards" | "Equipment";
 }) {
-  const [section, setSection] = useState("Skills");
+  const [section, setSection] = useState<string>(initialSection);
+  const ownedSwords = swords.filter((sword) => state.equipment.ownedTools.includes(sword.id));
   return (
     <section className="mt-panel">
       <h1>Collection</h1>
       <div className="mt-switch">
-        {["Skills", "Characters", "Legacy"].map((s) => (
+        {["Topic cards", "Equipment", "Characters", "Legacy"].map((s) => (
           <button aria-pressed={section === s} key={s} onClick={() => setSection(s)}>
             {s}
           </button>
         ))}
       </div>
-      {section === "Skills" &&
+      {section === "Equipment" && (
+        <>
+          <h2>Swords</h2>
+          {ownedSwords.length === 0 && <p>Craft your first sword in Crafters.</p>}
+          {ownedSwords.map((sword) => {
+            const equipped = state.equipment.equippedSword === sword.id;
+            return (
+              <article className="mt-row" key={sword.id}>
+                <div>
+                  <h3>{sword.name}{equipped && " · Equipped"}</h3>
+                  <p>+{sword.damage} damage per correct answer in new battles</p>
+                </div>
+                <button disabled={busy} aria-label={`${equipped ? "Unequip" : "Equip"} ${sword.name}`}
+                  onClick={() => act("equipSword", equipped ? "" : sword.id)}>
+                  {equipped ? "Unequip" : "Equip"}
+                </button>
+              </article>
+            );
+          })}
+          <Link href="/crafters/crafting" prefetch={false}>Open Crafters crafting</Link>
+        </>
+      )}
+      {section === "Topic cards" &&
         (state.cards.length ? (
           state.cards.map((c) => (
             <article className="mt-row" key={c.skill}>
               <div>
-                <h3>{skills.find((s) => s.id === c.skill)?.title}</h3>
+                <h3>{cardTitles[c.skill]}</h3>
                 <p>
                   Level {c.upgrade} · {c.amount} card{c.amount === 1 ? "" : "s"}
                 </p>
@@ -41,7 +69,7 @@ export function Inventory({
             </article>
           ))
         ) : (
-          <p>Answer a question correctly to earn your first skill card.</p>
+          <p>Answer a question correctly to earn your first topic card.</p>
         ))}
       {section === "Characters" && (
         <>

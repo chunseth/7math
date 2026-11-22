@@ -8,14 +8,16 @@ import {
   one,
   rows,
   studentCookie as cookie,
+  studentSessionMaxAge,
   transaction,
   uuid,
 } from "../../../lib/mentalist/db";
-import { start, submit } from "../../../lib/mentalist/battle";
+import { prepareLevel, saveBattle, start, submit } from "../../../lib/mentalist/battle";
 import { leaderboard, publishedLevelIds, studentState } from "../../../lib/mentalist/student";
 import { economy } from "../../../lib/mentalist/economy";
 import { faculty, teacherUser } from "../../../lib/mentalist/teacher";
 import { craft } from "../../../lib/mentalist/craft";
+import { survivorPack } from "../../../lib/survivor/server";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 function json(data: unknown, status = 200) {
@@ -38,7 +40,7 @@ export async function POST(req: NextRequest) {
     if (!req.headers.get("content-type")?.startsWith("application/json"))
       throw new GameError("JSON required.", 415);
     const raw = await req.text();
-    if (raw.length > 4096) throw new GameError("Request too large.", 413);
+    if (raw.length > 2 * 1024 * 1024) throw new GameError("Request too large.", 413);
     let b;
     try {
       b = JSON.parse(raw);
@@ -46,6 +48,7 @@ export async function POST(req: NextRequest) {
       throw new GameError("Invalid request.");
     }
     if (!b || typeof b.action !== "string") throw new GameError("Specify an action.");
+    if (b.action !== "saveBattle" && raw.length > 4096) throw new GameError("Request too large.", 413);
     if (b.action === "publicTrail") return json(await transaction(publishedLevelIds));
     if (b.action === "login") {
       const res = await transaction((db) =>
@@ -55,9 +58,9 @@ export async function POST(req: NextRequest) {
       const reply = json({ id: res.id });
       reply.cookies.set(cookie, res.token, {
         httpOnly: true,
-        sameSite: "strict",
+        sameSite: "lax",
         secure: req.nextUrl.protocol === "https:" || process.env.NODE_ENV === "production",
-        maxAge: 43200,
+        maxAge: studentSessionMaxAge,
         path: "/",
       });
       return reply;
@@ -68,6 +71,8 @@ export async function POST(req: NextRequest) {
     }
     const result = await transaction(async (db) => {
       const who = await identity(db, req.cookies.get(cookie)?.value);
+      if (b.action === "prepareLevel") return prepareLevel(db, who, b.level);
+      if (b.action === "survivorPack") return survivorPack(db, who);
       if (b.action === "state") return studentState(db, who);
       if (b.action === "leaderboard") return leaderboard(db, b.level);
       if (b.action === "logout") {
@@ -78,7 +83,7 @@ export async function POST(req: NextRequest) {
         );
         return {};
       }
-      if (b.scope === "craft") return craft(db, who, b);
+      if (b.scope === "craft" && ["craftState", "collect"].includes(b.action)) return craft(db, who, b);
       const id = uuid(b.id),
         digest = hash(raw);
       const [prior] = await rows(
@@ -89,10 +94,13 @@ export async function POST(req: NextRequest) {
       if (prior) {
         if (prior.payload_hash !== digest) throw new GameError("Request identifier already used.", 409);
         console.info("Mentalist duplicate suppressed", { action: b.action });
+        if (b.scope === "craft") return craft(db, who, { action: "craftState" });
         return prior.response;
       }
       let data;
-      if (b.action === "start") data = await start(db, who, b.level, b.previous ?? null);
+      if (b.scope === "craft") data = await craft(db, who, b);
+      else if (b.action === "start") data = await start(db, who, b.level, b.previous ?? null, b.prepared);
+      else if (b.action === "saveBattle") data = await saveBattle(db, who, b.run, b.attempts, b.leave === true);
       else if (b.action === "answer")
         data = await submit(db, who, {
           id,

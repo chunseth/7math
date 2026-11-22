@@ -59,7 +59,7 @@ This overview collapses several review edges. The JSON is authoritative for exac
 
 Each node has three missions: learn with support, practice varied examples, and demonstrate independently. These are modes of the same concept, not separate skills. A branch challenge samples several concepts but awards evidence to each relevant node rather than creating another mastery track.
 
-Multiplication families 0–12 and division families 1–12 remain independently assignable children of the review nodes. Persist family-level evidence using a variant key, for example `family:7`. Preserve the existing per-family IDs through an explicit migration map. Number size, signs, denominator complexity, missing operand, and context are item parameters, not extra map nodes.
+Multiplication and division each use six assignable review groups covering 0/1, 2/3/4, 5/10, 6/7, 8/9, and 11/12. A 12-question set samples each group. The division review for 0/1 covers zero dividends and division by one. Each item retains its table variant for teacher inspection. Number size, signs, denominator complexity, missing operand, and context are item parameters, not extra map nodes.
 
 ## Mastery and access
 

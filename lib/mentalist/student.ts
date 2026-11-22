@@ -2,6 +2,9 @@ import type { PoolClient } from "pg";
 import {
   accessMap,
   checkpoint,
+  curriculumVersion,
+  currentLevel,
+  currentSkill,
   levelById,
   mainPathProgress,
   playable,
@@ -12,6 +15,7 @@ import {
   type LevelRecord,
 } from "./model";
 import { GameError, rows, one, type Identity } from "./db";
+import { equipment } from "./craft";
 
 export function leaderboard(db: PoolClient, level: string) {
   if (!levelById.has(level)) throw new GameError("Unknown level.", 404);
@@ -21,15 +25,26 @@ export function leaderboard(db: PoolClient, level: string) {
 }
 
 export async function publishedLevelIds(db: PoolClient): Promise<string[]> {
-  const records = await rows<{ level: string }>(db, "select level from published_levels where version=1");
+  const records = await rows<{ level: string }>(db, "select level from published_levels where version=$1", [curriculumVersion]);
   return records.map((record) => record.level);
 }
 
 export async function course(db: PoolClient, who: Identity) {
   const published = await publishedLevelIds(db);
-  const clears = await rows<Progress>(db, "select level,stars,review_due from clears where profile=$1", [
+  const saved = await rows<Progress>(db, "select level,stars,review_due from clears where profile=$1", [
     who.profile,
   ]);
+  const byLevel = new Map<string, Progress>();
+  for (const clear of saved) {
+    const level = currentLevel(clear.level);
+    const prior = byLevel.get(level);
+    byLevel.set(level, {
+      level,
+      stars: Math.max(clear.stars, prior?.stars ?? 0),
+      review_due: prior && prior.review_due > clear.review_due ? prior.review_due : clear.review_due,
+    });
+  }
+  const clears = [...byLevel.values()];
   const history = await rows<{ level: string; skill: string; last: Date }>(
     db,
     "select level,skill,max(started) as last from runs where profile=$1 group by level,skill order by last desc",
@@ -40,12 +55,12 @@ export async function course(db: PoolClient, who: Identity) {
     "select skill,kind from decisions where profile=$1 and class=$2 and removed is null",
     [who.profile, who.classId],
   );
-  const assigned = new Set<string>(decisions.filter((d) => d.kind === "assignment").map((d) => d.skill));
-  const placed = new Set<string>(decisions.filter((d) => d.kind === "placement").map((d) => d.skill));
+  const assigned = new Set<string>(decisions.filter((d) => d.kind === "assignment").map((d) => currentSkill(d.skill)));
+  const placed = new Set<string>(decisions.filter((d) => d.kind === "placement").map((d) => currentSkill(d.skill)));
   const access = accessMap(
     new Set(published),
     clears,
-    new Set(history.map((r) => r.level)),
+    new Set(history.map((r) => currentLevel(r.level))),
     assigned,
     placed,
   );
@@ -159,6 +174,7 @@ export async function studentState(db: PoolClient, who: Identity): Promise<Stude
   const cleared = new Set(data.clears.map((c) => c.level));
   return {
     profile,
+    equipment: await equipment(db, who.profile),
     ownedSprites,
     legacySkills,
     access: data.access,

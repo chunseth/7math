@@ -164,6 +164,10 @@
   overflow: auto;
   overscroll-behavior: contain;
 }
+.mt-trail {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 .mt-route {
   --route-width: 610px;
   position: relative;
@@ -237,7 +241,7 @@
   color: #275740;
   border-color: #77a28a;
 }
-.mt-route-label { display: grid; gap: 2px; line-height: 1.25; }
+.mt-route-label { display: grid; gap: 2px; line-height: 1.25; min-width: 0; overflow-wrap: anywhere; }
 .mt-route-label small, .mt-route-label > span { font-size: .74rem; font-weight: 500; }
 .mt-route-label strong { font-size: .93rem; font-weight: 620; }
 .mt-route-entry.is-current .mt-route-label { color: #194a36; }

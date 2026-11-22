@@ -11,7 +11,7 @@ async function publish() {
   if (!process.env.MENTALIST_DATABASE_URL)
     throw new Error("Set MENTALIST_DATABASE_URL to the target database.");
   execFileSync("python3", ["-B", resolve(__dirname, "build.py"), "--check"], { stdio: "inherit" });
-  const raw = gunzipSync(readFileSync(resolve(root, "content/mentalist/bank-v1.json.gz")));
+  const raw = gunzipSync(readFileSync(resolve(root, "content/mentalist/bank-v2.json.gz")));
   const bank = JSON.parse(raw);
   const stage = process.argv.find((a) => a.startsWith("--stage="))?.slice(8);
   if (!["slice", "numeric", "complete"].includes(stage))

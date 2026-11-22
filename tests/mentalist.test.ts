@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { accessMap, complete, evaluate, grade, levels, mainPathLevels, lessonStops, mainPathProgress, skills, type Recorded } from "../lib/mentalist/model";
+import { accessMap, cardTopic, currentLevel, complete, evaluate, grade, levels, mainPathLevels, lessonStops, mainPathProgress, skills, type Recorded } from "../lib/mentalist/model";
 import { previewGoal, sideGoals } from "../lib/mentalist/preview-goals";
 import previews from "../content/mentalist/previews.json";
 import { existsSync } from "node:fs";
@@ -10,12 +10,12 @@ type Bank = {
   sets: { level: string; positions: { q: string; variant: string; target: number }[] }[];
   questions: Record<string, { control: Parameters<typeof grade>[0]; answer: string }>;
 };
-const bank: Bank = JSON.parse(gunzipSync(readFileSync("content/mentalist/bank-v1.json.gz")).toString());
-test("all 250 levels have five distinct ordered sets, identical variant quotas and gradeable keys", () => {
+const bank: Bank = JSON.parse(gunzipSync(readFileSync("content/mentalist/bank-v2.json.gz")).toString());
+test("all 237 levels have five distinct ordered sets, identical variant quotas and gradeable keys", () => {
   assert.equal(skills.filter((s) => s.world !== "review").length, 62);
-  assert.equal(skills.length, 100);
-  assert.equal(levels.length, 250);
-  assert.equal(bank.sets.length, 1250);
+  assert.equal(skills.length, 87);
+  assert.equal(levels.length, 237);
+  assert.equal(bank.sets.length, 1185);
   for (const l of levels) {
     const sets = bank.sets.filter((s) => s.level === l.id);
     assert.equal(sets.length, 5);
@@ -35,6 +35,33 @@ test("all 250 levels have five distinct ordered sets, identical variant quotas a
       }
     }
   }
+});
+test("one sampled level per fact group, with zero dividends and shared topic cards", () => {
+  const groups = [[0,1], [2,3,4], [5,10], [6,7], [8,9], [11,12]];
+  for (const op of ["multiply", "divide"]) {
+    const facts = mainPathLevels.filter(l => l.skill.startsWith("review." + op + "."));
+    assert.equal(facts.length, 6);
+    groups.forEach((group, i) => {
+      const level = facts[i];
+      for (const set of bank.sets.filter(s => s.level === level.id)) {
+        for (const table of group) {
+          const items = set.positions.filter(p => p.variant.endsWith(".table-" + table));
+          assert.equal(items.length, 12 / group.length);
+          for (const {q} of items) {
+            if (op === "multiply") assert.ok(q.startsWith("fact.multiply." + table + "."));
+            else if (table === 0) assert.match(q, /^fact\.divide\.0\.[1-9]\d*$/);
+            else assert.ok(q.endsWith("." + table));
+          }
+        }
+      }
+      for (const table of group)
+        assert.equal(currentLevel(`review.${op}.${table}.1`), level.id);
+      assert.equal(cardTopic(level.skill), op === "multiply" ? "multiplication" : "division");
+    });
+  }
+  assert.equal(cardTopic("review.divide.9"), "division");
+  assert.equal(cardTopic("review.add"), "review");
+  assert.equal(cardTopic("ratio.equivalent"), cardTopic("ratio.unit"));
 });
 test("first-scored accuracy, revisions, simplifications and fluency thresholds are independent", () => {
   const integer = { kind: "whole", width: 2 },
@@ -95,7 +122,7 @@ test("prerequisites lock assigned skills while placement grants access without c
   assert.equal(base.find((a) => a.id === "signed.add.1")?.state, "locked");
   assert.match(base.find((a) => a.id === "signed.add.1")?.reason ?? "", /Addition|Subtraction/);
   assert.equal(base.find((a) => a.id === "review.add.1")?.state, "ready");
-  assert.equal(base.find((a) => a.id === "review.multiply.9.1")?.state, "ready");
+  assert.equal(base.find((a) => a.id === "review.multiply.8-9.1")?.state, "ready");
   assert.deepEqual([mainPathProgress(base).target, mainPathProgress(base).next], ["review.add.1", "review.add.1"]);
   const override = access(new Set(["decimal.add"]), empty);
   assert.equal(override.find((a) => a.id === "decimal.add.1")?.state, "locked");
@@ -142,7 +169,7 @@ test("quick goals count the entire unfinished chain once and follow shared clear
     done.map(level => ({level, stars: 1, review_due: ""})), new Set(), new Set(), new Set(placed));
   const initial = previewGoal("ratio.unit", access());
   assert.equal(initial.quick, false);
-  assert.equal(initial.foundations.includes("review.multiply.9"), true);
+  assert.equal(initial.foundations.includes("review.multiply.8-9"), true);
   assert.equal(initial.foundations.includes("ratio.equivalent"), true);
   const foundations = levels.filter(l => l.skill === "review.fractions").map(l => l.id);
   const quick = previewGoal("ratio.unit", access(foundations));
@@ -151,7 +178,7 @@ test("quick goals count the entire unfinished chain once and follow shared clear
   assert.equal(quick.next, "ratio.equivalent.1");
   assert.equal(quick.remaining, 6);
   assert.equal(previewGoal("ratio.unit", access([], ["ratio.equivalent"])).next, "ratio.unit.1");
-  const completed = previewGoal("review.multiply.9", access(["review.multiply.9.1"]));
+  const completed = previewGoal("review.multiply.8-9", access(["review.multiply.8-9.1"]));
   assert.equal(completed.complete, true);
   assert.equal(completed.quick, false);
   const fractions = previewGoal("fraction.add", access());
@@ -161,8 +188,8 @@ test("quick goals count the entire unfinished chain once and follow shared clear
 });
 
 test("the authored plan and videos cover every existing level once in prerequisite order", () => {
-  assert.equal(lessonStops.length, 93);
-  assert.deepEqual(lessonStops[4].levels.map(level => level.skill), ["review.multiply.5", "review.multiply.10"]);
+  assert.equal(lessonStops.length, 87);
+  assert.deepEqual(lessonStops[4].levels.map(level => level.skill), ["review.multiply.5-10"]);
   const ids = mainPathLevels.map(level => level.id);
   assert.deepEqual([...ids].sort(), levels.map(level => level.id).sort());
   assert.deepEqual(previews.map(clip => clip.level), ids);
@@ -172,7 +199,7 @@ test("the authored plan and videos cover every existing level once in prerequisi
       assert.ok(mainPathLevels.findIndex(level => level.skill === parent) < position);
   }
   for (const clip of previews) {
-    const base = "public/mentalist/previews/" + (clip.model === "worked" ? clip.level : clip.skill);
+    const base = "public/mentalist/previews/" + (clip.media ?? (clip.model === "worked" ? clip.level : clip.skill));
     assert.ok(existsSync(base + ".mp4") && existsSync(base + ".webp"), clip.level);
   }
 });
@@ -184,9 +211,9 @@ test("side goals include ready skills and single-foundation skills and share cle
   assert.ok(initial.some(item => item.level.id === "review.add.1" && item.goal.foundations.length === 0));
   assert.ok(!initial.some(item => item.level.skill === "signed.add"));
   const addition = levels.filter(l => l.skill === "review.add").map(l => l.id);
-  const cleared = [...addition, "review.multiply.9.1", "review.subtract.1"];
+  const cleared = [...addition, "review.multiply.8-9.1", "review.subtract.1"];
   const options = sideGoals(state(cleared));
-  assert.ok(!options.some(item => item.level.skill === "review.multiply.9"));
+  assert.ok(!options.some(item => item.level.skill === "review.multiply.8-9"));
   assert.equal(options.find(item => item.level.skill === "signed.add")?.goal.next, "review.subtract.2");
   assert.equal(options.find(item => item.level.skill === "review.subtract")?.level.id, "review.subtract.2");
   assert.equal(mainPathProgress(state(cleared)).next, "review.subtract.2");

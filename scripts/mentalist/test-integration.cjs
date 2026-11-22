@@ -67,6 +67,46 @@ async function solve(run, misses = 0, elapsed = () => 5) {
   }
   return run;
 }
+async function checkBatchPlay() {
+  const level = "review.subtract.1";
+  async function entry() {
+    const { data: pack } = await api({ action: "prepareLevel", level });
+    assert.equal(pack.questions.length, 12);
+    assert.ok(pack.questions.every(q => q.check.length === 64 && !("answer" in q)));
+    const { data: run } = await api({ action: "start", level, prepared: pack.set, id: randomUUID() });
+    const { rows: keys } = await db.query(`select q.definition->>'answer' as answer
+      from mentalist.runs r cross join lateral jsonb_array_elements(r.policy->'positions') with ordinality p(slot,n)
+      join mentalist.questions q on q.version=r.version and q.id=p.slot->>'q' where r.id=$1 order by p.n`, [run.id]);
+    assert.equal(pack.questions[run.rules.order[0]].prompt, run.encounter.question.prompt);
+    const attempts = keys.map((key, i) => ({ raw: key.answer, at: (i + 1) * 5, elapsed: 5 }));
+    return { run, attempts, action: { action: "saveBattle", run: run.id, id: run.id } };
+  }
+  const before = (await state()).profile.coins;
+  const full = await entry();
+  await api(event(full.run, full.attempts[0].raw), 409);
+  await api({ ...full.action, attempts: full.attempts.slice(0, 11) }, 422);
+  assert.equal((await state()).profile.coins, before);
+  const payload = { ...full.action, attempts: full.attempts };
+  const [left, right] = await Promise.all([api(payload), api(payload)]);
+  assert.deepEqual(left.data, right.data);
+  assert.equal(left.data.result.activeMs, 60);
+  assert.equal(left.data.result.stars, 3);
+  assert.ok(left.data.leaderboardRank);
+  assert.equal((await state()).profile.coins, before + 120);
+  const partial = await entry();
+  const leftEarly = await api({ ...partial.action, attempts: partial.attempts.slice(0, 2), leave: true });
+  assert.equal(leftEarly.data.status, "interrupted");
+  assert.equal(leftEarly.data.resolved, 2);
+  const reached = await db.query("select position,resolved from mentalist.encounters where run=$1 order by position", [partial.run.id]);
+  assert.deepEqual(reached.rows.map(row => [row.position, !!row.resolved]), [[1,true],[2,true],[3,false]]);
+  const knocked = await entry();
+  const wrong = knocked.attempts[0].raw.replace(/\d/, d => d === "9" ? "8" : "9");
+  const misses = knocked.attempts.slice(0, 4).map(a => ({ ...a, raw: wrong }));
+  const result = await api({ ...knocked.action, attempts: misses });
+  assert.equal(result.data.status, "knockdown");
+  assert.equal(result.data.hp, 0);
+  assert.equal((await state()).profile.coins, before + 140);
+}
 async function checkLeaderboard(name) {
   const level = "review.add.1";
   const board = async () => (await api({ action: "leaderboard", level })).data;
@@ -146,34 +186,34 @@ async function teacherChecks(name) {
   await teach("run", { ...child, run: f.id }, tb, 404);
   await teach("roster", { classId }, tb, 404);
   const coverage = (await teach("coverage", { classId })).data;
-  assert.equal(coverage.published.length, 100);
+  assert.equal(coverage.published.length, 87);
   assert.ok(coverage.requirements.some((v) => v.levels.length === 0));
   console.log(
     "Passed two-teacher isolation, placement, timing snapshots, fraction revisions, and historical run inspection.",
   );
 }
 async function retryHistory() {
-  let run = await start("review.multiply.9.1");
+  let run = await start("review.multiply.8-9.1");
   const sets = [];
+  const orders = [];
   for (let i = 0; i < 6; i++) {
-    const row = (await db.query("select set_id from mentalist.runs where id=$1", [run.id])).rows[0];
+    const row = (await db.query(`select r.set_id,r.policy->'positions' as slots,s.positions,
+      e.question from mentalist.runs r join mentalist.sets s on (s.version,s.id)=(r.version,r.set_id)
+      join mentalist.encounters e on e.run=r.id and e.position=1 where r.id=$1`, [run.id])).rows[0];
+    const order = row.slots.map(slot => slot.q);
+    orders.push(order.join(","));
+    assert.equal(row.question, order[0]);
+    assert.deepEqual([...order].sort(), row.positions.map(slot => slot.q).sort());
     sets.push(row.set_id);
     if (i < 5) run = await start(run.level, run.id);
   }
   assert.equal(new Set(sets.slice(0, 5)).size, 5);
   assert.equal(sets[0], sets[5]);
-  const hasSeven = async (id) =>
-    (
-      await db.query(
-        "select exists(select from mentalist.runs r join mentalist.sets s on (s.version,s.id)=(r.version,r.set_id) cross join lateral jsonb_array_elements(s.positions) p where r.id=$1 and p->>'q'='fact.multiply.9.7') as ok",
-        [id],
-      )
-    ).rows[0].ok;
-  if (!(await hasSeven(run.id))) run = await start(run.level, run.id);
-  while (run.encounter.question.prompt !== "9 × 7")
-    run = (await api(event(run, (await key(run)).answer))).data.run;
+  assert.notEqual(orders[0], orders[5]);
   const encounter = run.encounter.id;
-  for (const raw of ["54", "62", "63"]) run = (await api(event(run, raw))).data.run;
+  const { answer } = await key(run);
+  const wrong = answer.replace(/\d/, d => d === "9" ? "8" : "9");
+  for (const raw of [wrong, wrong, answer]) run = (await api(event(run, raw))).data.run;
   const attempts = (
     await db.query("select raw,scored_number from mentalist.events where encounter=$1 order by ordinal", [
       encounter,
@@ -182,9 +222,9 @@ async function retryHistory() {
   assert.deepEqual(
     attempts.map((a) => [a.raw, a.scored_number]),
     [
-      ["54", 1],
-      ["62", 2],
-      ["63", 3],
+      [wrong, 1],
+      [wrong, 2],
+      [answer, 3],
     ],
   );
   assert.equal(run.hp, 50);
@@ -212,9 +252,13 @@ async function main() {
   const name = "test_" + randomUUID().slice(0, 8);
   const login = await api({ action: "login", username: name, pin: "28", sprite: "raijin", create: true });
   assert.match(login.cookie, /HttpOnly/i);
+  assert.match(login.cookie, /SameSite=Lax/i);
+  assert.match(login.cookie, /Max-Age=2592000/i);
   cookie = login.cookie.split(";")[0];
   student = login.data.id;
-  assert.equal((await state()).access.length, 250);
+  const session = (await db.query("select expires from mentalist.sessions where profile=$1", [student])).rows[0];
+  assert.ok(new Date(session.expires).getTime() > Date.now() + 29 * 24 * 60 * 60 * 1000);
+  assert.equal((await state()).access.length, 237);
   await api({ action: "start", id: randomUUID(), level: "signed.add.2" }, 403);
   await api({ action: "start", id: randomUUID(), level: "signed.add.1" }, 403);
   const initialPath = await state();
@@ -246,14 +290,14 @@ async function main() {
   const s2 = await solve(await start("signed.add.2"));
   assert.ok(s2.result.passed);
   assert.ok((await state()).offer);
-  const bonus = await start("review.multiply.9.1");
+  const bonus = await start("review.multiply.8-9.1");
   assert.equal(bonus.bonus, true);
   assert.equal((await state()).offer, false);
   const perfect = await solve(bonus);
   assert.equal(perfect.bonusPaid, true);
   await solve(await start("signed.add.2"));
   assert.equal((await state()).offer, false);
-  const normal = await start("review.multiply.9.1");
+  const normal = await start("review.multiply.8-9.1");
   assert.equal(normal.bonus, false);
   let knock = normal;
   for (let i = 0; i < 4; i++) {
@@ -269,7 +313,7 @@ async function main() {
   }
   assert.equal(knock.status, "knockdown");
   assert.equal(knock.result, null);
-  const later = await start("review.multiply.9.1");
+  const later = await start("review.multiply.8-9.1");
   assert.equal(later.encounter.position, 1);
   assert.equal(later.hp, 100);
   const replacement = await start(later.level, later.id);
@@ -284,25 +328,57 @@ async function main() {
   assert.ok((await state()).chests.find((c) => c.id === chest.id).ready);
   const record = (await db.query("select policy from mentalist.runs where id=$1", [first])).rows[0];
   assert.equal(record.policy.upgrade, 1);
-  const c = (await state()).cards.find((c) => c.skill === "signed.add");
+  const c = (await state()).cards.find((c) => c.skill === "number");
   assert.ok(c.amount >= 40);
-  await api({ action: "upgrade", value: "signed.add", id: randomUUID() });
-  assert.equal((await state()).cards.find((c) => c.skill === "review.multiply.9").upgrade, 1);
+  await api({ action: "upgrade", value: "number", id: randomUUID() });
+  assert.equal((await state()).cards.find((c) => c.skill === "multiplication").upgrade, 1);
+  const shared = await start("signed.add.2");
+  assert.equal((await db.query("select policy from mentalist.runs where id=$1", [shared.id])).rows[0].policy.upgrade, 2);
+  await api({ action: "leave", id: randomUUID(), run: shared.id });
   const hist = (
     await db.query("select id,set_id from mentalist.runs where profile=$1 and level=$2 order by started", [
       student,
-      "review.multiply.9.1",
+      "review.multiply.8-9.1",
     ])
   ).rows;
   assert.equal(new Set(hist.map((r) => r.set_id)).size, hist.length);
-  const a2 = await api({ scope: "craft", action: "craftState" });
-  assert.equal(a2.data.progress.profile_id, student);
-  await api({ scope: "craft", action: "mine", node: "copper-ridge" });
-  await api({ scope: "craft", action: "mine", node: "iron-falls" }, 400);
+  const quarry = await api({ scope: "craft", action: "craftState" });
+  assert.equal(quarry.data.energy, 20);
+  assert.equal(quarry.data.job, null);
+  await api({ scope: "craft", action: "mine", node: "iron-falls", id: randomUUID() }, 409);
+  const mining = await api({ scope: "craft", action: "mine", node: "copper-ridge", id: randomUUID() });
+  assert.equal(mining.data.energy, 16);
+  assert.equal(mining.data.job.node, "copper-ridge");
+  await api({ scope: "craft", action: "mine", node: "tin-hollow", id: randomUUID() }, 409);
+  await db.query("update public.crafters_progress set mining_complete_at=now() where profile_id=$1", [student]);
+  const collections = await Promise.all([api({ scope: "craft", action: "collect" }), api({ scope: "craft", action: "collect" })]);
+  assert.deepEqual(collections.map(({data}) => data.inventory.copper), [1, 1]);
+  await api({ scope: "craft", action: "craftTool", tool: "copper-pickaxe", id: randomUUID() }, 409);
+  await db.query(
+    `insert into public.crafters_inventory(profile_id,ore_id,ore_name,quantity)
+     values($1,'copper','Copper Ore',3),($1,'tin','Tin Ore',1)
+     on conflict(profile_id,ore_id) do update set quantity=crafters_inventory.quantity+excluded.quantity`,
+    [student],
+  );
+  await api({ scope: "craft", action: "craftTool", tool: "copper-pickaxe", id: randomUUID() });
+  await api({ scope: "craft", action: "equipPickaxe", tool: "copper-pickaxe", id: randomUUID() });
+  const iron = await api({ scope: "craft", action: "mine", node: "iron-falls", id: randomUUID() });
+  assert.equal(iron.data.energy, 12);
+  const sword = await api({ scope: "craft", action: "craftTool", tool: "copper-sword", id: randomUUID() });
+  assert.equal(sword.data.inventory.copper, 0);
+  const equipped = await api({ action: "equipSword", value: "copper-sword", id: randomUUID() });
+  assert.equal(equipped.data.equipment.equippedSword, "copper-sword");
+  const armed = await start("signed.add.2");
+  const armedDamage = (await db.query("select policy->'damage' as damage from mentalist.runs where id=$1", [armed.id])).rows[0].damage;
+  const baseDamage = (await db.query("select policy->'damage' as damage from mentalist.runs where id=$1", [shared.id])).rows[0].damage;
+  assert.deepEqual(armedDamage, baseDamage.map((damage) => damage + 3));
+  await api({ action: "leave", id: randomUUID(), run: armed.id });
+  await api({ action: "equipSword", value: "", id: randomUUID() });
   const denied = await db.query(
     "select has_table_privilege('anon','public.profiles','select') leak,has_schema_privilege('authenticated','mentalist','usage') bypass",
   );
   assert.deepEqual(denied.rows[0], { leak: false, bypass: false });
+  await checkBatchPlay();
   await retryHistory();
   await teacherChecks(name);
   await api({ action: "logout" });
