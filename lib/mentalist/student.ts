@@ -24,8 +24,12 @@ export function leaderboard(db: PoolClient, level: string) {
     join public.profiles p on p.id=l.profile where l.level=$1 order by l.total_rank,p.username`, [level]);
 }
 
+// Grouped levels keep their IDs across the v2 and v3 content releases.
+export const publishedVersions = `select level, max(version) as version from published_levels
+  where version between 2 and ${curriculumVersion} group by level`;
+
 export async function publishedLevelIds(db: PoolClient): Promise<string[]> {
-  const records = await rows<{ level: string }>(db, "select level from published_levels where version=$1", [curriculumVersion]);
+  const records = await rows<{ level: string }>(db, publishedVersions);
   return records.map((record) => record.level);
 }
 

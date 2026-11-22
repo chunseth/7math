@@ -1,8 +1,8 @@
 import type { PoolClient } from "pg";
 import { randomInt, randomUUID } from "node:crypto";
 import { damageRangeForLevel } from "../gameplay";
-import { cardTopic, checkpoint, curriculumVersion, evaluate, grade, playable, type Question, type Recorded, type RunView } from "./model";
-import { course, recommend } from "./student";
+import { cardTopic, checkpoint, evaluate, grade, playable, type Question, type Recorded, type RunView } from "./model";
+import { course, publishedVersions, recommend } from "./student";
 import { advance, checkText, type Attempt, type LevelPack, type RoundRules } from "./round";
 import { GameError, hash, one, rows, uuid, type Identity } from "./db";
 import { swordDamage } from "./craft";
@@ -68,10 +68,12 @@ export async function runView(db: PoolClient, profile: string, id: string): Prom
   return { ...r, next, leaderboardRank: rank?.total_rank, encounter: r.status === "active" ? e : undefined } as RunView;
 }
 async function selectSet(db: PoolClient, profile: string, level: string, preferred?: string) {
-  return one(db, `select s.id,l.skill,s.positions from sets s join levels l on (s.version,s.level)=(l.version,l.id)
+  return one(db, `select s.id,s.version,l.skill,s.positions,coalesce(l.definition->'pool',s.positions) as pool
+    from (${publishedVersions}) pub join sets s using(level,version)
+    join levels l on (s.version,s.level)=(l.version,l.id)
     left join lateral (select max(started) last from runs r where r.profile=$2 and r.version=s.version and r.set_id=s.id) played on true
-    where s.level=$1 and s.version=$3 order by played.last asc nulls first,(s.id=$4) desc,random() limit 1`,
-    [level, profile, curriculumVersion, preferred ?? null]);
+    where s.level=$1 order by played.last asc nulls first,(s.id=$3) desc,random() limit 1`,
+    [level, profile, preferred ?? null]);
 }
 
 async function checkAccess(db: PoolClient, who: Identity, level: string) {
@@ -83,13 +85,38 @@ export async function prepareLevel(db: PoolClient, who: Identity, level: string)
   await checkAccess(db, who, level);
   const set = await selectSet(db, who.profile, level);
   const questions = await rows<{ definition: Question & { answer: string } }>(db,
-    `select q.definition from sets s cross join lateral jsonb_array_elements(s.positions) with ordinality p(slot,n)
-     join questions q on q.version=s.version and q.id=p.slot->>'q'
-     where s.version=$1 and s.id=$2 order by p.n`, [curriculumVersion, set.id]);
+    `select q.definition from jsonb_array_elements($2::jsonb) with ordinality p(slot,n)
+     join questions q on q.version=$1 and q.id=p.slot->>'q'
+     order by p.n`, [set.version, JSON.stringify(set.pool)]);
   return { level, set: set.id, questions: questions.map(({definition: q}, i) => ({
     prompt: q.prompt, control: q.control, visual: q.visual,
     check: hash(checkText(set.id, i, q, q.answer)),
   })) };
+}
+
+type PoolSlot = { variant: string; target: number };
+
+function shuffle<T>(items: T[]) {
+  for (let i = items.length - 1; i > 0; i--) {
+    const j = randomInt(i + 1);
+    [items[i], items[j]] = [items[j], items[i]];
+  }
+  return items;
+}
+
+function drawQuestions(pool: PoolSlot[], blueprint: PoolSlot[]) {
+  const groups = new Map<string, number[]>();
+  const category = (slot: PoolSlot) => JSON.stringify([slot.variant, slot.target]);
+  for (const i of shuffle(pool.map((_, index) => index))) {
+    const key = category(pool[i]);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key)!.push(i);
+  }
+  return shuffle(blueprint.map(slot => {
+    const index = groups.get(category(slot))?.pop();
+    if (index === undefined) throw new Error("Published question pool is missing a required variant.");
+    return index;
+  }));
 }
 
 export async function start(db: PoolClient, who: Identity, level: string, previous: string | null, prepared?: string) {
@@ -99,11 +126,8 @@ export async function start(db: PoolClient, who: Identity, level: string, previo
   const set = await selectSet(db, who.profile, level, prepared);
   if (prepared && set.id !== prepared) throw new GameError("This practice set has changed. Select Play again.", 409);
   if (active) await db.query("update runs set status='interrupted',ended=now() where id=$1", [active.id]);
-  const order = set.positions.map((_: unknown, i: number) => i) as number[];
-  for (let i = order.length - 1; i > 0; i--) {
-    const j = randomInt(i + 1);
-    [order[i], order[j]] = [order[j], order[i]];
-  }
+  const order = drawQuestions(set.pool, set.positions);
+  const positions = order.map(i => set.pool[i]);
   const [card] = await rows(db, "select upgrade from cards where profile=$1 and skill=$2", [
     who.profile,
     cardTopic(set.skill),
@@ -118,12 +142,12 @@ export async function start(db: PoolClient, who: Identity, level: string, previo
   const [min, max] = damageRangeForLevel(upgrade);
   const policy = {
     version: 1,
-    positions: order.map(i => set.positions[i]),
+    positions,
     upgrade,
     damage: [min + bonus, max + bonus],
     multiplier,
     targetMs:
-      set.positions.reduce((sum: number, p: { target: number }) => sum + p.target * 1000, 0) * multiplier,
+      positions.reduce((sum: number, p: { target: number }) => sum + p.target * 1000, 0) * multiplier,
     pass: 10,
     enemyHealth: 40,
     missDamage: 25,
@@ -135,7 +159,7 @@ export async function start(db: PoolClient, who: Identity, level: string, previo
   const run = await one(
     db,
     `insert into runs(profile,session_token,class,version,level,skill,set_id,policy) values($1,$2,$3,$8,$4,$5,$6,$7) returning id`,
-    [who.profile, who.token, who.classId, level, set.skill, set.id, { ...policy, rules }, curriculumVersion],
+    [who.profile, who.token, who.classId, level, set.skill, set.id, { ...policy, rules }, set.version],
   );
   const offer = await db.query(
     "update offers set run=$1 where profile=$2 and target=$3 and run is null and not expired returning checkpoint",
@@ -171,8 +195,8 @@ async function finish(db: PoolClient, who: Identity, r: Record<string, any>) {
     );
     if (r.level === checkpoint.level && clear.first_run === r.id)
       await db.query(
-        "insert into offers(profile,checkpoint,target,expires_level) select $1,$2,$3,$4 where exists(select from published_levels where version=$5 and level=$3) on conflict do nothing",
-        [who.profile, r.level, checkpoint.review, checkpoint.expiry, curriculumVersion],
+        `insert into offers(profile,checkpoint,target,expires_level) select $1,$2,$3,$4 where exists(select from (${publishedVersions}) pub where level=$3) on conflict do nothing`,
+        [who.profile, r.level, checkpoint.review, checkpoint.expiry],
       );
     await db.query("update offers set expired=true where profile=$1 and expires_level=$2 and run is null", [
       who.profile,

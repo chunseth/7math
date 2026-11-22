@@ -161,7 +161,10 @@ export default function Trail({
       let started: StartedRound;
       try { started = await post<StartedRound>(body); }
       catch (error) {
-        if (error instanceof RequestError && error.status === 409) packs.current.delete(player + "/" + id);
+        if (error instanceof RequestError && error.status === 409) {
+          packs.current.delete(player + "/" + id);
+          pack = undefined;
+        }
         throw error;
       }
       packs.current.delete(player + "/" + id);

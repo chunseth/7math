@@ -95,6 +95,8 @@ def arithmetic(skill, level, n, v):
         operands = tuple(
             f"{float(z):g}" if family == "decimal" else str(z) for z in (a, b)
         )
+    if op in ("add", "multiply") and family != "signed" and n % 2:
+        operands = operands[::-1]
     prompt = (
         story or f"{operands[0]} {symbol} ({operands[1]})"
         if operands[1].startswith("-")
@@ -103,10 +105,11 @@ def arithmetic(skill, level, n, v):
     return q(prompt, fn(a, b), kind, signed=family == "signed" or level > 1)
 
 
-def fact(operation, table, operand):
+def fact(operation, table, operand, reverse=False):
     if operation == "review.multiply":
-        row = q(f"{table} × {operand}", table * operand)
-        row["id"] = f"fact.multiply.{table}.{operand}"
+        left, right = (operand, table) if reverse else (table, operand)
+        row = q(f"{left} × {right}", table * operand)
+        row["id"] = f"fact.multiply.{left}.{right}"
         row["family"] = f"multiply.{min(table,operand)}.{max(table,operand)}"
     else:
         divisor, quotient = (operand, 0) if table == 0 else (table, operand)
@@ -117,7 +120,7 @@ def fact(operation, table, operand):
 
 
 def review(s, l, n, v):
-    a = 2 + n % 16
+    a = 2 + n % 30
     b = 2 + (3 * n + 1) % 11
     if s in ("review.add", "review.subtract"):
         if l == 1:
@@ -127,10 +130,10 @@ def review(s, l, n, v):
         if l == 3:
             a, b = 110 + n * 7, 25 + n
         if s == "review.subtract":
-            return q(f"{a+b} − {a}", b)
+            return q(f"{a+b} − {b}", a) if n % 2 else q(f"{a+b} − {a}", b)
         if l == 3 and v == 1:
             return q(f"{a} + □ = {a+b}", b)
-        return q(f"{a} + {b}", a + b)
+        return q(f"{b} + {a}", a + b) if n % 2 else q(f"{a} + {b}", a + b)
     if s == "review.whole":
         return [
             q(f"{a} × □ = {a*b}", b),

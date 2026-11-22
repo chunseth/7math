@@ -168,9 +168,9 @@ def topic(s, l, n, v):
                 n,
             )
         if l == 2:
-            x = 1 + n % 3
-            slope = 1 + n % 2
-            offset = n % 4
+            x = n % 7 - 3
+            slope = 1 + n // 7 % 2
+            offset = n // 14 % 5 - 2
             return grid(
                 f"Plot the point at x = {x} on y = {slope}x + {offset}.",
                 x,
@@ -730,15 +730,19 @@ def geometry_finance(s, l, n, v, a, b, k):
             [("Required pre-tax household income", incomes[i])],
         )
         vis["source"] = "https://livingwage.mit.edu/counties/48201"
+        if l == 1 and n // 12 % 2:
+            available = incomes[i] - (1 + n % 9) * 500
+            return q(f"{household}. A household earns ${available:,} per year. How many more annual dollars does it need to meet the estimate?", incomes[i] - available, visual=vis)
         if l == 1:
             return q(
                 f"{household}. Use the estimator table to find required pre-tax household dollars per year.",
                 incomes[i],
                 visual=vis,
             )
-        wage = F(round(F(incomes[i] * 100, 2080 * workers)), 100)
+        hours = [2080, 2000, 1950][n // 12 % 3]
+        wage = F(round(F(incomes[i] * 100, hours * workers)), 100)
         return q(
-            f"{household}. Each worker works 2,080 hours a year at equal pay. Required hourly wage per worker, nearest cent?",
+            f"{household}. Each worker works {hours:,} hours a year at equal pay. Required hourly wage per worker, nearest cent?",
             wage,
             "decimal",
             places=2,

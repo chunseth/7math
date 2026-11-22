@@ -1,7 +1,7 @@
 import type { PoolClient } from "pg";
 import { one, rows, type Identity } from "../mentalist/db";
-import { curriculumVersion, skillById, sprites } from "../mentalist/model";
-import { publishedLevelIds } from "../mentalist/student";
+import { skillById, sprites } from "../mentalist/model";
+import { publishedLevelIds, publishedVersions } from "../mentalist/student";
 import { completedSurvivorLevels, type SurvivorPack, type SurvivorQuestion, type SurvivorTopic } from "./pack";
 
 export async function survivorPack(db: PoolClient, who: Identity): Promise<SurvivorPack> {
@@ -15,19 +15,19 @@ export async function survivorPack(db: PoolClient, who: Identity): Promise<Survi
 
   const pack = await rows<SurvivorQuestion & { skill: string }>(db,
     `with eligible_ids as materialized (
-       select distinct l.skill,p.slot->>'q' as id
-       from sets s join levels l on (s.version,s.level)=(l.version,l.id)
-       cross join lateral jsonb_array_elements(s.positions) p(slot)
-       where s.version=$1 and s.level=any($2::text[])
+       select distinct l.version,l.skill,p.slot->>'q' as id
+       from (${publishedVersions}) pub join sets s using(level,version) join levels l on (s.version,s.level)=(l.version,l.id)
+       cross join lateral jsonb_array_elements(coalesce(l.definition->'pool',s.positions)) p(slot)
+       where s.level=any($1::text[])
      ), sampled as (
        select i.skill,q.id,q.definition->>'prompt' as prompt,q.definition->>'answer' as answer,
          row_number() over (partition by i.skill order by random()) as position
-       from eligible_ids i join questions q on q.version=$1 and q.id=i.id
+       from eligible_ids i join questions q on q.version=i.version and q.id=i.id
        where q.definition->'control'->>'kind' in ('whole','decimal','fraction')
          and q.definition->>'visual' is null
      )
      select skill,id,prompt,answer from sampled where position<=12 order by position,random()`,
-    [curriculumVersion, eligible]);
+    [eligible]);
 
   const topics = new Map<string, SurvivorTopic>();
   for (const { skill, ...question } of pack) {

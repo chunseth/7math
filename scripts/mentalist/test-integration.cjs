@@ -71,12 +71,13 @@ async function checkBatchPlay() {
   const level = "review.subtract.1";
   async function entry() {
     const { data: pack } = await api({ action: "prepareLevel", level });
-    assert.equal(pack.questions.length, 12);
+    assert.equal(pack.questions.length, 24);
     assert.ok(pack.questions.every(q => q.check.length === 64 && !("answer" in q)));
     const { data: run } = await api({ action: "start", level, prepared: pack.set, id: randomUUID() });
     const { rows: keys } = await db.query(`select q.definition->>'answer' as answer
       from mentalist.runs r cross join lateral jsonb_array_elements(r.policy->'positions') with ordinality p(slot,n)
       join mentalist.questions q on q.version=r.version and q.id=p.slot->>'q' where r.id=$1 order by p.n`, [run.id]);
+    assert.equal(new Set(run.rules.order).size, 12);
     assert.equal(pack.questions[run.rules.order[0]].prompt, run.encounter.question.prompt);
     const attempts = keys.map((key, i) => ({ raw: key.answer, at: (i + 1) * 5, elapsed: 5 }));
     return { run, attempts, action: { action: "saveBattle", run: run.id, id: run.id } };
@@ -197,19 +198,22 @@ async function retryHistory() {
   const sets = [];
   const orders = [];
   for (let i = 0; i < 6; i++) {
-    const row = (await db.query(`select r.set_id,r.policy->'positions' as slots,s.positions,
+    const row = (await db.query(`select r.set_id,r.policy->'positions' as slots,l.definition->'pool' as pool,s.positions,
       e.question from mentalist.runs r join mentalist.sets s on (s.version,s.id)=(r.version,r.set_id)
+      join mentalist.levels l on (l.version,l.id)=(r.version,r.level)
       join mentalist.encounters e on e.run=r.id and e.position=1 where r.id=$1`, [run.id])).rows[0];
     const order = row.slots.map(slot => slot.q);
-    orders.push(order.join(","));
+    orders.push([...order].sort().join(","));
     assert.equal(row.question, order[0]);
-    assert.deepEqual([...order].sort(), row.positions.map(slot => slot.q).sort());
+    assert.equal(new Set(order).size, 12);
+    assert.ok(order.every(id => row.pool.some(slot => slot.q === id)));
+    assert.deepEqual(row.slots.map(slot => slot.variant).sort(), row.positions.map(slot => slot.variant).sort());
     sets.push(row.set_id);
     if (i < 5) run = await start(run.level, run.id);
   }
   assert.equal(new Set(sets.slice(0, 5)).size, 5);
   assert.equal(sets[0], sets[5]);
-  assert.notEqual(orders[0], orders[5]);
+  assert.ok(new Set(orders).size > 1);
   const encounter = run.encounter.id;
   const { answer } = await key(run);
   const wrong = answer.replace(/\d/, d => d === "9" ? "8" : "9");

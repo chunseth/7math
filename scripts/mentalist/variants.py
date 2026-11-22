@@ -214,8 +214,8 @@ def extension(s, l, n, v):
             kind="record",
         )
     if s == "linear.represent" and l == 2 and v == 2:
-        k = 1 + n % 2
-        b = n % 4
+        k = 1 + n % 3
+        b = n // 3 % 5
         return "construct-line", item(
             f"Graph y = {k}x + {b}. Plot its points at x = 0 and then x = 2.",
             f"0,{b};2,{2*k+b}",

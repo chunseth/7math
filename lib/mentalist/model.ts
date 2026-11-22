@@ -17,7 +17,7 @@ export const worldTitles = branchTitles;
 export const worlds = [...new Set(skills.map((s) => s.world))];
 export const skillById = new Map(skills.map((s) => [s.id, s]));
 export const levelById = new Map(levels.map((l) => [l.id, l]));
-export const curriculumVersion = 2;
+export const curriculumVersion = 3;
 const formerSkillIds = new Map<string, string>();
 for (const skill of skills)
   for (const table of skill.tables ?? []) formerSkillIds.set(skill.group + "." + table, skill.id);
