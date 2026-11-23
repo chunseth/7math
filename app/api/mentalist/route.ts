@@ -20,6 +20,7 @@ import { faculty, teacherUser } from "../../../lib/mentalist/teacher";
 import { craft } from "../../../lib/mentalist/craft";
 import { survivorPack } from "../../../lib/survivor/server";
 import { finishRush, rushBoard, startRush } from "../../../lib/rush/server";
+import { checkReview, exportReviewBugs, saveReview } from "../../../lib/verification/server";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 function json(data: unknown, status = 200) {
@@ -73,6 +74,9 @@ export async function POST(req: NextRequest) {
     }
     const result = await transaction(async (db) => {
       const who = await identity(db, req.cookies.get(cookie)?.value);
+      if (b.action === "verificationCheck") return checkReview(b);
+      if (b.action === "verificationSave") return saveReview(db, who, b);
+      if (b.action === "verificationExport") return exportReviewBugs(db, who);
       if (b.action === "prepareLevel") return prepareLevel(db, who, b.level);
       if (b.action === "survivorPack") return survivorPack(db, who);
       if (b.action === "state") return studentState(db, who, courseGrade(b.grade));

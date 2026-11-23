@@ -22,6 +22,10 @@ const gameModes = [
     href: "/8math", kicker: "Grade 8", title: "8math",
   },
   {
+    description: "Review student questions, accept correct examples, and flag issues across three grade worlds.",
+    href: "/verification", kicker: "Curriculum Review", title: "Verification Trail",
+  },
+  {
     description: "Spend energy to mine ore, then craft pickaxes and swords for your player.",
     href: "/crafters",
     kicker: "New Mode",
@@ -44,7 +48,7 @@ const gameModes = [
 export const dynamic="force-dynamic";
 export default function Home() {
   const curriculum=process.env.MENTALIST_CURRICULUM==="1";
-  const modes=curriculum?gameModes.filter(m=>m.href!=="/skills").map(m=>m.href==="/7math"?{...m,description:"Follow the Grade 7 trail, practice a concept, and collect topic cards."}:m):gameModes.filter(m=>m.href!=="/survivor");
+  const modes=curriculum?gameModes.filter(m=>m.href!=="/skills").map(m=>m.href==="/7math"?{...m,description:"Follow the Grade 7 trail, practice a concept, and collect topic cards."}:m):gameModes.filter(m=>m.href!=="/survivor" && m.href!=="/verification");
   return (
     <main className="shell mode-select-shell">
       <section className="mode-menu mode-select-menu">

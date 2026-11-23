@@ -1,13 +1,15 @@
 import type { NextConfig } from "next";
 
-const rushBanks = ["./content/6math/bank.json.gz", "./content/mentalist/bank-v4.json.gz", "./content/8math/bank.json.gz"];
+const curriculumBanks = ["./content/6math/bank.json.gz", "./content/mentalist/bank-v4.json.gz", "./content/8math/bank.json.gz"];
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   distDir: process.env.NODE_ENV === "development" ? ".next-dev" : ".next",
   outputFileTracingIncludes: {
-    "/api/rush": rushBanks,
-    "/api/mentalist": rushBanks,
+    "/api/rush": curriculumBanks,
+    "/api/mentalist": curriculumBanks,
+    "/verification": curriculumBanks,
+    "/verification/*": curriculumBanks,
   },
 };
 export default nextConfig;

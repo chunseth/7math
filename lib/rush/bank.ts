@@ -1,28 +1,12 @@
 import { randomInt, randomUUID } from "node:crypto";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
-import { gunzipSync } from "node:zlib";
+import { readCourseBank, type BankQuestion } from "../mentalist/bank";
 import { hash } from "../mentalist/db";
-import type { Question } from "../mentalist/model";
 import { checkText, type LevelPack } from "../mentalist/round";
 import { rushLength } from "./model";
 
-export type BankQuestion = Question & { answer: string };
-
-const bankFiles = [
-  "content/6math/bank.json.gz",
-  "content/mentalist/bank-v4.json.gz",
-  "content/8math/bank.json.gz",
-];
-
 let pool: BankQuestion[] | undefined;
 function questions() {
-  pool ??= bankFiles.flatMap(file => {
-    const bank: { questions: Record<string, BankQuestion> } = JSON.parse(
-      gunzipSync(readFileSync(join(process.cwd(), file))).toString("utf8"),
-    );
-    return Object.values(bank.questions);
-  });
+  pool ??= ([6, 7, 8] as const).flatMap(grade => Object.values(readCourseBank(grade).questions));
   return pool;
 }
 

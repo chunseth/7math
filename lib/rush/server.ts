@@ -1,7 +1,8 @@
 import type { PoolClient } from "pg";
 import { GameError, one, rows, uuid, type Identity } from "../mentalist/db";
 import { grade } from "../mentalist/model";
-import { drawRush, type BankQuestion } from "./bank";
+import type { BankQuestion } from "../mentalist/bank";
+import { drawRush } from "./bank";
 import { rushLength, type RushBoard, type RushRecord, type RushResult, type RushRun } from "./model";
 
 export async function startRush(db: PoolClient, who: Identity): Promise<RushRun> {

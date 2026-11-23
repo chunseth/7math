@@ -44,3 +44,11 @@ The household-estimator tasks use a dated Harris County snapshot. [Living Wage C
 - `npm run mentalist:integration` exercises a running local app against its disposable local database. Set `MENTALIST_TEST_ORIGIN` and `MENTALIST_DATABASE_URL`. Optional `MENTALIST_TEST_TEACHER_A_TOKEN` and `MENTALIST_TEST_TEACHER_B_TOKEN` enable cross-roster checks with two provisioned teacher accounts.
 - `npm run mentalist:browser` uses the same fixture with Chromium. Set `MENTALIST_TEST_CHROME` to an installed Chrome or Chromium executable. The test creates disposable players and enrolls one with a fixture teacher. It covers phone navigation, retries, fraction debounce, lost acknowledgements and resuming on reload and retrying a batch save.
 - `npm run mentalist:audit` performs read-only checks for unpublished recommendations, missing sets, missing encounter rewards, inconsistent bonus payments and academic replay differences. Request failures and duplicate suppression are logged without PINs or student answers.
+
+## Verification Trail
+
+Open `/verification` from the main menu and sign in with an existing player account. The three grade worlds use the candidate banks in the app, so reviewers can start before ranked publication. Apply the verification migration to the curriculum database to enable saved reviews.
+
+Play each example with its student controls. After a correct answer, either accept the problem or save a written bug report. If the prompt, key, or input prevents a correct response, use the blocked-answer report. Both saved decisions advance the review trail. Progress is personal to the signed-in account and the candidate bank version.
+
+**Export bug reports** downloads that account’s flagged cases as JSON, including the grade, bank version, level ID, question ID, question snapshot, and reviewer note. Share the file with the team or attach it to a later review chat as evidence. Treat reviewer notes as observations to investigate.
