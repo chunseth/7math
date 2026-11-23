@@ -243,6 +243,8 @@
 }
 .mt-route-label { display: grid; gap: 2px; line-height: 1.25; min-width: 0; overflow-wrap: anywhere; }
 .mt-route-label small, .mt-route-label > span { font-size: .74rem; font-weight: 500; }
+.mt-route-label .mt-route-unit, .mt-shell .mt-level-unit { color: var(--green); font-size: .74rem; font-weight: 700; }
+.mt-shell .mt-level-unit { margin: 0 0 .25rem; }
 .mt-route-label strong { font-size: .93rem; font-weight: 620; }
 .mt-route-entry.is-current .mt-route-label { color: #194a36; }
 .mt-route-entry.is-current .mt-route-label > span { font-weight: 700; }
@@ -664,6 +666,11 @@
   }
   .mt-route-row { height: 102px; }
   .mt-shell .mt-route-entry { --radius: 21px; gap: 10px; }
+  .mt-route-course .mt-route-row { height: 124px; }
+  .mt-shell .mt-route-course .mt-route-entry { gap: 6px; }
+  .mt-route-course .mt-route-label { grid-template-columns: minmax(0, 1fr); line-height: 1.2; }
+  .mt-route-course .mt-route-category { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mt-route-course .mt-route-unit + .mt-route-category { display: none; }
   .mt-top {
     gap: 7px;
   }
@@ -673,6 +680,9 @@
   .mt-top button {
     font-size: 13px;
   }
+}
+@media (max-width: 360px) {
+  .mt-route-course .mt-route-row { height: 136px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .mt-shell * {
@@ -740,13 +750,6 @@
   border-color: #b57952;
 }
 
-.g8-map { padding: .5rem clamp(.8rem, 3vw, 2rem) 2rem; }
-.g8-map section { max-width: 46rem; margin: 1.4rem auto; }
-.g8-map h2 { font-size: 1.2rem; }
-.g8-map ol { list-style: none; margin: .6rem 0; padding: 0; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-.mt-shell .g8-map button { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; width: 100%; text-align: left; padding: .8rem 1rem; border: 0; border-radius: 0; }
-.g8-map li + li { border-top: 1px solid var(--border); }
-.g8-map small { color: var(--muted); font-weight: 500; }
 .g8-connections { margin: 1rem 0; }
 .g8-connections button { margin: 0 .25rem .25rem 0; }
 .g8-practice { max-width: 42rem; margin: auto; }

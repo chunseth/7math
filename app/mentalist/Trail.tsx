@@ -16,7 +16,7 @@ import {
 } from "../../lib/mentalist/model";
 import type { LevelPack, RoundDraft, StartedRound } from "../../lib/mentalist/round";
 import { post, RequestError, restoreRound, storeRound } from "../../lib/mentalist/client";
-import { CourseMap, Connections } from "../8math/CourseMap";
+import { Connections } from "../8math/Connections";
 import { Practice } from "../8math/Practice";
 import { CourseFeed, LessonVideo, PreviewFeed } from "./components/PreviewFeed";
 import { previewGoal } from "../../lib/mentalist/preview-goals";
@@ -137,10 +137,10 @@ export default function Trail({
     }
   }
   useEffect(() => {
-    if (tab === "Map" && !run && (main.next || main.target)) {
+    if (tab === "Map" && !run && !practice && (main.next || main.target)) {
       document.getElementById("stop-" + (main.next ?? main.target))?.scrollIntoView({ block: "center" });
     }
-  }, [tab, run, main.next, main.target]);
+  }, [tab, run, practice, main.next, main.target]);
   async function request(work: () => Promise<void>) {
     if (lock.current) return;
     lock.current = true;
@@ -246,6 +246,7 @@ export default function Trail({
     );
   const level = selected ? levelById.get(selected) : null,
     entry = selected ? byId.get(selected) : null;
+  const selectedSkill = level ? skillById.get(level.skill) : null;
   const notice = message && (
     <div role="alert" className="mt-alert">
       {message}
@@ -276,12 +277,13 @@ export default function Trail({
       {tab === "Map" && <>
         <div className="mt-map-progress">
           <span>Main path</span>
-          <span>{course && !main.total ? course.levels.length + " lessons" : main.cleared + " of " + main.total + " levels cleared"}</span>
+          <span>{course && !main.total ? course.levels.length + " practice levels" : main.cleared + " of " + main.total + " levels cleared"}</span>
           {accounts && (!course || main.total > 0) && <button onClick={() => openLeaderboard(main.next ?? main.target ?? (course?.levels[0].id ?? "review.add.1"))}>Leaderboards</button>}
         </div>
         {!course && main.total === 0 && <p className="mt-map-status">Lessons are awaiting publication.</p>}
         {main.target && !main.next && <p className="mt-map-status">Your next foundation is awaiting publication.</p>}
-        {course ? <CourseMap lessons={course.skills} access={byId} next={main.next} open={select} /> : <CurriculumMap access={byId} main={main} open={id => { setMessage(""); select(id); }} />}
+        <CurriculumMap grade={grade} access={byId} main={main}
+          open={id => { setMessage(""); select(id); }} />
       </>}
       {tab === "More Topics" && course && <CourseFeed grade={grade === 6 ? 6 : 8} onTry={tryPreview} obscured={auth || account || !!selected || !!boardLevel} />}
       {tab === "More Topics" && !course && <PreviewFeed access={access} onTry={tryPreview} pinned={pinned}
@@ -315,11 +317,10 @@ export default function Trail({
         ))}
       </nav>
       {boardLevel && state && !auth && <Leaderboard initialLevel={boardLevel} username={state.profile.username} close={() => setBoardLevel(null)} />}
-      {level && entry && !auth && !boardLevel && (
+      {level && selectedSkill && entry && !auth && !boardLevel && (
         <Sheet close={() => !busy && select(null)}>
-          <small>
-            {course ? skillById.get(level.skill)!.world.slice(3) : skillById.get(level.skill)!.title + " · Level " + level.ordinal}
-          </small>
+          {course && <p className="mt-level-unit">{selectedSkill.world.slice(3)}</p>}
+          <small>{selectedSkill.title} · Level {level.ordinal}</small>
           <h2>{level.title}</h2>
           <div className="mt-example">
             <small>Example question</small>

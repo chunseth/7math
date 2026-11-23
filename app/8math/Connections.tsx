@@ -3,26 +3,6 @@ import { courses, gradeOf, type Access, type Level } from "../../lib/mentalist/m
 
 type Lessons = (typeof courses)[6]["skills"];
 
-export function CourseMap({ lessons, access, next, open }: { lessons: Lessons; access: Map<string, Access>; next: string | null; open: (id: string) => void }) {
-  function row(s: Lessons[number], index: number) {
-    const id = s.id + "." + (index+1), entry = access.get(id);
-    const status = entry?.state === "cleared" ? "★".repeat(entry.stars) :
-      next === id ? "Continue" : s.stages ? `Level ${index+1} of ${s.levels.length}` : s.standards.join(" · ");
-    return <li id={"stop-" + id} key={id}><button aria-current={next === id ? "step" : undefined} onClick={() => open(id)}>
-      <span>{s.previousPrerequisites ? "Mixed practice · " : ""}{s.levels[index]}</span><small>{status}</small>
-    </button></li>;
-  }
-  return <div role="region" aria-label="Curriculum map" className="mt-trail g8-map">
-    {Array.from(new Set(lessons.map(s => s.unit))).map(unit =>
-      <section key={unit}><h2>{unit}</h2>
-        {lessons.filter(s => s.unit === unit).map(s => <div key={s.id}>
-          {s.stages && <h3>{s.title}</h3>}
-          <ol>{s.levels.map((_, index) => row(s, index))}</ol>
-        </div>)}
-      </section>)}
-  </div>;
-}
-
 const transfer: Record<string,string> = {
   "scientific-ops": "Comparing scientific measurements and orders of magnitude",
   compose: "Coordinate proofs with composite transformations",
