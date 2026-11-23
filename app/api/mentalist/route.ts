@@ -23,11 +23,11 @@ import { finishRush, rushBoard, startRush } from "../../../lib/rush/server";
 import { checkReview, exportReviewBugs, saveReview } from "../../../lib/verification/server";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+const verificationActions = new Set(["verificationLogin", "verificationCheck", "verificationSave", "verificationExport"]);
 function json(data: unknown, status = 200) {
   return NextResponse.json(data, { status, headers: { "Cache-Control": "private, no-store" } });
 }
 export async function POST(req: NextRequest) {
-  if (!enabled()) return json({ error: "Curriculum is disabled." }, 404);
   const origin = req.headers.get("origin");
   if (origin) {
     let host;
@@ -51,11 +51,13 @@ export async function POST(req: NextRequest) {
       throw new GameError("Invalid request.");
     }
     if (!b || typeof b.action !== "string") throw new GameError("Specify an action.");
+    if (!enabled() && (b.scope === "teacher" || !verificationActions.has(b.action)))
+      throw new GameError("Curriculum is disabled.", 404);
     if (b.action !== "saveBattle" && raw.length > 4096) throw new GameError("Request too large.", 413);
     if (b.action === "publicTrail") return json(await transaction(db => publishedLevelIds(db, courseGrade(b.grade))));
-    if (b.action === "login") {
+    if (b.action === "login" || b.action === "verificationLogin") {
       const res = await transaction((db) =>
-        login(db, String(b.username), String(b.pin), String(b.sprite), b.create === true),
+        login(db, String(b.username), String(b.pin), String(b.sprite), b.action === "login" && b.create === true),
       );
       if (!res.token) return json({ error: res.error }, res.status);
       const reply = json({ id: res.id });

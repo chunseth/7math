@@ -1,23 +1,18 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { enabled, GameError, identity, studentCookie, transaction } from "../../lib/mentalist/db";
+import { redirect } from "next/navigation";
+import { databaseConfigured, GameError, identity, studentCookie, transaction } from "../../lib/mentalist/db";
 import type { CourseGrade } from "../../lib/mentalist/model";
 import { verificationCatalog } from "../../lib/verification/catalog";
 import { reviewProgress, reviewWorldSummaries } from "../../lib/verification/server";
 import { verificationWorlds } from "../../lib/verification/model";
-import VerificationSignIn from "./SignIn";
 import VerificationTrail from "./VerificationTrail";
 import ExportReports from "./ExportReports";
 
 export default async function VerificationScreen({ grade }: { grade?: CourseGrade }) {
-  if (!enabled()) return <main className="mt-shell verify-gate">
-    <Link href="/">← Main menu</Link>
-    <h1>Verification Trail</h1>
-    <p>Curriculum review is unavailable on this site.</p>
-  </main>;
-
+  const signInPath = grade ? `/verification/sign-in?grade=${grade}` : "/verification/sign-in";
   const token = (await cookies()).get(studentCookie)?.value;
-  if (!token) return <VerificationSignIn />;
+  if (!token || !databaseConfigured()) redirect(signInPath);
 
   try {
     const data = await transaction(async db => {
@@ -55,7 +50,7 @@ export default async function VerificationScreen({ grade }: { grade?: CourseGrad
       </nav>
     </main>;
   } catch (error) {
-    if (error instanceof GameError && error.status === 401) return <VerificationSignIn />;
+    if (error instanceof GameError && error.status === 401) redirect(signInPath);
     console.error("Could not load verification trail", (error as { code?: string })?.code);
     return <main className="mt-shell verify-gate">
       <Link href="/">← Main menu</Link>
