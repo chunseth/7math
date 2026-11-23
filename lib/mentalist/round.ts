@@ -1,8 +1,8 @@
-import { grade, type Outcome, type Question, type RunView } from "./model";
+import { grade, normalizeStructuredAnswer, type Outcome, type Question, type RunView } from "./model";
 import { formatRational, parseAnswer } from "../curriculum/rational";
 
 export type PackedQuestion = Question & { check: string };
-export type LevelPack = { level: string; set: string; questions: PackedQuestion[] };
+export type LevelPack = { level: string; set: string; questions: PackedQuestion[]; mix?: string[] };
 export type RoundRules = { order: number[]; hits: number[]; missDamage: number; enemyHealth: number };
 export type StartedRound = RunView & { rules: RoundRules };
 export type Attempt = { raw: string; elapsed: number; at: number };
@@ -17,7 +17,7 @@ export type RoundDraft = {
 
 export function checkText(set: string, index: number, q: Question, answer: string) {
   const value = ["whole", "fraction", "decimal"].includes(q.control.kind) ? parseAnswer(answer) : null;
-  return JSON.stringify([set, index, value ? formatRational(value) : answer]);
+  return JSON.stringify([set, index, value ? formatRational(value) : normalizeStructuredAnswer(q.control, answer)]);
 }
 
 export async function checkLocally(pack: LevelPack, index: number, raw: string): Promise<Outcome> {
@@ -28,6 +28,32 @@ export async function checkLocally(pack: LevelPack, index: number, raw: string):
   const hash = new Uint8Array(await crypto.subtle.digest("SHA-256", bytes));
   const hex = Array.from(hash, byte => byte.toString(16).padStart(2, "0")).join("");
   return hex === q.check ? marked.outcome : "incorrect";
+}
+
+export function guestOrder(pack: LevelPack) {
+  const shuffle = (indices: number[]) => {
+    for (let i = indices.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [indices[i], indices[j]] = [indices[j], indices[i]];
+    }
+    return indices;
+  };
+  const indices = pack.questions.map((_, index) => index);
+  if (!pack.mix) return shuffle(indices);
+  const groups = new Map<string, number[]>();
+  for (const [i, category] of pack.mix.entries()) {
+    const group = groups.get(category) ?? [];
+    group.push(i);
+    groups.set(category, group);
+  }
+  const halves = [[], []] as [number[], number[]];
+  for (const group of groups.values()) {
+    const middle = group.length / 2;
+    shuffle(group);
+    halves[0].push(...group.slice(0, middle));
+    halves[1].push(...group.slice(middle));
+  }
+  return [...shuffle(halves[0]), ...shuffle(halves[1])];
 }
 
 type Combat = Pick<RunView, "hp" | "enemy_hp" | "defeats" | "resolved">;

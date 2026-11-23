@@ -6,9 +6,10 @@ const {Readable} = require('node:stream');
 const {pipeline} = require('node:stream/promises');
 const {mkdir} = require('node:fs/promises');
 const sharp = require('sharp');
-const clips = require('../../../content/mentalist/previews.json');
+const course = process.argv.includes('--grade6') ? '6math' : process.argv.includes('--grade8') ? '8math' : 'mentalist';
+const clips = require('../../../content/' + course + '/previews.json');
 const {board} = require('./boards.cjs');
-const output = join(__dirname,'../../../public/mentalist/previews');
+const output = join(__dirname,'../../../public',course,'previews');
 const fps = 32;
 const speed = 4; // A 300% increase over the original drawing speed.
 const seconds = 21 / speed;
@@ -32,9 +33,12 @@ async function render(clip) {
 }
 async function main() {
   await mkdir(output,{recursive:true});
-  const selected = clips.filter(c=>!process.argv[2] || (c.skill===process.argv[2] || c.level===process.argv[2]));
+  const id = process.argv.slice(2).find(arg=>!arg.startsWith('--'));
+  const selected = clips.filter(c=>!c.mediaCourse && (!id || c.skill===id || c.level===id));
   if (!selected.length) throw Error('Unknown skill');
   // Bound encoder concurrency so a full rebuild also works on a laptop.
-  for (let i=0; i<selected.length; i+=3) await Promise.all(selected.slice(i,i+3).map(render));
+  const pending = process.argv.includes('--missing') ? selected.filter(c =>
+    ['mp4', 'webp'].some(ext => !require('node:fs').existsSync(join(output, (c.media ?? c.level) + '.' + ext)))) : selected;
+  for (let i=0; i<pending.length; i+=3) await Promise.all(pending.slice(i,i+3).map(render));
 }
 main().catch(e=>{console.error(e);process.exitCode=1});

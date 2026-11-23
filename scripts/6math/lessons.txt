@@ -1,0 +1,51 @@
+# Lesson ID | title | standards | prerequisites | worked question | first explanation | working | second explanation | working | answer
+[Rational numbers and operations]
+sets|Classify rational numbers|2A||Which is the smallest set containing −6 among whole numbers, integers and rational numbers?|Whole numbers start at zero.|0, 1, 2|Negative counting numbers are integers and can be written as fractions.|−6 = −6/1|integers
+opposites|Opposites and absolute value|2B|sets|A diver is at −8 m. How far is she from sea level?|Locate the diver relative to zero.|−8 < 0|Distance is the number of units between positions.|0 − (−8)|8 m
+quotients|Fractions as division|2E|sets|Five friends share three pizzas equally. How much does each receive?|Divide the pizzas by the number of friends.|3 ÷ 5|Write the quotient as a fraction.|3/5|3/5 of a pizza
+order|Locate and order rational numbers|2C,2D|quotients,opposites|Which is colder, −0.75°C or −1/2°C?|Express both temperatures as decimals.|−1/2 = −0.5|The value farther left is colder.|−0.75 < −0.5|−0.75°
+add|Model integer addition and subtraction|3C,3D|order|The temperature is −4°C and falls another 3 degrees. Where does it end?|Start below zero.|−4|Move three units left.|−4 − 3|−7°
+multiply|Multiply and divide integers|3C,3D|add|A balance changes by −$6 per day for four days. Find the total change.|Combine four equal changes.|−6 − 6 − 6 − 6|Use a signed product.|4 × (−6)|−$24
+factors|Prime factors and common multiples|7A|sets|What is the least common multiple of 12 and 18?|Break each number into primes.|12 = 2² × 3|Use the largest power of each prime.|2² × 3²|36
+fraction-products|Multiply fractions and predict product size|3B,3E|quotients|A recipe uses 3/4 cup. How much is needed for 2/3 of a batch?|Both factors are below one.|2/3 × 3/4|Reduce before multiplying.|2/4|1/2 cup
+fraction-division|Divide using reciprocals|3A,3E|fraction-products|How many 1/4-cup scoops fill 3/2 cups?|A whole cup contains four scoops.|1 ÷ (1/4) = 4|Multiply the available cups by four.|3/2 × 4|6 scoops
+decimals|Compute with positive decimals|3E|fraction-division|A 2.4 m ribbon is cut into 0.3 m strips. How many strips fit?|Scale both lengths by ten.|2.4 ÷ 0.3 = 24 ÷ 3|Count equal groups.|24 ÷ 3|8 strips
+fluency|Multi-digit division and decimal fluency|NS.B.2,NS.B.3|decimals|A store divides 1512 pencils equally among 24 classes. How many does each class get?|Divide off sixty groups first.|24 × 60 = 1440|Divide the remaining pencils and combine.|72 ÷ 24 = 3|63 pencils
+[Ratios, rates and percents]
+ratios|Describe and scale ratios|4C,4E,5A|quotients|Trail mix uses 3 cups of oats for 2 of nuts. How many cups of oats go with 8 of nuts?|Find the scale factor for nuts.|8 ÷ 2 = 4|Scale the oats by the same factor.|3 × 4|12 cups
+rates|Unit rates and better buys|4B,4D,5A|ratios,decimals|Six notebooks cost $9. What will four cost at the same rate?|Find dollars per notebook.|9 ÷ 6 = 1.5|Multiply by the new quantity.|4 × 1.5|$6
+convert|Convert measurement units|4H|rates|A trail is 2.5 km long. How many meters is that?|One kilometer equals a thousand meters.|1 km = 1000 m|Multiply the number of kilometers.|2.5 × 1000|2500 m
+percent-models|Benchmark percents and equivalent forms|4E,4F,4G,5C|ratios,decimals|A display has 25 lit squares out of 100. What fraction is lit?|Percent means per hundred.|25/100 = 25%|Divide numerator and denominator by 25.|25/100 = 1/4|1/4
+percent|Find the part, percent or whole|5B|percent-models,rates|Twelve seats make up 30% of a theater row. How many seats are there?|Write the part as a fraction of the whole.|0.3 × w = 12|Divide the part by the decimal rate.|12 ÷ 0.3|40 seats
+[Expressions and relationships]
+powers|Powers and order of operations|7A|factors,multiply|Evaluate 3 + 2 × 4².|Evaluate the exponent first.|4² = 16|Multiply before adding.|3 + 32|35
+expressions|Translate and evaluate expressions|7B|powers|A bag has n marbles. What does 3n + 2 give when n = 5?|Replace the variable with five.|3 × 5 + 2|Multiply and add.|15 + 2|17
+properties|Build equivalent expressions|7C,7D|expressions|Rewrite 4(x + 3) without parentheses.|Multiply each term by four.|4 × x and 4 × 3|Combine the two products.|4x + 12|4x + 12
+coordinates|Graph rational ordered pairs|11|order|Where is (−3, 2) relative to the origin?|The first coordinate controls left or right.|x = −3|The second controls up or down.|y = 2|3 left, 2 up
+rules|Compare additive and multiplicative rules|4A,6C|rates,expressions|One machine adds 4 and one multiplies by 4. At input 3, how far apart are their outputs?|Evaluate both rules.|3 + 4 = 7|Compare with the product.|12 − 7|5
+variables|Relate tables, graphs and equations|6A,6B,6C|rules,coordinates|A tap fills 3 liters per minute starting empty. Which equation gives liters y after x minutes?|Time is the independent input.|x = minutes|Multiply the input by the rate.|3 × x|y = 3x
+[Equations and inequalities]
+write-equations|Write one-step equations and stories|9A,9C|expressions|A notebook and a $4 pen cost $11. Write an equation for the notebook price n.|Combine the two prices.|n + 4|Set their sum equal to the total.|n + 4 = 11|n + 4 = 11
+solve|Solve and check one-step equations|9B,10A,10B|write-equations,properties|Solve x/3 = 5. Check your solution.|Undo division by multiplying by three.|x = 5 × 3|Put the solution back into the equation.|15 ÷ 3 = 5|x = 15
+inequalities|Write, solve and graph inequalities|9A,9B,9C,10A,10B|solve,order|A bag must weigh at most 12 kg. The empty bag weighs 2 kg. What loads fit?|Write the constraint for the load x.|x + 2 ≤ 12|Subtract 2. Include the boundary.|x ≤ 10|x ≤ 10 kg
+[Geometry and measurement]
+triangles|Test triangle sides and angles|8A|solve|Can lengths 4, 6 and 11 form a triangle?|Add the two shorter sides.|4 + 6 = 10|They must reach past the longest side.|10 < 11|no
+area|Build triangle and parallelogram area formulas|8B,8C,8D|fraction-products,expressions|A triangle has base 7 cm and perpendicular height 4 cm. Find its area.|Two copies form a parallelogram.|7 × 4 = 28|One triangle covers half.|28 ÷ 2|14 cm²
+trapezoids|Decompose trapezoids and composite regions|8B,8C,8D|area|A trapezoid has bases 5 and 9 cm and height 3 cm. Find its area.|Two copies form a parallelogram.|(5 + 9) × 3 = 42|Divide the doubled area by two.|42 ÷ 2|21 cm²
+prisms|Volume and missing dimensions|8C,8D,10A|area,solve|A prism holds 30 cm³. Its base is 2.5 cm by 4 cm. Find its height.|Calculate the area of one layer.|2.5 × 4 = 10|Divide the volume by base area.|30 ÷ 10|3 cm
+polygons|Measure polygons using coordinates|G.A.3|area,coordinates|A rectangle spans x = −3 to x = 2 and y = 1 to y = 5. What is its area?|Count across the horizontal interval.|2 − (−3) = 5|Multiply width by vertical distance.|5 × (5 − 1)|20 square units
+nets|Use nets to find surface area|G.A.4|prisms,trapezoids|A box measures 2 by 3 by 4 cm. How much paper covers its six faces?|Find the three different face areas.|2 × 3 = 6, 2 × 4 = 8, 3 × 4 = 12|Double their sum for the opposite faces.|2 × (6 + 8 + 12)|52 square cm
+[Data and statistics]
+questions|Statistical questions and variability|13B|order|Which tells us about variation: one runner's assigned lane or the team's race times?|An assigned lane gives one fixed value.|lane 4|Different runners can record different times.|12, 14, 13|team times
+dot-stem|Read and construct dot and stem-and-leaf plots|12A,13A|questions|In a stem-and-leaf plot, stem 3 has leaves 1, 1 and 7. How many values exceed 30?|Use the tens stem and ones leaves.|31, 31, 37|Count each observation, including repeats.|1 + 1 + 1|3
+histograms|Group observations into histograms|12A,12B,13A|dot-stem|Scores are 12, 15, 19, 20 and 24. How tall is the bar for scores 10 through 19?|Select values inside that interval.|12, 15, 19|Count the selected scores.|1 + 1 + 1|3
+center|Summarize data with mean and median|12B,12C|dot-stem,decimals|Compare the mean and median of 2, 3, 4, 5 and 16.|Find the middle of the ordered list.|median = 4|Divide the sum by five.|30 ÷ 5 = 6|mean > median
+spread|Use box plots, range and IQR|12A,12B,12C,13A|center|A box plot has minimum 2, Q1 of 5, median 7, Q3 of 9 and maximum 17. Find the IQR.|Use the edges of the box.|9 and 5|Subtract the lower quartile.|9 − 5|4
+categories|Summarize categorical data|12D|percent,questions|In a poll of 40 students, 18 chose art, 12 music and 10 drama. What percent chose the mode?|Find the most frequent category.|18 > 12 > 10|Convert its share to a percent.|18 ÷ 40 = 0.45|45%
+deviation|Describe shape and mean absolute deviation|SP.B.5c,12B|center,spread,histograms|Find the mean absolute deviation of 2, 4 and 6 minutes.|The mean is four minutes.|(2 + 4 + 6) ÷ 3 = 4|Average the distances from the mean.|(2 + 0 + 2) ÷ 3|4/3 minutes
+[Personal finance]
+accounts|Compare checking and debit fees|14A,14B|rates|Account A costs $3 monthly. B costs $1 plus $1 per ATM use. Which costs less with four uses?|Total the fees for B.|1 + 4 × 1 = 5|Compare with A.|3 < 5|account A
+register|Balance a transaction register|14C|accounts,add|Start with $80. Deposit $25, pay $18 and transfer $10 to savings. Find the checking balance.|Add money entering checking.|80 + 25 = 105|Subtract both amounts leaving checking.|105 − 18 − 10|$77
+credit|Understand borrowing and credit reports|14B,14D,14E,14F|accounts|Why would a lender look at a borrower's record of 12 on-time payments?|Payment history records how a debt was repaid.|12 of 12 on time|It helps a lender estimate repayment risk.|on time → lower risk|payment history
+college|Compare college funding options|14G|register,credit|A course costs $1600. A grant covers $700 and savings cover $400. What remains to fund?|Add the resources already available.|700 + 400 = 1100|Subtract them from the cost.|1600 − 1100|$500
+income|Compare training costs and lifetime income|14H|college,variables|Job A pays $4000 more each year but requires $12000 extra training. When do extra earnings cover the cost?|Find the annual advantage.|4000 per year|Divide training cost by the advantage.|12000 ÷ 4000|3 years

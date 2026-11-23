@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Visual } from "./Visual";
 import { complete, type Control } from "../../../lib/mentalist/model";
 export default function Answer({
   control: c,
@@ -25,6 +26,7 @@ export default function Answer({
   const sent = useRef(-1),
     send = useRef(onAnswer);
   send.current = onAnswer;
+  const construction = ["dotplot", "histogram", "boxplot", "stem-plot", "scatterplot"].includes(c.kind);
   const fraction = c.kind === "fraction",
     numeric = ["whole", "fraction", "decimal"].includes(c.kind);
   const raw = c.fields
@@ -39,14 +41,14 @@ export default function Answer({
     send.current(raw);
   }, [ready, raw, revision]);
   useEffect(() => {
-    if (!ready || sent.current === revision) return;
+    if (!ready || sent.current === revision || construction) return;
     if (!fraction) {
       check();
       return;
     }
     const timer = setTimeout(check, 800);
     return () => clearTimeout(timer);
-  }, [check, ready, revision, fraction]);
+  }, [check, ready, revision, fraction, construction]);
   function edit(key: string) {
     if (disabled) return;
     if (key === "/" && fraction) {
@@ -87,7 +89,8 @@ export default function Answer({
   useEffect(() => {
     if (!numeric) return;
     const press = (e: KeyboardEvent) => {
-      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.ctrlKey || e.metaKey || e.altKey ||
+          (e.target instanceof Element && e.target.closest("input, select, textarea, [contenteditable=true]"))) return;
       let key = e.key;
       if (key === "Enter" && fraction && ready && !e.repeat &&
           (e.target === document.body || (e.target instanceof Element && e.target.closest(".mt-entry")))) {
@@ -127,6 +130,18 @@ export default function Answer({
   if (c.fields)
     return (
       <div className="mt-fields">
+        {(c.kind === "dotplot" || c.kind === "histogram") && <Visual data={{
+          kind: c.kind === "dotplot" ? "dotplot" : "histogram",
+          labels: c.fields.map(f => f.label),
+          values: c.fields.map((_, i) => Number(parts[i] || 0)),
+        }} />}
+        {c.kind === "stem-plot" && <Visual data={{
+          kind: "data", headers: ["Stem", "Leaves"],
+          rows: c.fields.map((f, i) => [f.label.replace("Stem ", ""), parts[i] || "…"]),
+        }} />}
+        {c.kind === "boxplot" && parts.filter(Boolean).length === 5 &&
+          parts.every((value, i) => i === 0 || Number(value) >= Number(parts[i - 1])) &&
+          <Visual data={{kind: "boxes", rows: [parts], labels: ["Your plot"]}} />}
         {c.kind === "ray" && parts[0] && (
           <svg
             className="mt-chart"
@@ -197,12 +212,16 @@ export default function Answer({
             </select>
           </label>
         ))}
+        {construction && <button type="button" disabled={!ready} onClick={check}>Check display</button>}
       </div>
     );
   if (c.limit)
     return (
+      <>
       <Coordinate
         step={c.step ?? 1}
+        origin={c.origin ?? 0}
+        scatter={c.kind === "scatterplot"}
         count={c.points ?? 1}
         limit={c.limit}
         line={c.kind === "line"}
@@ -213,6 +232,8 @@ export default function Answer({
           setRevision((i) => i + 1);
         }}
       />
+      {construction && <button type="button" disabled={!ready} onClick={check}>Check plot</button>}
+      </>
     );
   return (
     <div className="mt-entry">
@@ -271,6 +292,8 @@ function Coordinate({
   limit,
   line,
   drawing,
+  scatter,
+  origin,
   step,
   count,
   disabled,
@@ -279,6 +302,8 @@ function Coordinate({
   limit: number;
   line: boolean;
   drawing: boolean;
+  scatter: boolean;
+  origin: number;
   step: number;
   count: number;
   disabled: boolean;
@@ -287,15 +312,18 @@ function Coordinate({
   const [x, setX] = useState(0),
     [y, setY] = useState(0);
   const [placed, setPlaced] = useState<[number, number][]>([]);
+  const coordinate = (index: number, start = 0) => Math.round((start + index * step) * 10) / 10;
   function place(x: number, y: number) {
+    if (placed.length >= count || (scatter && placed.some(([px, py]) => px === x && py === y))) return;
     const points: [number, number][] = [...placed, [x, y]];
     setX(x);
     setY(y);
     setPlaced(points);
-    if (points.length === count) onPick(points.map(([x, y]) => [x * step, y * step].join(",")).join(";"));
+    if (points.length === count) onPick(points.map(([x, y]) => [coordinate(x, origin), coordinate(y)].join(",")).join(";"));
   }
   // Focusable graph supports pointer selection and keyboard placement.
   const size = 2 * limit;
+  const labels = scatter ? Array.from({length: size + 1}, (_, i) => i - limit).filter(i => i % 2 === 0) : [-limit, 0, limit];
   return (
     <div className="mt-grid">
       {count > 1 && (
@@ -306,7 +334,7 @@ function Coordinate({
       <svg
         tabIndex={disabled ? -1 : 0}
         role="button"
-        aria-label={`Coordinate ${x * step}, ${y * step}. Use arrow keys then Space to place a point.`}
+        aria-label={`Coordinate ${coordinate(x, origin)}, ${coordinate(y)}. Use arrow keys then Space to place a point.`}
         viewBox={`-1 -1 ${size + 2} ${line ? 4 : size + 2}`}
         onClick={(e) => {
           if (disabled) return;
@@ -354,20 +382,25 @@ function Coordinate({
         {placed.map(([gx, gy], i) => (
           <circle key={i} cx={gx + limit} cy={line ? 0.5 : limit - gy} r=".34" fill="#bd751f" />
         ))}
-        {placed.length === 2 && (
-          <path
-            d={`M${placed[0][0] + limit} ${limit - placed[0][1]}L${placed[1][0] + limit} ${limit - placed[1][1]}`}
+        {!scatter && placed.length >= 2 && (
+          <polyline
+            fill="none"
+            points={placed.map(([gx, gy]) => [gx + limit, limit - gy].join(",")).join(" ")}
             stroke="#bd751f"
             strokeWidth=".13"
           />
         )}
         <circle cx={x + limit} cy={line ? 0.5 : limit - y} r=".3" fill="#247762" />
-        {[-limit, 0, limit].map((i) => (
+        {labels.map((i) => (
           <text key={i} x={i + limit} y={line ? 2 : limit + 1} fontSize=".85" textAnchor="middle">
-            {i * step}
+            {coordinate(i, origin)}
           </text>
         ))}
+        {scatter && labels.filter(i => i !== 0).map(i =>
+          <text key={i} x={limit - .6} y={limit - i + .3} fontSize=".7" textAnchor="end">{coordinate(i)}</text>)}
       </svg>
+      {scatter && placed.length > 0 &&
+        <button type="button" disabled={disabled} onClick={() => { setPlaced(placed.slice(0, -1)); onPick(""); }}>Undo last point</button>}
     </div>
   );
 }

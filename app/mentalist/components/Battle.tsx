@@ -175,6 +175,7 @@ export function Battle({
               </div>
               <strong className="mt-result-score">{r.firstTry} / 12</strong>
               <p>Correct on the first try</p>
+              {!!r.missingEvidence?.length && <p>To clear, get at least one of each of these right on the first try: {r.missingEvidence.join(", ")}.</p>}
               <dl>
                 <dt>Total time · 12 problems</dt>
                 <dd>{formatRunTime(r.activeMs)}</dd>

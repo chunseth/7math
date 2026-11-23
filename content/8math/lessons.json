@@ -1,0 +1,2227 @@
+[
+ {
+  "id": "g8.foundation-numbers",
+  "title": "Signed numbers and fractions",
+  "unit": "Foundational review",
+  "example": "What is 3 + (−7)?",
+  "standards": [],
+  "prerequisites": [],
+  "stages": [
+   {
+    "title": "Add integers with unlike signs",
+    "example": "What is 3 + (−7)?"
+   },
+   {
+    "title": "Subtract a negative integer",
+    "example": "What is −6 − (−9)?"
+   },
+   {
+    "title": "Determine the sign of a product",
+    "example": "Compute (−6)(−4)."
+   },
+   {
+    "title": "Determine the sign of a quotient",
+    "example": "Find −36 ÷ 6."
+   },
+   {
+    "title": "Combine signed fractions",
+    "example": "Find −2/3 + 1/4."
+   },
+   {
+    "title": "Multiply and simplify fractions",
+    "example": "Multiply 3/5 by 10/9."
+   },
+   {
+    "title": "Divide using reciprocals",
+    "example": "Compute 3/4 ÷ 1/2."
+   },
+   {
+    "title": "Calculate across fractions and decimals",
+    "example": "Find 0.75 − 2/5."
+   }
+  ]
+ },
+ {
+  "id": "g8.foundation-ratios",
+  "title": "Rates, ratios and percents",
+  "unit": "Foundational review",
+  "example": "Two cups of rice serve 5 people. What serves 15?",
+  "standards": [],
+  "prerequisites": [],
+  "stages": [
+   {
+    "title": "Scale equivalent ratios",
+    "example": "Two cups of rice serve 5 people. What serves 15?"
+   },
+   {
+    "title": "Complete ratio tables",
+    "example": "Complete the ratio table. Lemons: 3, 9, 12. Cups: 8, blank, blank."
+   },
+   {
+    "title": "Find an amount per unit",
+    "example": "Three notebooks cost $12."
+   },
+   {
+    "title": "Use fractional unit rates",
+    "example": "A cyclist rides ¾ mile in ½ hour. How far per hour?"
+   },
+   {
+    "title": "Find a percent of a whole",
+    "example": "What is 15% of 80?"
+   },
+   {
+    "title": "Find an amount after a percent change",
+    "example": "A $60 jacket is discounted 15%. Find the sale price."
+   }
+  ]
+ },
+ {
+  "id": "g8.foundation-algebra",
+  "title": "Expressions and one-step equations",
+  "unit": "Foundational review",
+  "example": "Evaluate 6 + 3 × 4.",
+  "standards": [],
+  "prerequisites": [],
+  "stages": [
+   {
+    "title": "Apply operation order",
+    "example": "Evaluate 6 + 3 × 4."
+   },
+   {
+    "title": "Evaluate by substitution",
+    "example": "Evaluate 3x + 2 when x = 5."
+   },
+   {
+    "title": "Combine like terms",
+    "example": "Simplify 5x + 2x − 3."
+   },
+   {
+    "title": "Distribute a factor",
+    "example": "Expand 4(x + 3)."
+   },
+   {
+    "title": "Undo a one-step operation",
+    "example": "Solve x − 7 = 12."
+   },
+   {
+    "title": "Solve a two-step equation",
+    "example": "Solve 3x + 2 = 14."
+   }
+  ]
+ },
+ {
+  "id": "g8.foundation-plane",
+  "title": "Coordinates, angles and measurement",
+  "unit": "Foundational review",
+  "example": "Which quadrant contains (−3, 4)?",
+  "standards": [],
+  "prerequisites": [],
+  "stages": [
+   {
+    "title": "Locate ordered pairs in four quadrants",
+    "example": "Which quadrant contains (−3, 4)?"
+   },
+   {
+    "title": "Read a scaled axis",
+    "example": "A volume axis shows 5 liters per tick. A point is four ticks high. What is its volume?"
+   },
+   {
+    "title": "Find complements and supplements",
+    "example": "Two angles form a straight line. One is 68°. Find the other."
+   },
+   {
+    "title": "Use a triangle base and height",
+    "example": "A triangle has base 10 m and height 7 m. Find its area."
+   },
+   {
+    "title": "Measure a circular boundary",
+    "example": "Find circumference for diameter 12. Use π ≈ 3.14."
+   },
+   {
+    "title": "Find a circular base area",
+    "example": "Find circle area with radius 5 cm. Use π ≈ 3.14."
+   }
+  ]
+ },
+ {
+  "id": "g8.foundation-data",
+  "title": "Data summaries and samples",
+  "unit": "Foundational review",
+  "example": "Find the median of 8, 2, 6, 4.",
+  "standards": [],
+  "prerequisites": [],
+  "stages": [
+   {
+    "title": "Find the center of ordered measurements",
+    "example": "Find the median of 8, 2, 6, 4."
+   },
+   {
+    "title": "Measure the spread of the middle half",
+    "example": "The lower quartile is 12 and the upper is 19. Find the IQR."
+   },
+   {
+    "title": "Scale a sample proportion",
+    "example": "In a random sample, 18 of 30 prefer soccer. Estimate how many of 200 prefer it."
+   },
+   {
+    "title": "Compare distribution shapes",
+    "example": "Group A has a long high-value tail. Group B is balanced. Which is right-skewed?"
+   }
+  ]
+ },
+ {
+  "id": "g8.steps-sets",
+  "title": "Classify real numbers",
+  "unit": "Real numbers",
+  "example": "Which is the smallest standard number set containing −8?",
+  "standards": [
+   "8.2A"
+  ],
+  "prerequisites": [],
+  "stages": [
+   {
+    "title": "Classify rational numbers by their smallest set",
+    "example": "Which is the smallest standard number set containing −8?"
+   },
+   {
+    "title": "Trace containment between number sets",
+    "example": "What set comes just above whole numbers in the usual nested sets?"
+   },
+   {
+    "title": "Distinguish rational and irrational square roots",
+    "example": "Is √10 rational or irrational?"
+   }
+  ]
+ },
+ {
+  "id": "g8.sets",
+  "title": "Classify real numbers",
+  "example": "Where does −7 belong in the real number family?",
+  "unit": "Real numbers",
+  "standards": [
+   "8.2A"
+  ],
+  "prerequisites": [
+   "g8.steps-sets"
+  ],
+  "previousPrerequisites": []
+ },
+ {
+  "id": "g8.steps-repeat",
+  "title": "Convert repeating decimals to fractions",
+  "unit": "Real numbers",
+  "example": "Write 0.03 as a fraction in lowest terms.",
+  "standards": [
+   "8.NS.A.1"
+  ],
+  "prerequisites": [
+   "g8.sets",
+   "g8.foundation-numbers"
+  ],
+  "stages": [
+   {
+    "title": "Convert a terminating decimal using place value",
+    "example": "Write 0.03 as a fraction in lowest terms."
+   },
+   {
+    "title": "Convert a repeating digit with a shift and subtraction",
+    "example": "Write 3.222… as a fraction. Only 2 repeats."
+   },
+   {
+    "title": "Convert a repeating two-digit block",
+    "example": "Write 0.4141… as a reduced fraction. The block 41 repeats."
+   }
+  ]
+ },
+ {
+  "id": "g8.repeat",
+  "title": "Convert repeating decimals to fractions",
+  "example": "Write 0.272727… as a fraction.",
+  "unit": "Real numbers",
+  "standards": [
+   "8.NS.A.1"
+  ],
+  "prerequisites": [
+   "g8.steps-repeat"
+  ],
+  "previousPrerequisites": [
+   "g8.sets"
+  ]
+ },
+ {
+  "id": "g8.steps-powers",
+  "title": "Calculate with integer exponents",
+  "unit": "Real numbers",
+  "example": "For nonzero x, write x^(-3) × x^8 as x^m. Find m.",
+  "standards": [
+   "8.EE.A.1"
+  ],
+  "prerequisites": [
+   "g8.sets"
+  ],
+  "stages": [
+   {
+    "title": "Multiply like bases by adding exponents",
+    "example": "For nonzero x, write x^(-3) × x^8 as x^m. Find m."
+   },
+   {
+    "title": "Divide like bases by subtracting exponents",
+    "example": "For nonzero a, simplify a^(-3) ÷ a^8 to a^m. Find m."
+   },
+   {
+    "title": "Interpret zero and negative exponents",
+    "example": "Evaluate 3^(-3) exactly."
+   },
+   {
+    "title": "Raise a power to another power",
+    "example": "For nonzero y, simplify (y^(-3))^8 to y^m. Find m."
+   }
+  ]
+ },
+ {
+  "id": "g8.powers",
+  "title": "Calculate with integer exponents",
+  "example": "Simplify 2³ divided by 2 to the fifth power.",
+  "unit": "Real numbers",
+  "standards": [
+   "8.EE.A.1"
+  ],
+  "prerequisites": [
+   "g8.steps-powers"
+  ],
+  "previousPrerequisites": [
+   "g8.sets"
+  ]
+ },
+ {
+  "id": "g8.steps-roots",
+  "title": "Squares, cubes and irrational roots",
+  "unit": "Real numbers",
+  "example": "A square has area 9 cm². Find its positive side length in cm.",
+  "standards": [
+   "8.2A",
+   "8.2B"
+  ],
+  "prerequisites": [
+   "g8.sets"
+  ],
+  "stages": [
+   {
+    "title": "Recover a side from a perfect square",
+    "example": "A square has area 9 cm². Find its positive side length in cm."
+   },
+   {
+    "title": "Recover an edge from a signed cube",
+    "example": "What number cubed equals -27?"
+   },
+   {
+    "title": "Bracket a nonperfect root between integers",
+    "example": "What integer lies immediately below √12?"
+   }
+  ]
+ },
+ {
+  "id": "g8.roots",
+  "title": "Squares, cubes and irrational roots",
+  "example": "Between which consecutive integers is √70?",
+  "unit": "Real numbers",
+  "standards": [
+   "8.2A",
+   "8.2B"
+  ],
+  "prerequisites": [
+   "g8.steps-roots"
+  ],
+  "previousPrerequisites": [
+   "g8.sets"
+  ]
+ },
+ {
+  "id": "g8.steps-estimate",
+  "title": "Place irrational numbers on a number line",
+  "unit": "Real numbers",
+  "example": "Is √13 above or below 3.5?",
+  "standards": [
+   "8.2B"
+  ],
+  "prerequisites": [
+   "g8.roots"
+  ],
+  "stages": [
+   {
+    "title": "Compare a root with a half-unit mark",
+    "example": "Is √13 above or below 3.5?"
+   },
+   {
+    "title": "Approximate a root to the nearest tenth",
+    "example": "Mark √20 to the nearest tenth on the number line."
+   }
+  ]
+ },
+ {
+  "id": "g8.estimate",
+  "title": "Place irrational numbers on a number line",
+  "example": "Locate √20 to the nearest tenth.",
+  "unit": "Real numbers",
+  "standards": [
+   "8.2B"
+  ],
+  "prerequisites": [
+   "g8.steps-estimate"
+  ],
+  "previousPrerequisites": [
+   "g8.roots"
+  ]
+ },
+ {
+  "id": "g8.steps-order",
+  "title": "Order real numbers in context",
+  "unit": "Real numbers",
+  "example": "Choose the greater number: −√12 or −3.",
+  "standards": [
+   "8.2D"
+  ],
+  "prerequisites": [
+   "g8.estimate",
+   "g8.repeat"
+  ],
+  "stages": [
+   {
+    "title": "Compare negative roots with negative integers",
+    "example": "Choose the greater number: −√12 or −3."
+   },
+   {
+    "title": "Compare a rational length with a radical",
+    "example": "Which length is larger, √12 m or 3.5 m?"
+   },
+   {
+    "title": "Choose the nearest reference value",
+    "example": "A diagonal is √12 m long. What is its length to the nearest meter?"
+   }
+  ]
+ },
+ {
+  "id": "g8.order",
+  "title": "Order real numbers in context",
+  "example": "Three jumps measure √10, 3.2 and π meters. Which is longest?",
+  "unit": "Real numbers",
+  "standards": [
+   "8.2D"
+  ],
+  "prerequisites": [
+   "g8.steps-order"
+  ],
+  "previousPrerequisites": [
+   "g8.estimate",
+   "g8.repeat"
+  ]
+ },
+ {
+  "id": "g8.steps-scientific",
+  "title": "Read and write scientific notation",
+  "unit": "Real numbers",
+  "example": "Write 14000000000 as 1.4 × 10^m. Find m.",
+  "standards": [
+   "8.2C"
+  ],
+  "prerequisites": [
+   "g8.powers"
+  ],
+  "stages": [
+   {
+    "title": "Write a large number using a positive power of ten",
+    "example": "Write 14000000000 as 1.4 × 10^m. Find m."
+   },
+   {
+    "title": "Write a small number using a negative power of ten",
+    "example": "Write 0.00000000014 as 1.4 × 10^m. Find m."
+   },
+   {
+    "title": "Normalize a coefficient to scientific notation",
+    "example": "Normalize 14 × 10^8. What exponent goes with coefficient 1.4?"
+   }
+  ]
+ },
+ {
+  "id": "g8.scientific",
+  "title": "Read and write scientific notation",
+  "example": "Write 0.00052 in scientific notation.",
+  "unit": "Real numbers",
+  "standards": [
+   "8.2C"
+  ],
+  "prerequisites": [
+   "g8.steps-scientific"
+  ],
+  "previousPrerequisites": [
+   "g8.powers"
+  ]
+ },
+ {
+  "id": "g8.steps-scientific-ops",
+  "title": "Calculate and estimate at different scales",
+  "unit": "Real numbers",
+  "example": "Normalize (2 × 10^3) × (6 × 10^8). Find the final exponent.",
+  "standards": [
+   "8.EE.A.3",
+   "8.EE.A.4"
+  ],
+  "prerequisites": [
+   "g8.scientific"
+  ],
+  "stages": [
+   {
+    "title": "Multiply measurements in scientific notation",
+    "example": "Normalize (2 × 10^3) × (6 × 10^8). Find the final exponent."
+   },
+   {
+    "title": "Divide measurements at different scales",
+    "example": "Divide 8 × 10^3 by 2 × 10^8. Find the exponent in the normalized result."
+   },
+   {
+    "title": "Align powers of ten before adding measurements",
+    "example": "Express (3 × 10^3) + (8 × 10^2) as c × 10^3. Find c."
+   }
+  ]
+ },
+ {
+  "id": "g8.scientific-ops",
+  "title": "Calculate and estimate at different scales",
+  "example": "Divide 6 × 10⁷ meters by 2 × 10³ seconds. Find the speed.",
+  "unit": "Real numbers",
+  "standards": [
+   "8.EE.A.3",
+   "8.EE.A.4"
+  ],
+  "prerequisites": [
+   "g8.steps-scientific-ops"
+  ],
+  "previousPrerequisites": [
+   "g8.scientific"
+  ]
+ },
+ {
+  "id": "g8.steps-similar",
+  "title": "Corresponding sides and scale factors",
+  "unit": "Similarity and transformations",
+  "example": "Triangles ABC and DEF are similar in that order. Which side matches BC?",
+  "standards": [
+   "8.3A"
+  ],
+  "prerequisites": [
+   "g8.sets",
+   "g8.foundation-ratios"
+  ],
+  "stages": [
+   {
+    "title": "Identify corresponding sides and vertices",
+    "example": "Triangles ABC and DEF are similar in that order. Which side matches BC?"
+   },
+   {
+    "title": "Compare within-figure and between-figure ratios",
+    "example": "Similar rectangles are 3 by 5 and 9 by 15. Find the enlargement factor."
+   },
+   {
+    "title": "Determine a scale factor from a pair of sides",
+    "example": "A side grows from 6 to 15. Find the scale factor."
+   },
+   {
+    "title": "Recover a missing corresponding side",
+    "example": "A small triangle's sides 4 and 7 match 12 and x. Find x."
+   }
+  ]
+ },
+ {
+  "id": "g8.similar",
+  "title": "Corresponding sides and scale factors",
+  "example": "A 6 cm side becomes 9 cm. What happens to an 8 cm side?",
+  "unit": "Similarity and transformations",
+  "standards": [
+   "8.3A"
+  ],
+  "prerequisites": [
+   "g8.steps-similar"
+  ],
+  "previousPrerequisites": [
+   "g8.sets"
+  ]
+ },
+ {
+  "id": "g8.steps-dilate",
+  "title": "Dilate points and figures about the origin",
+  "unit": "Similarity and transformations",
+  "example": "Dilate (-1, 6) from the origin by 2. Plot the image.",
+  "standards": [
+   "8.3B",
+   "8.3C"
+  ],
+  "prerequisites": [
+   "g8.similar"
+  ],
+  "stages": [
+   {
+    "title": "Dilate a point away from the origin",
+    "example": "Dilate (-1, 6) from the origin by 2. Plot the image."
+   },
+   {
+    "title": "Dilate a point toward the origin",
+    "example": "Dilate (-2, 12) from the origin by 1/2. Plot the image."
+   },
+   {
+    "title": "Recover the original point from its image",
+    "example": "A dilation by 3 centered at the origin sends P to (-3, 18). Plot the original P."
+   }
+  ]
+ },
+ {
+  "id": "g8.dilate",
+  "title": "Dilate points and figures about the origin",
+  "example": "Dilate a triangle with vertices (0, −2), (2, −2), (0, −1) by 2 about the origin.",
+  "unit": "Similarity and transformations",
+  "standards": [
+   "8.3B",
+   "8.3C"
+  ],
+  "prerequisites": [
+   "g8.steps-dilate"
+  ],
+  "previousPrerequisites": [
+   "g8.similar"
+  ]
+ },
+ {
+  "id": "g8.steps-scale-area",
+  "title": "Length and area after a dilation",
+  "unit": "Similarity and transformations",
+  "example": "A polygon of perimeter 24 m is dilated by 1/8. Find its new perimeter in meters.",
+  "standards": [
+   "8.10D"
+  ],
+  "prerequisites": [
+   "g8.dilate"
+  ],
+  "stages": [
+   {
+    "title": "Predict the perimeter after a dilation",
+    "example": "A polygon of perimeter 24 m is dilated by 1/8. Find its new perimeter in meters."
+   },
+   {
+    "title": "Connect the length factor to the area factor",
+    "example": "A shape of area 3 cm² is enlarged by length factor 8. Find its new area."
+   },
+   {
+    "title": "Recover the length factor from two areas",
+    "example": "Similar figures have areas 3 and 192. Find the length factor from smaller to larger."
+   }
+  ]
+ },
+ {
+  "id": "g8.scale-area",
+  "title": "Length and area after a dilation",
+  "example": "A tile has area 6 cm². Triple all side lengths. Find its new area.",
+  "unit": "Similarity and transformations",
+  "standards": [
+   "8.10D"
+  ],
+  "prerequisites": [
+   "g8.steps-scale-area"
+  ],
+  "previousPrerequisites": [
+   "g8.dilate"
+  ]
+ },
+ {
+  "id": "g8.steps-translate",
+  "title": "Translate and reflect coordinates",
+  "unit": "Similarity and transformations",
+  "example": "Translate (-1, 6) right 3 and down 2. Plot the image.",
+  "standards": [
+   "8.10A",
+   "8.10C"
+  ],
+  "prerequisites": [
+   "g8.sets",
+   "g8.foundation-plane"
+  ],
+  "stages": [
+   {
+    "title": "Apply a translation vector",
+    "example": "Translate (-1, 6) right 3 and down 2. Plot the image."
+   },
+   {
+    "title": "Find the vector from preimage to image",
+    "example": "A translation sends (1, 6) to (0, 12). Which vector moves the point?"
+   },
+   {
+    "title": "Reflect a point across a coordinate axis",
+    "example": "Reflect (-1, 6) across the x-axis. Plot the image."
+   }
+  ]
+ },
+ {
+  "id": "g8.translate",
+  "title": "Translate and reflect coordinates",
+  "example": "Reflect (−3, 5) across the y-axis.",
+  "unit": "Similarity and transformations",
+  "standards": [
+   "8.10A",
+   "8.10C"
+  ],
+  "prerequisites": [
+   "g8.steps-translate"
+  ],
+  "previousPrerequisites": [
+   "g8.sets"
+  ]
+ },
+ {
+  "id": "g8.steps-rotate",
+  "title": "Quarter, half and full turns",
+  "unit": "Similarity and transformations",
+  "example": "Rotate (-1, 6) 90° counterclockwise about the origin. Plot its image.",
+  "standards": [
+   "8.10A",
+   "8.10C"
+  ],
+  "prerequisites": [
+   "g8.translate"
+  ],
+  "stages": [
+   {
+    "title": "Rotate a point 90 degrees counterclockwise",
+    "example": "Rotate (-1, 6) 90° counterclockwise about the origin. Plot its image."
+   },
+   {
+    "title": "Rotate a point 90 degrees clockwise",
+    "example": "Rotate (-1, 6) 90° clockwise about the origin. Plot its image."
+   },
+   {
+    "title": "Rotate a point through 180 degrees",
+    "example": "Rotate (-1, 6) 180° about the origin. Plot its image."
+   }
+  ]
+ },
+ {
+  "id": "g8.rotate",
+  "title": "Quarter, half and full turns",
+  "example": "Rotate a triangle with vertices (2, 0), (3, 0), (2, 2) through 90° counterclockwise.",
+  "unit": "Similarity and transformations",
+  "standards": [
+   "8.10A",
+   "8.10C"
+  ],
+  "prerequisites": [
+   "g8.steps-rotate"
+  ],
+  "previousPrerequisites": [
+   "g8.translate"
+  ]
+ },
+ {
+  "id": "g8.steps-rigid",
+  "title": "Orientation, congruence and similarity",
+  "unit": "Similarity and transformations",
+  "example": "A triangle has sides 3, 4, 5 cm. What is its perimeter after a quarter turn?",
+  "standards": [
+   "8.10A",
+   "8.10B"
+  ],
+  "prerequisites": [
+   "g8.rotate",
+   "g8.dilate"
+  ],
+  "stages": [
+   {
+    "title": "Track side lengths under rigid motions",
+    "example": "A triangle has sides 3, 4, 5 cm. What is its perimeter after a quarter turn?"
+   },
+   {
+    "title": "Track orientation through reflections",
+    "example": "A counterclockwise triangle undergoes 3 reflections. In what order do its vertices run afterward?"
+   },
+   {
+    "title": "Distinguish congruence from scaled similarity",
+    "example": "A triangle with a 3 cm side is dilated by 1, then rotated. Is the image congruent to the original?"
+   }
+  ]
+ },
+ {
+  "id": "g8.rigid",
+  "title": "Orientation, congruence and similarity",
+  "example": "A triangle is reflected. What happens to its side lengths and orientation?",
+  "unit": "Similarity and transformations",
+  "standards": [
+   "8.10A",
+   "8.10B"
+  ],
+  "prerequisites": [
+   "g8.steps-rigid"
+  ],
+  "previousPrerequisites": [
+   "g8.rotate",
+   "g8.dilate"
+  ]
+ },
+ {
+  "id": "g8.steps-compose",
+  "title": "Describe sequences of transformations",
+  "unit": "Similarity and transformations",
+  "example": "Translate (-1, 6) right 2, then reflect across the y-axis. Plot the image.",
+  "standards": [
+   "8.G.A.2",
+   "8.G.A.4"
+  ],
+  "prerequisites": [
+   "g8.rigid"
+  ],
+  "stages": [
+   {
+    "title": "Translate and then reflect a point",
+    "example": "Translate (-1, 6) right 2, then reflect across the y-axis. Plot the image."
+   },
+   {
+    "title": "Reflect and then translate a point",
+    "example": "Reflect (-1, 6) across the y-axis, then shift right 2. Plot the image."
+   },
+   {
+    "title": "Undo a sequence in reverse order",
+    "example": "A shift up 3 followed by an x-axis reflection ends at (-1, 6). Plot the starting point."
+   }
+  ]
+ },
+ {
+  "id": "g8.compose",
+  "title": "Describe sequences of transformations",
+  "example": "Reflect (2, 3) across the x-axis, then shift it left four units. Where does it land?",
+  "unit": "Similarity and transformations",
+  "standards": [
+   "8.G.A.2",
+   "8.G.A.4"
+  ],
+  "prerequisites": [
+   "g8.steps-compose"
+  ],
+  "previousPrerequisites": [
+   "g8.rigid"
+  ]
+ },
+ {
+  "id": "g8.steps-angles",
+  "title": "Angles at parallel lines",
+  "unit": "Similarity and transformations",
+  "example": "Two angles are complementary. One is 34°. Find the other.",
+  "standards": [
+   "8.8D"
+  ],
+  "prerequisites": [
+   "g8.rigid"
+  ],
+  "stages": [
+   {
+    "title": "Distinguish complementary and supplementary angles",
+    "example": "Two angles are complementary. One is 34°. Find the other."
+   },
+   {
+    "title": "Match corresponding and alternate interior angles",
+    "example": "A transversal crosses parallel lines. One angle is 59°. Find its alternate interior partner in degrees."
+   },
+   {
+    "title": "Use same-side interior angle sums",
+    "example": "A transversal crosses parallel lines. One angle is 59°. Find its same-side interior partner in degrees."
+   }
+  ]
+ },
+ {
+  "id": "g8.angles",
+  "title": "Angles at parallel lines",
+  "example": "Two parallel lines meet a transversal. An interior angle is 63°. Find its alternate interior partner.",
+  "unit": "Similarity and transformations",
+  "standards": [
+   "8.8D"
+  ],
+  "prerequisites": [
+   "g8.steps-angles"
+  ],
+  "previousPrerequisites": [
+   "g8.rigid"
+  ]
+ },
+ {
+  "id": "g8.steps-triangle",
+  "title": "Triangle sums, exterior angles and AA",
+  "unit": "Similarity and transformations",
+  "example": "A triangle has angles 52° and 71°. Find the third.",
+  "standards": [
+   "8.8D"
+  ],
+  "prerequisites": [
+   "g8.angles",
+   "g8.similar"
+  ],
+  "stages": [
+   {
+    "title": "Recover a missing triangle angle",
+    "example": "A triangle has angles 52° and 71°. Find the third."
+   },
+   {
+    "title": "Use the exterior angle relationship",
+    "example": "The remote interior angles of a triangle are 18° and 46°. Find the exterior angle."
+   },
+   {
+    "title": "Test two triangles for angle-angle similarity",
+    "example": "A triangle has angles 23° and 68°. Another has 23° and 69°. Are they similar?"
+   }
+  ]
+ },
+ {
+  "id": "g8.triangle",
+  "title": "Triangle sums, exterior angles and AA",
+  "example": "A triangle has remote interior angles of 42° and 61°. Find the exterior angle.",
+  "unit": "Similarity and transformations",
+  "standards": [
+   "8.8D"
+  ],
+  "prerequisites": [
+   "g8.steps-triangle"
+  ],
+  "previousPrerequisites": [
+   "g8.angles",
+   "g8.similar"
+  ]
+ },
+ {
+  "id": "g8.steps-slope",
+  "title": "Slope from similar right triangles",
+  "unit": "Linear relationships and functions",
+  "example": "Moving from (8, 3) to (16, 0), what is the signed rise?",
+  "standards": [
+   "8.4A"
+  ],
+  "prerequisites": [
+   "g8.triangle"
+  ],
+  "stages": [
+   {
+    "title": "Read signed rise and run from two points",
+    "example": "Moving from (8, 3) to (16, 0), what is the signed rise?"
+   },
+   {
+    "title": "Find slope as a reduced ratio",
+    "example": "A line passes through (1, 8) and (9, 5). Find its slope."
+   },
+   {
+    "title": "Scale a slope triangle along a line",
+    "example": "One slope triangle has run 8 and rise -3. A second on the same line has run 24. Find its signed rise."
+   }
+  ]
+ },
+ {
+  "id": "g8.slope",
+  "title": "Slope from similar right triangles",
+  "example": "A line rises 6 over a run of 4. A second triangle on the line has run 10. Find its rise.",
+  "unit": "Linear relationships and functions",
+  "standards": [
+   "8.4A"
+  ],
+  "prerequisites": [
+   "g8.steps-slope"
+  ],
+  "previousPrerequisites": [
+   "g8.triangle"
+  ]
+ },
+ {
+  "id": "g8.steps-direct",
+  "title": "Graph unit rates and direct variation",
+  "unit": "Linear relationships and functions",
+  "example": "A table pairs 2 hours with 10 miles and 3 with 15. Find k in y = kx.",
+  "standards": [
+   "8.4B",
+   "8.5A",
+   "8.5E"
+  ],
+  "prerequisites": [
+   "g8.slope"
+  ],
+  "stages": [
+   {
+    "title": "Find the constant in a proportional table",
+    "example": "A table pairs 2 hours with 10 miles and 3 with 15. Find k in y = kx."
+   },
+   {
+    "title": "Read a unit rate from a graph",
+    "example": "A line through the origin passes through (4, 12). Find its rate."
+   },
+   {
+    "title": "Write a direct variation rule",
+    "example": "A printer makes p = 18t pages in t minutes. Find the constant."
+   }
+  ]
+ },
+ {
+  "id": "g8.direct",
+  "title": "Graph unit rates and direct variation",
+  "example": "Four notebooks cost $10 at a constant price. What do six cost?",
+  "unit": "Linear relationships and functions",
+  "standards": [
+   "8.4B",
+   "8.5A",
+   "8.5E"
+  ],
+  "prerequisites": [
+   "g8.steps-direct"
+  ],
+  "previousPrerequisites": [
+   "g8.slope"
+  ]
+ },
+ {
+  "id": "g8.steps-intercept",
+  "title": "Find rate of change and initial value",
+  "unit": "Linear relationships and functions",
+  "example": "A line goes through (1, 5) and (3, 11). Find the rate.",
+  "standards": [
+   "8.4C"
+  ],
+  "prerequisites": [
+   "g8.slope"
+  ],
+  "stages": [
+   {
+    "title": "Find rate of change from paired measurements",
+    "example": "A line goes through (1, 5) and (3, 11). Find the rate."
+   },
+   {
+    "title": "Recover the initial value at zero",
+    "example": "A table has y = 8 at x = 1 and gains 3 per step. Find y at zero."
+   },
+   {
+    "title": "Interpret the initial value and the rate in context",
+    "example": "A taxi costs y = 2x + 4 dollars for x miles. What is the starting fee?"
+   }
+  ]
+ },
+ {
+  "id": "g8.intercept",
+  "title": "Find rate of change and initial value",
+  "example": "A tank holds 11 L at minute 2 and 17 L at minute 4. How much was there at minute zero?",
+  "unit": "Linear relationships and functions",
+  "standards": [
+   "8.4C"
+  ],
+  "prerequisites": [
+   "g8.steps-intercept"
+  ],
+  "previousPrerequisites": [
+   "g8.slope"
+  ]
+ },
+ {
+  "id": "g8.steps-linear",
+  "title": "Write linear models across representations",
+  "unit": "Linear relationships and functions",
+  "example": "Complete the table for y = 2x + 1 at x = 0 and 2.",
+  "standards": [
+   "8.5B",
+   "8.5I"
+  ],
+  "prerequisites": [
+   "g8.intercept"
+  ],
+  "stages": [
+   {
+    "title": "Build a table from a linear rule",
+    "example": "Complete the table for y = 2x + 1 at x = 0 and 2."
+   },
+   {
+    "title": "Plot a point from a linear equation",
+    "example": "Which two points can you plot for y = x − 2?"
+   },
+   {
+    "title": "Write an equation from paired values",
+    "example": "A line starts at 3 and rises 4 per horizontal unit. Write its equation."
+   },
+   {
+    "title": "Connect linear graphs, tables and rules",
+    "example": "A table lists (0, 2) and (2, 8). What line connects them?"
+   }
+  ]
+ },
+ {
+  "id": "g8.linear",
+  "title": "Write linear models across representations",
+  "example": "A rental starts at $7 and costs $3 per hour. Write the cost after x hours.",
+  "unit": "Linear relationships and functions",
+  "standards": [
+   "8.5B",
+   "8.5I"
+  ],
+  "prerequisites": [
+   "g8.steps-linear"
+  ],
+  "previousPrerequisites": [
+   "g8.intercept"
+  ]
+ },
+ {
+  "id": "g8.steps-proportional",
+  "title": "Compare proportional and other linear models",
+  "unit": "Linear relationships and functions",
+  "example": "Does y = 3x + 3 describe direct variation?",
+  "standards": [
+   "8.5F",
+   "8.5H"
+  ],
+  "prerequisites": [
+   "g8.direct",
+   "g8.linear"
+  ],
+  "stages": [
+   {
+    "title": "Test whether a linear graph goes through the origin",
+    "example": "Does y = 3x + 3 describe direct variation?"
+   },
+   {
+    "title": "Test a table for a constant output-to-input ratio",
+    "example": "Do (1, 3), (2, 6) and (3, 17) have the same output-to-input ratio?"
+   },
+   {
+    "title": "Compare a fixed-fee plan and a per-unit plan",
+    "example": "A costs $8 per ride. B charges $3 plus $8 per ride. How many dollars more does B cost after 9 rides?"
+   }
+  ]
+ },
+ {
+  "id": "g8.proportional",
+  "title": "Compare proportional and other linear models",
+  "example": "A taxi charges $4 initially and $2 per mile. Is cost proportional to miles?",
+  "unit": "Linear relationships and functions",
+  "standards": [
+   "8.5F",
+   "8.5H"
+  ],
+  "prerequisites": [
+   "g8.steps-proportional"
+  ],
+  "previousPrerequisites": [
+   "g8.direct",
+   "g8.linear"
+  ]
+ },
+ {
+  "id": "g8.steps-functions",
+  "title": "Identify functions in four representations",
+  "unit": "Linear relationships and functions",
+  "example": "Do the pairs (3, 8), (4, 10), (3, 9) define a function?",
+  "standards": [
+   "8.5G"
+  ],
+  "prerequisites": [
+   "g8.sets"
+  ],
+  "stages": [
+   {
+    "title": "Test whether an input has more than one output",
+    "example": "Do the pairs (3, 8), (4, 10), (3, 9) define a function?"
+   },
+   {
+    "title": "Apply the vertical-line test to coordinates",
+    "example": "A graph consists of (3, 8), (4, 10), (3, 9). How many of these points does x = 3 hit?"
+   },
+   {
+    "title": "Use a function rule to calculate an output",
+    "example": "A machine uses f(x) = 8x − 3. What is f(-8)?"
+   }
+  ]
+ },
+ {
+  "id": "g8.functions",
+  "title": "Identify functions in four representations",
+  "example": "Do (1, 4), (2, 4) and (1, 6) define a function?",
+  "unit": "Linear relationships and functions",
+  "standards": [
+   "8.5G"
+  ],
+  "prerequisites": [
+   "g8.steps-functions"
+  ],
+  "previousPrerequisites": [
+   "g8.sets"
+  ]
+ },
+ {
+  "id": "g8.steps-compare-functions",
+  "title": "Compare and sketch changing quantities",
+  "unit": "Linear relationships and functions",
+  "example": "A follows y = 3x + 4. B passes through (1, 3) and (3, 25). How much greater is B's slope?",
+  "standards": [
+   "8.F.A.2",
+   "8.F.A.3",
+   "8.F.B.5"
+  ],
+  "prerequisites": [
+   "g8.functions",
+   "g8.linear"
+  ],
+  "stages": [
+   {
+    "title": "Compare rates across a rule and a pair of points",
+    "example": "A follows y = 3x + 4. B passes through (1, 3) and (3, 25). How much greater is B's slope?"
+   },
+   {
+    "title": "Compare starting values across representations",
+    "example": "A starts at y = 11 when x = 0. B follows y = 8x + 3. Find A's initial advantage."
+   },
+   {
+    "title": "Interpret rising, falling and constant intervals",
+    "example": "On a straight graph segment between minutes 3 and 5, depth goes from 11 to 11 cm. Describe that interval."
+   }
+  ]
+ },
+ {
+  "id": "g8.compare-functions",
+  "title": "Compare and sketch changing quantities",
+  "example": "Tank A gains 3 liters per minute. Tank B rises from 4 to 12 liters in two minutes. Which fills faster?",
+  "unit": "Linear relationships and functions",
+  "standards": [
+   "8.F.A.2",
+   "8.F.A.3",
+   "8.F.B.5"
+  ],
+  "prerequisites": [
+   "g8.steps-compare-functions"
+  ],
+  "previousPrerequisites": [
+   "g8.functions",
+   "g8.linear"
+  ]
+ },
+ {
+  "id": "g8.steps-model",
+  "title": "Model two-sided equations and inequalities",
+  "unit": "Equations and systems",
+  "example": "Three identical bags and 2 loose counters total 17. How many counters per bag?",
+  "standards": [
+   "8.8A",
+   "8.8B"
+  ],
+  "prerequisites": [
+   "g8.linear",
+   "g8.foundation-algebra"
+  ],
+  "stages": [
+   {
+    "title": "Model equal groups and constants on a balance",
+    "example": "Three identical bags and 2 loose counters total 17. How many counters per bag?"
+   },
+   {
+    "title": "Translate two variable costs into an equation",
+    "example": "A charges $3 plus $8 per visit. B charges $13 plus $7 per visit. Model A costing the same as B for x visits."
+   },
+   {
+    "title": "Translate competing costs into an inequality",
+    "example": "A charges $3 plus $8 per visit. B charges $13 plus $7 per visit. Model A costing at most as much as B for x visits."
+   }
+  ]
+ },
+ {
+  "id": "g8.model",
+  "title": "Model two-sided equations and inequalities",
+  "example": "One plan costs $6 plus $2 per ride. Another costs $3 per ride. Model equal costs.",
+  "unit": "Equations and systems",
+  "standards": [
+   "8.8A",
+   "8.8B"
+  ],
+  "prerequisites": [
+   "g8.steps-model"
+  ],
+  "previousPrerequisites": [
+   "g8.linear"
+  ]
+ },
+ {
+  "id": "g8.steps-solve",
+  "title": "Solve equations with variables on both sides",
+  "unit": "Equations and systems",
+  "example": "Solve 10x + 8 = 8x + 14.",
+  "standards": [
+   "8.8C"
+  ],
+  "prerequisites": [
+   "g8.model"
+  ],
+  "stages": [
+   {
+    "title": "Collect variable terms on one side",
+    "example": "Solve 10x + 8 = 8x + 14."
+   },
+   {
+    "title": "Distribute before solving a two-sided equation",
+    "example": "Solve 9(x + 2) = 8(x + 1) + 13."
+   },
+   {
+    "title": "Solve a two-sided equation with fractional coefficients",
+    "example": "Solve x/2 + 3 = x/4 + 11."
+   }
+  ]
+ },
+ {
+  "id": "g8.solve",
+  "title": "Solve equations with variables on both sides",
+  "example": "Solve 0.5x + 8 = 1.5x + 2.",
+  "unit": "Equations and systems",
+  "standards": [
+   "8.8C"
+  ],
+  "prerequisites": [
+   "g8.steps-solve"
+  ],
+  "previousPrerequisites": [
+   "g8.model"
+  ]
+ },
+ {
+  "id": "g8.steps-inequality",
+  "title": "Solve and interpret two-sided inequalities",
+  "unit": "Equations and systems",
+  "example": "Solve 3x + 1 > 16.",
+  "standards": [
+   "8.8A",
+   "8.8B"
+  ],
+  "prerequisites": [
+   "g8.solve"
+  ],
+  "stages": [
+   {
+    "title": "Isolate a variable with a positive coefficient",
+    "example": "Solve 3x + 1 > 16."
+   },
+   {
+    "title": "Reverse a bound when dividing by a negative",
+    "example": "Solve −2x + 3 < 11."
+   },
+   {
+    "title": "Solve and check a bound with variables on both sides",
+    "example": "Find the greatest allowed integer x for 9x + 8 ≤ 8x + 5."
+   }
+  ]
+ },
+ {
+  "id": "g8.inequality",
+  "title": "Solve and interpret two-sided inequalities",
+  "example": "When is a $12 fee plus $2 per visit cheaper than $5 per visit?",
+  "unit": "Equations and systems",
+  "standards": [
+   "8.8A",
+   "8.8B"
+  ],
+  "prerequisites": [
+   "g8.steps-inequality"
+  ],
+  "previousPrerequisites": [
+   "g8.solve"
+  ]
+ },
+ {
+  "id": "g8.steps-solutions",
+  "title": "One, none or infinitely many solutions",
+  "unit": "Equations and systems",
+  "example": "Which value of c gives exactly one solution in cx + 3 = 8x + 4?",
+  "standards": [
+   "8.EE.C.7a"
+  ],
+  "prerequisites": [
+   "g8.solve"
+  ],
+  "stages": [
+   {
+    "title": "Recognize an equation with exactly one solution",
+    "example": "Which value of c gives exactly one solution in cx + 3 = 8x + 4?"
+   },
+   {
+    "title": "Recognize a contradiction after cancellation",
+    "example": "Which constant c makes 8(x + 3) = 8x + c impossible?"
+   },
+   {
+    "title": "Recognize an identity after distribution",
+    "example": "Choose c so that 8(x + 3) = 8x + c holds for every x."
+   }
+  ]
+ },
+ {
+  "id": "g8.solutions",
+  "title": "One, none or infinitely many solutions",
+  "example": "How many solutions does 2(x + 3) = 2x + 6 have?",
+  "unit": "Equations and systems",
+  "standards": [
+   "8.EE.C.7a"
+  ],
+  "prerequisites": [
+   "g8.steps-solutions"
+  ],
+  "previousPrerequisites": [
+   "g8.solve"
+  ]
+ },
+ {
+  "id": "g8.steps-systems",
+  "title": "Find and verify a graphical intersection",
+  "unit": "Equations and systems",
+  "example": "Does (3, 11) solve both y = x + 8 and y = 2x + (6)?",
+  "standards": [
+   "8.9"
+  ],
+  "prerequisites": [
+   "g8.functions",
+   "g8.solve"
+  ],
+  "stages": [
+   {
+    "title": "Test a point against both equations",
+    "example": "Does (3, 11) solve both y = x + 8 and y = 2x + (6)?"
+   },
+   {
+    "title": "Read and verify both coordinates of a graphical intersection",
+    "example": "Read both coordinates where y = 6 and y = 2x intersect. Verify that y has the same value on both lines."
+   },
+   {
+    "title": "Interpret a shared point in a cost comparison",
+    "example": "Two fares match at (3, 24) on a graph of dollars versus miles. What is the common cost in dollars?"
+   }
+  ]
+ },
+ {
+  "id": "g8.systems",
+  "title": "Find and verify a graphical intersection",
+  "example": "Where do y = 2x + 1 and y = x + 4 intersect?",
+  "unit": "Equations and systems",
+  "standards": [
+   "8.9"
+  ],
+  "prerequisites": [
+   "g8.steps-systems"
+  ],
+  "previousPrerequisites": [
+   "g8.functions",
+   "g8.solve"
+  ]
+ },
+ {
+  "id": "g8.steps-system-algebra",
+  "title": "Solve systems by substitution or elimination",
+  "unit": "Equations and systems",
+  "example": "Solve y = x + 8 and x + y = 14. Find y.",
+  "standards": [
+   "8.EE.C.8b",
+   "8.EE.C.8c"
+  ],
+  "prerequisites": [
+   "g8.systems",
+   "g8.solutions"
+  ],
+  "stages": [
+   {
+    "title": "Replace a variable using the other equation",
+    "example": "Solve y = x + 8 and x + y = 14. Find y."
+   },
+   {
+    "title": "Add equations to eliminate opposite coefficients",
+    "example": "Solve x + y = 11 and x − y = -5. Find x."
+   },
+   {
+    "title": "Scale one equation before elimination",
+    "example": "Solve x + y = 11 and 3x + 2y = 25. Find x."
+   }
+  ]
+ },
+ {
+  "id": "g8.system-algebra",
+  "title": "Solve systems by substitution or elimination",
+  "example": "Find x and y if x + y = 9 and x − y = 3.",
+  "unit": "Equations and systems",
+  "standards": [
+   "8.EE.C.8b",
+   "8.EE.C.8c"
+  ],
+  "prerequisites": [
+   "g8.steps-system-algebra"
+  ],
+  "previousPrerequisites": [
+   "g8.systems",
+   "g8.solutions"
+  ]
+ },
+ {
+  "id": "g8.steps-pythagoras",
+  "title": "Build the Pythagorean theorem from areas",
+  "unit": "Right triangles and solids",
+  "example": "A right triangle has legs 3 and 8. Find the area of the square on its hypotenuse.",
+  "standards": [
+   "8.6C"
+  ],
+  "prerequisites": [
+   "g8.roots",
+   "g8.triangle"
+  ],
+  "stages": [
+   {
+    "title": "Add the square areas on two legs",
+    "example": "A right triangle has legs 3 and 8. Find the area of the square on its hypotenuse."
+   },
+   {
+    "title": "Subtract four triangle areas in a dissection proof",
+    "example": "Four right triangles with legs 3 and 8 fit in a square of side 11, surrounding a central square. Find its area."
+   },
+   {
+    "title": "Recover a leg-square area by subtraction",
+    "example": "The square on a hypotenuse has area 73. One leg-square has area 64. Find the other leg-square area."
+   }
+  ]
+ },
+ {
+  "id": "g8.pythagoras",
+  "title": "Build the Pythagorean theorem from areas",
+  "example": "Squares on the legs of a right triangle have areas 9 and 16. How long is the hypotenuse?",
+  "unit": "Right triangles and solids",
+  "standards": [
+   "8.6C"
+  ],
+  "prerequisites": [
+   "g8.steps-pythagoras"
+  ],
+  "previousPrerequisites": [
+   "g8.roots",
+   "g8.triangle"
+  ]
+ },
+ {
+  "id": "g8.steps-missing-side",
+  "title": "Find missing lengths and test the converse",
+  "unit": "Right triangles and solids",
+  "example": "A right triangle has legs 15 and 36. Find the hypotenuse.",
+  "standards": [
+   "8.7C"
+  ],
+  "prerequisites": [
+   "g8.pythagoras"
+  ],
+  "stages": [
+   {
+    "title": "Find the length of a hypotenuse",
+    "example": "A right triangle has legs 15 and 36. Find the hypotenuse."
+   },
+   {
+    "title": "Find a missing leg from the hypotenuse",
+    "example": "A ladder of length 39 reaches a wall from 15 units away on level ground. How high does it reach?"
+   },
+   {
+    "title": "Test whether three side lengths form a right triangle",
+    "example": "Can side lengths 15, 36, 40 form a right triangle?"
+   }
+  ]
+ },
+ {
+  "id": "g8.missing-side",
+  "title": "Find missing lengths and test the converse",
+  "example": "A ladder is 13 ft long and its foot is 5 ft from the wall. How high does it reach?",
+  "unit": "Right triangles and solids",
+  "standards": [
+   "8.7C"
+  ],
+  "prerequisites": [
+   "g8.steps-missing-side"
+  ],
+  "previousPrerequisites": [
+   "g8.pythagoras"
+  ]
+ },
+ {
+  "id": "g8.steps-distance",
+  "title": "Distance between points on a plane",
+  "unit": "Right triangles and solids",
+  "example": "From (−8, 3) to (3, -5), find the vertical distance.",
+  "standards": [
+   "8.7D"
+  ],
+  "prerequisites": [
+   "g8.missing-side",
+   "g8.translate"
+  ],
+  "stages": [
+   {
+    "title": "Measure horizontal and vertical changes",
+    "example": "From (−8, 3) to (3, -5), find the vertical distance."
+   },
+   {
+    "title": "Find the diagonal distance between two points",
+    "example": "Find the distance from (−8, 8) to (7, 44)."
+   },
+   {
+    "title": "Express a noninteger distance using a radical",
+    "example": "Points (0, 0) and (3, 1) are √m units apart. Find the radicand m."
+   }
+  ]
+ },
+ {
+  "id": "g8.distance",
+  "title": "Distance between points on a plane",
+  "example": "How far apart are (−1, 2) and (5, 10)?",
+  "unit": "Right triangles and solids",
+  "standards": [
+   "8.7D"
+  ],
+  "prerequisites": [
+   "g8.steps-distance"
+  ],
+  "previousPrerequisites": [
+   "g8.missing-side",
+   "g8.translate"
+  ]
+ },
+ {
+  "id": "g8.steps-cylinder",
+  "title": "Build and use the cylinder volume formula",
+  "unit": "Right triangles and solids",
+  "example": "A cylinder has diameter 6 cm. Find the coefficient of π in its base area.",
+  "standards": [
+   "8.6A",
+   "8.7A"
+  ],
+  "prerequisites": [
+   "g8.scale-area"
+  ],
+  "stages": [
+   {
+    "title": "Find the area of a cylinder base from its diameter",
+    "example": "A cylinder has diameter 6 cm. Find the coefficient of π in its base area."
+   },
+   {
+    "title": "Multiply base area by height",
+    "example": "A cylinder has base area 3π cm² and height 8 cm. Its volume is how many times π cm³?"
+   },
+   {
+    "title": "Recover the height from volume",
+    "example": "A cylinder's volume is 192π m³ and its radius is 8 m. Find its height in meters."
+   }
+  ]
+ },
+ {
+  "id": "g8.cylinder",
+  "title": "Build and use the cylinder volume formula",
+  "example": "A cylinder has radius 3 cm and height 5 cm. Find its volume in terms of π.",
+  "unit": "Right triangles and solids",
+  "standards": [
+   "8.6A",
+   "8.7A"
+  ],
+  "prerequisites": [
+   "g8.steps-cylinder"
+  ],
+  "previousPrerequisites": [
+   "g8.scale-area"
+  ]
+ },
+ {
+  "id": "g8.steps-cone",
+  "title": "Compare a cone and a cylinder",
+  "unit": "Right triangles and solids",
+  "example": "A cylinder holds 114 mL. What is the capacity of a cone with the same base and height?",
+  "standards": [
+   "8.6B",
+   "8.7A"
+  ],
+  "prerequisites": [
+   "g8.cylinder"
+  ],
+  "stages": [
+   {
+    "title": "Compare cones and cylinders with equal dimensions",
+    "example": "A cylinder holds 114 mL. What is the capacity of a cone with the same base and height?"
+   },
+   {
+    "title": "Compute cone volume from radius and height",
+    "example": "A cone has radius 8 and height 9. Find the coefficient of π in its volume."
+   },
+   {
+    "title": "Recover the height of a cone",
+    "example": "A cone has base area 8π and volume 24π. Find its height."
+   }
+  ]
+ },
+ {
+  "id": "g8.cone",
+  "title": "Compare a cone and a cylinder",
+  "example": "A cone and cylinder have the same base and height. The cylinder holds 72 mL. What does the cone hold?",
+  "unit": "Right triangles and solids",
+  "standards": [
+   "8.6B",
+   "8.7A"
+  ],
+  "prerequisites": [
+   "g8.steps-cone"
+  ],
+  "previousPrerequisites": [
+   "g8.cylinder"
+  ]
+ },
+ {
+  "id": "g8.steps-sphere",
+  "title": "Volume of spheres",
+  "unit": "Right triangles and solids",
+  "example": "For radius 3, find r³ in the sphere formula V = 4πr³/3.",
+  "standards": [
+   "8.7A"
+  ],
+  "prerequisites": [
+   "g8.cylinder",
+   "g8.roots"
+  ],
+  "stages": [
+   {
+    "title": "Cube the radius in the sphere formula",
+    "example": "For radius 3, find r³ in the sphere formula V = 4πr³/3."
+   },
+   {
+    "title": "Use a diameter to calculate sphere volume",
+    "example": "A sphere has diameter 6 cm. Give the coefficient of π in its volume as a simplified number."
+   },
+   {
+    "title": "Compare volumes of scaled spheres",
+    "example": "One sphere has radius 3 and another radius 24. How many times as large is the second volume?"
+   }
+  ]
+ },
+ {
+  "id": "g8.sphere",
+  "title": "Volume of spheres",
+  "example": "A sphere has radius 3 cm. Find the coefficient of π in its volume.",
+  "unit": "Right triangles and solids",
+  "standards": [
+   "8.7A"
+  ],
+  "prerequisites": [
+   "g8.steps-sphere"
+  ],
+  "previousPrerequisites": [
+   "g8.cylinder",
+   "g8.roots"
+  ]
+ },
+ {
+  "id": "g8.steps-prism-surface",
+  "title": "Lateral and total area of prism nets",
+  "unit": "Right triangles and solids",
+  "example": "How many rectangles form the net of a rectangular prism?",
+  "standards": [
+   "8.7B"
+  ],
+  "prerequisites": [
+   "g8.scale-area",
+   "g8.missing-side"
+  ],
+  "stages": [
+   {
+    "title": "Read the faces in a rectangular prism net",
+    "example": "How many rectangles form the net of a rectangular prism?"
+   },
+   {
+    "title": "Read the faces in a triangular prism net",
+    "example": "What faces form a triangular prism's net?"
+   },
+   {
+    "title": "Use base perimeter to calculate lateral area",
+    "example": "A right prism has rectangular base 3 by 8 cm and height 9 cm. Find its lateral area in cm²."
+   },
+   {
+    "title": "Combine triangular bases with lateral faces",
+    "example": "A triangular prism has base area 6, base perimeter 12, and length 5. Find its surface area."
+   }
+  ]
+ },
+ {
+  "id": "g8.prism-surface",
+  "title": "Lateral and total area of prism nets",
+  "example": "A 3 by 4 by 8 cm box stands on its 3 by 4 base. Find total surface area.",
+  "unit": "Right triangles and solids",
+  "standards": [
+   "8.7B"
+  ],
+  "prerequisites": [
+   "g8.steps-prism-surface"
+  ],
+  "previousPrerequisites": [
+   "g8.scale-area",
+   "g8.missing-side"
+  ]
+ },
+ {
+  "id": "g8.steps-cylinder-surface",
+  "title": "Unroll a cylinder to find surface area",
+  "unit": "Right triangles and solids",
+  "example": "A cylinder of diameter 6 cm is unrolled. Its wrap width is wπ cm. Find w.",
+  "standards": [
+   "8.7B"
+  ],
+  "prerequisites": [
+   "g8.cylinder",
+   "g8.prism-surface"
+  ],
+  "stages": [
+   {
+    "title": "Find the width of the unrolled rectangle",
+    "example": "A cylinder of diameter 6 cm is unrolled. Its wrap width is wπ cm. Find w."
+   },
+   {
+    "title": "Calculate the curved surface area",
+    "example": "A cylinder of radius 3 and height 8 needs a label covering just its side. Find its area divided by π."
+   },
+   {
+    "title": "Include one or both circular ends",
+    "example": "A cylinder of radius 8 and height 3 needs covering on its side and 2 circular end(s). Find the total area divided by π."
+   }
+  ]
+ },
+ {
+  "id": "g8.cylinder-surface",
+  "title": "Unroll a cylinder to find surface area",
+  "example": "A closed cylinder has radius 2 cm and height 5 cm. Find the coefficient of π in total area.",
+  "unit": "Right triangles and solids",
+  "standards": [
+   "8.7B"
+  ],
+  "prerequisites": [
+   "g8.steps-cylinder-surface"
+  ],
+  "previousPrerequisites": [
+   "g8.cylinder",
+   "g8.prism-surface"
+  ]
+ },
+ {
+  "id": "g8.steps-scatter",
+  "title": "Build scatterplots and recognize association",
+  "unit": "Data and statistical reasoning",
+  "example": "Make a scatterplot from (1, 6), (3, 8), (5, 8).",
+  "standards": [
+   "8.11A",
+   "8.5C"
+  ],
+  "prerequisites": [
+   "g8.functions"
+  ],
+  "stages": [
+   {
+    "title": "Construct a scatterplot from paired observations",
+    "example": "Make a scatterplot from (1, 6), (3, 8), (5, 8)."
+   },
+   {
+    "title": "Identify the direction of association",
+    "example": "For increasing x, y is 10, 8, 9, 6, 4. Describe the linear association."
+   },
+   {
+    "title": "Identify a point far from a cluster",
+    "example": "Most points follow y = x + 3. Which x is the outlier: (1,12), (2,5), (3,6), (4,7), (5,8)?"
+   }
+  ]
+ },
+ {
+  "id": "g8.scatter",
+  "title": "Build scatterplots and recognize association",
+  "example": "Points (1, 2), (2, 4), (3, 6) and (4, 8) lie on a plot. Describe the association.",
+  "unit": "Data and statistical reasoning",
+  "standards": [
+   "8.11A",
+   "8.5C"
+  ],
+  "prerequisites": [
+   "g8.steps-scatter"
+  ],
+  "previousPrerequisites": [
+   "g8.functions"
+  ]
+ },
+ {
+  "id": "g8.steps-trend",
+  "title": "Use a trend line to predict",
+  "unit": "Data and statistical reasoning",
+  "example": "A fitted line passes through (2, 3) and (10, -61). Estimate its slope.",
+  "standards": [
+   "8.5D"
+  ],
+  "prerequisites": [
+   "g8.scatter",
+   "g8.linear"
+  ],
+  "stages": [
+   {
+    "title": "Estimate a trend line's slope from two points",
+    "example": "A fitted line passes through (2, 3) and (10, -61). Estimate its slope."
+   },
+   {
+    "title": "Use a fitted trend line to predict a value",
+    "example": "A fitted line estimates height in cm by h = 8d + 3. Predict the height on day 10."
+   },
+   {
+    "title": "Measure an observation's deviation from a prediction",
+    "example": "A model predicted 11 minutes. The actual time was 3. Find actual minus predicted."
+   }
+  ]
+ },
+ {
+  "id": "g8.trend",
+  "title": "Use a trend line to predict",
+  "example": "A fitted line predicts y = 3x + 2. Predict y at x = 7.",
+  "unit": "Data and statistical reasoning",
+  "standards": [
+   "8.5D"
+  ],
+  "prerequisites": [
+   "g8.steps-trend"
+  ],
+  "previousPrerequisites": [
+   "g8.scatter",
+   "g8.linear"
+  ]
+ },
+ {
+  "id": "g8.steps-mad",
+  "title": "Measure spread with mean absolute deviation",
+  "unit": "Data and statistical reasoning",
+  "example": "A test score is 3 and the group mean is 11. Find the absolute deviation.",
+  "standards": [
+   "8.11B"
+  ],
+  "prerequisites": [
+   "g8.sets",
+   "g8.foundation-data"
+  ],
+  "stages": [
+   {
+    "title": "Find absolute distances from a mean",
+    "example": "A test score is 3 and the group mean is 11. Find the absolute deviation."
+   },
+   {
+    "title": "Average the distances to calculate MAD",
+    "example": "Find the MAD of -5, 3, and 11."
+   },
+   {
+    "title": "Compare variability for groups with the same mean",
+    "example": "Groups A and B both average 3. A has two values 2, 4. B has -5, 11. How much greater is B's MAD?"
+   }
+  ]
+ },
+ {
+  "id": "g8.mad",
+  "title": "Measure spread with mean absolute deviation",
+  "example": "Find the mean absolute deviation of 2, 4, 6 and 8.",
+  "unit": "Data and statistical reasoning",
+  "standards": [
+   "8.11B"
+  ],
+  "prerequisites": [
+   "g8.steps-mad"
+  ],
+  "previousPrerequisites": [
+   "g8.sets"
+  ]
+ },
+ {
+  "id": "g8.steps-sampling",
+  "title": "Simulate repeated random samples",
+  "unit": "Data and statistical reasoning",
+  "example": "A bike club survey finds 12 of 20 bike to school. What can we conclude?",
+  "standards": [
+   "8.11C"
+  ],
+  "prerequisites": [
+   "g8.mad",
+   "g8.proportional"
+  ],
+  "stages": [
+   {
+    "title": "Distinguish supported and unsupported inferences",
+    "example": "A bike club survey finds 12 of 20 bike to school. What can we conclude?"
+   },
+   {
+    "title": "Estimate a population count from a random sample",
+    "example": "A random sample of 40 finds 3 walkers. About how many walkers would you expect among 320 students?"
+   },
+   {
+    "title": "Compare the spread of repeated sample estimates",
+    "example": "With samples of 10, estimates span 20%–90%. With samples of 50, they span 36%–74%. How much narrower is the second range, in percentage points?"
+   }
+  ]
+ },
+ {
+  "id": "g8.sampling",
+  "title": "Simulate repeated random samples",
+  "example": "A population is half blue. In a random sample of 20, 12 are blue. How far is the sample percent from the population percent?",
+  "unit": "Data and statistical reasoning",
+  "standards": [
+   "8.11C"
+  ],
+  "prerequisites": [
+   "g8.steps-sampling"
+  ],
+  "previousPrerequisites": [
+   "g8.mad",
+   "g8.proportional"
+  ]
+ },
+ {
+  "id": "g8.steps-two-way",
+  "title": "Interpret two-way frequency tables",
+  "unit": "Data and statistical reasoning",
+  "example": "North has 3 bike and 37 bus riders. South has 8 bike and 9 bus riders. How many students are both on the South route and riding the bike?",
+  "standards": [
+   "8.SP.A.4"
+  ],
+  "prerequisites": [
+   "g8.proportional"
+  ],
+  "stages": [
+   {
+    "title": "Read a joint frequency in a two-way table",
+    "example": "North has 3 bike and 37 bus riders. South has 8 bike and 9 bus riders. How many students are both on the South route and riding the bike?"
+   },
+   {
+    "title": "Combine cells to find a marginal frequency",
+    "example": "North has 3 bike and 37 bus riders. South has 8 bike and 9 bus riders. How many students bike across both routes?"
+   },
+   {
+    "title": "Use a row or column total for a conditional percentage",
+    "example": "North has 3 bike and 37 bus riders. South has 8 bike and 9 bus riders. Of the North-route students, what percent ride a bike?"
+   }
+  ]
+ },
+ {
+  "id": "g8.two-way",
+  "title": "Interpret two-way frequency tables",
+  "example": "Of 20 bus riders, 12 pack lunch. Of 30 walkers, 12 pack lunch. Which group packs lunch more often?",
+  "unit": "Data and statistical reasoning",
+  "standards": [
+   "8.SP.A.4"
+  ],
+  "prerequisites": [
+   "g8.steps-two-way"
+  ],
+  "previousPrerequisites": [
+   "g8.proportional"
+  ]
+ },
+ {
+  "id": "g8.steps-interest",
+  "title": "Compare simple and compound growth",
+  "unit": "Personal finance",
+  "example": "Find simple interest on $200 at 5% per year for 3 years.",
+  "standards": [
+   "8.12D"
+  ],
+  "prerequisites": [
+   "g8.direct"
+  ],
+  "stages": [
+   {
+    "title": "Compute simple interest on a fixed principal",
+    "example": "Find simple interest on $200 at 5% per year for 3 years."
+   },
+   {
+    "title": "Apply an annual growth factor",
+    "example": "Compound $100 annually at 10% for two years. Find year two's interest."
+   },
+   {
+    "title": "Compare simple and compound returns",
+    "example": "Compare two years on $100 at 10%, simple versus annual compound. How much extra is compound?"
+   }
+  ]
+ },
+ {
+  "id": "g8.interest",
+  "title": "Compare simple and compound growth",
+  "example": "Compare two years of simple and annual compound interest on $100 at 10%. How much extra does compounding earn?",
+  "unit": "Personal finance",
+  "standards": [
+   "8.12D"
+  ],
+  "prerequisites": [
+   "g8.steps-interest"
+  ],
+  "previousPrerequisites": [
+   "g8.direct"
+  ]
+ },
+ {
+  "id": "g8.steps-loans",
+  "title": "Compare loan rates and repayment terms",
+  "unit": "Personal finance",
+  "example": "A loan is repaid in 24 monthly payments of $23 with no other charges. Find total repayment.",
+  "standards": [
+   "8.12A",
+   "8.12B"
+  ],
+  "prerequisites": [
+   "g8.interest",
+   "g8.linear"
+  ],
+  "stages": [
+   {
+    "title": "Calculate total scheduled repayment",
+    "example": "A loan is repaid in 24 monthly payments of $23 with no other charges. Find total repayment."
+   },
+   {
+    "title": "Separate principal from fees and interest",
+    "example": "Payments total $396 on a $300 loan, plus a separate $11 fee. What is the cost above principal?"
+   },
+   {
+    "title": "Compare total costs across payment schedules",
+    "example": "For the same loan, A requires 12 payments of $14. B requires 24 of $3. With no fees, how many dollars less does B cost?"
+   }
+  ]
+ },
+ {
+  "id": "g8.loans",
+  "title": "Compare loan rates and repayment terms",
+  "example": "A loan calculator gives 24 payments of $45 on a $900 loan. Find the cost of credit.",
+  "unit": "Personal finance",
+  "standards": [
+   "8.12A",
+   "8.12B"
+  ],
+  "prerequisites": [
+   "g8.steps-loans"
+  ],
+  "previousPrerequisites": [
+   "g8.interest",
+   "g8.linear"
+  ]
+ },
+ {
+  "id": "g8.steps-invest",
+  "title": "Grow regular deposits over time",
+  "unit": "Personal finance",
+  "example": "A saver starts with $30 and adds $80 each month for 3 months. How much of the final balance comes from money deposited, including the initial amount?",
+  "standards": [
+   "8.12C"
+  ],
+  "prerequisites": [
+   "g8.interest"
+  ],
+  "stages": [
+   {
+    "title": "Calculate contributions across regular periods",
+    "example": "A saver starts with $30 and adds $80 each month for 3 months. How much of the final balance comes from money deposited, including the initial amount?"
+   },
+   {
+    "title": "Distinguish an early deposit from a later deposit",
+    "example": "Deposit $300 at the start of a year. It grows 8% before a $150 year-end deposit. Find the balance immediately after that deposit."
+   },
+   {
+    "title": "Separate investment earnings from contributions",
+    "example": "A saver contributes $300 initially and $80 in each of 12 months. The final balance is $1275. How much came from growth?"
+   }
+  ]
+ },
+ {
+  "id": "g8.invest",
+  "title": "Grow regular deposits over time",
+  "example": "Deposit $100 at each year end. At 5% annually, how much is there just after deposit two?",
+  "unit": "Personal finance",
+  "standards": [
+   "8.12C"
+  ],
+  "prerequisites": [
+   "g8.steps-invest"
+  ],
+  "previousPrerequisites": [
+   "g8.interest"
+  ]
+ },
+ {
+  "id": "g8.steps-payments",
+  "title": "Choose a payment method and evaluate risk",
+  "unit": "Personal finance",
+  "example": "Checking has $38. A debit purchase of $3 posts along with a $8 fee. What balance remains?",
+  "standards": [
+   "8.12E",
+   "8.12F"
+  ],
+  "prerequisites": [
+   "g8.loans"
+  ],
+  "stages": [
+   {
+    "title": "Track a debit purchase against a balance",
+    "example": "Checking has $38. A debit purchase of $3 posts along with a $8 fee. What balance remains?"
+   },
+   {
+    "title": "Compute the cost of carrying a credit balance",
+    "example": "An unpaid balance of $300 incurs 8% interest for one period plus a $10 fee. How many dollars are added?"
+   },
+   {
+    "title": "Evaluate a payment method in a spending scenario",
+    "example": "A student buys an item for $38 with $30 in checking. If the debit goes through, would the balance be negative?"
+   }
+  ]
+ },
+ {
+  "id": "g8.payments",
+  "title": "Choose a payment method and evaluate risk",
+  "example": "A $60 purchase has a $3 card fee. Paying cash has no fee. How much does paying cash save?",
+  "unit": "Personal finance",
+  "standards": [
+   "8.12E",
+   "8.12F"
+  ],
+  "prerequisites": [
+   "g8.steps-payments"
+  ],
+  "previousPrerequisites": [
+   "g8.loans"
+  ]
+ },
+ {
+  "id": "g8.steps-college",
+  "title": "Plan college costs and periodic savings",
+  "unit": "Personal finance",
+  "example": "A term has $300 tuition, $80 in books and 8 months of travel at $3 per month. Find the total.",
+  "standards": [
+   "8.12G"
+  ],
+  "prerequisites": [
+   "g8.invest",
+   "g8.payments"
+  ],
+  "stages": [
+   {
+    "title": "Build a term budget from fixed and monthly costs",
+    "example": "A term has $300 tuition, $80 in books and 8 months of travel at $3 per month. Find the total."
+   },
+   {
+    "title": "Apply grant aid and savings to a college budget",
+    "example": "A term costs $1500. Grants cover $600 and savings cover $160. How many dollars are still needed?"
+   },
+   {
+    "title": "Convert a funding gap into a monthly savings target",
+    "example": "A student needs $340 in 8 months and already has $100. With no interest, find the required monthly deposit."
+   }
+  ]
+ },
+ {
+  "id": "g8.college",
+  "title": "Plan college costs and periodic savings",
+  "example": "Year one costs $12000. Grants cover $6000 and family covers $2400. How much must be saved monthly over 24 months?",
+  "unit": "Personal finance",
+  "standards": [
+   "8.12G"
+  ],
+  "prerequisites": [
+   "g8.steps-college"
+  ],
+  "previousPrerequisites": [
+   "g8.invest",
+   "g8.payments"
+  ]
+ }
+]

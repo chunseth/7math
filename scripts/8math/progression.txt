@@ -1,0 +1,231 @@
+# Each section follows the Grade 8 scope and sequence. Dotted keys reuse reviewed prerequisite levels.
+[foundation-numbers]
+signed.add.2|Add integers with unlike signs
+signed.subtract.2|Subtract a negative integer
+signed.multiply.1|Determine the sign of a product
+signed.divide.1|Determine the sign of a quotient
+fraction.add.3|Combine signed fractions
+fraction.multiply.1|Multiply and simplify fractions
+fraction.divide.1|Divide using reciprocals
+number.mixed.2|Calculate across fractions and decimals
+[foundation-ratios]
+ratio.equivalent.2|Scale equivalent ratios
+ratio.equivalent.3|Complete ratio tables
+ratio.unit.1|Find an amount per unit
+ratio.unit.2|Use fractional unit rates
+percent.parts.1|Find a percent of a whole
+percent.change.2|Find an amount after a percent change
+[foundation-algebra]
+review.expressions.1|Apply operation order
+review.expressions.2|Evaluate by substitution
+review.expressions.3|Combine like terms
+review.expressions.4|Distribute a factor
+review.onestep.1|Undo a one-step operation
+algebra.equation.2|Solve a two-step equation
+[foundation-plane]
+review.coordinate.1|Locate ordered pairs in four quadrants
+review.coordinate.2|Read a scaled axis
+review.angles.1|Find complements and supplements
+review.area.3|Use a triangle base and height
+circle.measure.1|Measure a circular boundary
+circle.measure.2|Find a circular base area
+[foundation-data]
+review.data.1|Find the center of ordered measurements
+review.data.2|Measure the spread of the middle half
+stats.sample.1|Scale a sample proportion
+stats.groups.1|Compare distribution shapes
+[sets]
+number.sets.1|Classify rational numbers by their smallest set
+number.sets.2|Trace containment between number sets
+irrational|Distinguish rational and irrational square roots
+[repeat]
+terminating|Convert a terminating decimal using place value
+repeat-digit|Convert a repeating digit with a shift and subtraction
+repeat-block|Convert a repeating two-digit block
+[powers]
+product-powers|Multiply like bases by adding exponents
+quotient-powers|Divide like bases by subtracting exponents
+negative-power|Interpret zero and negative exponents
+power-power|Raise a power to another power
+[roots]
+square-root|Recover a side from a perfect square
+cube-root|Recover an edge from a signed cube
+radical-between|Bracket a nonperfect root between integers
+[estimate]
+root-midpoint|Compare a root with a half-unit mark
+root-tenth|Approximate a root to the nearest tenth
+[order]
+order-signed|Compare negative roots with negative integers
+order-rational|Compare a rational length with a radical
+order-context|Choose the nearest reference value
+[scientific]
+large-notation|Write a large number using a positive power of ten
+small-notation|Write a small number using a negative power of ten
+normalize|Normalize a coefficient to scientific notation
+[scientific-ops]
+sci-product|Multiply measurements in scientific notation
+sci-ratio|Divide measurements at different scales
+sci-sum|Align powers of ten before adding measurements
+[similar]
+similar.attributes.1|Identify corresponding sides and vertices
+similar.attributes.2|Compare within-figure and between-figure ratios
+similar.lengths.1|Determine a scale factor from a pair of sides
+similar.lengths.2|Recover a missing corresponding side
+[dilate]
+expand-point|Dilate a point away from the origin
+reduce-point|Dilate a point toward the origin
+inverse-image|Recover the original point from its image
+[scale-area]
+scale-perimeter|Predict the perimeter after a dilation
+area-factor|Connect the length factor to the area factor
+undo-area|Recover the length factor from two areas
+[translate]
+move|Apply a translation vector
+undo-move|Find the vector from preimage to image
+reflect|Reflect a point across a coordinate axis
+[rotate]
+turn-left|Rotate a point 90 degrees counterclockwise
+turn-right|Rotate a point 90 degrees clockwise
+half-turn|Rotate a point through 180 degrees
+[rigid]
+preserve|Track side lengths under rigid motions
+orientation|Track orientation through reflections
+rigid-scale|Distinguish congruence from scaled similarity
+[compose]
+move-reflect|Translate and then reflect a point
+reflect-move|Reflect and then translate a point
+reverse-sequence|Undo a sequence in reverse order
+[angles]
+geometry.angles.1|Distinguish complementary and supplementary angles
+parallel-equal|Match corresponding and alternate interior angles
+parallel-sum|Use same-side interior angle sums
+[triangle]
+review.angles.3|Recover a missing triangle angle
+exterior|Use the exterior angle relationship
+aa|Test two triangles for angle-angle similarity
+[slope]
+rise-run|Read signed rise and run from two points
+slope-ratio|Find slope as a reduced ratio
+slope-triangles|Scale a slope triangle along a line
+[direct]
+ratio.constant.1|Find the constant in a proportional table
+ratio.constant.2|Read a unit rate from a graph
+ratio.constant.3|Write a direct variation rule
+[intercept]
+linear.read.1|Find rate of change from paired measurements
+linear.read.2|Recover the initial value at zero
+linear.read.3|Interpret the initial value and the rate in context
+[linear]
+linear.represent.1|Build a table from a linear rule
+linear.represent.2|Plot a point from a linear equation
+linear.represent.3|Write an equation from paired values
+linear.represent.4|Connect linear graphs, tables and rules
+[proportional]
+origin|Test whether a linear graph goes through the origin
+ratios-table|Test a table for a constant output-to-input ratio
+compare-fees|Compare a fixed-fee plan and a per-unit plan
+[functions]
+unique-output|Test whether an input has more than one output
+vertical|Apply the vertical-line test to coordinates
+function-rule|Use a function rule to calculate an output
+[compare-functions]
+compare-rate|Compare rates across a rule and a pair of points
+compare-start|Compare starting values across representations
+interval|Interpret rising, falling and constant intervals
+[model]
+algebra.equation.1|Model equal groups and constants on a balance
+write-both|Translate two variable costs into an equation
+write-bound|Translate competing costs into an inequality
+[solve]
+collect|Collect variable terms on one side
+distribute-both|Distribute before solving a two-sided equation
+fraction-coeff|Solve a two-sided equation with fractional coefficients
+[inequality]
+algebra.inequality.2|Isolate a variable with a positive coefficient
+algebra.inequality.3|Reverse a bound when dividing by a negative
+both-bound|Solve and check a bound with variables on both sides
+[solutions]
+one-solution|Recognize an equation with exactly one solution
+contradiction|Recognize a contradiction after cancellation
+identity|Recognize an identity after distribution
+[systems]
+common-point|Test a point against both equations
+graph-cross|Read and verify both coordinates of a graphical intersection
+interpret-cross|Interpret a shared point in a cost comparison
+[system-algebra]
+substitute|Replace a variable using the other equation
+eliminate|Add equations to eliminate opposite coefficients
+scale-eliminate|Scale one equation before elimination
+[pythagoras]
+leg-squares|Add the square areas on two legs
+dissection|Subtract four triangle areas in a dissection proof
+recover-leg-area|Recover a leg-square area by subtraction
+[missing-side]
+hypotenuse|Find the length of a hypotenuse
+missing-leg|Find a missing leg from the hypotenuse
+converse|Test whether three side lengths form a right triangle
+[distance]
+displacements|Measure horizontal and vertical changes
+point-distance|Find the diagonal distance between two points
+radical-distance|Express a noninteger distance using a radical
+[cylinder]
+base-area|Find the area of a cylinder base from its diameter
+stack-base|Multiply base area by height
+cylinder-height|Recover the height from volume
+[cone]
+third|Compare cones and cylinders with equal dimensions
+cone-volume|Compute cone volume from radius and height
+cone-height|Recover the height of a cone
+[sphere]
+sphere-cube|Cube the radius in the sphere formula
+sphere-diameter|Use a diameter to calculate sphere volume
+sphere-scale|Compare volumes of scaled spheres
+[prism-surface]
+solid.nets.1|Read the faces in a rectangular prism net
+solid.nets.2|Read the faces in a triangular prism net
+prism-lateral|Use base perimeter to calculate lateral area
+solid.surface.2|Combine triangular bases with lateral faces
+[cylinder-surface]
+unwrap|Find the width of the unrolled rectangle
+side-wrap|Calculate the curved surface area
+caps|Include one or both circular ends
+[scatter]
+pair|Construct a scatterplot from paired observations
+association|Identify the direction of association
+outlier|Identify a point far from a cluster
+[trend]
+trend-slope|Estimate a trend line's slope from two points
+predict|Use a fitted trend line to predict a value
+residual|Measure an observation's deviation from a prediction
+[mad]
+deviation|Find absolute distances from a mean
+mean-deviation|Average the distances to calculate MAD
+compare-mad|Compare variability for groups with the same mean
+[sampling]
+stats.sample.2|Distinguish supported and unsupported inferences
+sample-estimate|Estimate a population count from a random sample
+sample-spread|Compare the spread of repeated sample estimates
+[two-way]
+joint|Read a joint frequency in a two-way table
+marginal|Combine cells to find a marginal frequency
+conditional|Use a row or column total for a conditional percentage
+[interest]
+finance.simple.1|Compute simple interest on a fixed principal
+finance.compound.1|Apply an annual growth factor
+finance.compound.3|Compare simple and compound returns
+[loans]
+repayment|Calculate total scheduled repayment
+loan-cost|Separate principal from fees and interest
+loan-compare|Compare total costs across payment schedules
+[invest]
+deposits|Calculate contributions across regular periods
+grow-deposit|Distinguish an early deposit from a later deposit
+investment-gain|Separate investment earnings from contributions
+[payments]
+debit|Track a debit purchase against a balance
+credit|Compute the cost of carrying a credit balance
+payment-risk|Evaluate a payment method in a spending scenario
+[college]
+cost-budget|Build a term budget from fixed and monthly costs
+grant-gap|Apply grant aid and savings to a college budget
+monthly-goal|Convert a funding gap into a monthly savings target

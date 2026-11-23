@@ -68,7 +68,7 @@ function diagram(model,t,color) {
   }
 }
 // Wrap by a conservative Helvetica width estimate. The longest prompts keep their own space above the pen work.
-function wrapped(value, x, y, size, color, weight, maxWidth = 365) {
+function wrapLines(value, size, maxWidth = 365) {
   const lines = [''];
   const measure = word => [...word].reduce((n,c) => n + (/[il.,:;'! ]/.test(c) ? .29 : /[MW@%]/.test(c) ? .92 : /[A-Z]/.test(c) ? .72 : .58) * size, 0);
   for (const word of value.split(' ')) {
@@ -76,23 +76,32 @@ function wrapped(value, x, y, size, color, weight, maxWidth = 365) {
     if (lines[i] && measure(next) > maxWidth) lines.push(word);
     else lines[i] = next;
   }
+  return lines;
+}
+function wrapped(lines, x, y, size, color, weight) {
   return lines.map((line, i) => text(x, y + i * size * 1.2, line, size, color, weight)).join('');
 }
 function worked(clip,t) {
   const color = clip.color;
   const promptSize = clip.prompt.length > 95 ? 22 : 26;
+  const prompt = wrapLines(clip.prompt, promptSize);
+  let nextY = Math.max(265, 130 + (prompt.length - 1) * promptSize * 1.2 + 32);
   const rows = clip.steps.map((step,i) => {
-    const start = .5 + i * 6.1, y = 265 + 123*i;
+    const start = .5 + i * 6.1, y = nextY;
     const alpha = clamp((t-start)/.6);
-    return `<g opacity="${alpha}">${wrapped(step.label,31,y,18,navy,550)}
-      ${ink(lettering(step.math,32,y+39,1.47,364),clamp((t-start-.6)/4.5),color,3.2)}</g>`;
+    const label = wrapLines(step.label, 18);
+    const mathY = y + Math.max(39, (label.length - 1) * 21.6 + 17);
+    nextY = Math.max(y + 123, mathY + 84);
+    return `<g opacity="${alpha}">${wrapped(label,31,y,18,navy,550)}
+      ${ink(lettering(step.math,32,mathY,1.47,364),clamp((t-start-.6)/4.5),color,3.2)}</g>`;
   });
+  const answerY = nextY;
   return Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="432" height="768">
     ${rect(0,0,432,768,0,'#fbf9f0')}${rect(31,86,30,4,2,color)}
-    ${wrapped(clip.prompt,30,130,promptSize,navy,700)}
+    ${wrapped(prompt,30,130,promptSize,navy,700)}
     ${rows.join('')}
-    <g opacity="${clamp((t-13)/.6)}">${rect(20,511,392,110,12,'#e8eee2')}${text(40,540,'Answer',17,color,650)}</g>
-    ${ink(lettering(clip.result,40,556,1.61,349),clamp((t-13.7)/3.7),color,3.6)}</svg>`);
+    <g opacity="${clamp((t-13)/.6)}">${rect(20,answerY,392,110,12,'#e8eee2')}${text(40,answerY+29,'Answer',17,color,650)}</g>
+    ${ink(lettering(clip.result,40,answerY+45,1.61,349),clamp((t-13.7)/3.7),color,3.6)}</svg>`);
 }
 function board(clip,t) {
   if (clip.model === "worked") return worked(clip,t);

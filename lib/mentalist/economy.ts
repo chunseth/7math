@@ -2,7 +2,7 @@ import type { PoolClient } from "pg";
 import { legacyChest } from "./legacy-chest";
 import { credit } from "./battle";
 import { GameError, one, rows, uuid, type Identity } from "./db";
-import { cardTitles, cardTopic, currentSkill, playable, skillById, levelById, sprites } from "./model";
+import { gradeOf, cardTitles, cardTopic, currentSkill, playable, skillById, levelById, sprites } from "./model";
 import { course, quests, studentState } from "./student";
 import { equipTool } from "./craft";
 
@@ -56,7 +56,7 @@ export async function economy(db: PoolClient, who: Identity, act: string, arg: s
         await db.query("update chests set opened=now() where id=$1", [arg]);
         return;
       }
-      const data = await course(db, who);
+      const data = await course(db, who, gradeOf(chest.skill ?? ""));
       const available = data.access.filter(playable).map((a) => levelById.get(a.id)!.skill);
       const cardSkill = available.includes(currentSkill(chest.skill)) ? currentSkill(chest.skill) : available[0];
       const giveCard = chest.reward === "cards" && !!cardSkill;

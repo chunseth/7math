@@ -1,3 +1,5 @@
+import sixth from "../../content/6math/lessons.json";
+import eighth from "../../content/8math/lessons.json";
 import skillData from "../../content/mentalist/skills.json";
 import lessonPlan from "../../content/mentalist/lesson-plan.json";
 import trailData from "../../content/mentalist/trail.json";
@@ -13,11 +15,39 @@ export const skills = skillData.map((skill) => ({
   levels: skill.levels.map(spaceSlashes),
 }));
 export const levels: Level[] = trailData.map((level) => ({ ...level, title: spaceSlashes(level.title) }));
+export type CourseGrade = 6 | 7 | 8;
+export const courseGrade = (value: unknown): CourseGrade => value === 6 || value === 8 ? value : 7;
+export const gradeOf = (id: string): CourseGrade => id.startsWith("g6.") ? 6 : id.startsWith("g8.") ? 8 : 7;
+
+type CourseLesson = {
+  id: string;
+  title: string;
+  unit: string;
+  example: string;
+  standards: string[];
+  prerequisites: string[];
+  stages?: { title: string; example: string }[];
+  previousPrerequisites?: string[];
+};
+function makeCourse(lessons: CourseLesson[], grade: 6 | 8) {
+  const skills = lessons.map(lesson => ({
+    ...lesson, group: lesson.id, levels: lesson.stages?.map(s => s.title) ?? [lesson.title], world: `g${grade}.${lesson.unit}`,
+  }));
+  const levels: Level[] = skills.flatMap(skill => skill.levels.map((title, i) => ({
+    id: skill.id + "." + (i+1), skill: skill.id, title, ordinal: i+1,
+    preview: { prompt: skill.stages?.[i].example ?? skill.example },
+  })));
+  return { skills, levels };
+}
+export const courses = { 6: makeCourse(sixth, 6), 8: makeCourse(eighth, 8) };
+const originalParents = new Map([...courses[6].skills, ...courses[8].skills].map(s => [s.id, s.previousPrerequisites]));
+export const { skills: grade8Skills, levels: grade8Levels } = courses[8];
+const courseSkills = [...courses[6].skills, ...grade8Skills];
 export const worldTitles = branchTitles;
 export const worlds = [...new Set(skills.map((s) => s.world))];
-export const skillById = new Map(skills.map((s) => [s.id, s]));
-export const levelById = new Map(levels.map((l) => [l.id, l]));
-export const curriculumVersion = 3;
+export const skillById = new Map<string, (typeof skills)[number]>([...skills, ...courseSkills].map(s => [s.id, s]));
+export const levelById = new Map([...levels, ...courses[6].levels, ...grade8Levels].map(l => [l.id, l]));
+export const curriculumVersion = 4;
 const formerSkillIds = new Map<string, string>();
 for (const skill of skills)
   for (const table of skill.tables ?? []) formerSkillIds.set(skill.group + "." + table, skill.id);
@@ -28,6 +58,7 @@ export function currentLevel(id: string) {
   return currentSkill(id.slice(0, ordinal)) + id.slice(ordinal);
 }
 export const cardTitles: Record<string, string> = {
+  ...Object.fromEntries(courseSkills.map(skill => [skill.world, skill.unit])),
   ...worldTitles, multiplication: "Multiplication", division: "Division",
 };
 export function cardTopic(skillId: string) {
@@ -85,6 +116,7 @@ export type Visual = {
   outcomes?: string[];
   solid?: number;
   source?: string;
+  sampleSize?: number;
 };
 export type Level = {
   id: string;
@@ -102,6 +134,7 @@ export type Control = {
   fields?: { label: string; options: string[] }[];
   limit?: number;
   step?: number;
+  origin?: number;
   points?: number;
 };
 export type Question = { prompt: string; control: Control; visual?: Visual };
@@ -119,22 +152,26 @@ export type Result = {
   targetMs: number;
   retries: number;
   simplifications: number;
+  missingEvidence?: string[];
 };
-export function evaluate(positions: Recorded[][], targetMs: number): Result | null {
+export function evaluate(positions: Recorded[][], targetMs: number, evidence: (string | undefined)[] = []): Result | null {
   if (positions.length !== 12 || positions.some((events) => events.at(-1)?.outcome !== "correct"))
     return null;
   const events = positions.flat(),
     scored = events.filter((e) => e.outcome !== "simplification");
-  const firstTry = positions.filter(
+  const correctFirst = positions.map(
     (group) => group.find((e) => e.outcome !== "simplification")?.outcome === "correct",
-  ).length;
+  );
+  const firstTry = correctFirst.filter(Boolean).length;
+  const demonstrated = new Set(evidence.filter((_, index) => correctFirst[index]));
+  const missingEvidence = [...new Set(evidence.filter((name): name is string => !!name && !demonstrated.has(name)))];
   const times = positions.map(group => group.every(e => e.active_ms !== null)
     ? group.reduce((sum, e) => sum + e.active_ms!, 0)
     : null);
   const timed = times.filter((ms): ms is number => ms !== null);
   const activeMs = timed.length === 12 ? timed.reduce((sum, ms) => sum + ms, 0) : null;
   const retries = scored.length - 12;
-  const passed = firstTry >= 10;
+  const passed = firstTry >= 10 && missingEvidence.length === 0;
   return {
     firstTry,
     passed,
@@ -151,6 +188,7 @@ export function evaluate(positions: Recorded[][], targetMs: number): Result | nu
     targetMs,
     retries,
     simplifications: events.length - scored.length,
+    ...(missingEvidence.length ? { missingEvidence } : {}),
   };
 }
 export function complete(c: Control, raw: string) {
@@ -169,18 +207,23 @@ export function complete(c: Control, raw: string) {
   if (c.limit) {
     const points = raw.split(";");
     if (points.length !== (c.points ?? 1)) return false;
-    const step = c.step ?? 1,
-      limit = c.limit;
+    const step = Math.round((c.step ?? 1) * 10);
+    const origin = Math.round((c.origin ?? 0) * 10);
+    const onGrid = (offset: number) => offset % step === 0 && Math.abs(offset / step) <= c.limit!;
     return points.every((pair) => {
-      if (!/^-?\d{1,2}(?:\.5)?,-?\d{1,2}(?:\.5)?$/.test(pair)) return false;
-      const [x, y] = pair.split(",").map(Number);
-      return (
-        [x, y].every((v) => Number.isInteger(v / step) && Math.abs(v / step) <= limit) &&
-        (c.kind !== "line" || y === 0)
-      );
+      if (!/^-?\d{1,2}(?:\.\d)?,-?\d{1,2}(?:\.\d)?$/.test(pair)) return false;
+      const [x, y] = pair.split(",").map(value => Math.round(Number(value) * 10));
+      return onGrid(x - origin) && onGrid(y) && (c.kind !== "line" || y === 0);
     });
   }
   return false;
+}
+export function normalizeStructuredAnswer(c: Control, raw: string) {
+  if (c.kind === "line" && c.origin !== undefined) return raw.split(",").map(Number).join(",");
+  if (c.kind === "scatterplot") {
+    return raw.split(";").map(pair => pair.split(",").map(Number).join(",")).sort().join(";");
+  }
+  return raw;
 }
 export function grade(
   c: Control,
@@ -188,8 +231,10 @@ export function grade(
   raw: string,
 ): { outcome: Outcome; normalized: string } | null {
   if (!complete(c, raw)) return null;
-  if (!["whole", "decimal", "fraction"].includes(c.kind))
-    return { outcome: answer === raw ? "correct" : "incorrect", normalized: raw };
+  if (!["whole", "decimal", "fraction"].includes(c.kind)) {
+    const normalized = normalizeStructuredAnswer(c, raw);
+    return { outcome: normalizeStructuredAnswer(c, answer) === normalized ? "correct" : "incorrect", normalized };
+  }
   const value = parseAnswer(raw),
     expected = parseAnswer(answer);
   if (!value || !expected) return null;
@@ -214,11 +259,15 @@ export function accessMap(
   played: Set<string>,
   assigned: Set<string>,
   placed: Set<string>,
+  path: Level[] = levels,
 ): Access[] {
   const passed = new Map(clears.map((c) => [c.level, c]));
   const finished = (id: string) =>
     placed.has(id) || skillById.get(id)!.levels.every((_, i) => passed.has(`${id}.${i + 1}`));
-  return levels.map((l) => {
+  // A site can deploy the new app before publishing the expanded question bank.
+  const prefix = path[0] && "g" + gradeOf(path[0].id);
+  const originalCourse = published.has(prefix + ".sets.1") && !published.has(prefix + ".steps-sets.1");
+  return path.map((l) => {
     const skill = skillById.get(l.skill)!;
     const entry: Access = { id: l.id, state: "ready", reason: "Ready to play", stars: 0 };
     if (!published.has(l.id)) return { ...entry, state: "planned", reason: "Awaiting publication" };
@@ -227,7 +276,9 @@ export function accessMap(
     const previous = `${l.skill}.${l.ordinal - 1}`;
     if (l.ordinal > 1 && !passed.has(previous))
       return { ...entry, state: "locked", reason: `Clear ${levelById.get(previous)!.title} first` };
-    const missing = skill.prerequisites.filter((id) => !finished(id));
+    const requirements = originalCourse
+      ? originalParents.get(l.skill) ?? skill.prerequisites : skill.prerequisites;
+    const missing = requirements.filter((id) => !finished(id));
     if (missing.length && !placed.has(l.skill))
       return {
         ...entry,
@@ -246,9 +297,9 @@ export type MainPathProgress = {
   target: string | null;
   next: string | null;
 };
-export function mainPathProgress(access: Access[]): MainPathProgress {
+export function mainPathProgress(access: Access[], path = mainPathLevels): MainPathProgress {
   const byId = new Map(access.map((entry) => [entry.id, entry]));
-  const published = mainPathLevels.filter((level) => {
+  const published = path.filter((level) => {
     const state = byId.get(level.id)?.state;
     return state !== undefined && state !== "planned";
   });

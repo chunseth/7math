@@ -49,9 +49,7 @@ def extension(s, l, n, v):
     if s == "review.coordinate" and l == 2 and v == 2:
         return "dependent-variable", choose(
             f"A tank fills at {a} L/min. A graph predicts liters from elapsed minutes. Which quantity depends on the other?",
-            "Liters",
-            ["Minutes"],
-            n,
+            "Liters", ["Minutes"], n,
         )
     if s == "review.area" and l == 1 and v == 2:
         return "square", q(
@@ -99,6 +97,17 @@ def extension(s, l, n, v):
             signed=True,
             visual=dict(kind="chips", values=[pos, neg]),
         )
+    if s in ("signed.multiply", "signed.divide") and l == 2 and v == 2:
+        groups, size = 2 + n % 5, 2 + n // 5 % 5
+        total = -groups * size
+        visual = dict(kind="signed-groups", values=[groups, size])
+        if s == "signed.multiply":
+            prompt = "Each group contains negative chips. Which multiplication shows the total?"
+            correct, wrong = f"{groups} × (−{size}) = {total}", [f"{groups} × {size} = {-total}", f"{groups} + (−{size}) = {groups-size}"]
+        else:
+            prompt = "Share the pictured negative chips into the equal groups shown. Which division gives the signed amount per group?"
+            correct, wrong = f"{total} ÷ {groups} = −{size}", [f"{-total} ÷ {groups} = {size}", f"{total} ÷ {groups} = {size}"]
+        return "signed-groups", choose(prompt, correct, wrong, n, visual)
     if s == "number.context" and l == 3 and v == 2:
         return "guided-check", choose(
             f"A hiker starts at −{a} m, rises {a+b} m and reports {b} m. Which check supports that result?",
@@ -149,7 +158,7 @@ def extension(s, l, n, v):
         )
     if s == "chance.space" and l == 2 and v == 2:
         return "organized-list", fields(
-            f"List the two ordered outcomes beginning with {a} on a die followed by a coin. Enter heads first.",
+            f"List the two ordered outcomes beginning with {a} on a 36-sided die numbered 1–36, followed by a coin toss. Enter heads first.",
             ["First outcome", "Second outcome"],
             [f"{a}, H", f"{a}, T"],
             [[f"H, {a}", f"{a}, T"], [f"T, {a}", f"{a}, H"]],
@@ -232,7 +241,7 @@ def extension(s, l, n, v):
     if s == "algebra.graph" and l == 3 and v == 2:
         x = F(2 * (n % 9) - 7, 2)
         return "rational-boundary", fields(
-            f"Construct the number line for x ≥ {x}.",
+            f"Solve 2x + {b} ≥ {2*x+b}, then graph the solution set.",
             ["Boundary", "Endpoint", "Ray"],
             [str(x), "Closed", "Right"],
             [[str(x - 1), str(x + 1)], ["Open"], ["Left"]],

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { post } from "../../../lib/mentalist/client";
-import { formatRunTime, mainPathLevels, skillById, type LevelRecord } from "../../../lib/mentalist/model";
+import { formatRunTime, courses, gradeOf, mainPathLevels, skillById, type LevelRecord } from "../../../lib/mentalist/model";
 import { Sheet } from "./Sheet";
 
 function Scores({ level, username }: { level: string; username: string }) {
@@ -48,11 +48,12 @@ export function Leaderboard({ initialLevel, username, close }: {
   initialLevel: string; username: string; close: () => void;
 }) {
   const [level, setLevel] = useState(initialLevel);
+  const grade = gradeOf(initialLevel);
   return <Sheet close={close}>
     <h2>Level leaderboard</h2>
     <label htmlFor="mt-board-level">Level</label>
     <select id="mt-board-level" value={level} onChange={e => setLevel(e.target.value)}>
-      {mainPathLevels.map(l => <option key={l.id} value={l.id}>{skillById.get(l.skill)!.title} · {l.title}</option>)}
+      {(grade === 7 ? mainPathLevels : courses[grade].levels).map(l => <option key={l.id} value={l.id}>{skillById.get(l.skill)!.title} · {l.title}</option>)}
     </select>
     <Scores key={level} level={level} username={username} />
   </Sheet>;

@@ -14,10 +14,12 @@ import {
 } from "../../../lib/mentalist/db";
 import { prepareLevel, saveBattle, start, submit } from "../../../lib/mentalist/battle";
 import { leaderboard, publishedLevelIds, studentState } from "../../../lib/mentalist/student";
+import { courseGrade } from "../../../lib/mentalist/model";
 import { economy } from "../../../lib/mentalist/economy";
 import { faculty, teacherUser } from "../../../lib/mentalist/teacher";
 import { craft } from "../../../lib/mentalist/craft";
 import { survivorPack } from "../../../lib/survivor/server";
+import { finishRush, rushBoard, startRush } from "../../../lib/rush/server";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 function json(data: unknown, status = 200) {
@@ -49,7 +51,7 @@ export async function POST(req: NextRequest) {
     }
     if (!b || typeof b.action !== "string") throw new GameError("Specify an action.");
     if (b.action !== "saveBattle" && raw.length > 4096) throw new GameError("Request too large.", 413);
-    if (b.action === "publicTrail") return json(await transaction(publishedLevelIds));
+    if (b.action === "publicTrail") return json(await transaction(db => publishedLevelIds(db, courseGrade(b.grade))));
     if (b.action === "login") {
       const res = await transaction((db) =>
         login(db, String(b.username), String(b.pin), String(b.sprite), b.create === true),
@@ -73,8 +75,11 @@ export async function POST(req: NextRequest) {
       const who = await identity(db, req.cookies.get(cookie)?.value);
       if (b.action === "prepareLevel") return prepareLevel(db, who, b.level);
       if (b.action === "survivorPack") return survivorPack(db, who);
-      if (b.action === "state") return studentState(db, who);
+      if (b.action === "state") return studentState(db, who, courseGrade(b.grade));
       if (b.action === "leaderboard") return leaderboard(db, b.level);
+      if (b.action === "rushBoard") return rushBoard(db, who);
+      if (b.action === "rushStart") return startRush(db, who);
+      if (b.action === "rushFinish") return finishRush(db, who, b.run, b.answers);
       if (b.action === "logout") {
         await db.query("update sessions set ended=now() where token=$1", [who.token]);
         await db.query(
@@ -124,7 +129,7 @@ export async function POST(req: NextRequest) {
             [uuid(b.run), who.profile],
           );
         } else await economy(db, who, b.action, b.value);
-        data = await studentState(db, who);
+        data = await studentState(db, who, courseGrade(b.grade));
       }
       await db.query("insert into receipts values($1,$2,$3,$4,$5)", [
         who.profile,

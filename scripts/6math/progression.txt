@@ -1,0 +1,230 @@
+# Each section lists the focused levels students clear before its existing mixed lesson.
+# Shared source IDs refer to individual reviewed levels in the original bank.
+[foundation-sums]
+review.add.1|Make ten and add basic facts
+review.add.2|Add within one hundred
+review.add.3|Add larger numbers and find missing addends
+[foundation-differences]
+review.subtract.1|Subtract basic facts
+review.subtract.2|Subtract within one hundred
+review.subtract.3|Subtract larger numbers and find missing differences
+[foundation-products]
+review.multiply.0-1.1|Multiply by 0 and 1
+review.multiply.2-3-4.1|Multiply by 2, 3, and 4
+review.multiply.5-10.1|Multiply by 5 and 10
+review.multiply.6-7.1|Multiply by 6 and 7
+review.multiply.8-9.1|Multiply by 8 and 9
+review.multiply.11-12.1|Multiply by 11 and 12
+[foundation-division]
+review.divide.0-1.1|Divide with 0 and 1
+review.divide.2-3-4.1|Divide by 2, 3, and 4
+review.divide.5-10.1|Divide by 5 and 10
+review.divide.6-7.1|Divide by 6 and 7
+review.divide.8-9.1|Divide by 8 and 9
+review.divide.11-12.1|Divide by 11 and 12
+[foundation-whole]
+review.whole.1|Find a missing factor or divisor
+review.whole.2|Calculate with multiples of ten
+review.whole.3|Multiply multi-digit whole numbers
+review.whole.4|Divide multi-digit whole numbers
+[foundation-fractions]
+review.fractions.1|Build equivalent fractions
+review.fractions.2|Reduce fractions to simplest form
+review.fractions.3|Compare fraction sizes
+review.fractions.4|Switch between mixed and improper forms
+fraction.add.1|Add fractions with like denominators
+fraction.add.2|Find a common denominator to add
+fraction.subtract.1|Subtract fractions with like denominators
+fraction.subtract.2|Find a common denominator to subtract
+[sets]
+number.sets.1|Recognize membership in number sets
+number.sets.2|Trace containment between number sets
+[opposites]
+signed-position|Give a signed value relative to a reference point
+opposite-point|Reflect a number across zero
+review.numberline.1|Measure absolute distance from zero
+[quotients]
+share|Share whole objects equally
+fraction-bar|Read a fraction bar as division
+scale-share|Scale both parts of a quotient
+[order]
+review.numberline.3|Locate rational numbers on a scaled line
+review.numberline.2|Compare positions above and below zero
+review.conversions.1|Use decimals to compare fraction values
+[add]
+signed.add.1|Add integers with the same sign
+signed.add.2|Add integers with different signs
+signed.add.3|Cancel zero pairs in a signed sum
+signed.subtract.1|Subtract a positive integer
+signed.subtract.2|Subtract a negative integer
+signed.subtract.3|Combine signed differences and zero
+number.context.1|Apply integer changes to elevations and temperatures
+[multiply]
+signed.multiply.1|Predict and compute a signed product
+signed.multiply.2|Interpret repeated signed changes
+signed.divide.1|Determine the sign of a quotient
+signed.divide.2|Interpret a signed rate per interval
+[factors]
+review.factors.1|Find shared factors and the GCF
+review.factors.2|Find shared multiples and the LCM
+prime-power|Write prime factors with exponents
+[fraction-products]
+scale-product|Predict the effect of a fractional multiplier
+fraction.multiply.1|Cancel factors and multiply fractions
+fraction.multiply.3|Multiply with mixed-number operands
+[fraction-division]
+reciprocal|Identify a multiplicative inverse
+fraction.divide.1|Divide a fraction by a fraction
+fraction.divide.3|Measure servings with mixed numbers
+[decimals]
+decimal.multiply.1|Place the decimal in a product
+decimal.multiply.3|Apply decimal products to costs and areas
+decimal.divide.1|Make a decimal divisor whole
+decimal.divide.3|Interpret a decimal quotient in context
+[fluency]
+decimal.add.1|Align decimal places to add
+decimal.subtract.1|Regroup across decimal places
+decimal.add.3|Combine measured lengths
+division-check|Verify a multi-digit quotient
+[ratios]
+ratio.equivalent.1|Distinguish part-to-part and part-to-whole ratios
+ratio.equivalent.2|Scale both terms of a ratio
+ratio.equivalent.3|Complete a table of equivalent ratios
+[rates]
+ratio.unit.1|Calculate an amount per one unit
+ratio.travel.1|Use rate and time to find distance
+ratio.travel.3|Use rate and distance to find time
+ratio.unit.3|Compare unit prices across packages
+[convert]
+metric|Convert within metric units
+customary|Convert within customary units
+ratio.units.1|Use a conversion rate between systems
+ratio.units.2|Choose the direction of a conversion factor
+[percent-models]
+grid-percent|Read benchmark percents on grids, strips and number lines
+review.conversions.2|Convert between decimals and percents
+review.conversions.3|Convert between fractions and percents
+review.conversions.4|Compare equivalent and approximate forms
+[percent]
+percent.parts.1|Find a part from a percent and a whole
+percent.parts.3|Find the percent represented by a part
+percent.parts.2|Recover the whole from a part and percent
+[powers]
+power-base|Distinguish an exponent from a factor
+power-value|Evaluate small whole-number powers
+review.expressions.1|Apply the order of operations
+[expressions]
+term|Identify a coefficient or constant
+translate|Translate words into an expression
+review.expressions.2|Substitute values and evaluate
+[properties]
+identify-property|Recognize the addition properties
+review.expressions.4|Distribute a factor to both terms
+review.expressions.3|Combine like terms
+[coordinates]
+review.coordinate.1|Plot ordered pairs and locate quadrants
+scaled-axes|Read axes with non-unit scales
+mirror-axis|Reflect across a coordinate axis
+[rules]
+additive|Find a constant difference between input and output
+ratio.constant.1|Find a constant ratio from a table
+compare-rules|Distinguish adding a constant from multiplying
+[variables]
+depend|Identify independent and dependent quantities
+ratio.represent.2|Extend a relationship in a table
+ratio.represent.3|Read a relationship from a graph
+ratio.represent.4|Connect an equation with its representations
+[write-equations]
+add-story|Translate an additive situation into an equation
+mult-story|Translate equal groups into an equation
+inverse-story|Match a subtraction or division equation to a story
+[solve]
+review.onestep.1|Use inverse operations on a one-step equation
+solve-factor|Undo multiplication and division
+algebra.graph.1|Place an equation solution on a number line
+check-value|Test a candidate solution by substitution
+[inequalities]
+bound-words|Translate inclusive and strict bounds
+review.onestep.2|Find the boundary after an inverse operation
+algebra.graph.2|Graph strict inequalities with open endpoints
+algebra.graph.3|Graph inclusive inequalities with closed endpoints
+test-bound|Check a value against a contextual constraint
+[triangles]
+review.angles.3|Use the triangle angle sum
+side-test|Test whether three lengths make a triangle
+side-angle|Match the longest side to the largest angle
+[area]
+review.area.1|Build the rectangle area model
+review.area.2|Match a parallelogram base with its height
+review.area.3|Use half a parallelogram to find triangle area
+missing-height|Recover a missing height from area
+[trapezoids]
+review.area.4|Average the parallel sides of a trapezoid
+area.composite.1|Subtract a rectangular cutout
+area.composite.2|Combine triangles and parallelograms
+area.composite.3|Combine a trapezoid and a rectangle
+[prisms]
+layer|Count unit cubes in one layer
+solid.prism.1|Multiply a base area by a prism height
+prism-fraction|Find volume with fractional edge lengths
+prism-height|Recover a missing dimension from volume
+[polygons]
+axis-length|Measure a horizontal or vertical segment
+fourth-vertex|Complete an axis-aligned rectangle
+coordinate-area|Use coordinate differences to find area
+[nets]
+solid.nets.1|Identify the faces in a rectangular prism net
+solid.nets.2|Identify the faces in a triangular prism net
+solid.nets.3|Identify the faces in a square pyramid net
+solid.surface.1|Add rectangular prism face areas
+solid.surface.3|Add square pyramid face areas
+[questions]
+stat-question|Distinguish statistical questions from fixed facts
+data-type|Distinguish numeric from categorical responses
+sample-unit|Identify the observational unit
+[dot-stem]
+review.data.4|Read frequencies from dot and box plots
+stack-dots|Construct a complete dot plot from observations
+stem-read|Decode stems and leaves using a key
+stem-write|Organize a list into stems and leaves
+[histograms]
+bin-edge|Place a value in the correct interval
+bin-count|Construct a histogram from raw data
+bin-total|Combine frequencies across adjacent intervals
+[center]
+mean|Share a total equally to find the mean
+review.data.1|Find the middle of ordered data
+outlier|Compare mean and median after an extreme value
+[spread]
+range|Measure the distance between the extremes
+quartiles|Find quartiles in ordered data
+review.data.2|Measure the middle half with IQR
+box-summary|Construct a box plot using a five-number summary
+[categories]
+stats.graphs.1|Read and compare category counts
+mode|Identify the most frequent category
+stats.graphs.3|Express a category as a share of the total
+[deviation]
+review.data.3|Describe symmetry and tails
+distance-mean|Find absolute distances from a mean
+mad|Average absolute deviations
+[accounts]
+fee-total|Calculate a monthly checking cost
+fee-compare|Compare accounts at a stated usage level
+debit-credit|Distinguish debit spending from borrowing
+[register]
+deposit|Record deposits and withdrawals
+transfer|Track transfers between two accounts
+reconcile|Reconcile an omitted or outstanding transaction
+[credit]
+credit-record|Identify information in a credit report
+credit-error|Choose how to handle an unfamiliar debt
+credit-use|Interpret a repayment history
+[college]
+aid-kind|Distinguish aid earned, awarded and borrowed
+aid-gap|Apply grants and savings to a funding gap
+loan-share|Separate borrowed funds from other aid
+[income]
+annual-gap|Compare annual earnings across occupations
+lifetime|Compare earnings across working lifetimes
+break-even|Find when additional training pays for itself

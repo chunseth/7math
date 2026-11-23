@@ -53,6 +53,21 @@ def fields(prompt, labels, values, choices, order, visual=None, kind="table"):
     )
 
 
+def tenth_line(prompt, tick):
+    center = 10 * (tick // 10) + 5
+    return item(prompt, f"{tick / 10:g},0", dict(kind="line", limit=5, step=0.1, origin=center / 10))
+
+
+def scatter_task(points):
+    rows = [(str(x), str(y)) for x, y in points]
+    return item(
+        "Construct the scatterplot. Plot all three observations from the table.",
+        ";".join(sorted(f"{x},{y}" for x, y in rows)),
+        dict(kind="scatterplot", limit=10, points=len(rows)),
+        table(["x", "y"], rows),
+    )
+
+
 def grid(prompt, x, y, limit=10, kind="graph", visual=None):
     return item(prompt, f"{x},{y}", dict(kind=kind, limit=limit), visual)
 

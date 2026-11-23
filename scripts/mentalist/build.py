@@ -27,6 +27,8 @@ def target(s, q):
         return 60
     if s.startswith(("review.multiply.", "review.divide.")):
         return 5
+    if q.get("visual", {}).get("kind") == "signed-groups":
+        return 30
     if s.startswith("signed."):
         return 10
     if s.startswith("decimal."):
@@ -150,7 +152,7 @@ for skill in skills:
             if positions not in blueprints:
                 blueprints.append(positions)
         for bank, positions in enumerate(blueprints):
-            sid = f"v3.{lid}.set{bank+1}"
+            sid = f"v4.{lid}.set{bank+1}"
             levelsets.append(sid)
             assert len({p["q"] for p in positions}) == 12
             sets.append(dict(id=sid, level=lid, positions=positions))
@@ -185,7 +187,7 @@ assert (
 coverage = matrix(catalog["nodes"], levels, skills)
 bank = dict(
     coverage=coverage,
-    version=3,
+    version=4,
     templates=list(templates.values()),
     skills=skills,
     levels=levels,
@@ -206,7 +208,7 @@ files = {
     / "coverage.json": (
         json.dumps(coverage, ensure_ascii=False, indent=1) + "\n"
     ).encode(),
-    OUT / "bank-v3.json.gz": gzip.compress(data, mtime=0),
+    OUT / "bank-v4.json.gz": gzip.compress(data, mtime=0),
     OUT
     / "trail.json": (json.dumps(preview, ensure_ascii=False, indent=1) + "\n").encode(),
 }

@@ -259,7 +259,7 @@ export default function PlayPage() {
 
   useEffect(() => {
     if (!getActiveProfileId()) {
-      router.replace("/mentalist");
+      router.replace("/7math");
     }
   }, [router]);
 
@@ -882,12 +882,12 @@ export default function PlayPage() {
   function leaveMatch() {
     if (!canLeave) return;
     const status = summary && summary.chestStatus !== "pending" ? summary.chestStatus : "missed";
-    router.replace(`/mentalist?chest=${status}`);
+    router.replace(`/7math?chest=${status}`);
   }
 
   function leaveAfterBossDefeat() {
     if (savingRewards || hasPendingLevelUpChests || adCountdown > 0) return;
-    router.replace(worldProgressReset ? "/mentalist?bossReset=1" : "/mentalist");
+    router.replace(worldProgressReset ? "/7math?bossReset=1" : "/7math");
   }
 
   async function openLevelUpChest() {

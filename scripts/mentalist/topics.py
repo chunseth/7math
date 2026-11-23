@@ -177,7 +177,7 @@ def topic(s, l, n, v):
                 slope * x + offset,
             )
         return choose(
-            f"Which equation matches the table at x = {a}?",
+            f"Which equation fits every row of the table? Check the row at x = {a} as well.",
             f"y = {k}x + {b}",
             [f"y = {b}x − {k}", f"y = {k}x"],
             n,
@@ -216,9 +216,10 @@ def topic(s, l, n, v):
                 ),
             ][l - 1]
         if l == 3:
+            difference = (2 + n % 13) * (-1 if v == 0 else 1) if v != 2 else 0
             return q(
-                f"On ${total}, compare {rate}% off with ${part+5} off. How much more does the better offer save?",
-                5,
+                f"On ${total}, compare {rate}% off with ${part+difference} off. What is the difference between the two savings in dollars?",
+                abs(difference),
             )
         return q(
             f'An item is ${total}. Apply {rate}% off and then {"10% sales tax" if l==2 else "a further 10% discount"}. Final price?',
@@ -363,8 +364,8 @@ def topic(s, l, n, v):
             )
         if l == 1:
             return choose(
-                f"A fair coin lands heads {a} times in {2*a+2} trials. How does the observed heads rate compare with 1/2?",
-                "Lower",
+                f"A fair coin lands heads {a} times in {2*a+2-2*v} trials. How does the observed heads rate compare with 1/2?",
+                ["Lower", "Equal", "Higher"][v],
                 ["Higher", "Equal"],
                 n,
             )
@@ -410,9 +411,13 @@ def topic(s, l, n, v):
                 labels=["Group A", "Group B"],
             )
             if l == 1:
+                if v == 0:
+                    vis["rows"].reverse()
+                if v == 2:
+                    vis["rows"][1][-1] = a + 9
                 return choose(
                     f"Which group has a longer right whisker on the common scale starting at {a}?",
-                    "Group B",
+                    ["Group A", "Group B", "Equal"][v],
                     ["Group A", "Equal"],
                     n,
                     vis,
@@ -429,10 +434,16 @@ def topic(s, l, n, v):
                     f"{a} of {total} randomly sampled students walk. Estimate walkers in a school of {total*10}.",
                     a * 10,
                 )
-            return choose(
-                f"{a} of {a+b} randomly sampled students bike. What can this sample support?",
+            selection = ["randomly selected from the whole school", "selected at a bike club meeting", "all the students enrolled at the school"][v]
+            options = [
                 "An estimate of the school proportion",
-                ["An exact count for the school", "A guarantee about every class"],
+                "Only the observed share for this group",
+                "The exact school proportion",
+            ]
+            return choose(
+                f"{a} of {total} students bike to school. The {total} students are {selection}. What is the strongest conclusion the data support?",
+                options[v],
+                options,
                 n,
             )
         if l == 1:
@@ -523,7 +534,7 @@ def topic(s, l, n, v):
             )
         x = n % 19 - 9
         if l == 1:
-            return grid(f"Mark the solution: x + {b} = {x+b}.", x, 0, 10, "line")
+            return grid(f"Solve {k}x + {b} = {k*x+b}, then mark the solution.", x, 0, 10, "line")
         direction = "Right" if v % 2 else "Left"
         inclusive = l == 3
         rel = (
@@ -532,7 +543,7 @@ def topic(s, l, n, v):
             else ("≤" if inclusive else "<")
         )
         return fields(
-            f"Construct the number line for x {rel} {x}.",
+            f"Solve {k}x + {b} {rel} {k*x+b}, then graph the solution set.",
             ["Boundary", "Endpoint", "Ray"],
             [x, "Closed" if inclusive else "Open", direction],
             [[x - 1, x + 1], ["Open", "Closed"], ["Left", "Right"]],
@@ -633,7 +644,7 @@ def geometry_finance(s, l, n, v, a, b, k):
             "triangular pyramid",
         ]
         areas = [
-            [a * b, a * b, a * k, a * k, b * k, b * k],
+            [a * b, a * b, a * k, b * k, a * k, b * k],
             [6 * a * a, 6 * a * a, 3 * a * k, 4 * a * k, 5 * a * k],
             [a * a] + [a * (a + b)] * 4,
             [6 * a * a] + [6 * a * a] * 3,

@@ -160,17 +160,29 @@ def review(s, l, n, v):
             q(f"Write {a} 1/{b} as an improper fraction.", F(a * b + 1, b), "fraction"),
         ][l - 1]
     if s == "review.conversions":
+        if l == 4:
+            pct = 5 * a + v - 1
+            return choose(
+                f"Compare {pct}% with {a}/20. Which is larger, or are they equal?",
+                [f"{a}/20", "Equal", f"{pct}%"][v],
+                [f"{pct}%", f"{a}/20", "Equal"],
+                n,
+            )
         return [
             q(f"Write {a}/20 as a decimal.", F(a, 20), "decimal"),
             q(f"Write {a/100:g} as a percent.", a),
             q(f"Write {a}% as a fraction.", F(a, 100), "fraction"),
-            choose(f"Which is closest to {a}.89?", a + 1, [a, a + 2], n),
         ][l - 1]
     if s == "review.numberline":
         if l == 1:
             return q(f'Find the {"opposite" if v%2 else "absolute value"} of −{a}.', a)
         if l == 2:
-            return choose(f"Which is smallest: −{a}, 0, or {a}?", f"−{a}", ["0", a], n)
+            values = [-a, -a - b, -a + b] if v == 0 else [a, a + b, a - b] if v == 1 else [-a, 0, b]
+            ask_least = n % 2 == 0
+            return choose(
+                f"Which is {'least' if ask_least else 'greatest'}: {values[0]}, {values[1]}, or {values[2]}?",
+                (min if ask_least else max)(values), values, n,
+            )
         x = n % 19 - 9
         return grid(f"Place {x} on the number line.", x, 0, 10, "line")
     if s == "review.expressions":
@@ -185,9 +197,11 @@ def review(s, l, n, v):
         y = (n // 3 % 9 + 1) * (-1 if v == 0 else 1)
         if l == 1:
             return grid(f"Plot ({x}, {y}).", x, y)
+        pts = [[0, 0], [1, b], [a, a * b]]
         return q(
-            f"Each square represents {b} liters. How many liters do {a} squares represent?",
-            a * b,
+            f"Read the volume after {1 if v == 0 else a} {'minute' if v == 0 else 'minutes'}. Give the answer in liters.",
+            b if v == 0 else a * b,
+            visual=dict(kind="plot", labels=["Minutes", "Liters"], points=pts),
         )
     if s == "review.area":
         typ = (v + n) % 4 if l == 5 else l - 1

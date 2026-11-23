@@ -41,18 +41,18 @@ export default function Survivor() {
           <img src={`/sprites/${state.status === "ready" ? state.pack.sprite : "phoenix"}.png`} alt="" />
         </div>
         <h1 id="survivor-title">Survivor</h1>
-        {state.status === "loading" && <p role="status">Loading your Mentalist questions…</p>}
-        {state.status === "sign-in" && <p>Sign in to Mentalist to use your sprite and completed concepts.</p>}
-        {state.status === "error" && <p role="alert">Your Mentalist questions could not be loaded.</p>}
+        {state.status === "loading" && <p role="status">Loading your 7math questions…</p>}
+        {state.status === "sign-in" && <p>Sign in to 7math to use your sprite and completed concepts.</p>}
+        {state.status === "error" && <p role="alert">Your 7math questions could not be loaded.</p>}
         {state.status === "ready" && (ready
           ? <p>Dodge enemy shots and solve the questions above your enemies. Pick up XP to upgrade before the boss arrives at 3:00.</p>
-          : <p>Clear every level of a Mentalist concept with text-based numeric questions to unlock Survivor.</p>)}
+          : <p>Clear every level of a 7math concept with text-based numeric questions to unlock Survivor.</p>)}
         {ready && state.status === "ready" && <>
           <p className="sv-controls">Hold or drag to move. On desktop, use the arrow keys or WASD. Correct answers fire as you type.</p>
           <button className="sv-primary" type="button" onClick={() => setState({ ...state, play: true })}>Start run</button>
         </>}
         {state.status === "error" && <button className="sv-primary" type="button" onClick={() => void load()}>Retry</button>}
-        {(state.status === "sign-in" || (state.status === "ready" && !ready)) && <Link className="sv-primary" href="/mentalist">Go to Mentalist</Link>}
+        {(state.status === "sign-in" || (state.status === "ready" && !ready)) && <Link className="sv-primary" href="/7math">Go to 7math</Link>}
       </section>
     </main>
   );

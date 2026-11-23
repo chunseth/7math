@@ -283,7 +283,7 @@ button {
 
 .mode-select-menu {
   display: grid;
-  align-content: center;
+  align-content: safe center;
 }
 
 .mode-menu-heading {
@@ -331,6 +331,11 @@ button {
 .mode-select-survivor {
   background: linear-gradient(135deg, #1b3029 0 46%, #3f7559 46% 100%);
   box-shadow: 0 8px 0 #142620, 0 16px 28px #24463b33;
+}
+
+.mode-select-rush {
+  background: linear-gradient(135deg, #223052 0 46%, #4b57a0 46% 100%);
+  box-shadow: 0 8px 0 #1b2443, 0 16px 28px #22305233;
 }
 
 @media (min-width: 900px) {

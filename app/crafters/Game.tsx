@@ -169,7 +169,7 @@ export default function Game({ view, initial }: { view: View; initial: CraftStat
                 <div className="cf-section-heading">
                   <div>
                     <h2 id={`recipes-${slot}`}>{heading}</h2>
-                    {slot === "sword" && <Link href="/mentalist?tab=inventory" prefetch={false}>Equip in Mentalist inventory</Link>}
+                    {slot === "sword" && <Link href="/7math?tab=inventory" prefetch={false}>Equip in 7math inventory</Link>}
                   </div>
                 </div>
                 <ul className="cf-list cf-tool-list">

@@ -1,8 +1,8 @@
 import type { PoolClient } from "pg";
 import { randomInt, randomUUID } from "node:crypto";
 import { damageRangeForLevel } from "../gameplay";
-import { cardTopic, checkpoint, evaluate, grade, playable, type Question, type Recorded, type RunView } from "./model";
-import { course, publishedVersions, recommend } from "./student";
+import { gradeOf, cardTopic, checkpoint, evaluate, grade, playable, type Question, type Recorded, type RunView } from "./model";
+import { course, publishedFor, publishedVersions, recommend } from "./student";
 import { advance, checkText, type Attempt, type LevelPack, type RoundRules } from "./round";
 import { GameError, hash, one, rows, uuid, type Identity } from "./db";
 import { swordDamage } from "./craft";
@@ -57,7 +57,7 @@ export async function runView(db: PoolClient, profile: string, id: string): Prom
     [id],
   );
   const [next] =
-    r.status === "completed"
+    r.status === "completed" && gradeOf(r.level) === 7
       ? await rows(db, "select level,reason from recommendations where profile=$1 and level is not null", [
           profile,
         ])
@@ -69,7 +69,7 @@ export async function runView(db: PoolClient, profile: string, id: string): Prom
 }
 async function selectSet(db: PoolClient, profile: string, level: string, preferred?: string) {
   return one(db, `select s.id,s.version,l.skill,s.positions,coalesce(l.definition->'pool',s.positions) as pool
-    from (${publishedVersions}) pub join sets s using(level,version)
+    from (${publishedFor(gradeOf(level))}) pub join sets s using(level,version)
     join levels l on (s.version,s.level)=(l.version,l.id)
     left join lateral (select max(started) last from runs r where r.profile=$2 and r.version=s.version and r.set_id=s.id) played on true
     where s.level=$1 order by played.last asc nulls first,(s.id=$3) desc,random() limit 1`,
@@ -77,7 +77,7 @@ async function selectSet(db: PoolClient, profile: string, level: string, preferr
 }
 
 async function checkAccess(db: PoolClient, who: Identity, level: string) {
-  const entry = (await course(db, who)).access.find(a => a.id === level);
+  const entry = (await course(db, who, gradeOf(level))).access.find(a => a.id === level);
   if (!entry || !playable(entry)) throw new GameError(entry?.reason ?? "Unknown level.", 403);
 }
 
@@ -121,7 +121,9 @@ function drawQuestions(pool: PoolSlot[], blueprint: PoolSlot[]) {
 
 export async function start(db: PoolClient, who: Identity, level: string, previous: string | null, prepared?: string) {
   await checkAccess(db, who, level);
-  const [active] = await rows(db, "select id from runs where profile=$1 and status='active'", [who.profile]);
+  const [active] = await rows(db, "select id,level from runs where profile=$1 and status='active'", [who.profile]);
+  if (active && gradeOf(active.level) !== gradeOf(level))
+    throw new GameError(`Finish or leave your active ${gradeOf(active.level)}math battle first.`, 409);
   if (active && active.id !== previous) throw new GameError("Another battle started. Reload the map.", 409);
   const set = await selectSet(db, who.profile, level, prepared);
   if (prepared && set.id !== prepared) throw new GameError("This practice set has changed. Select Play again.", 409);
@@ -178,6 +180,7 @@ async function finish(db: PoolClient, who: Identity, r: Record<string, any>) {
   const result = evaluate(
     positions.map((p) => p.events),
     r.policy.targetMs,
+    r.policy.positions?.map((slot: { evidence?: string }) => slot.evidence),
   );
   if (!result) throw new Error("Completed run has incomplete evidence.");
   await db.query("update runs set status='completed',ended=clock_timestamp(),result=$2 where id=$1", [

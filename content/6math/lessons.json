@@ -1,0 +1,2156 @@
+[
+ {
+  "id": "g6.foundation-sums",
+  "title": "Addition facts and place value",
+  "unit": "Foundational review",
+  "example": "What is 8 + 5?",
+  "standards": [],
+  "prerequisites": [],
+  "stages": [
+   {
+    "title": "Make ten and add basic facts",
+    "example": "What is 8 + 5?"
+   },
+   {
+    "title": "Add within one hundred",
+    "example": "Add 38 and 27."
+   },
+   {
+    "title": "Add larger numbers and find missing addends",
+    "example": "What goes in 135 + □ = 210?"
+   }
+  ]
+ },
+ {
+  "id": "g6.foundation-differences",
+  "title": "Subtraction facts and regrouping",
+  "unit": "Foundational review",
+  "example": "What is 14 − 6?",
+  "standards": [],
+  "prerequisites": [],
+  "stages": [
+   {
+    "title": "Subtract basic facts",
+    "example": "What is 14 − 6?"
+   },
+   {
+    "title": "Subtract within one hundred",
+    "example": "Find 62 − 28."
+   },
+   {
+    "title": "Subtract larger numbers and find missing differences",
+    "example": "What goes in 400 − □ = 165?"
+   }
+  ]
+ },
+ {
+  "id": "g6.foundation-products",
+  "title": "Multiplication fact families",
+  "unit": "Foundational review",
+  "example": "What is 0 × 8?",
+  "standards": [],
+  "prerequisites": [],
+  "stages": [
+   {
+    "title": "Multiply by 0 and 1",
+    "example": "What is 0 × 8?"
+   },
+   {
+    "title": "Multiply by 2, 3, and 4",
+    "example": "What is 2 × 7?"
+   },
+   {
+    "title": "Multiply by 5 and 10",
+    "example": "What is 5 × 8?"
+   },
+   {
+    "title": "Multiply by 6 and 7",
+    "example": "What is 6 × 7?"
+   },
+   {
+    "title": "Multiply by 8 and 9",
+    "example": "What is 8 × 6?"
+   },
+   {
+    "title": "Multiply by 11 and 12",
+    "example": "What is 11 × 6?"
+   }
+  ]
+ },
+ {
+  "id": "g6.foundation-division",
+  "title": "Division fact families",
+  "unit": "Foundational review",
+  "example": "What is 9 ÷ 1?",
+  "standards": [],
+  "prerequisites": [],
+  "stages": [
+   {
+    "title": "Divide with 0 and 1",
+    "example": "What is 9 ÷ 1?"
+   },
+   {
+    "title": "Divide by 2, 3, and 4",
+    "example": "What is 12 ÷ 2?"
+   },
+   {
+    "title": "Divide by 5 and 10",
+    "example": "What is 20 ÷ 5?"
+   },
+   {
+    "title": "Divide by 6 and 7",
+    "example": "What is 30 ÷ 6?"
+   },
+   {
+    "title": "Divide by 8 and 9",
+    "example": "What is 56 ÷ 8?"
+   },
+   {
+    "title": "Divide by 11 and 12",
+    "example": "What is 55 ÷ 11?"
+   }
+  ]
+ },
+ {
+  "id": "g6.foundation-whole",
+  "title": "Whole-number operations",
+  "unit": "Foundational review",
+  "example": "Find □ in 7 × □ = 56.",
+  "standards": [],
+  "prerequisites": [
+   "g6.foundation-products",
+   "g6.foundation-division"
+  ],
+  "stages": [
+   {
+    "title": "Find a missing factor or divisor",
+    "example": "Find □ in 7 × □ = 56."
+   },
+   {
+    "title": "Calculate with multiples of ten",
+    "example": "What is 30 × 40?"
+   },
+   {
+    "title": "Multiply multi-digit whole numbers",
+    "example": "Compute 23 × 14."
+   },
+   {
+    "title": "Divide multi-digit whole numbers",
+    "example": "Share 156 stickers among 12 students."
+   }
+  ]
+ },
+ {
+  "id": "g6.foundation-fractions",
+  "title": "Fraction equivalence and arithmetic",
+  "unit": "Foundational review",
+  "example": "How many eighths equal three quarters?",
+  "standards": [],
+  "prerequisites": [
+   "g6.foundation-products"
+  ],
+  "stages": [
+   {
+    "title": "Build equivalent fractions",
+    "example": "How many eighths equal three quarters?"
+   },
+   {
+    "title": "Reduce fractions to simplest form",
+    "example": "Simplify 18/24."
+   },
+   {
+    "title": "Compare fraction sizes",
+    "example": "Which is larger, 3/5 or 5/8?"
+   },
+   {
+    "title": "Switch between mixed and improper forms",
+    "example": "Write 3½ as one fraction."
+   },
+   {
+    "title": "Add fractions with like denominators",
+    "example": "Add 2/7 and 3/7."
+   },
+   {
+    "title": "Find a common denominator to add",
+    "example": "What is ½ + ⅓?"
+   },
+   {
+    "title": "Subtract fractions with like denominators",
+    "example": "Subtract 2/9 from 7/9."
+   },
+   {
+    "title": "Find a common denominator to subtract",
+    "example": "Compute 5/6 − 1/4."
+   }
+  ]
+ },
+ {
+  "id": "g6.steps-sets",
+  "title": "Classify rational numbers",
+  "unit": "Rational numbers and operations",
+  "example": "Which is the smallest standard number set containing −8?",
+  "standards": [
+   "6.2A"
+  ],
+  "prerequisites": [],
+  "stages": [
+   {
+    "title": "Recognize membership in number sets",
+    "example": "Which is the smallest standard number set containing −8?"
+   },
+   {
+    "title": "Trace containment between number sets",
+    "example": "What set comes just above whole numbers in the usual nested sets?"
+   }
+  ]
+ },
+ {
+  "id": "g6.sets",
+  "title": "Classify rational numbers",
+  "example": "Which is the smallest set containing −6 among whole numbers, integers and rational numbers?",
+  "unit": "Rational numbers and operations",
+  "standards": [
+   "6.2A"
+  ],
+  "prerequisites": [
+   "g6.steps-sets"
+  ],
+  "previousPrerequisites": []
+ },
+ {
+  "id": "g6.steps-opposites",
+  "title": "Opposites and absolute value",
+  "unit": "Rational numbers and operations",
+  "example": "A cave floor lies 12 m below the entrance. What is its signed elevation relative to the entrance?",
+  "standards": [
+   "6.2B"
+  ],
+  "prerequisites": [
+   "g6.sets"
+  ],
+  "stages": [
+   {
+    "title": "Give a signed value relative to a reference point",
+    "example": "A cave floor lies 12 m below the entrance. What is its signed elevation relative to the entrance?"
+   },
+   {
+    "title": "Reflect a number across zero",
+    "example": "What is the opposite of −3.5?"
+   },
+   {
+    "title": "Measure absolute distance from zero",
+    "example": "How far is −7 from zero?"
+   }
+  ]
+ },
+ {
+  "id": "g6.opposites",
+  "title": "Opposites and absolute value",
+  "example": "A diver is at −8 m. How far is she from sea level?",
+  "unit": "Rational numbers and operations",
+  "standards": [
+   "6.2B"
+  ],
+  "prerequisites": [
+   "g6.steps-opposites"
+  ],
+  "previousPrerequisites": [
+   "g6.sets"
+  ]
+ },
+ {
+  "id": "g6.steps-quotients",
+  "title": "Fractions as division",
+  "unit": "Rational numbers and operations",
+  "example": "Four hikers share three loaves equally. How much does each receive?",
+  "standards": [
+   "6.2E"
+  ],
+  "prerequisites": [
+   "g6.sets",
+   "g6.foundation-fractions",
+   "g6.foundation-division"
+  ],
+  "stages": [
+   {
+    "title": "Share whole objects equally",
+    "example": "Four hikers share three loaves equally. How much does each receive?"
+   },
+   {
+    "title": "Read a fraction bar as division",
+    "example": "What quotient does the fraction 7/4 represent?"
+   },
+   {
+    "title": "Scale both parts of a quotient",
+    "example": "Six campers share four pizzas. How many pizzas give nine campers the same share?"
+   }
+  ]
+ },
+ {
+  "id": "g6.quotients",
+  "title": "Fractions as division",
+  "example": "Five friends share three pizzas equally. How much does each receive?",
+  "unit": "Rational numbers and operations",
+  "standards": [
+   "6.2E"
+  ],
+  "prerequisites": [
+   "g6.steps-quotients"
+  ],
+  "previousPrerequisites": [
+   "g6.sets"
+  ]
+ },
+ {
+  "id": "g6.steps-order",
+  "title": "Locate and order rational numbers",
+  "unit": "Rational numbers and operations",
+  "example": "A line from 1 to 2 has four equal intervals. Find the third mark after 1.",
+  "standards": [
+   "6.2C",
+   "6.2D"
+  ],
+  "prerequisites": [
+   "g6.quotients",
+   "g6.opposites"
+  ],
+  "stages": [
+   {
+    "title": "Locate rational numbers on a scaled line",
+    "example": "A line from 1 to 2 has four equal intervals. Find the third mark after 1."
+   },
+   {
+    "title": "Compare positions above and below zero",
+    "example": "Which is colder, −4.5° or −4.2°?"
+   },
+   {
+    "title": "Use decimals to compare fraction values",
+    "example": "Write 3/8 as a decimal."
+   }
+  ]
+ },
+ {
+  "id": "g6.order",
+  "title": "Locate and order rational numbers",
+  "example": "Which is colder, −0.75°C or −1/2°C?",
+  "unit": "Rational numbers and operations",
+  "standards": [
+   "6.2C",
+   "6.2D"
+  ],
+  "prerequisites": [
+   "g6.steps-order"
+  ],
+  "previousPrerequisites": [
+   "g6.quotients",
+   "g6.opposites"
+  ]
+ },
+ {
+  "id": "g6.steps-add",
+  "title": "Model integer addition and subtraction",
+  "unit": "Rational numbers and operations",
+  "example": "What is −6 + (−4)?",
+  "standards": [
+   "6.3C",
+   "6.3D"
+  ],
+  "prerequisites": [
+   "g6.order",
+   "g6.foundation-sums",
+   "g6.foundation-differences"
+  ],
+  "stages": [
+   {
+    "title": "Add integers with the same sign",
+    "example": "What is −6 + (−4)?"
+   },
+   {
+    "title": "Add integers with different signs",
+    "example": "What is 3 + (−7)?"
+   },
+   {
+    "title": "Cancel zero pairs in a signed sum",
+    "example": "A gain of 8 cancels a loss of 8. What is the total?"
+   },
+   {
+    "title": "Subtract a positive integer",
+    "example": "What is −3 − 5?"
+   },
+   {
+    "title": "Subtract a negative integer",
+    "example": "What is −6 − (−9)?"
+   },
+   {
+    "title": "Combine signed differences and zero",
+    "example": "Find 0 − (−4) − 7."
+   },
+   {
+    "title": "Apply integer changes to elevations and temperatures",
+    "example": "A diver starts at −8 m and rises 3.5 m. Find the new elevation."
+   }
+  ]
+ },
+ {
+  "id": "g6.add",
+  "title": "Model integer addition and subtraction",
+  "example": "The temperature is −4°C and falls another 3 degrees. Where does it end?",
+  "unit": "Rational numbers and operations",
+  "standards": [
+   "6.3C",
+   "6.3D"
+  ],
+  "prerequisites": [
+   "g6.steps-add"
+  ],
+  "previousPrerequisites": [
+   "g6.order"
+  ]
+ },
+ {
+  "id": "g6.steps-multiply",
+  "title": "Multiply and divide integers",
+  "unit": "Rational numbers and operations",
+  "example": "Compute (−6)(−4).",
+  "standards": [
+   "6.3C",
+   "6.3D"
+  ],
+  "prerequisites": [
+   "g6.add"
+  ],
+  "stages": [
+   {
+    "title": "Predict and compute a signed product",
+    "example": "Compute (−6)(−4)."
+   },
+   {
+    "title": "Interpret repeated signed changes",
+    "example": "A diver descends 3 meters each minute for 5 minutes. Find the change."
+   },
+   {
+    "title": "Determine the sign of a quotient",
+    "example": "Find −36 ÷ 6."
+   },
+   {
+    "title": "Interpret a signed rate per interval",
+    "example": "The temperature falls 21 degrees in 3 hours. Find the hourly change."
+   }
+  ]
+ },
+ {
+  "id": "g6.multiply",
+  "title": "Multiply and divide integers",
+  "example": "A balance changes by −$6 per day for four days. Find the total change.",
+  "unit": "Rational numbers and operations",
+  "standards": [
+   "6.3C",
+   "6.3D"
+  ],
+  "prerequisites": [
+   "g6.steps-multiply"
+  ],
+  "previousPrerequisites": [
+   "g6.add"
+  ]
+ },
+ {
+  "id": "g6.steps-factors",
+  "title": "Prime factors and common multiples",
+  "unit": "Rational numbers and operations",
+  "example": "What is the greatest common factor of 18 and 24?",
+  "standards": [
+   "6.7A"
+  ],
+  "prerequisites": [
+   "g6.sets",
+   "g6.foundation-products"
+  ],
+  "stages": [
+   {
+    "title": "Find shared factors and the GCF",
+    "example": "What is the greatest common factor of 18 and 24?"
+   },
+   {
+    "title": "Find shared multiples and the LCM",
+    "example": "Find the least common multiple of 4 and 6."
+   },
+   {
+    "title": "Write prime factors with exponents",
+    "example": "What exponent belongs on 3 in the prime factorization of 108?"
+   }
+  ]
+ },
+ {
+  "id": "g6.factors",
+  "title": "Prime factors and common multiples",
+  "example": "What is the least common multiple of 12 and 18?",
+  "unit": "Rational numbers and operations",
+  "standards": [
+   "6.7A"
+  ],
+  "prerequisites": [
+   "g6.steps-factors"
+  ],
+  "previousPrerequisites": [
+   "g6.sets"
+  ]
+ },
+ {
+  "id": "g6.steps-fraction-products",
+  "title": "Multiply fractions and predict product size",
+  "unit": "Rational numbers and operations",
+  "example": "A recipe uses 8 cups. A scaled batch uses 3/4 as much. How many cups does it use?",
+  "standards": [
+   "6.3B",
+   "6.3E"
+  ],
+  "prerequisites": [
+   "g6.quotients"
+  ],
+  "stages": [
+   {
+    "title": "Predict the effect of a fractional multiplier",
+    "example": "A recipe uses 8 cups. A scaled batch uses 3/4 as much. How many cups does it use?"
+   },
+   {
+    "title": "Cancel factors and multiply fractions",
+    "example": "Multiply 3/5 by 10/9."
+   },
+   {
+    "title": "Multiply with mixed-number operands",
+    "example": "Find 1½ × 2⅔."
+   }
+  ]
+ },
+ {
+  "id": "g6.fraction-products",
+  "title": "Multiply fractions and predict product size",
+  "example": "A recipe uses 3/4 cup. How much is needed for 2/3 of a batch?",
+  "unit": "Rational numbers and operations",
+  "standards": [
+   "6.3B",
+   "6.3E"
+  ],
+  "prerequisites": [
+   "g6.steps-fraction-products"
+  ],
+  "previousPrerequisites": [
+   "g6.quotients"
+  ]
+ },
+ {
+  "id": "g6.steps-fraction-division",
+  "title": "Divide using reciprocals",
+  "unit": "Rational numbers and operations",
+  "example": "What number times 4/7 equals one?",
+  "standards": [
+   "6.3A",
+   "6.3E"
+  ],
+  "prerequisites": [
+   "g6.fraction-products"
+  ],
+  "stages": [
+   {
+    "title": "Identify a multiplicative inverse",
+    "example": "What number times 4/7 equals one?"
+   },
+   {
+    "title": "Divide a fraction by a fraction",
+    "example": "Compute 3/4 ÷ 1/2."
+   },
+   {
+    "title": "Measure servings with mixed numbers",
+    "example": "How many ¾-cup servings fit in 2¼ cups?"
+   }
+  ]
+ },
+ {
+  "id": "g6.fraction-division",
+  "title": "Divide using reciprocals",
+  "example": "How many 1/4-cup scoops fill 3/2 cups?",
+  "unit": "Rational numbers and operations",
+  "standards": [
+   "6.3A",
+   "6.3E"
+  ],
+  "prerequisites": [
+   "g6.steps-fraction-division"
+  ],
+  "previousPrerequisites": [
+   "g6.fraction-products"
+  ]
+ },
+ {
+  "id": "g6.steps-decimals",
+  "title": "Compute with positive decimals",
+  "unit": "Rational numbers and operations",
+  "example": "What is 1.2 × 0.4?",
+  "standards": [
+   "6.3E"
+  ],
+  "prerequisites": [
+   "g6.fraction-division"
+  ],
+  "stages": [
+   {
+    "title": "Place the decimal in a product",
+    "example": "What is 1.2 × 0.4?"
+   },
+   {
+    "title": "Apply decimal products to costs and areas",
+    "example": "Apples cost $2.40 per kg. What do 1.5 kg cost?"
+   },
+   {
+    "title": "Make a decimal divisor whole",
+    "example": "Compute 4.8 ÷ 0.6."
+   },
+   {
+    "title": "Interpret a decimal quotient in context",
+    "example": "How many 0.75 L bottles can 4.5 L fill?"
+   }
+  ]
+ },
+ {
+  "id": "g6.decimals",
+  "title": "Compute with positive decimals",
+  "example": "A 2.4 m ribbon is cut into 0.3 m strips. How many strips fit?",
+  "unit": "Rational numbers and operations",
+  "standards": [
+   "6.3E"
+  ],
+  "prerequisites": [
+   "g6.steps-decimals"
+  ],
+  "previousPrerequisites": [
+   "g6.fraction-division"
+  ]
+ },
+ {
+  "id": "g6.steps-fluency",
+  "title": "Multi-digit division and decimal fluency",
+  "unit": "Rational numbers and operations",
+  "example": "Add 4.7 and 2.36.",
+  "standards": [
+   "6.NS.B.2",
+   "6.NS.B.3"
+  ],
+  "prerequisites": [
+   "g6.decimals",
+   "g6.foundation-whole"
+  ],
+  "stages": [
+   {
+    "title": "Align decimal places to add",
+    "example": "Add 4.7 and 2.36."
+   },
+   {
+    "title": "Regroup across decimal places",
+    "example": "Compute 8.4 − 2.75."
+   },
+   {
+    "title": "Combine measured lengths",
+    "example": "Ribbon pieces measure 2.75 m and 1.9 m. Find the total."
+   },
+   {
+    "title": "Verify a multi-digit quotient",
+    "example": "A group claims 936 ÷ 18 = 52. How can multiplication verify the quotient?"
+   }
+  ]
+ },
+ {
+  "id": "g6.fluency",
+  "title": "Multi-digit division and decimal fluency",
+  "example": "A store divides 1512 pencils equally among 24 classes. How many does each class get?",
+  "unit": "Rational numbers and operations",
+  "standards": [
+   "6.NS.B.2",
+   "6.NS.B.3"
+  ],
+  "prerequisites": [
+   "g6.steps-fluency"
+  ],
+  "previousPrerequisites": [
+   "g6.decimals"
+  ]
+ },
+ {
+  "id": "g6.steps-ratios",
+  "title": "Describe and scale ratios",
+  "unit": "Ratios, rates and percents",
+  "example": "A bag has 4 red and 6 blue beads. Find red to blue.",
+  "standards": [
+   "6.4C",
+   "6.4E",
+   "6.5A"
+  ],
+  "prerequisites": [
+   "g6.quotients"
+  ],
+  "stages": [
+   {
+    "title": "Distinguish part-to-part and part-to-whole ratios",
+    "example": "A bag has 4 red and 6 blue beads. Find red to blue."
+   },
+   {
+    "title": "Scale both terms of a ratio",
+    "example": "Two cups of rice serve 5 people. What serves 15?"
+   },
+   {
+    "title": "Complete a table of equivalent ratios",
+    "example": "Complete the ratio table. Lemons: 3, 9, 12. Cups: 8, blank, blank."
+   }
+  ]
+ },
+ {
+  "id": "g6.ratios",
+  "title": "Describe and scale ratios",
+  "example": "Trail mix uses 3 cups of oats for 2 of nuts. How many cups of oats go with 8 of nuts?",
+  "unit": "Ratios, rates and percents",
+  "standards": [
+   "6.4C",
+   "6.4E",
+   "6.5A"
+  ],
+  "prerequisites": [
+   "g6.steps-ratios"
+  ],
+  "previousPrerequisites": [
+   "g6.quotients"
+  ]
+ },
+ {
+  "id": "g6.steps-rates",
+  "title": "Unit rates and better buys",
+  "unit": "Ratios, rates and percents",
+  "example": "Three notebooks cost $12.",
+  "standards": [
+   "6.4B",
+   "6.4D",
+   "6.5A"
+  ],
+  "prerequisites": [
+   "g6.ratios",
+   "g6.decimals"
+  ],
+  "stages": [
+   {
+    "title": "Calculate an amount per one unit",
+    "example": "Three notebooks cost $12."
+   },
+   {
+    "title": "Use rate and time to find distance",
+    "example": "Travel at 45 mph for 2.5 hours. How far do you go?"
+   },
+   {
+    "title": "Use rate and distance to find time",
+    "example": "How long does 150 km take at 60 km/h?"
+   },
+   {
+    "title": "Compare unit prices across packages",
+    "example": "Four pens cost $6. Six cost $8. Which pack costs less per pen?"
+   }
+  ]
+ },
+ {
+  "id": "g6.rates",
+  "title": "Unit rates and better buys",
+  "example": "Six notebooks cost $9. What will four cost at the same rate?",
+  "unit": "Ratios, rates and percents",
+  "standards": [
+   "6.4B",
+   "6.4D",
+   "6.5A"
+  ],
+  "prerequisites": [
+   "g6.steps-rates"
+  ],
+  "previousPrerequisites": [
+   "g6.ratios",
+   "g6.decimals"
+  ]
+ },
+ {
+  "id": "g6.steps-convert",
+  "title": "Convert measurement units",
+  "unit": "Ratios, rates and percents",
+  "example": "How many meters are in 450 cm?",
+  "standards": [
+   "6.4H"
+  ],
+  "prerequisites": [
+   "g6.rates"
+  ],
+  "stages": [
+   {
+    "title": "Convert within metric units",
+    "example": "How many meters are in 450 cm?"
+   },
+   {
+    "title": "Convert within customary units",
+    "example": "How many pints fill three gallons?"
+   },
+   {
+    "title": "Use a conversion rate between systems",
+    "example": "Use 1 inch = 2.54 cm. Convert 5 inches."
+   },
+   {
+    "title": "Choose the direction of a conversion factor",
+    "example": "Using 1 mile ≈ 1.6 km, estimate the miles in 12 km."
+   }
+  ]
+ },
+ {
+  "id": "g6.convert",
+  "title": "Convert measurement units",
+  "example": "A trail is 2.5 km long. How many meters is that?",
+  "unit": "Ratios, rates and percents",
+  "standards": [
+   "6.4H"
+  ],
+  "prerequisites": [
+   "g6.steps-convert"
+  ],
+  "previousPrerequisites": [
+   "g6.rates"
+  ]
+ },
+ {
+  "id": "g6.steps-percent-models",
+  "title": "Benchmark percents and equivalent forms",
+  "unit": "Ratios, rates and percents",
+  "example": "On a hundred grid, 4 full rows and 3 extra squares are shaded. What percent is shaded?",
+  "standards": [
+   "6.4E",
+   "6.4F",
+   "6.4G",
+   "6.5C"
+  ],
+  "prerequisites": [
+   "g6.ratios",
+   "g6.decimals"
+  ],
+  "stages": [
+   {
+    "title": "Read benchmark percents on grids, strips and number lines",
+    "example": "On a hundred grid, 4 full rows and 3 extra squares are shaded. What percent is shaded?"
+   },
+   {
+    "title": "Convert between decimals and percents",
+    "example": "Write 0.46 as a percent."
+   },
+   {
+    "title": "Convert between fractions and percents",
+    "example": "Convert 7/20 to a percent."
+   },
+   {
+    "title": "Compare equivalent and approximate forms",
+    "example": "Which is greater, 62% or 5/8?"
+   }
+  ]
+ },
+ {
+  "id": "g6.percent-models",
+  "title": "Benchmark percents and equivalent forms",
+  "example": "A display has 25 lit squares out of 100. What fraction is lit?",
+  "unit": "Ratios, rates and percents",
+  "standards": [
+   "6.4E",
+   "6.4F",
+   "6.4G",
+   "6.5C"
+  ],
+  "prerequisites": [
+   "g6.steps-percent-models"
+  ],
+  "previousPrerequisites": [
+   "g6.ratios",
+   "g6.decimals"
+  ]
+ },
+ {
+  "id": "g6.steps-percent",
+  "title": "Find the part, percent or whole",
+  "unit": "Ratios, rates and percents",
+  "example": "What is 15% of 80?",
+  "standards": [
+   "6.5B"
+  ],
+  "prerequisites": [
+   "g6.percent-models",
+   "g6.rates"
+  ],
+  "stages": [
+   {
+    "title": "Find a part from a percent and a whole",
+    "example": "What is 15% of 80?"
+   },
+   {
+    "title": "Find the percent represented by a part",
+    "example": "What percent of 48 is 18?"
+   },
+   {
+    "title": "Recover the whole from a part and percent",
+    "example": "Twelve students are 30% of a club. How many are in it?"
+   }
+  ]
+ },
+ {
+  "id": "g6.percent",
+  "title": "Find the part, percent or whole",
+  "example": "Twelve seats make up 30% of a theater row. How many seats are there?",
+  "unit": "Ratios, rates and percents",
+  "standards": [
+   "6.5B"
+  ],
+  "prerequisites": [
+   "g6.steps-percent"
+  ],
+  "previousPrerequisites": [
+   "g6.percent-models",
+   "g6.rates"
+  ]
+ },
+ {
+  "id": "g6.steps-powers",
+  "title": "Powers and order of operations",
+  "unit": "Expressions and relationships",
+  "example": "In 5 × 5 × 5 × 5, what is the exponent when written as a power?",
+  "standards": [
+   "6.7A"
+  ],
+  "prerequisites": [
+   "g6.factors",
+   "g6.multiply"
+  ],
+  "stages": [
+   {
+    "title": "Distinguish an exponent from a factor",
+    "example": "In 5 × 5 × 5 × 5, what is the exponent when written as a power?"
+   },
+   {
+    "title": "Evaluate small whole-number powers",
+    "example": "How much is 6³?"
+   },
+   {
+    "title": "Apply the order of operations",
+    "example": "Evaluate 6 + 3 × 4."
+   }
+  ]
+ },
+ {
+  "id": "g6.powers",
+  "title": "Powers and order of operations",
+  "example": "Evaluate 3 + 2 × 4².",
+  "unit": "Expressions and relationships",
+  "standards": [
+   "6.7A"
+  ],
+  "prerequisites": [
+   "g6.steps-powers"
+  ],
+  "previousPrerequisites": [
+   "g6.factors",
+   "g6.multiply"
+  ]
+ },
+ {
+  "id": "g6.steps-expressions",
+  "title": "Translate and evaluate expressions",
+  "unit": "Expressions and relationships",
+  "example": "In 7x + 12, what is the coefficient of x?",
+  "standards": [
+   "6.7B"
+  ],
+  "prerequisites": [
+   "g6.powers"
+  ],
+  "stages": [
+   {
+    "title": "Identify a coefficient or constant",
+    "example": "In 7x + 12, what is the coefficient of x?"
+   },
+   {
+    "title": "Translate words into an expression",
+    "example": "A box holds x cards. Write an expression for five fewer than twice that amount."
+   },
+   {
+    "title": "Substitute values and evaluate",
+    "example": "Evaluate 3x + 2 when x = 5."
+   }
+  ]
+ },
+ {
+  "id": "g6.expressions",
+  "title": "Translate and evaluate expressions",
+  "example": "A bag has n marbles. What does 3n + 2 give when n = 5?",
+  "unit": "Expressions and relationships",
+  "standards": [
+   "6.7B"
+  ],
+  "prerequisites": [
+   "g6.steps-expressions"
+  ],
+  "previousPrerequisites": [
+   "g6.powers"
+  ]
+ },
+ {
+  "id": "g6.steps-properties",
+  "title": "Build equivalent expressions",
+  "unit": "Expressions and relationships",
+  "example": "What property explains 16 + 7 = 7 + 16?",
+  "standards": [
+   "6.7C",
+   "6.7D"
+  ],
+  "prerequisites": [
+   "g6.expressions"
+  ],
+  "stages": [
+   {
+    "title": "Recognize the addition properties",
+    "example": "What property explains 16 + 7 = 7 + 16?"
+   },
+   {
+    "title": "Distribute a factor to both terms",
+    "example": "Expand 4(x + 3)."
+   },
+   {
+    "title": "Combine like terms",
+    "example": "Simplify 5x + 2x − 3."
+   }
+  ]
+ },
+ {
+  "id": "g6.properties",
+  "title": "Build equivalent expressions",
+  "example": "Rewrite 4(x + 3) without parentheses.",
+  "unit": "Expressions and relationships",
+  "standards": [
+   "6.7C",
+   "6.7D"
+  ],
+  "prerequisites": [
+   "g6.steps-properties"
+  ],
+  "previousPrerequisites": [
+   "g6.expressions"
+  ]
+ },
+ {
+  "id": "g6.steps-coordinates",
+  "title": "Graph rational ordered pairs",
+  "unit": "Expressions and relationships",
+  "example": "Which quadrant contains (−3, 4)?",
+  "standards": [
+   "6.11"
+  ],
+  "prerequisites": [
+   "g6.order"
+  ],
+  "stages": [
+   {
+    "title": "Plot ordered pairs and locate quadrants",
+    "example": "Which quadrant contains (−3, 4)?"
+   },
+   {
+    "title": "Read axes with non-unit scales",
+    "example": "A volume axis shows 5 liters per tick. A point is four ticks high. What is its volume?"
+   },
+   {
+    "title": "Reflect across a coordinate axis",
+    "example": "Reflect (−3, 5) across the x-axis. Where does it land?"
+   }
+  ]
+ },
+ {
+  "id": "g6.coordinates",
+  "title": "Graph rational ordered pairs",
+  "example": "Where is (−3, 2) relative to the origin?",
+  "unit": "Expressions and relationships",
+  "standards": [
+   "6.11"
+  ],
+  "prerequisites": [
+   "g6.steps-coordinates"
+  ],
+  "previousPrerequisites": [
+   "g6.order"
+  ]
+ },
+ {
+  "id": "g6.steps-rules",
+  "title": "Compare additive and multiplicative rules",
+  "unit": "Expressions and relationships",
+  "example": "A rule sends 4 to 11 and 9 to 16. How much does it add?",
+  "standards": [
+   "6.4A",
+   "6.6C"
+  ],
+  "prerequisites": [
+   "g6.rates",
+   "g6.expressions"
+  ],
+  "stages": [
+   {
+    "title": "Find a constant difference between input and output",
+    "example": "A rule sends 4 to 11 and 9 to 16. How much does it add?"
+   },
+   {
+    "title": "Find a constant ratio from a table",
+    "example": "A table pairs 2 hours with 10 miles and 3 with 15. Find k in y = kx."
+   },
+   {
+    "title": "Distinguish adding a constant from multiplying",
+    "example": "Rule A adds 3. Rule B triples. At input 4, which output is larger?"
+   }
+  ]
+ },
+ {
+  "id": "g6.rules",
+  "title": "Compare additive and multiplicative rules",
+  "example": "One machine adds 4 and one multiplies by 4. At input 3, how far apart are their outputs?",
+  "unit": "Expressions and relationships",
+  "standards": [
+   "6.4A",
+   "6.6C"
+  ],
+  "prerequisites": [
+   "g6.steps-rules"
+  ],
+  "previousPrerequisites": [
+   "g6.rates",
+   "g6.expressions"
+  ]
+ },
+ {
+  "id": "g6.steps-variables",
+  "title": "Relate tables, graphs and equations",
+  "unit": "Expressions and relationships",
+  "example": "A tap fills 6 liters per minute. Which quantity depends on how long it runs?",
+  "standards": [
+   "6.6A",
+   "6.6B",
+   "6.6C"
+  ],
+  "prerequisites": [
+   "g6.rules",
+   "g6.coordinates"
+  ],
+  "stages": [
+   {
+    "title": "Identify independent and dependent quantities",
+    "example": "A tap fills 6 liters per minute. Which quantity depends on how long it runs?"
+   },
+   {
+    "title": "Extend a relationship in a table",
+    "example": "A table lists (2, 14) and (5, 35). Find y when x = 6."
+   },
+   {
+    "title": "Read a relationship from a graph",
+    "example": "Which point at x = 3 lies on the graph of y = 4x?"
+   },
+   {
+    "title": "Connect an equation with its representations",
+    "example": "A graph goes through (0, 0) and (2, 9). Write its table rule."
+   }
+  ]
+ },
+ {
+  "id": "g6.variables",
+  "title": "Relate tables, graphs and equations",
+  "example": "A tap fills 3 liters per minute starting empty. Which equation gives liters y after x minutes?",
+  "unit": "Expressions and relationships",
+  "standards": [
+   "6.6A",
+   "6.6B",
+   "6.6C"
+  ],
+  "prerequisites": [
+   "g6.steps-variables"
+  ],
+  "previousPrerequisites": [
+   "g6.rules",
+   "g6.coordinates"
+  ]
+ },
+ {
+  "id": "g6.steps-write-equations",
+  "title": "Write one-step equations and stories",
+  "unit": "Equations and inequalities",
+  "example": "After depositing $9, a balance is $22. Which equation uses x for the starting balance?",
+  "standards": [
+   "6.9A",
+   "6.9C"
+  ],
+  "prerequisites": [
+   "g6.expressions"
+  ],
+  "stages": [
+   {
+    "title": "Translate an additive situation into an equation",
+    "example": "After depositing $9, a balance is $22. Which equation uses x for the starting balance?"
+   },
+   {
+    "title": "Translate equal groups into an equation",
+    "example": "Five equal tickets total $35. Write an equation for the price of one ticket."
+   },
+   {
+    "title": "Match a subtraction or division equation to a story",
+    "example": "Which story fits x/4 = 6 when x is a number of stickers?"
+   }
+  ]
+ },
+ {
+  "id": "g6.write-equations",
+  "title": "Write one-step equations and stories",
+  "example": "A notebook and a $4 pen cost $11. Write an equation for the notebook price n.",
+  "unit": "Equations and inequalities",
+  "standards": [
+   "6.9A",
+   "6.9C"
+  ],
+  "prerequisites": [
+   "g6.steps-write-equations"
+  ],
+  "previousPrerequisites": [
+   "g6.expressions"
+  ]
+ },
+ {
+  "id": "g6.steps-solve",
+  "title": "Solve and check one-step equations",
+  "unit": "Equations and inequalities",
+  "example": "Solve x − 7 = 12.",
+  "standards": [
+   "6.9B",
+   "6.10A",
+   "6.10B"
+  ],
+  "prerequisites": [
+   "g6.write-equations",
+   "g6.properties"
+  ],
+  "stages": [
+   {
+    "title": "Use inverse operations on a one-step equation",
+    "example": "Solve x − 7 = 12."
+   },
+   {
+    "title": "Undo multiplication and division",
+    "example": "Solve x/6 = 7."
+   },
+   {
+    "title": "Place an equation solution on a number line",
+    "example": "Where is the solution of 2x = 8 on a number line?"
+   },
+   {
+    "title": "Test a candidate solution by substitution",
+    "example": "Does x = 5 solve 3x = 18?"
+   }
+  ]
+ },
+ {
+  "id": "g6.solve",
+  "title": "Solve and check one-step equations",
+  "example": "Solve x/3 = 5. Check your solution.",
+  "unit": "Equations and inequalities",
+  "standards": [
+   "6.9B",
+   "6.10A",
+   "6.10B"
+  ],
+  "prerequisites": [
+   "g6.steps-solve"
+  ],
+  "previousPrerequisites": [
+   "g6.write-equations",
+   "g6.properties"
+  ]
+ },
+ {
+  "id": "g6.steps-inequalities",
+  "title": "Write, solve and graph inequalities",
+  "unit": "Equations and inequalities",
+  "example": "A ride requires a height of at least 120 cm. Write the constraint for height h.",
+  "standards": [
+   "6.9A",
+   "6.9B",
+   "6.9C",
+   "6.10A",
+   "6.10B"
+  ],
+  "prerequisites": [
+   "g6.solve",
+   "g6.order"
+  ],
+  "stages": [
+   {
+    "title": "Translate inclusive and strict bounds",
+    "example": "A ride requires a height of at least 120 cm. Write the constraint for height h."
+   },
+   {
+    "title": "Find the boundary after an inverse operation",
+    "example": "Solve x + 4 < 10."
+   },
+   {
+    "title": "Graph strict inequalities with open endpoints",
+    "example": "Graph x < −1. Which endpoint and direction?"
+   },
+   {
+    "title": "Graph inclusive inequalities with closed endpoints",
+    "example": "Graph x ≥ 2. Which endpoint and direction?"
+   },
+   {
+    "title": "Check a value against a contextual constraint",
+    "example": "A bus holds at most 48 riders. Can 31 students and 18 adults board together?"
+   }
+  ]
+ },
+ {
+  "id": "g6.inequalities",
+  "title": "Write, solve and graph inequalities",
+  "example": "A bag must weigh at most 12 kg. The empty bag weighs 2 kg. What loads fit?",
+  "unit": "Equations and inequalities",
+  "standards": [
+   "6.9A",
+   "6.9B",
+   "6.9C",
+   "6.10A",
+   "6.10B"
+  ],
+  "prerequisites": [
+   "g6.steps-inequalities"
+  ],
+  "previousPrerequisites": [
+   "g6.solve",
+   "g6.order"
+  ]
+ },
+ {
+  "id": "g6.steps-triangles",
+  "title": "Test triangle sides and angles",
+  "unit": "Geometry and measurement",
+  "example": "A triangle has angles 52° and 71°. Find the third.",
+  "standards": [
+   "6.8A"
+  ],
+  "prerequisites": [
+   "g6.solve"
+  ],
+  "stages": [
+   {
+    "title": "Use the triangle angle sum",
+    "example": "A triangle has angles 52° and 71°. Find the third."
+   },
+   {
+    "title": "Test whether three lengths make a triangle",
+    "example": "Can sticks of lengths 3, 7 and 10 form a triangle?"
+   },
+   {
+    "title": "Match the longest side to the largest angle",
+    "example": "Triangle AB = 7, BC = 5 and CA = 9. Which angle is largest?"
+   }
+  ]
+ },
+ {
+  "id": "g6.triangles",
+  "title": "Test triangle sides and angles",
+  "example": "Can lengths 4, 6 and 11 form a triangle?",
+  "unit": "Geometry and measurement",
+  "standards": [
+   "6.8A"
+  ],
+  "prerequisites": [
+   "g6.steps-triangles"
+  ],
+  "previousPrerequisites": [
+   "g6.solve"
+  ]
+ },
+ {
+  "id": "g6.steps-area",
+  "title": "Build triangle and parallelogram area formulas",
+  "unit": "Geometry and measurement",
+  "example": "A rectangle measures 8 cm by 3 cm. Find its area.",
+  "standards": [
+   "6.8B",
+   "6.8C",
+   "6.8D"
+  ],
+  "prerequisites": [
+   "g6.fraction-products",
+   "g6.expressions"
+  ],
+  "stages": [
+   {
+    "title": "Build the rectangle area model",
+    "example": "A rectangle measures 8 cm by 3 cm. Find its area."
+   },
+   {
+    "title": "Match a parallelogram base with its height",
+    "example": "Find the area of a parallelogram with base 9 and perpendicular height 4."
+   },
+   {
+    "title": "Use half a parallelogram to find triangle area",
+    "example": "A triangle has base 10 m and height 7 m. Find its area."
+   },
+   {
+    "title": "Recover a missing height from area",
+    "example": "A triangle of area 30 cm² has a 12 cm base. Find the height."
+   }
+  ]
+ },
+ {
+  "id": "g6.area",
+  "title": "Build triangle and parallelogram area formulas",
+  "example": "A triangle has base 7 cm and perpendicular height 4 cm. Find its area.",
+  "unit": "Geometry and measurement",
+  "standards": [
+   "6.8B",
+   "6.8C",
+   "6.8D"
+  ],
+  "prerequisites": [
+   "g6.steps-area"
+  ],
+  "previousPrerequisites": [
+   "g6.fraction-products",
+   "g6.expressions"
+  ]
+ },
+ {
+  "id": "g6.steps-trapezoids",
+  "title": "Decompose trapezoids and composite regions",
+  "unit": "Geometry and measurement",
+  "example": "A trapezoid has bases 6 and 10 cm and height 4 cm. Find its area.",
+  "standards": [
+   "6.8B",
+   "6.8C",
+   "6.8D"
+  ],
+  "prerequisites": [
+   "g6.area"
+  ],
+  "stages": [
+   {
+    "title": "Average the parallel sides of a trapezoid",
+    "example": "A trapezoid has bases 6 and 10 cm and height 4 cm. Find its area."
+   },
+   {
+    "title": "Subtract a rectangular cutout",
+    "example": "Remove a 2 by 3 corner from an 8 by 6 rectangle. Find the area left."
+   },
+   {
+    "title": "Combine triangles and parallelograms",
+    "example": "A 6 by 4 parallelogram touches a triangle with base 6 and height 3. Find total area."
+   },
+   {
+    "title": "Combine a trapezoid and a rectangle",
+    "example": "A trapezoid with bases 4 and 8 and height 3 joins a 3 by 2 rectangle. Find total area."
+   }
+  ]
+ },
+ {
+  "id": "g6.trapezoids",
+  "title": "Decompose trapezoids and composite regions",
+  "example": "A trapezoid has bases 5 and 9 cm and height 3 cm. Find its area.",
+  "unit": "Geometry and measurement",
+  "standards": [
+   "6.8B",
+   "6.8C",
+   "6.8D"
+  ],
+  "prerequisites": [
+   "g6.steps-trapezoids"
+  ],
+  "previousPrerequisites": [
+   "g6.area"
+  ]
+ },
+ {
+  "id": "g6.steps-prisms",
+  "title": "Volume and missing dimensions",
+  "unit": "Geometry and measurement",
+  "example": "A box floor is 7 unit cubes long and 4 wide. How many cubes make one layer?",
+  "standards": [
+   "6.8C",
+   "6.8D",
+   "6.10A"
+  ],
+  "prerequisites": [
+   "g6.area",
+   "g6.solve"
+  ],
+  "stages": [
+   {
+    "title": "Count unit cubes in one layer",
+    "example": "A box floor is 7 unit cubes long and 4 wide. How many cubes make one layer?"
+   },
+   {
+    "title": "Multiply a base area by a prism height",
+    "example": "A rectangular prism is 4 cm by 3 cm by 5 cm. Find its volume."
+   },
+   {
+    "title": "Find volume with fractional edge lengths",
+    "example": "A prism measures 1.5 m by 2 m by 3 m. What is its volume?"
+   },
+   {
+    "title": "Recover a missing dimension from volume",
+    "example": "A prism has volume 84 cm³ and base area 14 cm². Find the height."
+   }
+  ]
+ },
+ {
+  "id": "g6.prisms",
+  "title": "Volume and missing dimensions",
+  "example": "A prism holds 30 cm³. Its base is 2.5 cm by 4 cm. Find its height.",
+  "unit": "Geometry and measurement",
+  "standards": [
+   "6.8C",
+   "6.8D",
+   "6.10A"
+  ],
+  "prerequisites": [
+   "g6.steps-prisms"
+  ],
+  "previousPrerequisites": [
+   "g6.area",
+   "g6.solve"
+  ]
+ },
+ {
+  "id": "g6.steps-polygons",
+  "title": "Measure polygons using coordinates",
+  "unit": "Geometry and measurement",
+  "example": "What is the length between (−4, 3) and (2, 3)?",
+  "standards": [
+   "6.G.A.3"
+  ],
+  "prerequisites": [
+   "g6.area",
+   "g6.coordinates"
+  ],
+  "stages": [
+   {
+    "title": "Measure a horizontal or vertical segment",
+    "example": "What is the length between (−4, 3) and (2, 3)?"
+   },
+   {
+    "title": "Complete an axis-aligned rectangle",
+    "example": "Three corners of a rectangle are (1, 2), (5, 2) and (5, 6). Find the missing corner."
+   },
+   {
+    "title": "Use coordinate differences to find area",
+    "example": "A rectangle spans x from −2 to 4 and y from −1 to 3. Find its area."
+   }
+  ]
+ },
+ {
+  "id": "g6.polygons",
+  "title": "Measure polygons using coordinates",
+  "example": "A rectangle spans x = −3 to x = 2 and y = 1 to y = 5. What is its area?",
+  "unit": "Geometry and measurement",
+  "standards": [
+   "6.G.A.3"
+  ],
+  "prerequisites": [
+   "g6.steps-polygons"
+  ],
+  "previousPrerequisites": [
+   "g6.area",
+   "g6.coordinates"
+  ]
+ },
+ {
+  "id": "g6.steps-nets",
+  "title": "Use nets to find surface area",
+  "unit": "Geometry and measurement",
+  "example": "How many rectangles form the net of a rectangular prism?",
+  "standards": [
+   "6.G.A.4"
+  ],
+  "prerequisites": [
+   "g6.prisms",
+   "g6.trapezoids"
+  ],
+  "stages": [
+   {
+    "title": "Identify the faces in a rectangular prism net",
+    "example": "How many rectangles form the net of a rectangular prism?"
+   },
+   {
+    "title": "Identify the faces in a triangular prism net",
+    "example": "What faces form a triangular prism's net?"
+   },
+   {
+    "title": "Identify the faces in a square pyramid net",
+    "example": "How many triangular flaps surround a rectangular pyramid's base in a net?"
+   },
+   {
+    "title": "Add rectangular prism face areas",
+    "example": "Find the surface area of a 2 by 3 by 4 prism."
+   },
+   {
+    "title": "Add square pyramid face areas",
+    "example": "A square pyramid has base side 4 and each face has slant height 3. Find its surface area."
+   }
+  ]
+ },
+ {
+  "id": "g6.nets",
+  "title": "Use nets to find surface area",
+  "example": "A box measures 2 by 3 by 4 cm. How much paper covers its six faces?",
+  "unit": "Geometry and measurement",
+  "standards": [
+   "6.G.A.4"
+  ],
+  "prerequisites": [
+   "g6.steps-nets"
+  ],
+  "previousPrerequisites": [
+   "g6.prisms",
+   "g6.trapezoids"
+  ]
+ },
+ {
+  "id": "g6.steps-questions",
+  "title": "Statistical questions and variability",
+  "unit": "Data and statistics",
+  "example": "Which varies among students in one class, their room number or their commute time?",
+  "standards": [
+   "6.13B"
+  ],
+  "prerequisites": [
+   "g6.order"
+  ],
+  "stages": [
+   {
+    "title": "Distinguish statistical questions from fixed facts",
+    "example": "Which varies among students in one class, their room number or their commute time?"
+   },
+   {
+    "title": "Distinguish numeric from categorical responses",
+    "example": "Students name the sport they like best. What type of data is collected?"
+   },
+   {
+    "title": "Identify the observational unit",
+    "example": "Researchers record the height of each of 20 trees. What is one observational unit?"
+   }
+  ]
+ },
+ {
+  "id": "g6.questions",
+  "title": "Statistical questions and variability",
+  "example": "Which tells us about variation: one runner's assigned lane or the team's race times?",
+  "unit": "Data and statistics",
+  "standards": [
+   "6.13B"
+  ],
+  "prerequisites": [
+   "g6.steps-questions"
+  ],
+  "previousPrerequisites": [
+   "g6.order"
+  ]
+ },
+ {
+  "id": "g6.steps-dot-stem",
+  "title": "Read and construct dot and stem-and-leaf plots",
+  "unit": "Data and statistics",
+  "example": "A dot plot has two dots at 1, three at 2, and one at 3. Find the mode.",
+  "standards": [
+   "6.12A",
+   "6.13A"
+  ],
+  "prerequisites": [
+   "g6.questions"
+  ],
+  "stages": [
+   {
+    "title": "Read frequencies from dot and box plots",
+    "example": "A dot plot has two dots at 1, three at 2, and one at 3. Find the mode."
+   },
+   {
+    "title": "Construct a complete dot plot from observations",
+    "example": "Make a dot plot for 4, 5, 4, 6, 4, 5."
+   },
+   {
+    "title": "Decode stems and leaves using a key",
+    "example": "A stem of 4 has leaves 1, 3 and 8. With tens as stems, what is the greatest value?"
+   },
+   {
+    "title": "Organize a list into stems and leaves",
+    "example": "Build a stem-and-leaf plot for 52, 55, 56, 61, 64."
+   }
+  ]
+ },
+ {
+  "id": "g6.dot-stem",
+  "title": "Read and construct dot and stem-and-leaf plots",
+  "example": "In a stem-and-leaf plot, stem 3 has leaves 1, 1 and 7. How many values exceed 30?",
+  "unit": "Data and statistics",
+  "standards": [
+   "6.12A",
+   "6.13A"
+  ],
+  "prerequisites": [
+   "g6.steps-dot-stem"
+  ],
+  "previousPrerequisites": [
+   "g6.questions"
+  ]
+ },
+ {
+  "id": "g6.steps-histograms",
+  "title": "Group observations into histograms",
+  "unit": "Data and statistics",
+  "example": "Bins cover 0–9, 10–19 and 20–29. Which includes 20?",
+  "standards": [
+   "6.12A",
+   "6.12B",
+   "6.13A"
+  ],
+  "prerequisites": [
+   "g6.dot-stem"
+  ],
+  "stages": [
+   {
+    "title": "Place a value in the correct interval",
+    "example": "Bins cover 0–9, 10–19 and 20–29. Which includes 20?"
+   },
+   {
+    "title": "Construct a histogram from raw data",
+    "example": "Build a histogram for 4, 8, 12, 19, 25 using 10-wide bins."
+   },
+   {
+    "title": "Combine frequencies across adjacent intervals",
+    "example": "A histogram shows 4 values from 0–9, 6 from 10–19 and 3 from 20–29. How many are at least 10?"
+   }
+  ]
+ },
+ {
+  "id": "g6.histograms",
+  "title": "Group observations into histograms",
+  "example": "Scores are 12, 15, 19, 20 and 24. How tall is the bar for scores 10 through 19?",
+  "unit": "Data and statistics",
+  "standards": [
+   "6.12A",
+   "6.12B",
+   "6.13A"
+  ],
+  "prerequisites": [
+   "g6.steps-histograms"
+  ],
+  "previousPrerequisites": [
+   "g6.dot-stem"
+  ]
+ },
+ {
+  "id": "g6.steps-center",
+  "title": "Summarize data with mean and median",
+  "unit": "Data and statistics",
+  "example": "What is the mean of 5, 7 and 12?",
+  "standards": [
+   "6.12B",
+   "6.12C"
+  ],
+  "prerequisites": [
+   "g6.dot-stem",
+   "g6.decimals"
+  ],
+  "stages": [
+   {
+    "title": "Share a total equally to find the mean",
+    "example": "What is the mean of 5, 7 and 12?"
+   },
+   {
+    "title": "Find the middle of ordered data",
+    "example": "Find the median of 8, 2, 6, 4."
+   },
+   {
+    "title": "Compare mean and median after an extreme value",
+    "example": "Change 9 to 39 in the list 3, 6, 9. How much does the mean increase?"
+   }
+  ]
+ },
+ {
+  "id": "g6.center",
+  "title": "Summarize data with mean and median",
+  "example": "Compare the mean and median of 2, 3, 4, 5 and 16.",
+  "unit": "Data and statistics",
+  "standards": [
+   "6.12B",
+   "6.12C"
+  ],
+  "prerequisites": [
+   "g6.steps-center"
+  ],
+  "previousPrerequisites": [
+   "g6.dot-stem",
+   "g6.decimals"
+  ]
+ },
+ {
+  "id": "g6.steps-spread",
+  "title": "Use box plots, range and IQR",
+  "unit": "Data and statistics",
+  "example": "Find the range of 14, 9, 18 and 12.",
+  "standards": [
+   "6.12A",
+   "6.12B",
+   "6.12C",
+   "6.13A"
+  ],
+  "prerequisites": [
+   "g6.center"
+  ],
+  "stages": [
+   {
+    "title": "Measure the distance between the extremes",
+    "example": "Find the range of 14, 9, 18 and 12."
+   },
+   {
+    "title": "Find quartiles in ordered data",
+    "example": "Use the median of each half of 2, 4, 6, 8, 10, 12. Find Q1."
+   },
+   {
+    "title": "Measure the middle half with IQR",
+    "example": "The lower quartile is 12 and the upper is 19. Find the IQR."
+   },
+   {
+    "title": "Construct a box plot using a five-number summary",
+    "example": "Build a box plot for 2, 3, 5, 7, 9, 12."
+   }
+  ]
+ },
+ {
+  "id": "g6.spread",
+  "title": "Use box plots, range and IQR",
+  "example": "A box plot has minimum 2, Q1 of 5, median 7, Q3 of 9 and maximum 17. Find the IQR.",
+  "unit": "Data and statistics",
+  "standards": [
+   "6.12A",
+   "6.12B",
+   "6.12C",
+   "6.13A"
+  ],
+  "prerequisites": [
+   "g6.steps-spread"
+  ],
+  "previousPrerequisites": [
+   "g6.center"
+  ]
+ },
+ {
+  "id": "g6.steps-categories",
+  "title": "Summarize categorical data",
+  "unit": "Data and statistics",
+  "example": "A bar chart shows 14 bus riders and 9 walkers. How many more ride the bus?",
+  "standards": [
+   "6.12D"
+  ],
+  "prerequisites": [
+   "g6.percent",
+   "g6.questions"
+  ],
+  "stages": [
+   {
+    "title": "Read and compare category counts",
+    "example": "A bar chart shows 14 bus riders and 9 walkers. How many more ride the bus?"
+   },
+   {
+    "title": "Identify the most frequent category",
+    "example": "In a poll, 12 prefer art, 8 music and 15 drama. Find the modal category."
+   },
+   {
+    "title": "Express a category as a share of the total",
+    "example": "A chart shows 18 of 60 students chose art. What percent is that?"
+   }
+  ]
+ },
+ {
+  "id": "g6.categories",
+  "title": "Summarize categorical data",
+  "example": "In a poll of 40 students, 18 chose art, 12 music and 10 drama. What percent chose the mode?",
+  "unit": "Data and statistics",
+  "standards": [
+   "6.12D"
+  ],
+  "prerequisites": [
+   "g6.steps-categories"
+  ],
+  "previousPrerequisites": [
+   "g6.percent",
+   "g6.questions"
+  ]
+ },
+ {
+  "id": "g6.steps-deviation",
+  "title": "Describe shape and mean absolute deviation",
+  "unit": "Data and statistics",
+  "example": "Scores are 2, 3, 3, 4, 12. Which way is the tail?",
+  "standards": [
+   "6.SP.B.5c",
+   "6.12B"
+  ],
+  "prerequisites": [
+   "g6.center",
+   "g6.spread",
+   "g6.histograms"
+  ],
+  "stages": [
+   {
+    "title": "Describe symmetry and tails",
+    "example": "Scores are 2, 3, 3, 4, 12. Which way is the tail?"
+   },
+   {
+    "title": "Find absolute distances from a mean",
+    "example": "A score is 8 and the class mean is 13. Find its absolute deviation."
+   },
+   {
+    "title": "Average absolute deviations",
+    "example": "Values 2, 6, 10 have mean 6. Find their mean absolute deviation."
+   }
+  ]
+ },
+ {
+  "id": "g6.deviation",
+  "title": "Describe shape and mean absolute deviation",
+  "example": "Find the mean absolute deviation of 2, 4 and 6 minutes.",
+  "unit": "Data and statistics",
+  "standards": [
+   "6.SP.B.5c",
+   "6.12B"
+  ],
+  "prerequisites": [
+   "g6.steps-deviation"
+  ],
+  "previousPrerequisites": [
+   "g6.center",
+   "g6.spread",
+   "g6.histograms"
+  ]
+ },
+ {
+  "id": "g6.steps-accounts",
+  "title": "Compare checking and debit fees",
+  "unit": "Personal finance",
+  "example": "A checking account costs $3 per month plus $2 per outside ATM use. Find the fee after four uses.",
+  "standards": [
+   "6.14A",
+   "6.14B"
+  ],
+  "prerequisites": [
+   "g6.rates"
+  ],
+  "stages": [
+   {
+    "title": "Calculate a monthly checking cost",
+    "example": "A checking account costs $3 per month plus $2 per outside ATM use. Find the fee after four uses."
+   },
+   {
+    "title": "Compare accounts at a stated usage level",
+    "example": "A charges $8 monthly. B charges $2 plus $1 per withdrawal. Which is cheaper with four withdrawals?"
+   },
+   {
+    "title": "Distinguish debit spending from borrowing",
+    "example": "A buyer pays $18 with a debit card. Which balance goes down at purchase?"
+   }
+  ]
+ },
+ {
+  "id": "g6.accounts",
+  "title": "Compare checking and debit fees",
+  "example": "Account A costs $3 monthly. B costs $1 plus $1 per ATM use. Which costs less with four uses?",
+  "unit": "Personal finance",
+  "standards": [
+   "6.14A",
+   "6.14B"
+  ],
+  "prerequisites": [
+   "g6.steps-accounts"
+  ],
+  "previousPrerequisites": [
+   "g6.rates"
+  ]
+ },
+ {
+  "id": "g6.steps-register",
+  "title": "Balance a transaction register",
+  "unit": "Personal finance",
+  "example": "An account opens with $80, receives $35 and pays out $12. Find its balance.",
+  "standards": [
+   "6.14C"
+  ],
+  "prerequisites": [
+   "g6.accounts",
+   "g6.add"
+  ],
+  "stages": [
+   {
+    "title": "Record deposits and withdrawals",
+    "example": "An account opens with $80, receives $35 and pays out $12. Find its balance."
+   },
+   {
+    "title": "Track transfers between two accounts",
+    "example": "Move $25 from checking to savings. Checking started at $90. What is its new balance?"
+   },
+   {
+    "title": "Reconcile an omitted or outstanding transaction",
+    "example": "A register shows $71. An unrecorded $8 fee appears on the statement. Find the corrected register balance."
+   }
+  ]
+ },
+ {
+  "id": "g6.register",
+  "title": "Balance a transaction register",
+  "example": "Start with $80. Deposit $25, pay $18 and transfer $10 to savings. Find the checking balance.",
+  "unit": "Personal finance",
+  "standards": [
+   "6.14C"
+  ],
+  "prerequisites": [
+   "g6.steps-register"
+  ],
+  "previousPrerequisites": [
+   "g6.accounts",
+   "g6.add"
+  ]
+ },
+ {
+  "id": "g6.steps-credit",
+  "title": "Understand borrowing and credit reports",
+  "unit": "Personal finance",
+  "example": "A loan report shows 18 payments and one missed payment. Which part describes repayment history?",
+  "standards": [
+   "6.14B",
+   "6.14D",
+   "6.14E",
+   "6.14F"
+  ],
+  "prerequisites": [
+   "g6.accounts"
+  ],
+  "stages": [
+   {
+    "title": "Identify information in a credit report",
+    "example": "A loan report shows 18 payments and one missed payment. Which part describes repayment history?"
+   },
+   {
+    "title": "Choose how to handle an unfamiliar debt",
+    "example": "A report lists a $200 account the borrower never opened. What should they do?"
+   },
+   {
+    "title": "Interpret a repayment history",
+    "example": "Two borrowers each owe $800. One pays on time and one repeatedly pays late. Which history suggests lower repayment risk?"
+   }
+  ]
+ },
+ {
+  "id": "g6.credit",
+  "title": "Understand borrowing and credit reports",
+  "example": "Why would a lender look at a borrower's record of 12 on-time payments?",
+  "unit": "Personal finance",
+  "standards": [
+   "6.14B",
+   "6.14D",
+   "6.14E",
+   "6.14F"
+  ],
+  "prerequisites": [
+   "g6.steps-credit"
+  ],
+  "previousPrerequisites": [
+   "g6.accounts"
+  ]
+ },
+ {
+  "id": "g6.steps-college",
+  "title": "Compare college funding options",
+  "unit": "Personal finance",
+  "example": "A college offers wages for an eligible campus job. What type of aid is this?",
+  "standards": [
+   "6.14G"
+  ],
+  "prerequisites": [
+   "g6.register",
+   "g6.credit"
+  ],
+  "stages": [
+   {
+    "title": "Distinguish aid earned, awarded and borrowed",
+    "example": "A college offers wages for an eligible campus job. What type of aid is this?"
+   },
+   {
+    "title": "Apply grants and savings to a funding gap",
+    "example": "A term costs $2400. A grant pays $800 and savings cover $600. Find the funding gap."
+   },
+   {
+    "title": "Separate borrowed funds from other aid",
+    "example": "A package has a $900 grant and a $600 loan. How much normally needs repayment?"
+   }
+  ]
+ },
+ {
+  "id": "g6.college",
+  "title": "Compare college funding options",
+  "example": "A course costs $1600. A grant covers $700 and savings cover $400. What remains to fund?",
+  "unit": "Personal finance",
+  "standards": [
+   "6.14G"
+  ],
+  "prerequisites": [
+   "g6.steps-college"
+  ],
+  "previousPrerequisites": [
+   "g6.register",
+   "g6.credit"
+  ]
+ },
+ {
+  "id": "g6.steps-income",
+  "title": "Compare training costs and lifetime income",
+  "unit": "Personal finance",
+  "example": "One job pays $19 per hour and another pays $16. Both pay for 1800 hours. Find the yearly earnings gap.",
+  "standards": [
+   "6.14H"
+  ],
+  "prerequisites": [
+   "g6.college",
+   "g6.variables"
+  ],
+  "stages": [
+   {
+    "title": "Compare annual earnings across occupations",
+    "example": "One job pays $19 per hour and another pays $16. Both pay for 1800 hours. Find the yearly earnings gap."
+   },
+   {
+    "title": "Compare earnings across working lifetimes",
+    "example": "Compare jobs paying $42000 and $38000 yearly for 30 years at constant salaries. Find the lifetime difference."
+   },
+   {
+    "title": "Find when additional training pays for itself",
+    "example": "Training costs $9000 and increases yearly pay by $3000. When do the extra earnings cover the cost?"
+   }
+  ]
+ },
+ {
+  "id": "g6.income",
+  "title": "Compare training costs and lifetime income",
+  "example": "Job A pays $4000 more each year but requires $12000 extra training. When do extra earnings cover the cost?",
+  "unit": "Personal finance",
+  "standards": [
+   "6.14H"
+  ],
+  "prerequisites": [
+   "g6.steps-income"
+  ],
+  "previousPrerequisites": [
+   "g6.college",
+   "g6.variables"
+  ]
+ }
+]
