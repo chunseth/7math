@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Visual } from "./Visual";
 import Coordinate from "./Coordinate";
 import ZoomableGraph from "./ZoomableGraph";
+import QuestionCalculator from "./QuestionCalculator";
 import { complete, type Control } from "../../../lib/mentalist/model";
 export default function Answer({
   control: c,
@@ -13,7 +14,7 @@ export default function Answer({
   control: Control;
   prompt?: string;
   disabled: boolean;
-  onAnswer: (raw: string) => void;
+  onAnswer: (raw: string, calculated?: boolean) => void;
 }) {
   const [value, setValue] = useState(""),
     [den, setDen] = useState(""),
@@ -94,7 +95,7 @@ export default function Answer({
     if (!numeric) return;
     const press = (e: KeyboardEvent) => {
       if (e.ctrlKey || e.metaKey || e.altKey ||
-          (e.target instanceof Element && e.target.closest("input, select, textarea, [contenteditable=true]"))) return;
+          (e.target instanceof Element && e.target.closest("input, select, textarea, [contenteditable=true], .mt-calculator"))) return;
       let key = e.key;
       if (key === "Enter" && fraction && ready && !e.repeat &&
           (e.target === document.body || (e.target instanceof Element && e.target.closest(".mt-entry")))) {
@@ -114,6 +115,16 @@ export default function Answer({
     window.addEventListener("keydown", press);
     return () => window.removeEventListener("keydown", press);
   }, [numeric, c.signed, fraction, ready, check]);
+  const calculator = <QuestionCalculator prompt={prompt} control={c} parts={parts} disabled={disabled || !visible}
+    onAnswer={raw => send.current(raw, true)} onField={(index, value) => {
+      const next = [...parts];
+      next[index] = value;
+      const submitted = c.fields!.map((_, i) => next[i] ?? "").join("|");
+      setParts(next);
+      sent.current = revision + 1;
+      setRevision(revision + 1);
+      if (complete(c, submitted)) send.current(submitted, true);
+    }} />;
   if (c.options)
     return (
       <div className="mt-options">
@@ -134,6 +145,7 @@ export default function Answer({
   if (c.fields)
     return (
       <div className="mt-fields">
+        {calculator}
         {(c.kind === "dotplot" || c.kind === "histogram") && <Visual data={{
           kind: c.kind === "dotplot" ? "dotplot" : "histogram",
           labels: c.fields.map(f => f.label),
@@ -242,6 +254,7 @@ export default function Answer({
     );
   return (
     <div className="mt-entry">
+      {calculator}
       <div className="mt-answer" aria-label="Answer">
         {fraction ? (
           <>

@@ -145,13 +145,14 @@ function CaseReview({ world, item, position, total, decision, onSaved }: {
     }
   }
 
-  async function check(value: string) {
+  async function check(value: string, calculated = false) {
     if (locked.current || raw !== null || reporting || decision) return;
     locked.current = true;
     setBusy(true);
     setMessage("");
     try {
       const { outcome } = await post<{ outcome: Outcome }>({ action: "verificationCheck", ...context, raw: value });
+      if (calculated && outcome !== "correct") return;
       if (outcome === "correct") setRaw(value);
       else {
         setMessage(outcome === "simplification" ? "Simplify your fraction." : "Try again.");
@@ -192,7 +193,7 @@ function CaseReview({ world, item, position, total, decision, onSaved }: {
         <Visual data={question.visual} onSimulated={() => setSimulated(true)} />
         {!decision && <Answer key={attempt} control={question.control} prompt={question.prompt}
           disabled={busy || reporting || raw !== null || (question.visual?.kind === "simulation" && !simulated)}
-          onAnswer={value => void check(value)} />}
+          onAnswer={check} />}
       </section>
       <aside className="verify-note" aria-label="Reviewer note">
         <h2>What to look for</h2>

@@ -105,7 +105,7 @@ export function Battle({
   useEffect(() => {
     if (ending && online) void deliver();
   }, [ending, online]);
-  async function answer(raw: string) {
+  async function answer(raw: string, calculated = false) {
     const d = draft.current;
     const current = d.run;
     if (!current.encounter || d.save || checking.current || leaving || document.hidden) return;
@@ -116,6 +116,7 @@ export function Battle({
     try {
       const rules = current.rules;
       const outcome = await checkLocally(d.pack, rules.order[current.resolved], raw);
+      if (calculated && outcome !== "correct") return;
       const combat = advance(current, rules, outcome);
       const next = { ...current, ...combat };
       const done = next.hp === 0 || next.resolved === 12;

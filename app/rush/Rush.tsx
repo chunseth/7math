@@ -211,12 +211,17 @@ function Question({ run, position, advance }: {
     heading.current?.focus();
   }, []);
 
-  async function answer(raw: string) {
+  async function answer(raw: string, calculated = false) {
     if (locked.current) return;
     locked.current = true;
     setChecking(true);
     try {
       const outcome = await checkLocally(run.pack, position, raw);
+      if (calculated && outcome !== "correct") {
+        setChecking(false);
+        locked.current = false;
+        return;
+      }
       if (outcome !== "simplification") {
         advance(raw, outcome);
         return;

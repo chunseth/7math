@@ -31,11 +31,12 @@ export function Practice({ level, close }: { level: string; close: () => void })
   }, [level,retry]);
   const done = position === 12 * half;
   const question = pack?.questions[order[position]];
-  async function answer(raw: string) {
+  async function answer(raw: string, calculated = false) {
     if (!pack || lock.current || done) return;
     lock.current = true;
     try {
       const outcome = await checkLocally(pack, order[position], raw);
+      if (calculated && outcome !== "correct") return;
       if (outcome === "correct") { setPosition(position + 1); setFeedback(""); }
       else {
         if (outcome === "incorrect") setMisses(new Set([...misses,position]));
