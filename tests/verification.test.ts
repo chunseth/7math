@@ -1,5 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { checkLocally, type LevelPack } from "../lib/mentalist/round";
 import { readCourseBank } from "../lib/mentalist/bank";
 import { grade } from "../lib/mentalist/model";
 import { verificationCatalog } from "../lib/verification/catalog";
@@ -40,4 +42,21 @@ test("review progress counts flagged and accepted separately and stays within it
   };
   assert.deepEqual(countReviews(six, decisions), { total: reviewCases(six).length, accepted: 1, flagged: 1 });
   assert.deepEqual(countReviews(seven, decisions), { total: reviewCases(seven).length, accepted: 0, flagged: 0 });
+});
+
+test("all four scale drawing orientations match the stored answer in the browser and on the server", async () => {
+  const bank = readCourseBank(7);
+  const { pool } = bank.levels.find(level => level.id === "similar.drawings.3")!;
+  for (const { q: id } of pool) {
+    const { answer, ...question } = bank.questions[id];
+    const [width, height] = answer.split(",").map(Number);
+    const check = createHash("sha256").update(JSON.stringify(["drawing", 0, answer])).digest("hex");
+    const pack = { set: "drawing", questions: [{ ...question, check }] } as LevelPack;
+    for (const [x, y] of [[width, height], [-width, height], [-width, -height], [width, -height]]) {
+      const raw = `${x},${y}`;
+      assert.equal(grade(question.control, answer, raw)?.outcome, "correct", id);
+      assert.equal(await checkLocally(pack, 0, raw), "correct", id);
+    }
+    assert.equal(grade(question.control, answer, "0,0")?.outcome, "incorrect", id);
+  }
 });

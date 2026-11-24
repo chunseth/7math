@@ -1,13 +1,17 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Visual } from "./Visual";
+import Coordinate from "./Coordinate";
+import ZoomableGraph from "./ZoomableGraph";
 import { complete, type Control } from "../../../lib/mentalist/model";
 export default function Answer({
   control: c,
+  prompt = "",
   disabled,
   onAnswer,
 }: {
   control: Control;
+  prompt?: string;
   disabled: boolean;
   onAnswer: (raw: string) => void;
 }) {
@@ -142,7 +146,7 @@ export default function Answer({
         {c.kind === "boxplot" && parts.filter(Boolean).length === 5 &&
           parts.every((value, i) => i === 0 || Number(value) >= Number(parts[i - 1])) &&
           <Visual data={{kind: "boxes", rows: [parts], labels: ["Your plot"]}} />}
-        {c.kind === "ray" && parts[0] && (
+        {c.kind === "ray" && parts[0] && <ZoomableGraph>
           <svg
             className="mt-chart"
             viewBox="0 0 240 55"
@@ -170,7 +174,7 @@ export default function Answer({
               {parts[0]}
             </text>
           </svg>
-        )}
+        </ZoomableGraph>}
         {c.kind === "tree" && parts[0] && (
           <svg
             className="mt-chart"
@@ -226,6 +230,7 @@ export default function Answer({
         limit={c.limit}
         line={c.kind === "line"}
         drawing={c.kind === "drawing"}
+        drawingScale={c.kind === "drawing" ? Number(/\bat (\d+) m per square/.exec(prompt)?.[1] ?? 1) : 1}
         disabled={disabled}
         onPick={(points) => {
           setValue(points);
@@ -285,122 +290,6 @@ export default function Answer({
         )}
         {fraction && <button disabled={!ready || sent.current === revision} onClick={check}>Check answer</button>}
       </div>
-    </div>
-  );
-}
-function Coordinate({
-  limit,
-  line,
-  drawing,
-  scatter,
-  origin,
-  step,
-  count,
-  disabled,
-  onPick,
-}: {
-  limit: number;
-  line: boolean;
-  drawing: boolean;
-  scatter: boolean;
-  origin: number;
-  step: number;
-  count: number;
-  disabled: boolean;
-  onPick: (points: string) => void;
-}) {
-  const [x, setX] = useState(0),
-    [y, setY] = useState(0);
-  const [placed, setPlaced] = useState<[number, number][]>([]);
-  const coordinate = (index: number, start = 0) => Math.round((start + index * step) * 10) / 10;
-  function place(x: number, y: number) {
-    if (placed.length >= count || (scatter && placed.some(([px, py]) => px === x && py === y))) return;
-    const points: [number, number][] = [...placed, [x, y]];
-    setX(x);
-    setY(y);
-    setPlaced(points);
-    if (points.length === count) onPick(points.map(([x, y]) => [coordinate(x, origin), coordinate(y)].join(",")).join(";"));
-  }
-  // Focusable graph supports pointer selection and keyboard placement.
-  const size = 2 * limit;
-  const labels = scatter ? Array.from({length: size + 1}, (_, i) => i - limit).filter(i => i % 2 === 0) : [-limit, 0, limit];
-  return (
-    <div className="mt-grid">
-      {count > 1 && (
-        <p>
-          Point {Math.min(placed.length + 1, count)} of {count}
-        </p>
-      )}
-      <svg
-        tabIndex={disabled ? -1 : 0}
-        role="button"
-        aria-label={`Coordinate ${coordinate(x, origin)}, ${coordinate(y)}. Use arrow keys then Space to place a point.`}
-        viewBox={`-1 -1 ${size + 2} ${line ? 4 : size + 2}`}
-        onClick={(e) => {
-          if (disabled) return;
-          const svg = e.currentTarget,
-            pt = svg.createSVGPoint();
-          pt.x = e.clientX;
-          pt.y = e.clientY;
-          const m = svg.getScreenCTM();
-          if (!m) return;
-          const p = pt.matrixTransform(m.inverse());
-          place(
-            Math.max(-limit, Math.min(limit, Math.round(p.x) - limit)),
-            line ? 0 : Math.max(-limit, Math.min(limit, limit - Math.round(p.y))),
-          );
-        }}
-        onKeyDown={(e) => {
-          if (disabled) return;
-          if (e.key.startsWith("Arrow") || e.key === " " || e.key === "Enter") e.preventDefault();
-          if (e.key === "ArrowLeft") setX(Math.max(-limit, x - 1));
-          if (e.key === "ArrowRight") setX(Math.min(limit, x + 1));
-          if (!line && e.key === "ArrowUp") setY(Math.min(limit, y + 1));
-          if (!line && e.key === "ArrowDown") setY(Math.max(-limit, y - 1));
-          if (e.key === " " || e.key === "Enter") place(x, y);
-        }}
-      >
-        {Array.from({ length: size + 1 }, (_, i) => (
-          <g key={i} stroke={i === limit ? "#425c58" : "#c9dad5"} strokeWidth={i === limit ? 0.13 : 0.055}>
-            <path d={`M${i} 0V${line ? 1 : size}`} />
-            {!line && <path d={`M0 ${i}H${size}`} />}
-          </g>
-        ))}
-        {line && <path d={`M0 .5H${size}`} stroke="currentColor" strokeWidth=".12" />}
-        {drawing && (
-          <rect
-            x={Math.min(limit, limit + x)}
-            y={Math.min(limit, limit - y)}
-            width={Math.abs(x)}
-            height={Math.abs(y)}
-            fill="#bbe0cd"
-            fillOpacity=".55"
-            stroke="#347758"
-            strokeWidth=".15"
-          />
-        )}
-        {placed.map(([gx, gy], i) => (
-          <circle key={i} cx={gx + limit} cy={line ? 0.5 : limit - gy} r=".34" fill="#bd751f" />
-        ))}
-        {!scatter && placed.length >= 2 && (
-          <polyline
-            fill="none"
-            points={placed.map(([gx, gy]) => [gx + limit, limit - gy].join(",")).join(" ")}
-            stroke="#bd751f"
-            strokeWidth=".13"
-          />
-        )}
-        <circle cx={x + limit} cy={line ? 0.5 : limit - y} r=".3" fill="#247762" />
-        {labels.map((i) => (
-          <text key={i} x={i + limit} y={line ? 2 : limit + 1} fontSize=".85" textAnchor="middle">
-            {coordinate(i, origin)}
-          </text>
-        ))}
-        {scatter && labels.filter(i => i !== 0).map(i =>
-          <text key={i} x={limit - .6} y={limit - i + .3} fontSize=".7" textAnchor="end">{coordinate(i)}</text>)}
-      </svg>
-      {scatter && placed.length > 0 &&
-        <button type="button" disabled={disabled} onClick={() => { setPlaced(placed.slice(0, -1)); onPick(""); }}>Undo last point</button>}
     </div>
   );
 }

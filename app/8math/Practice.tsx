@@ -52,7 +52,7 @@ export function Practice({ level, close }: { level: string; close: () => void })
       {half === 1 && <button className="mt-primary" onClick={() => setHalf(2)}>Practice the remaining 12</button>}</> :
       question ? <><p>Practice · {position % 12 + 1} of 12</p><h2>{question.prompt}</h2>
         <Visual key={position} data={question.visual} onSimulated={() => setSimulated(position)} />
-        <Answer key={position + "/" + attempt} control={question.control}
+        <Answer key={position + "/" + attempt} control={question.control} prompt={question.prompt}
           disabled={question.visual?.kind === "simulation" && simulated !== position} onAnswer={answer} /></> :
       feedback ? <button onClick={() => setRetry(retry+1)}>Retry loading</button> : <p>Loading questions…</p>}
     <p role="status">{feedback}</p>

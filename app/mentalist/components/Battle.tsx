@@ -291,7 +291,7 @@ export function Battle({
         </p>
         <Answer
           key={e.id + "." + reset}
-          control={e.question.control}
+          control={e.question.control} prompt={e.question.prompt}
           disabled={
             busy ||
             leaving ||

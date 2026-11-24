@@ -1,13 +1,16 @@
 import type { Visual as Data } from "../../../lib/mentalist/model";
 import { BivariatePlot, LoanCalculator, SquareAreas } from "../../8math/Models";
 import { useState } from "react";
+import ZoomableGraph from "./ZoomableGraph";
 export function Visual({ data, onSimulated }: { data?: Data; onSimulated?: () => void }) {
   const [draws, setDraws] = useState(0);
   if (!data) return null;
   const vals = data.values ?? [],
     labels = data.labels ?? [];
   if (data.kind === "loan") return <LoanCalculator values={vals} />;
-  if (data.kind === "scatter" || data.kind === "intersection") return <BivariatePlot points={data.points!} intersection={data.kind === "intersection"} />;
+  if (data.kind === "scatter" || data.kind === "intersection") return <ZoomableGraph>
+    <BivariatePlot points={data.points!} intersection={data.kind === "intersection"} />
+  </ZoomableGraph>;
   if (data.kind === "pythagorean") return <SquareAreas labels={labels} />;
   if (data.kind === "simulation")
     return (
@@ -58,7 +61,7 @@ export function Visual({ data, onSimulated }: { data?: Data; onSimulated?: () =>
     const [[x, y]] = data.points!;
     const ticks = [1, 2, 3, 4];
     const left = 35, bottom = 110, horizontal = 44, vertical = 22;
-    return <svg className="mt-chart" viewBox="0 0 235 146" role="img"
+    return <ZoomableGraph><svg className="mt-chart" viewBox="0 0 235 146" role="img"
       aria-label={`Minutes per horizontal tick: ${xStep}. Liters per vertical tick: ${yStep}. Marked point: ${x / xStep} ticks right and ${y / yStep} ticks up.`}>
       <text x={left} y="14">{labels[1]}</text>
       <path d={`M${left} 19V${bottom}H221`} fill="none" stroke="currentColor" />
@@ -71,13 +74,14 @@ export function Visual({ data, onSimulated }: { data?: Data; onSimulated?: () =>
       </g>)}
       <circle cx={left + (x / xStep) * horizontal} cy={bottom - (y / yStep) * vertical} r="4" fill="#317e6c" />
       <text x="221" y="142" textAnchor="end">{labels[0]}</text>
-    </svg>;
+    </svg></ZoomableGraph>;
   }
   if (data.kind === "plot") {
     const pts = data.points!,
       maxX = Math.max(...pts.map((p) => p[0])),
       maxY = Math.max(...pts.map((p) => p[1]));
     return (
+      <ZoomableGraph>
       <svg
         className="mt-chart"
         viewBox="0 0 240 115"
@@ -101,13 +105,14 @@ export function Visual({ data, onSimulated }: { data?: Data; onSimulated?: () =>
         </text>
         <text x="30" y="12">{labels[1]}</text>
       </svg>
+      </ZoomableGraph>
     );
   }
   if (data.kind === "benchmark-percent") {
     const [parts, mark] = vals;
     const position = (i: number) => 14 + (212 * i) / parts;
     const line = labels[0] === "line";
-    return <svg className="mt-chart" viewBox="0 0 240 58" role="img"
+    const graph = <svg className="mt-chart" viewBox="0 0 240 58" role="img"
       aria-label={line ? `Number line from zero to one hundred percent. Tick ${mark} of ${parts} equal intervals is marked.` :
         `Strip with ${mark} of ${parts} equal parts shaded.`}>
       {line ? <>
@@ -121,6 +126,7 @@ export function Visual({ data, onSimulated }: { data?: Data; onSimulated?: () =>
         <rect key={i} x={position(i)} y="13" width={212 / parts} height="28"
           fill={i < mark ? "#317e6c" : "white"} stroke="currentColor" />)}
     </svg>;
+    return line ? <ZoomableGraph>{graph}</ZoomableGraph> : graph;
   }
   if (data.kind === "triangle")
     return (
@@ -139,7 +145,7 @@ export function Visual({ data, onSimulated }: { data?: Data; onSimulated?: () =>
       max = Math.max(...rr.flat());
     const px = (v: number) => 55 + (155 * (v - min)) / Math.max(1, max - min);
     return (
-      <div className="mt-data">
+      <ZoomableGraph>
         <svg
           viewBox="0 0 240 108"
           className="mt-chart"
@@ -170,7 +176,7 @@ export function Visual({ data, onSimulated }: { data?: Data; onSimulated?: () =>
             );
           })}
         </svg>
-      </div>
+      </ZoomableGraph>
     );
   }
   if (data.kind === "sets")
@@ -232,7 +238,7 @@ export function Visual({ data, onSimulated }: { data?: Data; onSimulated?: () =>
     </svg>;
   if (data.kind === "dotplot") {
     const x = (i: number) => 35 + 160 * i / Math.max(1, vals.length - 1);
-    return <svg className="mt-chart" viewBox="0 0 230 105" role="img"
+    return <ZoomableGraph><svg className="mt-chart" viewBox="0 0 230 105" role="img"
       aria-label={vals.map((count, i) => `${labels[i]}: ${count} dots`).join(", ")}>
       <path d="M20 81H210" stroke="currentColor" />
       {vals.map((count, i) => <g key={i}>
@@ -240,19 +246,19 @@ export function Visual({ data, onSimulated }: { data?: Data; onSimulated?: () =>
         <text x={x(i)} y="100" textAnchor="middle">{labels[i]}</text>
         {Array.from({length: count}, (_, j) => <circle key={j} cx={x(i)} cy={72 - 12 * j} r="4" fill="#317e6c" />)}
       </g>)}
-    </svg>;
+    </svg></ZoomableGraph>;
   }
   if (data.kind === "histogram") {
     const width = 220 / vals.length;
     const scale = 65 / Math.max(1, ...vals);
-    return <svg className="mt-chart" viewBox="0 0 250 115" role="img" aria-label={vals.map((v, i) => labels[i] + ", frequency " + v).join(". ")}>
+    return <ZoomableGraph><svg className="mt-chart" viewBox="0 0 250 115" role="img" aria-label={vals.map((v, i) => labels[i] + ", frequency " + v).join(". ")}>
       <text x="9" y="12">Frequency</text>
       {vals.map((v, i) => <g key={i}>
         <rect x={14 + i * width} y={92 - scale * v} width={width} height={scale * v} fill="#a4d6c7" stroke="#386e61" />
         <text x={14 + (i + .5) * width} y={87 - scale * v} textAnchor="middle">{v}</text>
         <text x={14 + (i + .5) * width} y="108" textAnchor="middle">{labels[i]}</text>
       </g>)}
-    </svg>;
+    </svg></ZoomableGraph>;
   }
   if (data.kind === "percent-bar") {
     const colors = ["#317e6c", "#d3a951", "#8fa6d0"];

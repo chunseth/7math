@@ -220,6 +220,8 @@ export function complete(c: Control, raw: string) {
 }
 export function normalizeStructuredAnswer(c: Control, raw: string) {
   if (c.kind === "line" && c.origin !== undefined) return raw.split(",").map(Number).join(",");
+  // A rectangle placed at the origin may extend into any quadrant if the prompt gives only its dimensions.
+  if (c.kind === "drawing") return raw.split(",").map(value => Math.abs(Number(value))).join(",");
   if (c.kind === "scatterplot") {
     return raw.split(";").map(pair => pair.split(",").map(Number).join(",")).sort().join(";");
   }

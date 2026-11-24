@@ -190,7 +190,7 @@ function CaseReview({ world, item, position, total, decision, onSaved }: {
         <p>{levelById.get(item.level)?.title ?? item.level}</p>
         <h1 id="verification-question" ref={heading} tabIndex={-1}>{question.prompt}</h1>
         <Visual data={question.visual} onSimulated={() => setSimulated(true)} />
-        {!decision && <Answer key={attempt} control={question.control}
+        {!decision && <Answer key={attempt} control={question.control} prompt={question.prompt}
           disabled={busy || reporting || raw !== null || (question.visual?.kind === "simulation" && !simulated)}
           onAnswer={value => void check(value)} />}
       </section>

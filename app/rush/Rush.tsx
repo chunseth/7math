@@ -234,7 +234,7 @@ function Question({ run, position, advance }: {
     <h2 ref={heading} tabIndex={-1}>{question.prompt}</h2>
     <Visual data={question.visual} onSimulated={() => setSimulated(true)} />
     <div className="rush-answer">
-      <Answer key={attempt} control={question.control}
+      <Answer key={attempt} control={question.control} prompt={question.prompt}
         disabled={checking || (question.visual?.kind === "simulation" && !simulated)} onAnswer={answer} />
     </div>
     {error && <p role="alert">{error}</p>}

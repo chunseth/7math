@@ -538,6 +538,18 @@
   border-radius: 8px;
   background: white;
 }
+.mt-grid-views { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: .5rem; }
+.mt-shell .mt-grid-views button, .mt-shell .mt-graph-zoom > button { font-size: .82rem; padding-inline: .55rem; }
+.mt-shell .mt-grid-views button[aria-pressed="true"] { background: #def4e9; border-color: #258063; }
+.mt-grid-placed { font-size: .82rem; }
+.mt-grid svg.mt-grid-zoomed { animation: mt-grid-reveal .2s ease-out; }
+@keyframes mt-grid-reveal {
+  from { opacity: .45; transform: scale(.97); }
+}
+.mt-graph-zoom { width: 100%; max-width: 460px; margin: .4rem auto; }
+.mt-graph-zoom > button { margin-bottom: .3rem; }
+.mt-graph-scroll { max-height: min(46dvh, 20rem); overflow: auto; border: 1px solid var(--border); border-radius: .5rem; background: white; }
+.mt-shell .mt-graph-scroll .mt-chart { width: 200%; max-width: none; max-height: none; }
 .mt-data {
   margin: 8px auto;
   max-width: 440px;
