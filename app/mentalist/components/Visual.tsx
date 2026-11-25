@@ -2,12 +2,29 @@ import type { Visual as Data } from "../../../lib/mentalist/model";
 import { BivariatePlot, LoanCalculator, SquareAreas } from "../../8math/Models";
 import { useState } from "react";
 import ZoomableGraph from "./ZoomableGraph";
-export function Visual({ data, onSimulated }: { data?: Data; onSimulated?: () => void }) {
+export function Visual({ data, onSimulated, editChart, showLoan = true }: {
+  data?: Data;
+  onSimulated?: () => void;
+  editChart?: { active: number | null; select: (index: number) => void };
+  showLoan?: boolean;
+}) {
   const [draws, setDraws] = useState(0);
   if (!data) return null;
   const vals = data.values ?? [],
     labels = data.labels ?? [];
-  if (data.kind === "loan") return <LoanCalculator values={vals} />;
+  const editProps = (index: number) => editChart && {
+    role: "button",
+    tabIndex: 0,
+    "aria-label": `${labels[index]}: ${vals[index]}`,
+    "aria-pressed": editChart.active === index,
+    onClick: () => editChart.select(index),
+    onKeyDown: (event: React.KeyboardEvent<SVGGElement>) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      editChart.select(index);
+    },
+  };
+  if (data.kind === "loan") return showLoan ? <LoanCalculator values={vals} /> : null;
   if (data.kind === "scatter" || data.kind === "intersection") return <ZoomableGraph>
     <BivariatePlot points={data.points!} intersection={data.kind === "intersection"} />
   </ZoomableGraph>;
@@ -215,11 +232,10 @@ export function Visual({ data, onSimulated }: { data?: Data; onSimulated?: () =>
     );
   if (data.kind === "signed-groups") {
     const [groups, size] = vals;
-    return <div className="mt-data" aria-label={`${groups} groups of ${size} negative chips`}>
-      {Array.from({length: groups}, (_, group) =>
-        <span key={group} style={{display: "inline-block", padding: "2px 5px", margin: 3, border: "1px solid currentColor", borderRadius: 4}}>
-          {Array.from({length: size}, () => "−").join(" ")}
-        </span>)}
+    return <div className="mt-data mt-signed-groups" role="img" aria-label={`${groups} groups of ${size} negative chips`}>
+      {Array.from({length: groups}, (_, group) => <span className="mt-signed-group" key={group} aria-hidden="true">
+        {Array.from({length: size}, (_, index) => <span key={index}>−</span>)}
+      </span>)}
     </div>;
   }
   if (data.kind === "balance")
@@ -238,22 +254,25 @@ export function Visual({ data, onSimulated }: { data?: Data; onSimulated?: () =>
     </svg>;
   if (data.kind === "dotplot") {
     const x = (i: number) => 35 + 160 * i / Math.max(1, vals.length - 1);
-    return <ZoomableGraph><svg className="mt-chart" viewBox="0 0 230 105" role="img"
+    const space = Math.min(12, 62 / Math.max(1, ...vals));
+    return <ZoomableGraph><svg className="mt-chart" viewBox="0 0 230 105" role={editChart ? "group" : "img"}
       aria-label={vals.map((count, i) => `${labels[i]}: ${count} dots`).join(", ")}>
       <path d="M20 81H210" stroke="currentColor" />
-      {vals.map((count, i) => <g key={i}>
+      {vals.map((count, i) => <g key={i} {...editProps(i)}>
+        {editChart && <rect className="mt-chart-hit" x={x(i) - 21} y="0" width="42" height="105" rx="4" />}
         <path d={`M${x(i)} 77V85`} stroke="currentColor" />
         <text x={x(i)} y="100" textAnchor="middle">{labels[i]}</text>
-        {Array.from({length: count}, (_, j) => <circle key={j} cx={x(i)} cy={72 - 12 * j} r="4" fill="#317e6c" />)}
+        {Array.from({length: count}, (_, j) => <circle key={j} cx={x(i)} cy={72 - space * j} r={Math.min(4, space * .42)} fill="#317e6c" />)}
       </g>)}
     </svg></ZoomableGraph>;
   }
   if (data.kind === "histogram") {
     const width = 220 / vals.length;
     const scale = 65 / Math.max(1, ...vals);
-    return <ZoomableGraph><svg className="mt-chart" viewBox="0 0 250 115" role="img" aria-label={vals.map((v, i) => labels[i] + ", frequency " + v).join(". ")}>
+    return <ZoomableGraph><svg className="mt-chart" viewBox="0 0 250 115" role={editChart ? "group" : "img"} aria-label={vals.map((v, i) => labels[i] + ", frequency " + v).join(". ")}>
       <text x="9" y="12">Frequency</text>
-      {vals.map((v, i) => <g key={i}>
+      {vals.map((v, i) => <g key={i} {...editProps(i)}>
+        {editChart && <rect className="mt-chart-hit" x={14 + i * width} y="15" width={width} height="99" rx="4" />}
         <rect x={14 + i * width} y={92 - scale * v} width={width} height={scale * v} fill="#a4d6c7" stroke="#386e61" />
         <text x={14 + (i + .5) * width} y={87 - scale * v} textAnchor="middle">{v}</text>
         <text x={14 + (i + .5) * width} y="108" textAnchor="middle">{labels[i]}</text>

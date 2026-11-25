@@ -11,8 +11,8 @@ type Bank = {
   questions: Record<string, Question & { answer: string }>;
 };
 const specs = {
-  6: { count: 222, skills: 92, version: 6003, opening: "g6.foundation-sums.1", singleton: "6.11", strands: {2:"E",3:"E",4:"H",5:"C",6:"C",7:"D",8:"D",9:"C",10:"B",12:"D",13:"B",14:"H"} },
-  8: { count: 225, skills: 101, version: 8003, opening: "g8.foundation-numbers.1", singleton: "8.9", strands: {2:"D",3:"C",4:"C",5:"I",6:"C",7:"D",8:"D",10:"D",11:"C",12:"G"} },
+  6: { count: 222, skills: 92, version: 6004, opening: "g6.foundation-sums.1", singleton: "6.11", strands: {2:"E",3:"E",4:"H",5:"C",6:"C",7:"D",8:"D",9:"C",10:"B",12:"D",13:"B",14:"H"} },
+  8: { count: 225, skills: 101, version: 8004, opening: "g8.foundation-numbers.1", singleton: "8.9", strands: {2:"D",3:"C",4:"C",5:"I",6:"C",7:"D",8:"D",10:"D",11:"C",12:"G"} },
 };
 
 for (const number of [6, 8] as const) {
@@ -97,7 +97,7 @@ for (const number of [6, 8] as const) test(`Grade ${number} progression preserve
 });
 
 test("the shared rectangular-prism nets have opposite matching faces and linear choices fit every row uniquely", () => {
-  const sources = ["content/6math/bank.json.gz", "content/mentalist/bank-v4.json.gz", "content/8math/bank.json.gz"];
+  const sources = ["content/6math/bank.json.gz", "content/mentalist/bank-v5.json.gz", "content/8math/bank.json.gz"];
   let nets = 0, linear = 0;
   for (const source of sources) {
     const bank: Bank = JSON.parse(gunzipSync(readFileSync(source)).toString());

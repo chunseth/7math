@@ -453,13 +453,16 @@ def problem(slug, seed):
                 f"{left} ≤ {right}",
                 [f"{left} > {right}", f"{left} = {right}"],
             )
+        relations = {">": "more than", "<": "less than", "≥": "at least as much as", "≤": "at most as much as"}
+        sign = list(relations)[seed // 3 % 4]
+        compare = lambda words: f"Plan A's total is {words} Plan B's total (${n+1} per visit)"
         return fields(
-            f"Write a comparison story for {left} > {right} by completing its statements.",
+            f"Write a comparison story for {left} {sign} {right} by completing its statements. Let x be the number of visits.",
             ["Plan A charges", "Compared with Plan B"],
-            [f"${n} up front plus $2 per visit", f"Costs more than ${n+1} per visit"],
+            [f"${n} up front plus $2 per visit", compare(relations[sign])],
             [
                 [f"${n} per visit plus $2 up front"],
-                [f"Costs less than ${n+1} per visit"],
+                [compare(words) for words in relations.values()],
             ],
             seed,
             kind="story",
@@ -676,11 +679,11 @@ def problem(slug, seed):
                        outcomes=[f"Sample {i}: {count} blue" for i, count in enumerate(samples, 1)])
             if v == 0:
                 return q(
-                    f"A population is {population}% blue. Draw five samples of 20 with replacement. What percent of all 100 draws were blue?",
+                    f"A population is {population}% blue. Tap the draw button five times to collect five samples of 20 with replacement. What percent of all 100 draws were blue?",
                     sum(samples), visual=sim,
                 )
             return q(
-                f"A population is {population}% blue. Draw five samples of 20 with replacement. How many percentage points apart are the first sample and the population?",
+                    f"A population is {population}% blue. Tap the draw button five times. Find the percent blue in Sample 1, then give its absolute difference from {population}% in percentage points.",
                 abs(5 * samples[0] - population), visual=sim,
             )
         return choice(

@@ -33,7 +33,7 @@ export const publishedVersions = `select level, max(version) as version from pub
 export function publishedFor(grade: CourseGrade) {
   if (grade === 7) return publishedVersions;
   const first = grade * 1000 + 1;
-  return `select level,max(version) as version from published_levels where version between ${first} and ${first+2} group by level`;
+  return `select level,max(version) as version from published_levels where version between ${first} and ${first+3} group by level`;
 }
 export async function publishedLevelIds(db: PoolClient, grade: CourseGrade = 7): Promise<string[]> {
   const records = await rows<{ level: string }>(db, publishedFor(grade));

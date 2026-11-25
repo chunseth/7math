@@ -1,9 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { checkLocally, type LevelPack } from "../lib/mentalist/round";
+import { readFileSync } from "node:fs";
 import { readCourseBank } from "../lib/mentalist/bank";
 import { grade } from "../lib/mentalist/model";
+import { checkLocally, type LevelPack } from "../lib/mentalist/round";
 import { verificationCatalog } from "../lib/verification/catalog";
 import { countReviews, reviewCases, verificationGrades, type ReviewDecision } from "../lib/verification/model";
 
@@ -59,4 +60,34 @@ test("all four scale drawing orientations match the stored answer in the browser
     }
     assert.equal(grade(question.control, answer, "0,0")?.outcome, "incorrect", id);
   }
+});
+
+test("typed table values and rays accept equivalent numbers and score wrong entries", async () => {
+  const level = "g6.steps-ratios.3";
+  const bank = readCourseBank(6);
+  const { pool } = bank.levels.find(l => l.id === level)!;
+  const pack: LevelPack = JSON.parse(readFileSync(`public/6math/practice/${level}.json`, "utf8"));
+  const { answer, control } = bank.questions[pool[0].q];
+  const equivalent = answer.split("|").map(value => `${2 * Number(value)}/2`).join("|");
+  assert.equal(grade(control, answer, equivalent)?.outcome, "correct");
+  assert.equal(await checkLocally(pack, 0, equivalent), "correct");
+  assert.equal(await checkLocally(pack, 0, "0|0"), "incorrect");
+  const ray = readCourseBank(7).questions[readCourseBank(7).levels.find(row => row.id === "algebra.graph.2")!.pool[0].q];
+  const [bound, endpoint, direction] = ray.answer.split("|");
+  assert.equal(grade(ray.control, ray.answer, `${Number(bound).toFixed(1)}|${endpoint}|${direction}`)?.outcome, "correct");
+});
+
+test("coin simulation keys count the displayed outcomes across varied trials", () => {
+  const bank = readCourseBank(7);
+  const { pool } = bank.levels.find(level => level.id === "chance.simulate.2")!;
+  const counts = new Set();
+  for (const { q: id } of pool) {
+    const question = bank.questions[id];
+    const outcomes = question.visual?.outcomes ?? [];
+    assert.equal(outcomes.length, 8, id);
+    const heads = outcomes.filter(outcome => outcome === "H").length;
+    assert.equal(question.answer, `${heads}|${8 - heads}`, id);
+    counts.add(heads);
+  }
+  assert.ok(counts.size >= 4);
 });

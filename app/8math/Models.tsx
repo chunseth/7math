@@ -1,24 +1,58 @@
 "use client";
 import { useState } from "react";
 
-export function LoanCalculator({ values }: { values: number[] }) {
-  const [principal, setPrincipal] = useState(String(values[0]));
-  const [apr, setApr] = useState(String(values[1]));
-  const [months, setMonths] = useState(String(values[2]));
-  const [payment,setPayment] = useState("");
-  return <div className="mt-fields"><fieldset><legend>Monthly payment calculator</legend>
+export function LoanCalculator({ values, disabled, onAnswer }: {
+  values: number[];
+  disabled?: boolean;
+  onAnswer?: (value: string) => boolean;
+}) {
+  const [principal, setPrincipal] = useState(onAnswer ? "" : String(values[0]));
+  const [apr, setApr] = useState(onAnswer ? "" : String(values[1]));
+  const [months, setMonths] = useState(onAnswer ? "" : String(values[2]));
+  const [payment, setPayment] = useState("");
+  const [message, setMessage] = useState("");
+  const [operation, setOperation] = useState("");
+  const [operand, setOperand] = useState("");
+  function clearCalculation() {
+    setOperation("");
+    setOperand("");
+  }
+  return <div className="mt-fields"><fieldset disabled={disabled} className="mt-loan-calculator"><legend>Monthly payment calculator</legend>
     {([["Principal ($)",principal,setPrincipal],["Annual rate (%)",apr,setApr],["Months",months,setMonths]] as const)
-      .map(([label,value,set]) => <label key={label}>{label}<input type="number" min="0" value={value} onChange={e => { set(e.target.value); setPayment(""); }} /></label>)}
+      .map(([label,value,set]) => <label key={label}>{label}<input type="number" min="0" inputMode="decimal" value={value}
+        onChange={e => { set(e.target.value); setPayment(""); setMessage(""); clearCalculation(); }} /></label>)}
     <button type="button" onClick={() => {
       const rate=Number(apr)/1200, count=Number(months), amount=Number(principal);
-      if (!principal || !apr || amount <= 0 || rate < 0 || !Number.isInteger(count) || count < 1) {
-        setPayment("Enter a positive principal and whole number of months, and a nonnegative rate.");
+      if (!principal || !apr || !Number.isFinite(amount) || !Number.isFinite(rate) || amount <= 0 || rate < 0 || !Number.isInteger(count) || count < 1) {
+        setMessage("Enter a positive principal, a nonnegative rate, and a positive whole number of months.");
+        return;
+      }
+      if (onAnswer && (amount !== values[0] || Number(apr) !== values[1] || count !== values[2])) {
+        setMessage("Check the principal, annual rate, and months against the question.");
         return;
       }
       const monthly = rate === 0 ? amount/count : amount*rate/(1-(1+rate)**(-count));
-      setPayment("Monthly payment $" + monthly.toFixed(2));
-    }}>Calculate</button><output aria-live="polite">{payment}</output>
-  </fieldset></div>;
+      setMessage("");
+      setPayment(monthly.toFixed(2));
+    }}>Calculate</button><output aria-live="polite">{payment && `Monthly payment $${payment}`}</output>
+  </fieldset>
+  {onAnswer && payment && <fieldset disabled={disabled} className="mt-loan-calculator"><legend>Total payment calculator</legend>
+    <label>First number ($)<input value={payment} readOnly /></label>
+    <label>Operation<select value={operation} onChange={event => setOperation(event.target.value)}>
+      <option value="">Choose…</option><option>+</option><option>−</option><option>×</option><option>÷</option>
+    </select></label>
+    <label>Second number<input value={operand} inputMode="decimal" type="number" onChange={event => setOperand(event.target.value)} /></label>
+    <button type="button" aria-label="Equals" disabled={disabled || !operation || !operand.trim()} onClick={() => {
+      const monthly = Number(payment), other = Number(operand);
+      const total = operation === "×" ? monthly * other : operation === "+" ? monthly + other
+        : operation === "−" ? monthly - other : monthly / other;
+      const sent = Number.isFinite(total) && onAnswer(total.toFixed(2));
+      setMessage(sent ? "" : "Check the operation and second number, then try again.");
+      clearCalculation();
+    }}>=</button>
+  </fieldset>}
+  {message && <p role="status">{message}</p>}
+  </div>;
 }
 
 export function BivariatePlot({ points, intersection }: { points: number[][]; intersection: boolean }) {

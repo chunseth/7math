@@ -226,7 +226,7 @@ function Question({ run, position, advance }: {
         advance(raw, outcome);
         return;
       }
-      setError("Equivalent fraction. Simplify your answer.");
+      setError(`${raw} is equivalent. Write it in simplest form.`);
     } catch {
       setError("Could not check your answer. Try again.");
     }
@@ -237,9 +237,9 @@ function Question({ run, position, advance }: {
 
   return <>
     <h2 ref={heading} tabIndex={-1}>{question.prompt}</h2>
-    <Visual data={question.visual} onSimulated={() => setSimulated(true)} />
+    <Visual data={question.visual} showLoan={false} onSimulated={() => setSimulated(true)} />
     <div className="rush-answer">
-      <Answer key={attempt} control={question.control} prompt={question.prompt}
+      <Answer key={question.visual?.kind === "loan" ? "loan" : attempt} question={question}
         disabled={checking || (question.visual?.kind === "simulation" && !simulated)} onAnswer={answer} />
     </div>
     {error && <p role="alert">{error}</p>}

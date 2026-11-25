@@ -132,7 +132,7 @@ export function Battle({
       if (outcome === "incorrect") {
         setFeedback(raw + " was incorrect. Try again.");
         setReset(n => n + 1);
-      } else if (outcome === "simplification") setFeedback("Equivalent fraction. Simplify your answer.");
+      } else if (outcome === "simplification") setFeedback(`${raw} is equivalent. Write it in simplest form.`);
       else { setFeedback(""); setReset(0); }
       if (done) setEnding("finish");
       time.current.sum = 0;
@@ -284,15 +284,15 @@ export function Battle({
       <section className="mt-prompt" key={e.id}>
         <p>{level.title}</p>
         <h1>{e.question.prompt}</h1>
-        <Visual data={e.question.visual} onSimulated={() => setSimulated(e.id)} />
+        <Visual data={e.question.visual} showLoan={false} onSimulated={() => setSimulated(e.id)} />
       </section>
       <div className="mt-input-area">
         <p className="mt-feedback" role="status">
           {error || feedback || (!online ? "Playing offline" : "")}
         </p>
         <Answer
-          key={e.id + "." + reset}
-          control={e.question.control} prompt={e.question.prompt}
+          key={e.id + "." + (e.question.visual?.kind === "loan" ? 0 : reset)}
+          question={e.question}
           disabled={
             busy ||
             leaving ||

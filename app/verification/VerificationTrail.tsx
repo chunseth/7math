@@ -155,7 +155,7 @@ function CaseReview({ world, item, position, total, decision, onSaved }: {
       if (calculated && outcome !== "correct") return;
       if (outcome === "correct") setRaw(value);
       else {
-        setMessage(outcome === "simplification" ? "Simplify your fraction." : "Try again.");
+        setMessage(outcome === "simplification" ? `${value} is equivalent. Write it in simplest form.` : "Try again.");
         setAttempt(value => value + 1);
       }
     } catch (error) {
@@ -190,8 +190,8 @@ function CaseReview({ world, item, position, total, decision, onSaved }: {
       <section className="verify-question" aria-labelledby="verification-question">
         <p>{levelById.get(item.level)?.title ?? item.level}</p>
         <h1 id="verification-question" ref={heading} tabIndex={-1}>{question.prompt}</h1>
-        <Visual data={question.visual} onSimulated={() => setSimulated(true)} />
-        {!decision && <Answer key={attempt} control={question.control} prompt={question.prompt}
+        <Visual data={question.visual} showLoan={!!decision} onSimulated={() => setSimulated(true)} />
+        {!decision && <Answer key={question.visual?.kind === "loan" ? "loan" : attempt} question={question}
           disabled={busy || reporting || raw !== null || (question.visual?.kind === "simulation" && !simulated)}
           onAnswer={check} />}
       </section>

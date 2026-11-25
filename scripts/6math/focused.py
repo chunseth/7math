@@ -126,10 +126,10 @@ def problem(key, seed):
         mark = [1, 2, 3, 1, 2, 3, 1, 7][seed // 3]
         pct = F(100 * mark, parts)
         if pct.denominator == 3:
-            label = f"{pct.numerator // 3} {'⅓' if pct.numerator % 3 == 1 else '⅔'}%"
-        else:
-            label = f"{pct}%"
-        return pick("What percent is marked on the number line?", label, "10%", "50%", "100%", visual=
+            label = f"{float(pct):.2f}%"
+            return pick("What percent is marked on the number line? Round to the nearest hundredth of a percent.", label,
+                        "10%", "50%", "100%", visual=dict(kind="benchmark-percent", labels=["line"], values=[parts, mark]))
+        return pick("What percent is marked on the number line?", f"{pct}%", "10%", "50%", "100%", visual=
                     dict(kind="benchmark-percent", labels=["line"], values=[parts, mark]))
     if key == "power-base":
         copies = 2 + seed % 4
@@ -542,8 +542,8 @@ def problem(key, seed):
             return pick(
                 f"A lender wants to know if a ${100*n} loan was repaid as agreed. Which record should they check?",
                 "Payment history",
-                "Favorite store",
-                "Home purchase wish list",
+                "Credit limit",
+                "Current outstanding balance",
             )
         if v == 1:
             return pick(

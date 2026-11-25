@@ -237,7 +237,7 @@
   "title": "Unlike denominators",
   "ordinal": 2,
   "preview": {
-   "prompt": "1/6 + 3/2"
+   "prompt": "1/6 + 2/3"
   }
  },
  {
@@ -876,7 +876,7 @@
   "title": "Create/complete drawings",
   "ordinal": 3,
   "preview": {
-   "prompt": "Complete the scale drawing. A rectangle begins at (0,0), width 14 m and height 6 m. Plot its opposite corner at 2 m per square."
+   "prompt": "Complete the scale drawing. A rectangle begins at (0,0), width 14 m and height 6 m. Choose any quadrant and plot its opposite corner at 2 m per square."
   }
  },
  {
@@ -993,18 +993,18 @@
   "title": "Execute/record trials",
   "ordinal": 2,
   "preview": {
-   "prompt": "Run trial sequence 20 and record the outcomes.",
+   "prompt": "Tap Run next trial eight times in sequence 20. Record the number of heads and tails.",
    "visual": {
     "kind": "simulation",
     "outcomes": [
-     "T",
      "H",
      "H",
      "T",
      "T",
      "H",
-     "T",
-     "T"
+     "H",
+     "H",
+     "H"
     ]
    }
   }
@@ -1540,7 +1540,7 @@
   "title": "Guided equation stories",
   "ordinal": 1,
   "preview": {
-   "prompt": "Build a ticket-price story for 5x + 2 = 152."
+   "prompt": "Build a ticket-price story for 5x + 2 = 152. Let x be the number of tickets."
   }
  },
  {
@@ -1549,7 +1549,7 @@
   "title": "Guided inequality stories",
   "ordinal": 2,
   "preview": {
-   "prompt": "Build a ticket-price story for 5x + 2 ≤ 117."
+   "prompt": "Build a ticket-price story for 5x + 2 ≤ 117. Let x be the number of tickets."
   }
  },
  {
@@ -1871,17 +1871,17 @@
   "title": "Rectangular prism",
   "ordinal": 1,
   "preview": {
-   "prompt": "Find total area of the rectangular prism. Face areas are shown in cm².",
+   "prompt": "Find the surface area of the rectangular prism. Face areas are shown in cm².",
    "visual": {
     "kind": "net",
     "solid": 1,
     "values": [
-     96,
-     96,
-     84,
-     56,
-     84,
-     56
+     40,
+     40,
+     40,
+     16,
+     40,
+     16
     ]
    }
   }
@@ -1892,7 +1892,7 @@
   "title": "Triangular prism",
   "ordinal": 2,
   "preview": {
-   "prompt": "Find total area of the triangular prism. Face areas are shown in cm².",
+   "prompt": "Find the surface area of the triangular prism. Face areas are shown in cm².",
    "visual": {
     "kind": "net",
     "solid": 2,
@@ -1912,7 +1912,7 @@
   "title": "Rectangular pyramid",
   "ordinal": 3,
   "preview": {
-   "prompt": "Find total area of the square pyramid. Face areas are shown in cm².",
+   "prompt": "Find the surface area of the square pyramid. Face areas are shown in cm².",
    "visual": {
     "kind": "net",
     "solid": 3,
@@ -1932,7 +1932,7 @@
   "title": "Triangular pyramid",
   "ordinal": 4,
   "preview": {
-   "prompt": "Find total area of the triangular pyramid. Face areas are shown in cm².",
+   "prompt": "Find the surface area of the triangular pyramid. Face areas are shown in cm².",
    "visual": {
     "kind": "net",
     "solid": 4,
@@ -2078,7 +2078,7 @@
   "title": "Repeated periods",
   "ordinal": 1,
   "preview": {
-   "prompt": "$400 earns 8% compounded annually. Complete the two balances."
+   "prompt": "$400 earns 2% compounded annually. Complete the two balances."
   }
  },
  {
@@ -2087,7 +2087,7 @@
   "title": "Ending balances",
   "ordinal": 2,
   "preview": {
-   "prompt": "$2500 earns 8% compounded annually for two years. Find the ending balance."
+   "prompt": "$2500 earns 3% compounded annually for two years. Find the ending balance."
   }
  },
  {
@@ -2096,7 +2096,7 @@
   "title": "Compare with simple interest",
   "ordinal": 3,
   "preview": {
-   "prompt": "$2200 earns 5% compounded annually for two years. Find the extra earnings over simple interest at the same rate."
+   "prompt": "$2200 earns 10% compounded annually for two years. Find the extra earnings over simple interest at the same rate."
   }
  },
  {

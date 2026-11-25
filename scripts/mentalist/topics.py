@@ -1,6 +1,7 @@
 """Version-one level templates for applications, representations, and guided tasks."""
 
 from fractions import Fraction as F
+from random import Random
 from formats import q, choose, fields, table, chart, grid
 
 
@@ -267,7 +268,7 @@ def topic(s, l, n, v):
             x = 1 + n % 8
             y = 1 + n // 3 % 8
             return grid(
-                f"Complete the scale drawing. A rectangle begins at (0,0), width {2*x} m and height {2*y} m. Plot its opposite corner at 2 m per square.",
+                f"Complete the scale drawing. A rectangle begins at (0,0), width {2*x} m and height {2*y} m. Choose any quadrant and plot its opposite corner at 2 m per square.",
                 x,
                 y,
                 10,
@@ -345,10 +346,11 @@ def topic(s, l, n, v):
                     ["One large sector for red", "Always alternate two colors"],
                     n,
                 )
-            outcomes = ["H" if (n * 7 + i * 3) % 11 < 5 else "T" for i in range(8)]
+            rng = Random(f"coin-trials/{n}/{v}")
+            outcomes = [rng.choice(("H", "T")) for _ in range(8)]
             return (
                 fields(
-                    f"Run trial sequence {a} and record the outcomes.",
+                    f"Tap Run next trial eight times in sequence {a}. Record the number of heads and tails.",
                     ["Heads", "Tails"],
                     [outcomes.count("H"), outcomes.count("T")],
                     [[0, 1, 2, 3, 4, 5, 6, 7, 8]] * 2,
@@ -418,7 +420,7 @@ def topic(s, l, n, v):
                 return choose(
                     f"Which group has a longer right whisker on the common scale starting at {a}?",
                     ["Group A", "Group B", "Equal"][v],
-                    ["Group A", "Equal"],
+                    ["Group A", "Group B", "Equal"],
                     n,
                     vis,
                 )
@@ -523,15 +525,17 @@ def topic(s, l, n, v):
                 n,
             )
         if s == "algebra.story":
-            rel = "exactly" if l == 1 else "at most"
-            return fields(
-                f'Build a ticket-price story for {k}x + {b} {"=" if l==1 else "≤"} {k*a+b}.',
-                ["Per ticket", "Entry fee", "Total"],
-                [f"${k}", f"${b}", f"{rel} ${k*a+b}"],
-                [[f"${k+1}"], [f"${b+1}"], [f"at least ${k*a+b}"]],
+            row = fields(
+                f'Build a ticket-price story for {k}x + {b} {"=" if l==1 else "≤"} {k*a+b}. Let x be the number of tickets.',
+                ["Price per ticket ($)", "Entry fee ($)", "Exact total ($)" if l == 1 else "Maximum total ($)"],
+                [k, b, k*a+b],
+                [[k+1], [b+1], [k*a+b+1]],
                 n,
                 kind="story",
             )
+            for field in row["control"]["fields"]:
+                field["entry"] = "number"
+            return row
         x = n % 19 - 9
         if l == 1:
             return grid(f"Solve {k}x + {b} = {k*x+b}, then mark the solution.", x, 0, 10, "line")
@@ -643,6 +647,8 @@ def geometry_finance(s, l, n, v, a, b, k):
             "square pyramid",
             "triangular pyramid",
         ]
+        if s == "solid.surface" and l == 1:
+            a, b, k = 5 * (1 + n % 5), 2 + n // 5 % 6, 2 + n // 30 % 5
         areas = [
             [a * b, a * b, a * k, b * k, a * k, b * k],
             [6 * a * a, 6 * a * a, 3 * a * k, 4 * a * k, 5 * a * k],
@@ -657,14 +663,14 @@ def geometry_finance(s, l, n, v, a, b, k):
                 f"Complete the face record for this {shapes[l-1]} net. The labeled numbers are face areas.",
                 ["Base faces", "Lateral faces", "Area of one base"],
                 [bases, len(vals) - bases, vals[0]],
-                [[1, 2, 3], [2, 3, 4], [vals[0] + 1, vals[0] + 2]],
+                ([[2, 4], [2, 4]] if l == 1 else [[1, 2, 3], [2, 3, 4]]) + [[vals[0] + 1, vals[0] + 2]],
                 n,
                 vis,
                 "net",
             )
         lateral = v % 2 == 1
         return q(
-            f'Find {"lateral" if lateral else "total"} area of the {shapes[l-1]}. Face areas are shown in cm².',
+            f'Find the {"lateral surface area" if lateral else "surface area"} of the {shapes[l-1]}. Face areas are shown in cm².',
             sum(vals[bases:] if lateral else vals),
             visual=vis,
         )
@@ -766,6 +772,7 @@ def geometry_finance(s, l, n, v, a, b, k):
             interest + (a * 100 if l == 2 else 0),
         )
     if s == "finance.compound":
+        b = [2, 3, 5, 10][n % 4]
         principal = 100 * a
         compound = F(principal * (100 + b) ** 2, 10000)
         if l == 1:

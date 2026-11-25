@@ -510,6 +510,7 @@
 .mt-answer button.selected {
   border-color: #258063;
 }
+.mt-answer-unit { margin-inline-start: .35rem; font-size: 1rem; }
 .mt-keypad {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -520,6 +521,7 @@
   min-height: clamp(40px, 6vh, 54px);
   padding: 4px;
 }
+.mt-keypad .mt-fraction-switch { font-size: .8rem; }
 .mt-extra {
   justify-content: center;
   min-height: 40px;
@@ -535,6 +537,24 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
 }
+.mt-fields input, .mt-fields select { min-width: 0; width: 100%; }
+.mt-field-choices { margin: 0; border: 0; padding: .2rem 0; min-width: 0; }
+.mt-field-buttons { display: flex; flex-wrap: wrap; gap: .35rem; align-items: center; }
+.mt-field-buttons button[aria-pressed="true"] { background: #def4e9; border-color: #258063; }
+.mt-field-buttons output { min-width: 2rem; text-align: center; }
+.mt-stem-layout { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; align-items: start; margin-bottom: .5rem; }
+.mt-stem-rows { display: grid; gap: .3rem; }
+.mt-stem-rows button { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .3rem; }
+.mt-stem-token { touch-action: pan-y; }
+.mt-chart-hit { fill: transparent; cursor: pointer; }
+.mt-chart [aria-pressed="true"] > .mt-chart-hit { fill: #def4e9; }
+.mt-signed-groups { display: flex; flex-wrap: wrap; gap: .35rem; }
+.mt-signed-group { display: inline-flex; gap: .22rem; padding: .25rem; border: 1px solid var(--border); border-radius: .4rem; }
+.mt-signed-group > span { display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border: 1px solid #823c35; border-radius: 50%; background: #f9e6e3; color: #823c35; }
+.mt-whiteboard { padding: .2rem .45rem; }
+.mt-whiteboard canvas { display: block; width: 100%; margin-block: .4rem; border: 1px solid var(--border); border-radius: .55rem; background: #fff; touch-action: none; }
+.mt-loan-calculator { display: grid; gap: .55rem; }
+.mt-loan-calculator output { display: block; }
 .mt-options button {
   flex: 1 1 40%;
 }

@@ -1,26 +1,29 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Visual } from "./Visual";
+import { complete, responseFieldMode, type Question } from "../../../lib/mentalist/model";
 import Coordinate from "./Coordinate";
 import ZoomableGraph from "./ZoomableGraph";
 import QuestionCalculator from "./QuestionCalculator";
-import { complete, type Control } from "../../../lib/mentalist/model";
+import StemEditor from "./StemEditor";
+import Whiteboard from "./Whiteboard";
+import { LoanCalculator } from "../../8math/Models";
 export default function Answer({
-  control: c,
-  prompt = "",
+  question,
   disabled,
   onAnswer,
 }: {
-  control: Control;
-  prompt?: string;
+  question: Question;
   disabled: boolean;
   onAnswer: (raw: string, calculated?: boolean) => void;
 }) {
+  const { control: c, prompt, visual } = question;
   const [value, setValue] = useState(""),
     [den, setDen] = useState(""),
     [field, setField] = useState(0);
   const [parts, setParts] = useState<string[]>([]),
     [revision, setRevision] = useState(0);
+  const [activeCount, setActiveCount] = useState<number | null>(null);
   const [visible, setVisible] = useState(true);
   useEffect(() => {
     const update = () => setVisible(!document.hidden);
@@ -31,11 +34,17 @@ export default function Answer({
   const sent = useRef(-1),
     send = useRef(onAnswer);
   send.current = onAnswer;
-  const construction = ["dotplot", "histogram", "boxplot", "stem-plot", "scatterplot"].includes(c.kind);
+  const countEditor = c.kind === "dotplot" || c.kind === "histogram";
+  const construction = countEditor || ["boxplot", "stem-plot", "scatterplot"].includes(c.kind);
+  const manualSubmit = construction || c.kind === "ray" || c.fields?.some((field, i) => {
+    const mode = responseFieldMode(c.kind, field, i);
+    return mode === "number" || mode === "text";
+  });
+  const loan = visual?.kind === "loan";
   const fraction = c.kind === "fraction",
-    numeric = ["whole", "fraction", "decimal"].includes(c.kind);
+    numeric = !loan && ["whole", "fraction", "decimal"].includes(c.kind);
   const raw = c.fields
-    ? c.fields.map((_, i) => parts[i] ?? "").join("|")
+    ? c.fields.map((_, i) => parts[i] ?? (countEditor ? "0" : "")).join("|")
     : fraction
       ? value + "/" + den
       : value;
@@ -46,18 +55,26 @@ export default function Answer({
     send.current(raw);
   }, [ready, raw, revision]);
   useEffect(() => {
-    if (!ready || sent.current === revision || construction) return;
+    if (!ready || sent.current === revision || manualSubmit) return;
     if (!fraction) {
       check();
       return;
     }
     const timer = setTimeout(check, 800);
     return () => clearTimeout(timer);
-  }, [check, ready, revision, fraction, construction]);
+  }, [check, ready, revision, fraction, manualSubmit]);
+  function setPart(index: number, value: string) {
+    setParts(previous => {
+      const next = [...previous];
+      next[index] = value;
+      return next;
+    });
+    setRevision(previous => previous + 1);
+  }
   function edit(key: string) {
     if (disabled) return;
     if (key === "/" && fraction) {
-      setField(1);
+      setField(current => 1 - current);
       return;
     }
     const old = field === 1 ? den : value;
@@ -125,6 +142,11 @@ export default function Answer({
       setRevision(revision + 1);
       if (complete(c, submitted)) send.current(submitted, true);
     }} />;
+  if (loan) return <LoanCalculator values={visual.values!} disabled={disabled} onAnswer={value => {
+    if (disabled || !complete(c, value)) return false;
+    send.current(value);
+    return true;
+  }} />;
   if (c.options)
     return (
       <div className="mt-options">
@@ -146,15 +168,20 @@ export default function Answer({
     return (
       <div className="mt-fields">
         {calculator}
-        {(c.kind === "dotplot" || c.kind === "histogram") && <Visual data={{
-          kind: c.kind === "dotplot" ? "dotplot" : "histogram",
-          labels: c.fields.map(f => f.label),
-          values: c.fields.map((_, i) => Number(parts[i] || 0)),
-        }} />}
-        {c.kind === "stem-plot" && <Visual data={{
-          kind: "data", headers: ["Stem", "Leaves"],
-          rows: c.fields.map((f, i) => [f.label.replace("Stem ", ""), parts[i] || "…"]),
-        }} />}
+        {countEditor && <>
+          <p>Tap a {c.kind === "dotplot" ? "tick" : "bin"} to change its count.</p>
+          <Visual data={{ kind: c.kind, labels: c.fields.map(f => f.label), values: c.fields.map((_, i) => Number(parts[i] || 0)) }}
+            editChart={disabled ? undefined : { active: activeCount, select: setActiveCount }} />
+          {activeCount !== null && <div className="mt-field-buttons" role="group" aria-label={`Count for ${c.fields[activeCount].label}`}>
+            <button type="button" disabled={disabled || !Number(parts[activeCount])} aria-label="Decrease count"
+              onClick={() => setPart(activeCount, String(Number(parts[activeCount]) - 1))}>−</button>
+            <output>{Number(parts[activeCount] || 0)}</output>
+            <button type="button" disabled={disabled || Number(parts[activeCount] || 0) >= 2 * Math.max(...c.fields!.flatMap(field => field.options.map(Number)))}
+              aria-label="Increase count" onClick={() => setPart(activeCount, String(Number(parts[activeCount] || 0) + 1))}>+</button>
+          </div>}
+        </>}
+        {c.kind === "stem-plot" && <StemEditor prompt={prompt} labels={c.fields.map(field => field.label)} disabled={disabled}
+          onChange={rows => { setParts(rows); setRevision(previous => previous + 1); }} />}
         {c.kind === "boxplot" && parts.filter(Boolean).length === 5 &&
           parts.every((value, i) => i === 0 || Number(value) >= Number(parts[i - 1])) &&
           <Visual data={{kind: "boxes", rows: [parts], labels: ["Your plot"]}} />}
@@ -208,27 +235,27 @@ export default function Answer({
             )}
           </svg>
         )}
-        {c.fields.map((f, i) => (
-          <label key={i}>
-            {f.label}
-            <select
-              disabled={disabled}
-              value={parts[i] ?? ""}
-              onChange={(e) => {
-                const a = [...parts];
-                a[i] = e.target.value;
-                setParts(a);
-                setRevision((r) => r + 1);
-              }}
-            >
-              <option value="">Choose…</option>
-              {f.options.map((o) => (
-                <option key={o}>{o}</option>
-              ))}
-            </select>
-          </label>
-        ))}
-        {construction && <button type="button" disabled={!ready} onClick={check}>Check display</button>}
+        {!countEditor && c.kind !== "stem-plot" && c.fields.map((f, i) => {
+          const mode = responseFieldMode(c.kind, f, i);
+          const label = c.kind === "net" && i < 2 ? `Number of ${f.label.toLowerCase()}` : f.label;
+          if (mode === "buttons") return <fieldset className="mt-field-choices" disabled={disabled} key={f.label}>
+            <legend>{label}</legend>
+            <div className="mt-field-buttons">{f.options.map(option => <button key={option} type="button"
+              aria-pressed={parts[i] === option} onClick={() => setPart(i, option)}>
+              {c.kind === "ray" ? ({ Open: "○ Open", Closed: "● Closed", Left: "← Left", Right: "Right →" })[option] ?? option : option}
+            </button>)}</div>
+          </fieldset>;
+          return <label key={f.label}>{label}{mode === "number" || mode === "text" ?
+            <input value={parts[i] ?? ""} type="text" inputMode={mode === "text" || f.options.some(option => /^-|\//.test(option)) ? "text" : "decimal"}
+              autoComplete="off" maxLength={26} disabled={disabled} onChange={event => setPart(i, event.target.value)} /> :
+            <select disabled={disabled} value={parts[i] ?? ""} onChange={event => setPart(i, event.target.value)}>
+              <option value="">Choose…</option>{f.options.map(option => <option key={option}>{option}</option>)}
+            </select>}
+          </label>;
+        })}
+        {manualSubmit && <button type="button" disabled={!ready || sent.current === revision} onClick={check}>
+          {c.kind === "ray" ? "Check number line" : construction ? "Check display" : "Check answer"}
+        </button>}
       </div>
     );
   if (c.limit)
@@ -252,9 +279,11 @@ export default function Answer({
       {construction && <button type="button" disabled={!ready} onClick={check}>Check plot</button>}
       </>
     );
+  const unit = responseUnit(question);
   return (
     <div className="mt-entry">
       {calculator}
+      {(/compounded annually for two years|difference between the two savings in dollars|A rectangular prism has volume.*A pyramid shares its base and height/.test(prompt)) && <Whiteboard />}
       <div className="mt-answer" aria-label="Answer">
         {fraction ? (
           <>
@@ -275,13 +304,17 @@ export default function Answer({
             </button>
           </>
         ) : (
-          <output>{value || "□".repeat(c.width ?? 1) + (c.places ? "." + "□".repeat(c.places) : "")}</output>
+          <output>{value || "□".repeat(c.width ?? 1) + (c.places ? "." + "□".repeat(c.places) : "")}
+            {unit && <span className="mt-answer-unit">{unit}</span>}
+          </output>
         )}
       </div>
       <div className="mt-keypad">
-        {["1", "2", "3", "4", "5", "6", "7", "8", "9", "Clear", "0", "Backspace"].map((k) => (
-          <button type="button" key={k} disabled={disabled} onClick={() => edit(k)} aria-label={k}>
-            {k === "Backspace" ? "⌫" : k}
+        {["1", "2", "3", "4", "5", "6", "7", "8", "9", fraction ? "/" : "Clear", "0", "Backspace"].map((k) => (
+          <button type="button" key={k} disabled={disabled} onClick={() => edit(k)}
+            aria-label={k === "/" ? `Switch to ${field === 0 ? "denominator" : "numerator"}` : k}
+            className={k === "/" ? "mt-fraction-switch" : undefined}>
+            {k === "Backspace" ? "⌫" : k === "/" ? (field === 0 ? "Denominator" : "Numerator") : k}
           </button>
         ))}
       </div>
@@ -296,13 +329,14 @@ export default function Answer({
             . Decimal
           </button>
         )}
-        {fraction && (
-          <button disabled={disabled} onClick={() => setField(1 - field)}>
-            {field === 0 ? "Denominator" : "Numerator"}
-          </button>
-        )}
         {fraction && <button disabled={!ready || sent.current === revision} onClick={check}>Check answer</button>}
       </div>
     </div>
   );
+}
+function responseUnit({ prompt, visual }: Question) {
+  if (/^What percent of the (hundred grid|strip) is shaded\?$/.test(prompt)) return "%";
+  if (visual?.kind === "scaled-axis" && prompt.endsWith("Give the answer in liters.")) return "L";
+  if (prompt.endsWith("difference between the two savings in dollars?")) return "dollars";
+  return "";
 }

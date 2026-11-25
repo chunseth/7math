@@ -47,7 +47,7 @@ export const worldTitles = branchTitles;
 export const worlds = [...new Set(skills.map((s) => s.world))];
 export const skillById = new Map<string, (typeof skills)[number]>([...skills, ...courseSkills].map(s => [s.id, s]));
 export const levelById = new Map([...levels, ...courses[6].levels, ...grade8Levels].map(l => [l.id, l]));
-export const curriculumVersion = 4;
+export const curriculumVersion = 5;
 const formerSkillIds = new Map<string, string>();
 for (const skill of skills)
   for (const table of skill.tables ?? []) formerSkillIds.set(skill.group + "." + table, skill.id);
@@ -131,12 +131,22 @@ export type Control = {
   width?: number;
   places?: number;
   options?: string[];
-  fields?: { label: string; options: string[] }[];
+  fields?: { label: string; options: string[]; entry?: "number" | "text" }[];
   limit?: number;
   step?: number;
   origin?: number;
   points?: number;
 };
+type ResponseField = NonNullable<Control["fields"]>[number];
+export function responseFieldMode(kind: string, field: ResponseField, index: number) {
+  if (field.entry) return field.entry;
+  if (kind === "ray") return index === 0 ? "number" : "buttons";
+  if (kind === "net") return index === 2 ? "number" : "buttons";
+  if (kind === "list" || kind === "tree") return "buttons";
+  if (["boxplot", "record", "simulation", "table"].includes(kind) && field.options.every(value => parseAnswer(value))) return "number";
+  return "select";
+}
+
 export type Question = { prompt: string; control: Control; visual?: Visual };
 export type Outcome = "incorrect" | "correct" | "simplification";
 export type Recorded = { outcome: Outcome; active_ms: number | null };
@@ -202,7 +212,15 @@ export function complete(c: Control, raw: string) {
   if (c.options) return c.options.includes(raw);
   if (c.fields) {
     const parts = raw.split("|");
-    return parts.length === c.fields.length && c.fields.every((field, i) => field.options.includes(parts[i]));
+    if (c.kind === "stem-plot" && !parts.some(Boolean)) return false;
+    return parts.length === c.fields.length && c.fields.every((field, i) => {
+      if (c.kind === "dotplot" || c.kind === "histogram") return /^\d{1,2}$/.test(parts[i]);
+      if (c.kind === "stem-plot") return /^(?:\d(?: \d){0,11})?$/.test(parts[i]);
+      const mode = responseFieldMode(c.kind, field, i);
+      if (mode === "number") return !!parseAnswer(parts[i]);
+      if (mode === "text") return /^[a-z]{1,3}$/i.test(parts[i].trim());
+      return field.options.includes(parts[i]);
+    });
   }
   if (c.limit) {
     const points = raw.split(";");
@@ -224,6 +242,21 @@ export function normalizeStructuredAnswer(c: Control, raw: string) {
   if (c.kind === "drawing") return raw.split(",").map(value => Math.abs(Number(value))).join(",");
   if (c.kind === "scatterplot") {
     return raw.split(";").map(pair => pair.split(",").map(Number).join(",")).sort().join(";");
+  }
+  if (c.fields) {
+    const parts = raw.split("|");
+    return parts.map((part, i) => {
+      const field = c.fields?.[i];
+      if (!field || field.options.includes(part)) return part;
+      const mode = responseFieldMode(c.kind, field, i);
+      if (mode === "text") return part.trim().toLowerCase();
+      if (mode !== "number") return part;
+      const value = parseAnswer(part);
+      return value ? field.options.find(option => {
+        const equivalent = parseAnswer(option);
+        return equivalent && equal(value, equivalent);
+      }) ?? part : part;
+    }).join("|");
   }
   return raw;
 }

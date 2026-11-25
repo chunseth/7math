@@ -1384,7 +1384,7 @@
    },
    {
     "title": "Read and verify both coordinates of a graphical intersection",
-    "example": "Read both coordinates where y = 6 and y = 2x intersect. Verify that y has the same value on both lines."
+    "example": "Read the intersection of y = 8 and y = 2x + 2. Enter x and the y-value on each line at that x."
    },
    {
     "title": "Interpret a shared point in a cost comparison",
@@ -2101,7 +2101,7 @@
   "id": "g8.steps-invest",
   "title": "Grow regular deposits over time",
   "unit": "Personal finance",
-  "example": "A saver starts with $30 and adds $80 each month for 3 months. How much of the final balance comes from money deposited, including the initial amount?",
+  "example": "A saver starts with $30 and adds $80 each month for 2 months. How much of the final balance comes from money deposited, including the initial amount?",
   "standards": [
    "8.12C"
   ],
@@ -2111,7 +2111,7 @@
   "stages": [
    {
     "title": "Calculate contributions across regular periods",
-    "example": "A saver starts with $30 and adds $80 each month for 3 months. How much of the final balance comes from money deposited, including the initial amount?"
+    "example": "A saver starts with $30 and adds $80 each month for 2 months. How much of the final balance comes from money deposited, including the initial amount?"
    },
    {
     "title": "Distinguish an early deposit from a later deposit",

@@ -1,4 +1,5 @@
 from fractions import Fraction as F
+from math import gcd
 from operator import add, sub, mul, truediv
 from formats import q, choose, fields, grid, chart, table, mixed
 
@@ -82,6 +83,13 @@ def arithmetic(skill, level, n, v):
             operands = None
         if level == 2 and op in ("add", "subtract") and a.denominator == b.denominator:
             b = F(1, a.denominator + 1)
+        if level == 2 and op == "add":
+            first = 2 + n % 5
+            second = 2 + ((first - 2) + 1 + (n // 5) % 4) % 5
+            tops = [i for i in range(1, 2 * first) if gcd(i, first) == 1]
+            other_tops = [i for i in range(1, 2 * second) if gcd(i, second) == 1]
+            a = F(tops[(n // 6 + v) % len(tops)], first)
+            b = F(other_tops[(n // 7 + v) % len(other_tops)], second)
         if level == 3 if op in ("add", "subtract") else level == 2:
             if v != 1:
                 a = -a

@@ -214,9 +214,14 @@ def extension(s, l, n, v):
             0,
         )
     if s == "linear.represent" and l == 4 and v == 2:
+        context, rate, initial = [
+            (f"A taxi meter shows y = {k}x + {b} dollars after x miles.", "Dollars per mile", "Initial charge ($)"),
+            (f"A tank holds y = {k}x + {b} liters after x minutes of filling.", "Liters per minute", "Initial volume (L)"),
+            (f"A rental total is y = {k}x + {b} dollars after x hours.", "Dollars per hour", "Initial charge ($)"),
+        ][n % 3]
         return "interpret-parameters", fields(
-            f"A taxi meter shows y = {k}x + {b} dollars after x miles. Complete the description.",
-            ["Dollars per mile", "Initial charge"],
+            f"{context} Complete the description.",
+            [rate, initial],
             [k, b],
             [[k + 1, k + 2], [b + 1, b + 2]],
             n,
@@ -226,7 +231,7 @@ def extension(s, l, n, v):
         k = 1 + n % 3
         b = n // 3 % 5
         return "construct-line", item(
-            f"Graph y = {k}x + {b}. Plot its points at x = 0 and then x = 2.",
+            f"Graph y = {k}x + {b}. Plot the point at x = 0 first, then plot the point at x = 2.",
             f"0,{b};2,{2*k+b}",
             dict(kind="graph", limit=10, points=2),
         )

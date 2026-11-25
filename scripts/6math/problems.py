@@ -299,14 +299,17 @@ def problem(slug, seed):
                     "A discount is subtracted from one price",
                 ],
             )
-        return fields(
-            f"Build a story for x − {n} = {k}.",
-            ["Starting amount", "Action", "Result"],
-            ["Unknown", f"Spend ${n}", f"${k} remains"],
-            [[f"${n}"], [f"Earn ${n}"], [f"${k} was spent"]],
+        row = fields(
+            f"Build a spending story for x − {n} = {k}. Enter a variable for the starting amount and a signed change for the spending.",
+            ["Starting amount", "Change ($)", "Amount left ($)"],
+            ["x", -n, k],
+            [["y"], [n], [-k]],
             seed,
             kind="story",
         )
+        for field, entry in zip(row["control"]["fields"], ["text", "number", "number"]):
+            field["entry"] = entry
+        return row
     if slug == "solve":
         if v == 0:
             return q(f"Solve x − {n} = −{n+k}.", -k)

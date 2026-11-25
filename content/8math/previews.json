@@ -2891,19 +2891,19 @@
  },
  {
   "model": "worked",
-  "prompt": "Read both coordinates where y = 6 and y = 2x intersect. Verify that y has the same value on both lines.",
+  "prompt": "Read the intersection of y = 8 and y = 2x + 2. Enter x and the y-value on each line at that x.",
   "steps": [
    {
     "label": "Read y on the horizontal line.",
-    "math": "y = 6"
+    "math": "y = 8"
    },
    {
     "label": "Check both rules at the crossing.",
-    "math": "2 × 3 = 6"
+    "math": "2 × 3 + 2 = 8"
    }
   ],
-  "answer": "(3, 6)",
-  "result": "(3, 6)",
+  "answer": "(3, 8)",
+  "result": "(3, 8)",
   "color": "#246650",
   "skill": "g8.steps-systems",
   "level": "g8.steps-systems.2"
@@ -4214,19 +4214,19 @@
  },
  {
   "model": "worked",
-  "prompt": "A saver starts with $30 and adds $80 each month for 3 months. How much of the final balance comes from money deposited, including the initial amount?",
+  "prompt": "A saver starts with $30 and adds $80 each month for 2 months. How much of the final balance comes from money deposited, including the initial amount?",
   "steps": [
    {
     "label": "Total the monthly deposits.",
-    "math": "3 × 80"
+    "math": "2 × 80"
    },
    {
     "label": "Include the starting deposit.",
-    "math": "240 + 30"
+    "math": "160 + 30"
    }
   ],
-  "answer": "270",
-  "result": "270",
+  "answer": "190",
+  "result": "190",
   "color": "#246650",
   "skill": "g8.steps-invest",
   "level": "g8.steps-invest.1"

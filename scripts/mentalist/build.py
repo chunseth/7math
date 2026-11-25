@@ -187,7 +187,7 @@ assert (
 coverage = matrix(catalog["nodes"], levels, skills)
 bank = dict(
     coverage=coverage,
-    version=4,
+    version=5,
     templates=list(templates.values()),
     skills=skills,
     levels=levels,
@@ -208,7 +208,7 @@ files = {
     / "coverage.json": (
         json.dumps(coverage, ensure_ascii=False, indent=1) + "\n"
     ).encode(),
-    OUT / "bank-v4.json.gz": gzip.compress(data, mtime=0),
+    OUT / "bank-v5.json.gz": gzip.compress(data, mtime=0),
     OUT
     / "trail.json": (json.dumps(preview, ensure_ascii=False, indent=1) + "\n").encode(),
 }

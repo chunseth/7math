@@ -105,4 +105,4 @@ The original 43 lesson IDs and rankings carry forward as mixed practice. The cur
 
 Edit focused-level order and titles in `scripts/6math/progression.txt`, worked examples in `scripts/6math/examples.txt`, and question forms in `scripts/6math/focused.py`. The mixed levels use `scripts/6math/lessons.txt` and `scripts/6math/problems.py`. Run `python3 -B scripts/6math/build.py` to rebuild the bank and guest packs. Run `node scripts/mentalist/ink/render.cjs --grade6` with an H.264-enabled ffmpeg to render the portrait videos and posters.
 
-The map, videos and guest practice ship with the app. To enable ranked play on an existing curriculum database, set the usual `MENTALIST_DATABASE_URL` and `MENTALIST_CONTENT_REVIEWER`, then run `npm run mentalist:publish -- --grade=6 --stage=complete`. This adds release 6003 using the existing schema.
+The map, videos and guest practice ship with the app. To enable ranked play on an existing curriculum database, set the usual `MENTALIST_DATABASE_URL` and `MENTALIST_CONTENT_REVIEWER`, then run `npm run mentalist:publish -- --grade=6 --stage=complete`. This adds release 6004 using the existing schema.

@@ -724,14 +724,17 @@ def activity(key, seed):
             choices=["yes", "no"],
         )
     if key == "graph-cross":
-        pts = [[0, 2 * n], [2 * n, 2 * n], [0, 0], [2 * n, 4 * n]]
-        prompt = f"Read both coordinates where y = {2*n} and y = 2x intersect. Verify that y has the same value on both lines."
+        slope, intercept = 1 + seed % 4, seed // 4 % 4
+        y = slope * n + intercept
+        rule = ("x" if slope == 1 else f"{slope}x") + (f" + {intercept}" if intercept else "")
+        pts = [[0, y], [2 * n, y], [0, intercept], [2 * n, 2 * n * slope + intercept]]
+        prompt = f"Read the intersection of y = {y} and y = {rule}. Enter x and the y-value on each line at that x."
         _, clip = make(prompt, n,
-                       "Read y on the horizontal line.", f"y = {2*n}",
-                       "Check both rules at the crossing.", f"2 × {n} = {2*n}")
-        clip["result"] = clip["answer"] = f"({n}, {2*n})"
+                       "Read y on the horizontal line.", f"y = {y}",
+                       "Check both rules at the crossing.", f"{slope} × {n} + {intercept} = {y}")
+        clip["result"] = clip["answer"] = f"({n}, {y})"
         row = fields(prompt, ["x at intersection", "y in the first rule", "y in the second rule"],
-                     [n, 2*n, 2*n], [[n - 1, n + 1], [n, 2*n + 2], [n, 2*n + 2]],
+                     [n, y, y], [[n - 1, n + 1], [y - 1, y + 1], [y - 1, y + 1]],
                      seed, dict(kind="intersection", points=pts), kind="record")
         return row, clip
     if key == "interpret-cross":
@@ -1167,13 +1170,14 @@ def activity(key, seed):
             f"{12*(2*n+k)} − {24*n}",
         )
     if key == "deposits":
+        months = 1 + seed % 12
         return make(
-            f"A saver starts with ${n*10} and adds ${k*10} each month for {n} months. How much of the final balance comes from money deposited, including the initial amount?",
-            n * 10 + k * 10 * n,
+            f"A saver starts with ${n*10} and adds ${k*10} each month for {months} months. How much of the final balance comes from money deposited, including the initial amount?",
+            n * 10 + k * 10 * months,
             "Total the monthly deposits.",
-            f"{n} × {k*10}",
+            f"{months} × {k*10}",
             "Include the starting deposit.",
-            f"{n*k*10} + {n*10}",
+            f"{months*k*10} + {n*10}",
         )
     if key == "grow-deposit":
         return make(
