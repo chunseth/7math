@@ -1,11 +1,12 @@
 import type { PoolClient } from "pg";
 import { randomInt, randomUUID } from "node:crypto";
 import { damageRangeForLevel } from "../gameplay";
-import { gradeOf, cardTopic, checkpoint, evaluate, grade, playable, type Question, type Recorded, type RunView } from "./model";
+import { gradeOf, cardTopic, checkpoint, evaluate, gradeQuestion, playable, type Question, type Recorded, type RunView } from "./model";
 import { course, publishedFor, publishedVersions, recommend } from "./student";
 import { advance, checkText, type Attempt, type LevelPack, type RoundRules } from "./round";
 import { GameError, hash, one, rows, uuid, type Identity } from "./db";
 import { swordDamage } from "./craft";
+import { publicQuestion } from "./bank";
 
 export async function credit(
   db: PoolClient,
@@ -53,7 +54,7 @@ export async function runView(db: PoolClient, profile: string, id: string): Prom
   );
   const [e] = await rows(
     db,
-    "select e.id,e.position,(select count(*)::int from events where encounter=e.id) revision,snapshot-'answer'-'id'-'family'-'variant'-'parameters' as question from encounters e where run=$1 and resolved is null",
+    "select e.id,e.position,(select count(*)::int from events where encounter=e.id) revision,snapshot as question from encounters e where run=$1 and resolved is null",
     [id],
   );
   const [next] =
@@ -65,7 +66,8 @@ export async function runView(db: PoolClient, profile: string, id: string): Prom
   const rank = r.result?.stars === 3
     ? await one(db, "select total_rank from level_leaderboard where level=$1 and profile=$2", [r.level, profile])
     : undefined;
-  return { ...r, next, leaderboardRank: rank?.total_rank, encounter: r.status === "active" ? e : undefined } as RunView;
+  return { ...r, next, leaderboardRank: rank?.total_rank,
+    encounter: r.status === "active" && e ? { ...e, question: publicQuestion(e.question) } : undefined } as RunView;
 }
 async function selectSet(db: PoolClient, profile: string, level: string, preferred?: string) {
   return one(db, `select s.id,s.version,l.skill,s.positions,coalesce(l.definition->'pool',s.positions) as pool
@@ -89,7 +91,7 @@ export async function prepareLevel(db: PoolClient, who: Identity, level: string)
      join questions q on q.version=$1 and q.id=p.slot->>'q'
      order by p.n`, [set.version, JSON.stringify(set.pool)]);
   return { level, set: set.id, questions: questions.map(({definition: q}, i) => ({
-    prompt: q.prompt, control: q.control, visual: q.visual,
+    ...publicQuestion(q),
     check: hash(checkText(set.id, i, q, q.answer)),
   })) };
 }
@@ -243,7 +245,7 @@ export async function submit(
     r.id,
   ]);
   const marked =
-    typeof input.raw === "string" && grade((e.snapshot as Question).control, e.snapshot.answer, input.raw);
+    typeof input.raw === "string" && gradeQuestion(e.snapshot, e.snapshot.answer, input.raw);
   if (!marked) throw new GameError("Finish the answer before it can be checked.", 422);
   const prev = await one(
     db,
@@ -317,7 +319,7 @@ export async function saveBattle(db: PoolClient, who: Identity, id: string, atte
         !Number.isSafeInteger(a.elapsed) || a.elapsed < 1 || !state.hp || state.resolved === slots.length)
       throw new GameError("Invalid battle transcript.", 422);
     const slot = slots[state.resolved];
-    const marked = grade(slot.snapshot.control, slot.snapshot.answer, a.raw);
+    const marked = gradeQuestion(slot.snapshot, slot.snapshot.answer, a.raw);
     if (!marked) throw new GameError("Incomplete answer in saved battle.", 422);
     const at = new Date(startTime + Math.min(a.at, wall));
     const active = a.at <= wall + 250 && a.elapsed <= a.at - lastAt + 250 && a.elapsed <= 86400000 ? a.elapsed : null;

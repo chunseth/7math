@@ -621,7 +621,8 @@ def problem(slug, seed):
         )
     if slug == "scatter":
         if v == 1:
-            return scatter_task([(1, n), (3, n - 1), (4, 1 + (n + k) % 9)])
+            sx, sy = (-1 if n % 4 in (1, 2) else 1), (-1 if n % 4 in (2, 3) else 1)
+            return scatter_task([(sx * x, sy * y) for x, y in [(1, n), (3, n - 1), (4, 1 + (n + k) % 9)]])
         if v == 2 and n % 2:
             return choice(
                 "Which shape best describes how y changes with x?",

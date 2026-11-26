@@ -1,46 +1,29 @@
 import { useState } from "react";
-import { calculatorDecimal, calculatorResponse, calculatorSettings, evaluateCalculation } from "../../../lib/mentalist/calculator";
-import { equal, parseAnswer } from "../../../lib/curriculum/rational";
+import { calculatorDecimal, calculatorResponse, evaluateCalculation } from "../../../lib/mentalist/calculator";
 import { complete, type Control } from "../../../lib/mentalist/model";
 
 const buttons = ["7", "8", "9", "÷", "(", ")", "4", "5", "6", "×", "^", "π", "1", "2", "3", "−", "%", "!", "0", ".", "⌫", "+", "Clear", "="];
 const names: Record<string, string> = { "÷": "Divide", "×": "Multiply", "^": "Power", "π": "Pi", "−": "Minus", "%": "Percent", "!": "Factorial", "⌫": "Delete", "=": "Equals" };
+const physicalKeys: Record<string, string> = { Enter: "=", Backspace: "⌫", Delete: "⌫", Escape: "Clear", "-": "−", "/": "÷", "*": "×" };
 
-export default function QuestionCalculator({ prompt, control, parts, disabled, onAnswer, onField }: {
-  prompt: string;
+export default function QuestionCalculator({ pi, control, unit, disabled, onResult }: {
+  pi: string;
   control: Control;
-  parts: string[];
+  unit?: string;
   disabled: boolean;
-  onAnswer: (raw: string) => void;
-  onField: (index: number, raw: string) => void;
+  onResult: (raw: string) => void;
 }) {
-  const settings = calculatorSettings(prompt, control);
   const [expression, setExpression] = useState("");
   const [result, setResult] = useState("");
   const [error, setError] = useState("");
-  const [target, setTarget] = useState(0);
-  if (!settings) return null;
-  const fields = control.fields;
-  const { pi } = settings;
 
   function solve() {
     try {
       const value = evaluateCalculation(expression, pi);
       setResult(calculatorDecimal(value, 12).replace(/\.?0+$/, ""));
       setError("");
-      if (fields) {
-        const raw = fields[target].options.find(option => {
-          const number = parseAnswer(option);
-          return number && equal(value, number);
-        });
-        if (raw === undefined) return;
-        onField(target, raw);
-        const next = fields.findIndex((_, i) => i !== target && !parts[i]);
-        if (next !== -1) setTarget(next);
-      } else {
-        const raw = calculatorResponse(value, control);
-        if (raw && complete(control, raw)) onAnswer(raw);
-      }
+      const raw = calculatorResponse(value, control);
+      if (raw && complete(control, raw)) onResult(raw);
     } catch (error) {
       setError(error instanceof Error ? error.message : "Check the calculation and try again.");
       setResult("");
@@ -48,6 +31,7 @@ export default function QuestionCalculator({ prompt, control, parts, disabled, o
   }
 
   function press(key: string) {
+    if (disabled) return;
     if (key === "=") { solve(); return; }
     setError("");
     setResult("");
@@ -57,18 +41,17 @@ export default function QuestionCalculator({ prompt, control, parts, disabled, o
     if (next.length <= 128) setExpression(next);
   }
 
-  return <details className="mt-calculator">
-    <summary>Calculator</summary>
+  return <section className="mt-calculator" aria-label="Calculator" tabIndex={0} onKeyDown={event => {
+    if (event.metaKey || event.ctrlKey || event.altKey || (event.key === "Enter" && event.target instanceof HTMLButtonElement)) return;
+    const key = physicalKeys[event.key] ?? event.key;
+    if (!buttons.includes(key)) return;
+    event.preventDefault();
+    press(key);
+  }}>
     {pi !== "3.14159265359" && <small>π = {pi}</small>}
-    {fields && <label>Use result for <select value={target} disabled={disabled} onChange={event => setTarget(Number(event.target.value))}>
-      {fields.map((field, i) => <option key={field.label} value={i}>{field.label}</option>)}
-    </select></label>}
-    <input aria-label="Calculator expression" autoComplete="off" maxLength={128} value={expression} disabled={disabled}
-      onChange={event => { setExpression(event.target.value); setResult(""); setError(""); }} onKeyDown={event => {
-        if (event.key === "Enter" || event.key === "=") { event.preventDefault(); if (!disabled) solve(); }
-      }} />
-    <output aria-live="polite">{error || result}</output>
+    <div className="mt-calculator-expression" aria-label="Calculator expression">{expression || "0"}</div>
+    <output aria-live="polite">{error || (result ? result + (unit ? " " + unit : "") : "")}</output>
     <div className="mt-calculator-keys">{buttons.map(key => <button key={key} type="button" aria-label={names[key] ?? key}
       disabled={disabled} onClick={() => press(key)}>{key}</button>)}</div>
-  </details>;
+  </section>;
 }

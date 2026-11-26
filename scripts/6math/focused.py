@@ -540,10 +540,10 @@ def problem(key, seed):
     if key == "credit-record":
         if v == 0:
             return pick(
-                f"A lender wants to know if a ${100*n} loan was repaid as agreed. Which record should they check?",
+                f"A lender wants to know whether the payments on a ${100*n} loan were made on time. Which record should they check?",
                 "Payment history",
                 "Credit limit",
-                "Current outstanding balance",
+                "Current credit utilization",
             )
         if v == 1:
             return pick(

@@ -1,9 +1,12 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { createHash } from "node:crypto";
 import { gunzipSync } from "node:zlib";
 import { existsSync, readFileSync } from "node:fs";
-import { accessMap, courses, evaluate, grade, gradeOf, levels, type Question, type Recorded } from "../lib/mentalist/model";
-import { checkLocally, guestOrder, type LevelPack } from "../lib/mentalist/round";
+import { accessMap, courses, evaluate, fieldAttempt, grade, gradeOf, gradeQuestion, hasSequentialFields, levels, type Question, type Recorded } from "../lib/mentalist/model";
+import { checkField, checkLocally, checkText, guestOrder, type LevelPack } from "../lib/mentalist/round";
+import { leastOrder, leastOrderAttempt, studentPrompt } from "../lib/mentalist/least-order";
+import { responseUnit } from "../lib/mentalist/units";
 
 type Bank = {
   version: number;
@@ -11,8 +14,8 @@ type Bank = {
   questions: Record<string, Question & { answer: string }>;
 };
 const specs = {
-  6: { count: 222, skills: 92, version: 6004, opening: "g6.foundation-sums.1", singleton: "6.11", strands: {2:"E",3:"E",4:"H",5:"C",6:"C",7:"D",8:"D",9:"C",10:"B",12:"D",13:"B",14:"H"} },
-  8: { count: 225, skills: 101, version: 8004, opening: "g8.foundation-numbers.1", singleton: "8.9", strands: {2:"D",3:"C",4:"C",5:"I",6:"C",7:"D",8:"D",10:"D",11:"C",12:"G"} },
+  6: { count: 222, skills: 92, version: 6005, opening: "g6.foundation-sums.1", singleton: "6.11", strands: {2:"E",3:"E",4:"H",5:"C",6:"C",7:"D",8:"D",9:"C",10:"B",12:"D",13:"B",14:"H"} },
+  8: { count: 225, skills: 101, version: 8005, opening: "g8.foundation-numbers.1", singleton: "8.9", strands: {2:"D",3:"C",4:"C",5:"I",6:"C",7:"D",8:"D",10:"D",11:"C",12:"G"} },
 };
 
 for (const number of [6, 8] as const) {
@@ -66,10 +69,83 @@ for (const number of [6, 8] as const) {
         assert.ok(!("answer" in pack.questions[i]));
         assert.equal(grade(q.control, q.answer, raw)?.outcome, "correct", slot.q);
         assert.equal(await checkLocally(pack, i, raw), "correct", slot.q);
+        if (hasSequentialFields(q.control)) for (const [part, value] of q.answer.split("|").entries()) {
+          const candidate = pack.questions[i];
+          assert.equal(await checkField(candidate, part, value), true, slot.q);
+          assert.equal(gradeQuestion(q, q.answer, fieldAttempt(part, value)), null);
+          const wrong = q.control.fields?.[part].options.find(option => option !== value);
+          if (wrong !== undefined && !await checkField(candidate, part, wrong)) {
+            const failedPart = fieldAttempt(part, wrong);
+            assert.equal(gradeQuestion(q, q.answer, failedPart)?.outcome, "incorrect", slot.q);
+            assert.equal(await checkLocally(pack, i, failedPart), "incorrect", slot.q);
+          }
+        }
       }
     }
   });
 }
+
+test("number bubbles score a wrong tap immediately and require all three correct taps", async () => {
+  for (const [path, level] of [
+    ["content/6math/bank.json.gz", "g6.steps-order.2"],
+    ["content/mentalist/bank-v6.json.gz", "review.numberline.2"],
+  ]) {
+    const bank: Bank = JSON.parse(gunzipSync(readFileSync(path)).toString());
+    const { pool } = bank.levels.find(item => item.id === level)!;
+    const set = "number-bubbles";
+    const pack: LevelPack = path.includes("/6math/")
+      ? JSON.parse(readFileSync(`public/6math/practice/${level}.json`, "utf8"))
+      : { level, set, questions: pool.map(({ q }, i) => {
+        const { answer, ...question } = bank.questions[q];
+        return { ...question, check: createHash("sha256").update(checkText(set, i, question, answer)).digest("hex") };
+      }) };
+    let bubbleQuestions = 0;
+    for (const [i, slot] of pool.entries()) {
+      const { answer, ...question } = bank.questions[slot.q];
+      if (!question.prompt.startsWith("Which is least:")) {
+        assert.equal(studentPrompt(question), question.prompt);
+        continue;
+      }
+      bubbleQuestions++;
+      const order = leastOrder(question);
+      assert.ok(order, slot.q);
+      const [least, middle, greatest] = order;
+      assert.ok(Number(least) < Number(middle) && Number(middle) < Number(greatest));
+      assert.equal(least, answer);
+      assert.match(studentPrompt(question), /least to greatest/);
+      for (const [picks, outcome] of [
+        [order, "correct"], [[middle], "incorrect"], [[greatest], "incorrect"], [[least, greatest], "incorrect"],
+      ] as const) {
+        const raw = leastOrderAttempt([...picks]);
+        assert.equal(gradeQuestion(question, answer, raw)?.outcome, outcome);
+        assert.equal(await checkLocally(pack, i, raw), outcome);
+      }
+      for (const picks of [[least], [least, middle], [least, least], [middle, greatest]]) {
+        const raw = leastOrderAttempt(picks);
+        assert.equal(gradeQuestion(question, answer, raw), null);
+        await assert.rejects(checkLocally(pack, i, raw), /Finish your answer/);
+      }
+      assert.equal(gradeQuestion(question, answer, least)?.outcome, "correct");
+    }
+    assert.equal(bubbleQuestions, 15);
+  }
+});
+
+test("numeric answer units describe the requested quantity", () => {
+  for (const [prompt, expected] of [
+    ["At 6 km/h for 3 hours, find distance in km.", "km"],
+    ["Traveling 18 km in 3 hours, find km/h.", "km/h"],
+    ["Convert 9.5 meters to centimeters.", "cm"],
+    ["A circle has radius 5 m. Use π = 3.14. Find its area.", "m²"],
+    ["A rectangular prism has volume 4320 cm³. Find one-third of its volume.", "cm³"],
+    ["A loan is repaid in 12 monthly payments of $15. Find total repayment.", "dollars"],
+    ["A price changes from $1600 to $2240. Find the size of the percent change.", "%"],
+    ["How much narrower is the second range, in percentage points?", "percentage points"],
+    ["An image changes a 80 cm side to 16 cm. Find its scale factor.", undefined],
+  ] as const) {
+    assert.equal(responseUnit({ prompt, control: { kind: "whole" } }), expected, prompt);
+  }
+});
 
 for (const number of [6, 8] as const) test(`Grade ${number} progression preserves earned clears and unlocks each focused level in order`, () => {
   const prefix = "g" + number + ".";
@@ -97,7 +173,7 @@ for (const number of [6, 8] as const) test(`Grade ${number} progression preserve
 });
 
 test("the shared rectangular-prism nets have opposite matching faces and linear choices fit every row uniquely", () => {
-  const sources = ["content/6math/bank.json.gz", "content/mentalist/bank-v5.json.gz", "content/8math/bank.json.gz"];
+  const sources = ["content/6math/bank.json.gz", "content/mentalist/bank-v6.json.gz", "content/8math/bank.json.gz"];
   let nets = 0, linear = 0;
   for (const source of sources) {
     const bank: Bank = JSON.parse(gunzipSync(readFileSync(source)).toString());
@@ -133,6 +209,7 @@ test("sample-spread questions use feasible counts and score the difference in sp
     assert.ok(lowerSmall >= 0 && upperSmall <= 100 && lowerSmall <= upperSmall);
     assert.ok(lowerLarge >= 0 && upperLarge <= 100 && lowerLarge <= upperLarge);
     assert.deepEqual([lowerSmall % 10, upperSmall % 10, lowerLarge % 2, upperLarge % 2], [0,0,0,0]);
+    assert.notEqual(lowerLarge - lowerSmall, upperSmall - upperLarge);
     assert.equal(Number(q.answer), (upperSmall - lowerSmall) - (upperLarge - lowerLarge));
   }
 });

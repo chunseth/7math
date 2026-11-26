@@ -22,8 +22,8 @@ const gameModes = [
     href: "/8math", kicker: "Grade 8", title: "8math",
   },
   {
-    description: "Review student questions, accept correct examples, and flag issues across three grade worlds.",
-    href: "/verification", kicker: "Curriculum Review", title: "Verification Trail",
+    description: "Test question formats from all three grades in one review set.",
+    href: "/verification", kicker: "Curriculum Review", title: "Verification",
   },
   {
     description: "Spend energy to mine ore, then craft pickaxes and swords for your player.",

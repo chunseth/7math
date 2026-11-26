@@ -7,6 +7,7 @@ export const BOSS_HEALTH = 12;
 const RESPAWN_MS = 700;
 const SHOT_INTERVAL_MS = 2_600;
 const HIT_RECOVERY_MS = 850;
+const ANSWER_PAUSE_MS = 800;
 
 export type Point = { x: number; y: number };
 export type ArenaSize = { width: number; height: number };
@@ -44,6 +45,7 @@ export type Run = {
   power: Record<string, number>;
   speed: number;
   entry: string;
+  answerDue: number | null;
   feedback: string;
   nextId: number;
   deck: Question[];
@@ -127,7 +129,7 @@ export function createRun(pack: SurvivorPack, size: ArenaSize, random = Math.ran
     player: { x: size.width / 2, y: size.height / 2 }, health: 100, maxHealth: 100, hurtUntil: 0,
     enemy: null, spawnAt: 0, shots: [], orb: null, drops: [], defeated: 0,
     xp: 0, xpGoal: 3, upgradeTopic: null, upgrades: [], power: {}, speed: 1,
-    entry: "", feedback: "", nextId: 1, deck: [...pool], pool, random,
+    entry: "", answerDue: null, feedback: "", nextId: 1, deck: [...pool], pool, random,
   };
   spawn(run, false);
   return run;
@@ -163,6 +165,7 @@ function hurt(run: Run, damage: number) {
   if (run.health === 0) {
     run.phase = "defeat";
     run.entry = "";
+    run.answerDue = null;
   }
 }
 
@@ -190,10 +193,16 @@ function tick(run: Run, movement: Movement, milliseconds: number) {
     run.bossArrived = true;
     run.shots = [];
     run.entry = "";
+    run.answerDue = null;
     run.feedback = "The boss has arrived.";
     spawn(run, true);
   } else if (!run.bossArrived && !run.enemy && run.elapsed >= run.spawnAt) {
     spawn(run, false);
+  }
+
+  if (run.answerDue !== null && run.elapsed >= run.answerDue) {
+    editAnswer(run, "Enter");
+    if (run.phase !== "playing") return;
   }
 
   run.shots = run.shots.filter(shot => moveProjectile(run, shot, "shot", travel * 0.48));
@@ -267,17 +276,12 @@ export function chooseUpgrade(run: Run, kind: Upgrade) {
 }
 
 export function editAnswer(run: Run, key: string) {
-  if (run.phase !== "playing") return;
-  if (key === "Clear") {
-    run.entry = "";
-    run.feedback = "";
-    return;
-  }
-  if (!run.enemy && !run.orb) return;
+  if (run.phase !== "playing" || (!run.enemy && !run.orb)) return;
   const entry = key === "Enter" ? run.entry : key === "Backspace" ? run.entry.slice(0, -1)
     : key === "-" ? run.entry.startsWith("-") ? run.entry.slice(1) : "-" + run.entry : run.entry + key;
   if (!/^-?(?:\d{0,12}(?:\.\d{0,12})?|\d{1,12}\/\d{0,12})$/.test(entry)) return;
   run.entry = entry;
+  run.answerDue = null;
   run.feedback = "";
   const parsed = parseAnswer(entry);
   const value = parsed && formatRational(parsed);
@@ -292,7 +296,8 @@ export function editAnswer(run: Run, key: string) {
   const other = hitEnemy ? orb?.question : enemy?.question;
   if (key !== "Enter" && !(hitEnemy && defuse) && other &&
       answerForms(other).some(form => form.length > entry.length && form.startsWith(entry))) {
-    run.feedback = "Keep typing or press Enter.";
+    run.answerDue = run.elapsed + ANSWER_PAUSE_MS;
+    run.feedback = "Keep typing for the longer answer.";
     return;
   }
 

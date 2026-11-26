@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
       const who = await identity(db, req.cookies.get(cookie)?.value);
       if (b.action === "verificationCheck") return checkReview(b);
       if (b.action === "verificationSave") return saveReview(db, who, b);
-      if (b.action === "verificationExport") return exportReviewBugs(db, who);
+      if (b.action === "verificationExport") return exportReviewBugs(db, who, b.setId);
       if (b.action === "prepareLevel") return prepareLevel(db, who, b.level);
       if (b.action === "survivorPack") return survivorPack(db, who);
       if (b.action === "state") return studentState(db, who, courseGrade(b.grade));

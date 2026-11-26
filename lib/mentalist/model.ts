@@ -6,6 +6,7 @@ import trailData from "../../content/mentalist/trail.json";
 import { branchTitles } from "../curriculum/catalog";
 import { equal, formatRational, parseAnswer } from "../curriculum/rational";
 import type { Equipment } from "./resources";
+import { responseForGrade } from "./least-order";
 
 // Keep each slash on the word before it, with a space before the next word ("Bar/ dot plots").
 const spaceSlashes = (title: string) => title.replace(/\s*\/\s*/g, "/ ");
@@ -47,7 +48,7 @@ export const worldTitles = branchTitles;
 export const worlds = [...new Set(skills.map((s) => s.world))];
 export const skillById = new Map<string, (typeof skills)[number]>([...skills, ...courseSkills].map(s => [s.id, s]));
 export const levelById = new Map([...levels, ...courses[6].levels, ...grade8Levels].map(l => [l.id, l]));
-export const curriculumVersion = 5;
+export const curriculumVersion = 6;
 const formerSkillIds = new Map<string, string>();
 for (const skill of skills)
   for (const table of skill.tables ?? []) formerSkillIds.set(skill.group + "." + table, skill.id);
@@ -114,6 +115,7 @@ export type Visual = {
   rows?: (string | number)[][];
   points?: number[][];
   outcomes?: string[];
+  coinTrials?: number;
   solid?: number;
   source?: string;
   sampleSize?: number;
@@ -147,7 +149,7 @@ export function responseFieldMode(kind: string, field: ResponseField, index: num
   return "select";
 }
 
-export type Question = { prompt: string; control: Control; visual?: Visual };
+export type Question = { prompt: string; control: Control; visual?: Visual; fieldChecks?: string[]; fieldFormats?: (Control | null)[] };
 export type Outcome = "incorrect" | "correct" | "simplification";
 export type Recorded = { outcome: Outcome; active_ms: number | null };
 export type Result = {
@@ -281,6 +283,67 @@ export function grade(
   }
   return { outcome: "correct", normalized };
 }
+
+export function gradeQuestion(question: Question, answer: string, raw: string) {
+  if (question.visual?.coinTrials) {
+    const trial = /^tosses:([HT]+):(.+)$/.exec(raw);
+    if (raw.length > 256 || !trial || trial[1].length !== question.visual.coinTrials) return null;
+    answer = coinTrialAnswers(trial[1]).join("|");
+    raw = trial[2];
+  }
+  if (isFieldAttempt(raw)) {
+    const attempt = parseFieldAttempt(question.control, raw);
+    if (!attempt) return null;
+    const expected = fieldValue(question.control, attempt.index, answer.split("|")[attempt.index]);
+    if (expected === null || expected === attempt.value) return null;
+    return { outcome: "incorrect" as const, normalized: raw };
+  }
+  const response = responseForGrade(question, raw);
+  return response === null ? null : grade(question.control, answer, response);
+}
+
+export function hasSequentialFields(control: Control) {
+  return !!control.fields && !["dotplot", "histogram", "stem-plot"].includes(control.kind);
+}
+
+export function fieldValue(control: Control, index: number, raw: string) {
+  const field = control.fields?.[index];
+  if (!field || !raw || raw.length > 128) return null;
+  const mode = responseFieldMode(control.kind, field, index);
+  if (mode === "number") {
+    const number = parseAnswer(raw);
+    return number ? formatRational(number) : null;
+  }
+  if (mode === "text") return /^[a-z]{1,3}$/i.test(raw.trim()) ? raw.trim().toLowerCase() : null;
+  return field.options.includes(raw) ? raw : null;
+}
+
+export function fieldFormat(control: Control, index: number, answer: string): Control | null {
+  const field = control.fields?.[index];
+  if (!field || responseFieldMode(control.kind, field, index) !== "number") return null;
+  const signed = field.options.some(value => /^[−-]/.test(value)) || /^[−-]/.test(answer);
+  if (answer.includes("/")) return { kind: "fraction", signed };
+  const [whole, decimal] = answer.replace(/^[−+-]/, "").split(".");
+  return { kind: decimal ? "decimal" : "whole", signed, width: whole.length, ...(decimal ? { places: decimal.length } : {}) };
+}
+
+export const isFieldAttempt = (raw: string) => /^(?:tosses:[HT]+:)?part:/.test(raw);
+export const fieldAttempt = (index: number, raw: string) => `part:${index}:${raw}`;
+export const coinTrialAttempt = (tosses: string, raw: string) => `tosses:${tosses}:${raw}`;
+export function coinTrialAnswers(tosses: string) {
+  const heads = tosses.replaceAll("T", "").length;
+  return [String(heads), String(tosses.length - heads)];
+}
+export function parseFieldAttempt(control: Control, raw: string) {
+  if (raw.length > 256 || !hasSequentialFields(control)) return null;
+  const match = /^part:(\d+):(.+)$/.exec(raw);
+  if (!match) return null;
+  const index = Number(match[1]), value = fieldValue(control, index, match[2]);
+  return value === null ? null : { index, value };
+}
+
+export const fieldCheckText = (prompt: string, index: number, value: string | null) => JSON.stringify([prompt, index, value]);
+
 export type Access = {
   id: string;
   state: "ready" | "progress" | "cleared" | "placed" | "locked" | "planned";

@@ -2,7 +2,7 @@
 
 from fractions import Fraction as F
 from random import Random
-from formats import q, choose, fields, table, chart, grid
+from formats import q, choose, fields, table, chart, grid, item
 
 
 def topic(s, l, n, v):
@@ -161,11 +161,12 @@ def topic(s, l, n, v):
                 ),
             ][l - 1]
         if l == 1:
+            second = a + 2 + n % 5
             return fields(
                 f"Complete the table for y = {k}x + {b}.",
-                ["x = " + str(a), "x = " + str(a + 1)],
-                [k * a + b, k * (a + 1) + b],
-                [[a, b], [a + 1, b]],
+                [f"y when x = {a}", f"y when x = {second}"],
+                [k * a + b, k * second + b],
+                [[a, b], [second, b]],
                 n,
             )
         if l == 2:
@@ -295,7 +296,7 @@ def topic(s, l, n, v):
                 f"Complete a tree for {a} colors followed by {b} letters.",
                 ["First branches", "Leaves per branch", "Total leaves"],
                 [a, b, a * b],
-                [[a + 1, a * b], [b + 1, a * b], [a * b + 1, b]],
+                [[b, a * b], [a, a * b], [a, b]] if a != b else [[a + 1, a * b], [b + 1, a * b], [a * b + 1, b]],
                 n,
                 kind="tree",
             )
@@ -350,12 +351,12 @@ def topic(s, l, n, v):
             outcomes = [rng.choice(("H", "T")) for _ in range(8)]
             return (
                 fields(
-                    f"Tap Run next trial eight times in sequence {a}. Record the number of heads and tails.",
+                    f"Tap “Run next trial” eight times. Record the number of heads and tails (experiment {n}).",
                     ["Heads", "Tails"],
                     [outcomes.count("H"), outcomes.count("T")],
                     [[0, 1, 2, 3, 4, 5, 6, 7, 8]] * 2,
                     n,
-                    dict(kind="simulation", outcomes=outcomes),
+                    dict(kind="simulation", outcomes=outcomes, coinTrials=8),
                     kind="simulation",
                 )
                 if l == 2
@@ -365,11 +366,10 @@ def topic(s, l, n, v):
                 )
             )
         if l == 1:
-            return choose(
+            return item(
                 f"A fair coin lands heads {a} times in {2*a+2-2*v} trials. How does the observed heads rate compare with 1/2?",
                 ["Lower", "Equal", "Higher"][v],
-                ["Higher", "Equal"],
-                n,
+                dict(kind="choice", options=["Lower", "Higher", "Equal"]),
             )
         return q(
             f"A spinner landed on green {a} times in {total} trials. Based on the data, predict green outcomes in {total*4} trials.",
@@ -413,17 +413,24 @@ def topic(s, l, n, v):
                 labels=["Group A", "Group B"],
             )
             if l == 1:
+                metric = n % 4
+                vis["rows"] = [
+                    [a, a + 1, a + 3, a + 5, a + 7],
+                    [a, a + 2, a + 4, a + 8, a + 12],
+                ]
                 if v == 0:
                     vis["rows"].reverse()
                 if v == 2:
-                    vis["rows"][1][-1] = a + 9
-                return choose(
-                    f"Which group has a longer right whisker on the common scale starting at {a}?",
-                    ["Group A", "Group B", "Equal"][v],
-                    ["Group A", "Group B", "Equal"],
-                    n,
-                    vis,
-                )
+                    vis["rows"][1] = [
+                        [a, a + 1, a + 4, a + 8, a + 12],
+                        [a, a + 2, a + 4, a + 8, a + 10],
+                        [a, a + 2, a + 4, a + 6, a + 12],
+                        [a, a + 2, a + 3, a + 8, a + 12],
+                    ][metric]
+                measure = ["longer left whisker", "longer right whisker", "larger interquartile range", "greater median"][metric]
+                return item(f"Which group has the {measure} on the common scale starting at {a}?",
+                            ["Group A", "Group B", "Equal"][v],
+                            dict(kind="choice", options=["Group A", "Group B", "Equal"]), vis)
             return q(
                 f'Compare the {"medians" if l==2 else "IQRs"} on the common scale starting at {a}. How much larger is B’s?',
                 2 if l == 2 else 5,
@@ -630,7 +637,7 @@ def geometry_finance(s, l, n, v, a, b, k):
         height = 3 * k
         if s == "solid.models":
             return q(
-                f'A {"triangular" if tri else "rectangular"} prism has volume {base*height} cm³. A pyramid shares its base and height. Pyramid volume?',
+                f'A {"triangular" if tri else "rectangular"} prism has volume {base*height} cm³. A pyramid has the same base area and perpendicular height. Find the pyramid’s volume in cm³.',
                 base * k,
             )
         noun = "pyramid" if s == "solid.pyramid" else "prism"

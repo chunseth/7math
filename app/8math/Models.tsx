@@ -1,57 +1,68 @@
 "use client";
 import { useState } from "react";
+import NumberPad from "../components/NumberPad";
+import { editNumber } from "../mentalist/components/NumericEntry";
 
-export function LoanCalculator({ values, disabled, onAnswer }: {
+export function LoanCalculator({ values, disabled = false, onAnswer }: {
   values: number[];
   disabled?: boolean;
-  onAnswer?: (value: string) => boolean;
+  onAnswer?: (value: string) => void;
 }) {
-  const [principal, setPrincipal] = useState(onAnswer ? "" : String(values[0]));
-  const [apr, setApr] = useState(onAnswer ? "" : String(values[1]));
-  const [months, setMonths] = useState(onAnswer ? "" : String(values[2]));
+  const [index, setIndex] = useState(onAnswer ? 0 : 3);
+  const [entry, setEntry] = useState("");
   const [payment, setPayment] = useState("");
   const [message, setMessage] = useState("");
   const [operation, setOperation] = useState("");
   const [operand, setOperand] = useState("");
-  function clearCalculation() {
-    setOperation("");
-    setOperand("");
+  const labels = ["Principal ($)", "Annual rate (%)", "Number of months"];
+  const decimal = [{ key: ".", label: ".", name: "Decimal point" }];
+  function edit(old: string, key: string) {
+    const next = editNumber(old, key);
+    return next.length <= 13 && /^\d*(?:\.\d*)?$/.test(next) ? next : old;
   }
-  return <div className="mt-fields"><fieldset disabled={disabled} className="mt-loan-calculator"><legend>Monthly payment calculator</legend>
-    {([["Principal ($)",principal,setPrincipal],["Annual rate (%)",apr,setApr],["Months",months,setMonths]] as const)
-      .map(([label,value,set]) => <label key={label}>{label}<input type="number" min="0" inputMode="decimal" value={value}
-        onChange={e => { set(e.target.value); setPayment(""); setMessage(""); clearCalculation(); }} /></label>)}
-    <button type="button" onClick={() => {
-      const rate=Number(apr)/1200, count=Number(months), amount=Number(principal);
-      if (!principal || !apr || !Number.isFinite(amount) || !Number.isFinite(rate) || amount <= 0 || rate < 0 || !Number.isInteger(count) || count < 1) {
-        setMessage("Enter a positive principal, a nonnegative rate, and a positive whole number of months.");
-        return;
-      }
-      if (onAnswer && (amount !== values[0] || Number(apr) !== values[1] || count !== values[2])) {
-        setMessage("Check the principal, annual rate, and months against the question.");
-        return;
-      }
-      const monthly = rate === 0 ? amount/count : amount*rate/(1-(1+rate)**(-count));
-      setMessage("");
-      setPayment(monthly.toFixed(2));
-    }}>Calculate</button><output aria-live="polite">{payment && `Monthly payment $${payment}`}</output>
-  </fieldset>
-  {onAnswer && payment && <fieldset disabled={disabled} className="mt-loan-calculator"><legend>Total payment calculator</legend>
-    <label>First number ($)<input value={payment} readOnly /></label>
-    <label>Operation<select value={operation} onChange={event => setOperation(event.target.value)}>
-      <option value="">Choose…</option><option>+</option><option>−</option><option>×</option><option>÷</option>
-    </select></label>
-    <label>Second number<input value={operand} inputMode="decimal" type="number" onChange={event => setOperand(event.target.value)} /></label>
-    <button type="button" aria-label="Equals" disabled={disabled || !operation || !operand.trim()} onClick={() => {
-      const monthly = Number(payment), other = Number(operand);
-      const total = operation === "×" ? monthly * other : operation === "+" ? monthly + other
-        : operation === "−" ? monthly - other : monthly / other;
-      const sent = Number.isFinite(total) && onAnswer(total.toFixed(2));
-      setMessage(sent ? "" : "Check the operation and second number, then try again.");
-      clearCalculation();
-    }}>=</button>
-  </fieldset>}
-  {message && <p role="status">{message}</p>}
+  function monthly() {
+    const [principal, apr, months] = values;
+    const rate = apr / 1200;
+    return (rate === 0 ? principal / months : principal * rate / (1 - (1 + rate) ** (-months))).toFixed(2);
+  }
+  return <div className="mt-fields">
+    {!payment && <fieldset disabled={disabled} className="mt-loan-calculator"><legend>Monthly payment calculator</legend>
+      {index < 3 ? <>
+        <p>Part {index + 1} of 3 · {labels[index]}</p>
+        <output aria-label={labels[index]}>{entry || "—"}</output>
+        <NumberPad className="mt-keypad" controls={index < 2 ? decimal : []} disabled={disabled}
+          onKey={key => { setEntry(edit(entry, key)); setMessage(""); }} />
+        <button type="button" disabled={!entry} onClick={() => {
+          if (Number(entry) !== values[index]) { setMessage("Check that value against the question."); return; }
+          if (index === 2) setPayment(monthly());
+          setIndex(index + 1);
+          setEntry("");
+          setMessage("");
+        }}>{index === 2 ? "Calculate monthly payment" : "Next"}</button>
+      </> : <>
+        <p>${values[0]} at {values[1]}% APR for {values[2]} months.</p>
+        <button type="button" onClick={() => setPayment(monthly())}>Calculate monthly payment</button>
+      </>}
+    </fieldset>}
+    {payment && <output aria-live="polite">Monthly payment ${payment}</output>}
+    {onAnswer && payment && <fieldset disabled={disabled} className="mt-loan-calculator"><legend>Total payment calculator</legend>
+      <output aria-label="Total payment calculation">${payment} {operation} {operand}</output>
+      <div className="mt-field-buttons" aria-label="Operation" role="group">
+        {["+", "−", "×", "÷"].map(symbol => <button type="button" key={symbol} aria-pressed={operation === symbol}
+          onClick={() => { setOperation(symbol); setMessage(""); }}>{symbol}</button>)}
+      </div>
+      <NumberPad className="mt-keypad" controls={decimal} disabled={disabled} onKey={key => { setOperand(edit(operand, key)); setMessage(""); }} />
+      <button type="button" aria-label="Equals" disabled={!operation || !operand} onClick={() => {
+        const a = Number(payment), b = Number(operand);
+        const total = operation === "×" ? a * b : operation === "+" ? a + b : operation === "−" ? a - b : a / b;
+        const result = total.toFixed(2);
+        if (Number.isFinite(total) && result === (a * values[2]).toFixed(2)) { onAnswer(result); return; }
+        setMessage("Check the operation and second number, then try again.");
+        setOperation("");
+        setOperand("");
+      }}>=</button>
+    </fieldset>}
+    {message && <p role="status">{message}</p>}
   </div>;
 }
 
@@ -60,7 +71,7 @@ export function BivariatePlot({ points, intersection }: { points: number[][]; in
   const x = (n:number) => 30 + n/maxX*175, y = (n:number) => 115 - n/maxY*99;
   return <svg className="mt-chart" viewBox="0 0 240 142" role="img"
     aria-label={(intersection ? "Two lines through these endpoint pairs. " : "Scatterplot. ") + points.map(p=>"("+p.join(", ")+")").join(", ")}>
-    <path d="M30 10V115H219" fill="none" stroke="currentColor" />
+    <path d="M30 16V115H219" fill="none" stroke="currentColor" />
     <text x="14" y="128">0</text><text x="196" y="131">{maxX}</text><text x="2" y="20">{maxY}</text>
     <text x="224" y="117">x</text><text x="31" y="11">y</text>
     {intersection && [1,2,3].map(i => {

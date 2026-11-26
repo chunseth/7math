@@ -2891,7 +2891,7 @@
  },
  {
   "model": "worked",
-  "prompt": "Read the intersection of y = 8 and y = 2x + 2. Enter x and the y-value on each line at that x.",
+  "prompt": "Read the intersection of y = 8 and y = 2x + 2.",
   "steps": [
    {
     "label": "Read y on the horizontal line.",
@@ -3667,11 +3667,11 @@
  },
  {
   "model": "worked",
-  "prompt": "Make a scatterplot from (1, 6), (3, 8), (5, 8).",
+  "prompt": "Make a scatterplot from (-1, 6), (-3, 8), (-5, 8).",
   "steps": [
    {
     "label": "Place each x and its paired y as one dot.",
-    "math": "(1, 6), (3, 8), (5, 8)"
+    "math": "(-1, 6), (-3, 8), (-5, 8)"
    },
    {
     "label": "There is one dot per row. Leave them unconnected.",
@@ -3938,19 +3938,19 @@
  },
  {
   "model": "worked",
-  "prompt": "With samples of 10, estimates span 20%–90%. With samples of 50, they span 36%–74%. How much narrower is the second range, in percentage points?",
+  "prompt": "With samples of 10, estimates span 20%–90%. With samples of 50, they span 36%–70%. How much narrower is the second range, in percentage points?",
   "steps": [
    {
     "label": "Subtract the endpoints of each range.",
-    "math": "70 and 38"
+    "math": "70 and 34"
    },
    {
     "label": "Compare the two widths.",
-    "math": "70 − 38"
+    "math": "70 − 34"
    }
   ],
-  "answer": "32",
-  "result": "32",
+  "answer": "36",
+  "result": "36",
   "color": "#246650",
   "skill": "g8.steps-sampling",
   "level": "g8.steps-sampling.3"
@@ -4214,19 +4214,19 @@
  },
  {
   "model": "worked",
-  "prompt": "A saver starts with $30 and adds $80 each month for 2 months. How much of the final balance comes from money deposited, including the initial amount?",
+  "prompt": "A saver starts with $30 and adds $80 each month for 5 months. How much of the final balance comes from money deposited, including the initial amount?",
   "steps": [
    {
     "label": "Total the monthly deposits.",
-    "math": "2 × 80"
+    "math": "5 × 80"
    },
    {
     "label": "Include the starting deposit.",
-    "math": "160 + 30"
+    "math": "400 + 30"
    }
   ],
-  "answer": "190",
-  "result": "190",
+  "answer": "430",
+  "result": "430",
   "color": "#246650",
   "skill": "g8.steps-invest",
   "level": "g8.steps-invest.1"

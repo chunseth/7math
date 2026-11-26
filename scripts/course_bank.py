@@ -12,6 +12,39 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts/mentalist"))
 
+def field_metadata(row):
+    control = row["control"]
+    kind, fields = control["kind"], control.get("fields")
+    if not fields or kind in ("dotplot", "histogram", "stem-plot"):
+        return {}
+    checks, formats = [], []
+    for index, (field, answer) in enumerate(zip(fields, row["answer"].split("|"))):
+        def numeric(value):
+            try:
+                Fraction(value.replace("−", "-"))
+                return True
+            except (ValueError, ZeroDivisionError):
+                return False
+        mode = field.get("entry")
+        is_number = mode == "number" or (not mode and (
+            (kind == "ray" and index == 0) or (kind == "net" and index == 2) or
+            (kind in ("boxplot", "record", "simulation", "table") and all(map(numeric, field["options"])))
+        ))
+        fmt = None
+        if is_number:
+            signed = any(value.startswith(("-", "−")) for value in [*field["options"], answer])
+            whole, _, decimal = answer.lstrip("−+-").partition(".")
+            fmt = (dict(kind="fraction", signed=signed) if "/" in answer else
+                   dict(kind="decimal", signed=signed, width=len(whole), places=len(decimal)) if decimal else
+                   dict(kind="whole", signed=signed, width=len(whole)))
+            answer = str(Fraction(answer.replace("−", "-")))
+        elif mode == "text":
+            answer = answer.strip().lower()
+        key = json.dumps([row["prompt"], index, answer], ensure_ascii=False, separators=(",", ":"))
+        checks.append(hashlib.sha256(key.encode()).hexdigest())
+        formats.append(fmt)
+    return dict(fieldChecks=checks, fieldFormats=formats)
+
 
 def generate(grade, source, problem, expand=None):
     course = f"{grade}math"
@@ -141,6 +174,7 @@ def generate(grade, source, problem, expand=None):
             public.append(
                 {k: v for k, v in row.items() if k != "answer"}
                 | {"check": hashlib.sha256(key).hexdigest()}
+                | field_metadata(row)
             )
         artifacts[ROOT / "public" / course / "practice" / (ident + ".json")] = dict(
             level=ident, set=ident, questions=public, mix=mix

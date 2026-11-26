@@ -5,6 +5,8 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { post, RequestError } from "../../lib/mentalist/client";
 import { formatRunTime, type Outcome } from "../../lib/mentalist/model";
 import { checkLocally } from "../../lib/mentalist/round";
+import { studentPrompt } from "../../lib/mentalist/least-order";
+import QuestionPrompt from "../mentalist/components/QuestionPrompt";
 import { rushLength, type RushBoard, type RushResult, type RushRun } from "../../lib/rush/model";
 import Answer from "../mentalist/components/Answer";
 import { emptyCredentials, PlayerFields } from "../mentalist/components/PlayerFields";
@@ -204,6 +206,7 @@ function Question({ run, position, advance }: {
   const [simulated, setSimulated] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [error, setError] = useState("");
+  const [reduce, setReduce] = useState("");
   const locked = useRef(false);
   const heading = useRef<HTMLHeadingElement>(null);
 
@@ -226,7 +229,8 @@ function Question({ run, position, advance }: {
         advance(raw, outcome);
         return;
       }
-      setError(`${raw} is equivalent. Write it in simplest form.`);
+      setReduce(raw);
+      setError("Equivalent fraction. Simplify your answer.");
     } catch {
       setError("Could not check your answer. Try again.");
     }
@@ -236,11 +240,11 @@ function Question({ run, position, advance }: {
   }
 
   return <>
-    <h2 ref={heading} tabIndex={-1}>{question.prompt}</h2>
+    <h2 ref={heading} tabIndex={-1}><QuestionPrompt text={reduce ? `Reduce ${reduce}.` : studentPrompt(question)} /></h2>
     <Visual data={question.visual} showLoan={false} onSimulated={() => setSimulated(true)} />
     <div className="rush-answer">
       <Answer key={question.visual?.kind === "loan" ? "loan" : attempt} question={question}
-        disabled={checking || (question.visual?.kind === "simulation" && !simulated)} onAnswer={answer} />
+        disabled={checking || (question.visual?.kind === "simulation" && !question.visual.coinTrials && !simulated)} onAnswer={answer} />
     </div>
     {error && <p role="alert">{error}</p>}
     <button className="rush-skip" type="button" disabled={checking} onClick={() => {

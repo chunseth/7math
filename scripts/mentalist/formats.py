@@ -40,6 +40,8 @@ def choose(prompt, correct, others, order, visual=None):
 
 
 def fields(prompt, labels, values, choices, order, visual=None, kind="table"):
+    if kind == "net" and prompt.endswith("The labeled numbers are face areas."):
+        prompt = prompt.replace("The labeled numbers are face areas.", "The labeled face areas are in cm².")
     opts = []
     for i, (label, val, options) in enumerate(zip(labels, values, choices)):
         opts.append(

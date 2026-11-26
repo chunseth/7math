@@ -1,6 +1,6 @@
 import type { PoolClient } from "pg";
 import { GameError, one, rows, uuid, type Identity } from "../mentalist/db";
-import { grade } from "../mentalist/model";
+import { gradeQuestion } from "../mentalist/model";
 import type { BankQuestion } from "../mentalist/bank";
 import { drawRush } from "./bank";
 import { rushLength, type RushBoard, type RushRecord, type RushResult, type RushRun } from "./model";
@@ -31,7 +31,7 @@ export async function finishRush(db: PoolClient, who: Identity, id: unknown, ans
   let score = 0;
   for (const [index, question] of saved.questions.entries()) {
     if (answers[index] === null) continue;
-    const marked = grade(question.control, question.answer, answers[index]);
+    const marked = gradeQuestion(question, question.answer, answers[index]);
     if (!marked || marked.outcome === "simplification") throw new GameError("A Rush answer is incomplete.");
     if (marked.outcome === "correct") score++;
   }

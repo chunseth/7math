@@ -3,7 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import Answer from "../mentalist/components/Answer";
 import { Visual } from "../mentalist/components/Visual";
 import { checkLocally, guestOrder, type LevelPack } from "../../lib/mentalist/round";
-import { gradeOf, levelById } from "../../lib/mentalist/model";
+import { studentPrompt } from "../../lib/mentalist/least-order";
+import QuestionPrompt from "../mentalist/components/QuestionPrompt";
+import { gradeOf, isFieldAttempt, levelById } from "../../lib/mentalist/model";
 
 export function Practice({ level, close }: { level: string; close: () => void }) {
   const [pack, setPack] = useState<LevelPack | null>(null);
@@ -11,6 +13,7 @@ export function Practice({ level, close }: { level: string; close: () => void })
   const [position, setPosition] = useState(0);
   const [misses, setMisses] = useState(new Set<number>());
   const [feedback, setFeedback] = useState("");
+  const [reduce, setReduce] = useState("");
   const [attempt, setAttempt] = useState(0);
   const [retry, setRetry] = useState(0);
   const [half, setHalf] = useState(1);
@@ -37,11 +40,12 @@ export function Practice({ level, close }: { level: string; close: () => void })
     try {
       const outcome = await checkLocally(pack, order[position], raw);
       if (calculated && outcome !== "correct") return;
-      if (outcome === "correct") { setPosition(position + 1); setFeedback(""); }
+      if (outcome === "correct") { setPosition(position + 1); setFeedback(""); setReduce(""); }
       else {
         if (outcome === "incorrect") setMisses(new Set([...misses,position]));
-        setFeedback(outcome === "incorrect" ? "Try again." : `${raw} is equivalent. Write it in simplest form.`);
-        setAttempt(a => a + 1);
+        if (outcome === "simplification") setReduce(raw);
+        setFeedback(isFieldAttempt(raw) ? "" : outcome === "incorrect" ? "Try again." : "Equivalent fraction. Simplify your answer.");
+        if (!isFieldAttempt(raw)) setAttempt(a => a + 1);
       }
     } catch { setFeedback("Could not check this answer. Try again."); setAttempt(a => a + 1); }
     finally { lock.current = false; }
@@ -51,10 +55,10 @@ export function Practice({ level, close }: { level: string; close: () => void })
     <h1>{levelById.get(level)?.title}</h1>
     {done ? <><h2>Practice complete</h2><p>{position - misses.size} of {position} correct on the first try.</p>
       {half === 1 && <button className="mt-primary" onClick={() => setHalf(2)}>Practice the remaining 12</button>}</> :
-      question ? <><p>Practice · {position % 12 + 1} of 12</p><h2>{question.prompt}</h2>
+      question ? <><p>Practice · {position % 12 + 1} of 12</p><h2><QuestionPrompt text={reduce ? `Reduce ${reduce}.` : studentPrompt(question)} /></h2>
         <Visual key={position} data={question.visual} showLoan={false} onSimulated={() => setSimulated(position)} />
         <Answer key={position + "/" + (question.visual?.kind === "loan" ? 0 : attempt)} question={question}
-          disabled={question.visual?.kind === "simulation" && simulated !== position} onAnswer={answer} /></> :
+          disabled={question.visual?.kind === "simulation" && !question.visual.coinTrials && simulated !== position} onAnswer={answer} /></> :
       feedback ? <button onClick={() => setRetry(retry+1)}>Retry loading</button> : <p>Loading questions…</p>}
     <p role="status">{feedback}</p>
   </main>;

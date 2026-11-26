@@ -1,5 +1,5 @@
 import { randomInt, randomUUID } from "node:crypto";
-import { readCourseBank, type BankQuestion } from "../mentalist/bank";
+import { publicQuestion, readCourseBank, type BankQuestion } from "../mentalist/bank";
 import { hash } from "../mentalist/db";
 import { checkText, type LevelPack } from "../mentalist/round";
 import { rushLength } from "./model";
@@ -26,9 +26,7 @@ export function drawRush() {
     level: "rush",
     set,
     questions: selected.map((question, index) => ({
-      prompt: question.prompt,
-      control: question.control,
-      visual: question.visual,
+      ...publicQuestion(question),
       check: hash(checkText(set, index, question, question.answer)),
     })),
   };

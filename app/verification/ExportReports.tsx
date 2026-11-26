@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { post } from "../../lib/mentalist/client";
 
-export default function ExportReports() {
+export default function ExportReports({ setId }: { setId: string }) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -11,9 +11,9 @@ export default function ExportReports() {
     setBusy(true);
     setMessage("");
     try {
-      const reports = await post<unknown[]>({ action: "verificationExport" });
+      const reports = await post<unknown[]>({ action: "verificationExport", setId });
       if (!reports.length) {
-        setMessage("You have no saved bug reports.");
+        setMessage("No bug reports in this set yet.");
         return;
       }
       const blob = new Blob([JSON.stringify(reports, null, 2)], { type: "application/json" });

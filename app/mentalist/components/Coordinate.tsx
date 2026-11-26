@@ -18,7 +18,7 @@ export default function Coordinate({ limit, line, drawing, drawingScale, scatter
   const negative: [number, number] = [-limit, 0];
   const positive: [number, number] = [0, limit];
   const full: [number, number] = [-limit, limit];
-  const half = Math.max(1, Math.round(limit / 3));
+  const half = origin === 0 ? Math.min(limit, Math.round(5 / step)) : Math.max(1, Math.round(limit / 3));
   const fullView: Window = { label: line ? "Full line" : "Full grid", x: full, y: full };
   const windows: Window[] = line ? [
     fullView, { label: origin === 0 ? "Negative side" : "Left half", x: negative, y: full },
@@ -56,12 +56,20 @@ export default function Coordinate({ limit, line, drawing, drawingScale, scatter
   const size = 2 * limit;
   const left = limit + view.x[0], right = limit + view.x[1];
   const top = line ? 0 : limit - view.y[1], bottom = line ? 1 : limit - view.y[0];
+  const xTicksAbove = view.y[1] === 0;
+  const yTicksOnRight = !line && view.x[1] === 0;
+  const xTickY = line ? 2.2 : limit + (xTicksAbove ? -.35 : .94);
+  const xTitleAtCorner = xTicksAbove || yTicksOnRight;
+  const sidePadding = xTitleAtCorner ? 1.8 : 1.5;
+  const rightPadding = !line && drawingScale > 1 ? 3 : sidePadding;
   const xTicks = ticks(view.x), yTicks = ticks(view.y);
   const drawingPoint = placed.at(-1) ?? (keyboardCursor ? cursor : null);
   const waiting = viewIndex === null;
   const tickText = (i: number, start?: number) => coordinate(i, start) * drawingScale;
-  const labelStep = line && step === .1 ? 1 : Math.max(1, Math.ceil((view.x[1] - view.x[0]) / 10));
-  const everyLabel = (range: [number, number], i: number) => i === range[0] || i === range[1] || i % (drawingScale > 1 ? 5 : labelStep) === 0;
+  const labelStep = Math.max(1, Math.ceil((view.x[1] - view.x[0]) / 10));
+  const everyLabel = (range: [number, number], i: number) => line && step === .1
+    ? Math.round(coordinate(i, origin) * 10) % 2 === 0
+    : i === range[0] || i === range[1] || i % (drawingScale > 1 ? 5 : labelStep) === 0;
 
   return <div className="mt-grid">
     <div className="mt-grid-views" role="group" aria-label={line ? "Number line view" : "Coordinate grid view"}>
@@ -78,7 +86,7 @@ export default function Coordinate({ limit, line, drawing, drawingScale, scatter
       tabIndex={disabled || waiting ? -1 : 0}
       role={waiting ? "img" : "button"}
       aria-label={waiting ? "Overview of four quadrants" : `Coordinate ${coordinate(cursor[0], origin)}, ${coordinate(cursor[1])}. Use arrow keys then Space to place a point.`}
-      viewBox={`${left - 1.5} ${top - 1.3} ${right - left + 3} ${line ? 4.6 : bottom - top + 2.8}`}
+      viewBox={`${left - sidePadding} ${top - 1.3} ${right - left + sidePadding + rightPadding} ${line ? 4.6 : bottom - top + 2.8}`}
       onClick={event => {
         if (disabled) return;
         const svg = event.currentTarget;
@@ -109,13 +117,16 @@ export default function Coordinate({ limit, line, drawing, drawingScale, scatter
       }}>
       {line ? <>
         <path d={`M${left} .5H${right}`} stroke="#425c58" strokeWidth=".13" />
-        {xTicks.map(i => <path key={i} d={`M${limit + i} 0V1`} stroke="#425c58" strokeWidth={everyLabel(view.x, i) ? ".1" : ".055"} />)}
+        {xTicks.filter(i => step !== .1 || everyLabel(view.x, i)).map(i =>
+          <path key={i} d={`M${limit + i} 0V1`} stroke="#425c58" strokeWidth={everyLabel(view.x, i) ? ".1" : ".055"} />)}
       </> : <>
         {!waiting && xTicks.map(i => <path key={i} d={`M${limit + i} ${top}V${bottom}`} stroke="#c9dad5" strokeWidth=".055" />)}
         {!waiting && yTicks.map(i => <path key={i} d={`M${left} ${limit - i}H${right}`} stroke="#c9dad5" strokeWidth=".055" />)}
         <path d={`M${limit} ${top}V${bottom}M${left} ${limit}H${right}`} stroke="#425c58" strokeWidth=".13" />
-        <text x={right} y={limit - .3} textAnchor="end" fontSize=".7">{drawingScale > 1 ? "x (m)" : "x"}</text>
-        <text x={limit} y={top - .45} textAnchor={view.x[1] === 0 ? "end" : "start"} fontSize=".7">
+        <text x={right + (xTitleAtCorner ? .8 : .25)} y={xTitleAtCorner ? xTickY : limit - .3}
+          fontSize=".7">{drawingScale > 1 ? "x (m)" : "x"}</text>
+        <text x={xTicksAbove ? left : limit} y={xTicksAbove ? bottom + .94 : top - .45}
+          textAnchor={yTicksOnRight && !xTicksAbove ? "end" : "start"} fontSize=".7">
           {drawingScale > 1 ? "y (m)" : "y"}
         </text>
         {waiting && [[1, 1, "I"], [-1, 1, "II"], [-1, -1, "III"], [1, -1, "IV"]].map(([x, y, label]) =>
@@ -130,9 +141,10 @@ export default function Coordinate({ limit, line, drawing, drawingScale, scatter
         points={placed.map(([x, y]) => [x + limit, limit - y].join(",")).join(" ")} stroke="#bd751f" strokeWidth=".13" />}
       {keyboardCursor && <circle cx={cursor[0] + limit} cy={line ? .5 : limit - cursor[1]} r=".3" fill="#247762" />}
       {!waiting && xTicks.filter(i => everyLabel(view.x, i)).map(i => <text key={i} x={i + limit}
-        y={line ? 2.2 : limit + .94} fontSize=".75" textAnchor="middle">{tickText(i, origin)}</text>)}
+        y={xTickY} fontSize=".75" textAnchor="middle">{tickText(i, origin)}</text>)}
       {!line && !waiting && yTicks.filter(i => i !== 0 && everyLabel(view.y, i)).map(i => <text key={i}
-        x={limit - .25} y={limit - i + .23} fontSize=".75" textAnchor="end">{tickText(i)}</text>)}
+        x={limit + (yTicksOnRight ? .25 : -.25)} y={limit - i + .23} fontSize=".75"
+        textAnchor={yTicksOnRight ? "start" : "end"}>{tickText(i)}</text>)}
     </svg>
     {count > 1 && placed.length > 0 && (scatter || placed.length < count) && <button type="button" disabled={disabled} onClick={() => {
       setPlaced(previous => previous.slice(0, -1));

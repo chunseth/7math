@@ -728,12 +728,12 @@ def activity(key, seed):
         y = slope * n + intercept
         rule = ("x" if slope == 1 else f"{slope}x") + (f" + {intercept}" if intercept else "")
         pts = [[0, y], [2 * n, y], [0, intercept], [2 * n, 2 * n * slope + intercept]]
-        prompt = f"Read the intersection of y = {y} and y = {rule}. Enter x and the y-value on each line at that x."
+        prompt = f"Read the intersection of y = {y} and y = {rule}."
         _, clip = make(prompt, n,
                        "Read y on the horizontal line.", f"y = {y}",
                        "Check both rules at the crossing.", f"{slope} × {n} + {intercept} = {y}")
         clip["result"] = clip["answer"] = f"({n}, {y})"
-        row = fields(prompt, ["x at intersection", "y in the first rule", "y in the second rule"],
+        row = fields(prompt, ["x at the intersection", f"y-value on y = {y} at that x", f"y-value on y = {rule} at that x"],
                      [n, y, y], [[n - 1, n + 1], [y - 1, y + 1], [y - 1, y + 1]],
                      seed, dict(kind="intersection", points=pts), kind="record")
         return row, clip
@@ -979,7 +979,8 @@ def activity(key, seed):
             f"{2*k*n} + {ends} × {k*k}",
         )
     if key == "pair":
-        observations = [(a, b), (a + 2, b + k % 3), (a + 4, b + 2)]
+        sx, sy = (-1 if seed % 4 in (1, 2) else 1), (-1 if seed % 4 in (2, 3) else 1)
+        observations = [(sx * x, sy * y) for x, y in [(a, b), (a + 2, b + k % 3), (a + 4, b + 2)]]
         row = scatter_task(observations)
         pairs = ", ".join(f"({x}, {y})" for x, y in observations)
         _, clip = make(f"Make a scatterplot from {pairs}.", 3,
@@ -1082,7 +1083,7 @@ def activity(key, seed):
         )
     if key == "sample-spread":
         low_small, high_small = 10 * (seed % 4 + 1), 10 * (seed % 4 + 5 + seed // 8)
-        low_large, high_large = low_small + 2 * k, high_small - 2 * k
+        low_large, high_large = low_small + 2 * k, high_small - 2 * (k + 1 + seed % 2)
         small_spread, large_spread = high_small - low_small, high_large - low_large
         return make(
             f"With samples of 10, estimates span {low_small}%–{high_small}%. With samples of 50, they span {low_large}%–{high_large}%. How much narrower is the second range, in percentage points?",
@@ -1170,7 +1171,7 @@ def activity(key, seed):
             f"{12*(2*n+k)} − {24*n}",
         )
     if key == "deposits":
-        months = 1 + seed % 12
+        months = 2 + seed % 11
         return make(
             f"A saver starts with ${n*10} and adds ${k*10} each month for {months} months. How much of the final balance comes from money deposited, including the initial amount?",
             n * 10 + k * 10 * months,

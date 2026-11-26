@@ -5,11 +5,11 @@ import ZoomableGraph from "./ZoomableGraph";
 export function Visual({ data, onSimulated, editChart, showLoan = true }: {
   data?: Data;
   onSimulated?: () => void;
-  editChart?: { active: number | null; select: (index: number) => void };
+  editChart?: { active: number | null; select: (index: number) => void; maxCount: number; change: (index: number, delta: number) => void };
   showLoan?: boolean;
 }) {
   const [draws, setDraws] = useState(0);
-  if (!data) return null;
+  if (!data || data.coinTrials) return null;
   const vals = data.values ?? [],
     labels = data.labels ?? [];
   const editProps = (index: number) => editChart && {
@@ -23,6 +23,16 @@ export function Visual({ data, onSimulated, editChart, showLoan = true }: {
       event.preventDefault();
       editChart.select(index);
     },
+  };
+  const countControls = (center: number, y: number) => {
+    const index = editChart?.active;
+    if (!editChart || index === null || index === undefined) return null;
+    return <foreignObject x={center - 40} y={y} width="80" height="44">
+      <div className="mt-chart-controls" role="group" aria-label={`Count for ${labels[index]}`}>
+        <button type="button" disabled={!vals[index]} aria-label="Decrease count" onClick={() => editChart.change(index, -1)}>−</button>
+        <button type="button" disabled={vals[index] >= editChart.maxCount} aria-label="Increase count" onClick={() => editChart.change(index, 1)}>+</button>
+      </div>
+    </foreignObject>;
   };
   if (data.kind === "loan") return showLoan ? <LoanCalculator values={vals} /> : null;
   if (data.kind === "scatter" || data.kind === "intersection") return <ZoomableGraph>
@@ -105,7 +115,7 @@ export function Visual({ data, onSimulated, editChart, showLoan = true }: {
         role="img"
         aria-label={pts.map((p) => p.join(", ")).join(" to ")}
       >
-        <path d="M26 10V90H225" fill="none" stroke="currentColor" />
+        <path d="M26 17V90H225" fill="none" stroke="currentColor" />
         <polyline
           points={pts.map(([x, y]) => [26 + (165 * x) / maxX, 90 - (64 * y) / maxY].join(",")).join(" ")}
           fill="none"
@@ -157,9 +167,9 @@ export function Visual({ data, onSimulated, editChart, showLoan = true }: {
       </svg>
     );
   if (data.kind === "boxes") {
-    const rr = data.rows!.map((r) => r.map(Number)),
-      min = Math.min(...rr.flat()),
-      max = Math.max(...rr.flat());
+    const rr = data.rows!.map(r => r.map(value => value === "" ? null : Number(value)));
+    const plotted = rr.flat().filter((value): value is number => value !== null);
+    const min = Math.min(...plotted), max = Math.max(...plotted);
     const px = (v: number) => 55 + (155 * (v - min)) / Math.max(1, max - min);
     return (
       <ZoomableGraph>
@@ -176,18 +186,23 @@ export function Visual({ data, onSimulated, editChart, showLoan = true }: {
                 <text x="0" y={y + 4}>
                   {labels[i]}
                 </text>
-                <path d={`M${px(lo)} ${y}H${px(hi)}`} stroke="currentColor" />
-                <rect
+                {lo !== null && hi !== null && <>
+                  <path d={`M${px(lo)} ${y}H${px(hi)}`} stroke="currentColor" />
+                  <path d={`M${px(lo)} ${y - 5}v10M${px(hi)} ${y - 5}v10`} stroke="currentColor" />
+                </>}
+                {q1 !== null && q3 !== null && <rect
                   x={px(q1)}
                   y={y - 7}
                   width={px(q3) - px(q1)}
                   height={14}
                   fill="#afdcc8"
                   stroke="currentColor"
-                />
-                <path d={`M${px(m)} ${y - 7}v14`} stroke="currentColor" />
+                />}
+                {(q1 === null || q3 === null) && [q1, q3].map((quartile, index) => quartile !== null &&
+                  <path key={index} d={`M${px(quartile)} ${y - 5}v10`} stroke="#317e6c" />)}
+                {m !== null && <path d={`M${px(m)} ${y - 7}v14`} stroke="currentColor" />}
                 <text x="55" y={y + 24}>
-                  {[lo, q1, m, q3, hi].join(" · ")}
+                  {[lo, q1, m, q3, hi].filter(value => value !== null).join(" · ")}
                 </text>
               </g>
             );
@@ -255,7 +270,7 @@ export function Visual({ data, onSimulated, editChart, showLoan = true }: {
   if (data.kind === "dotplot") {
     const x = (i: number) => 35 + 160 * i / Math.max(1, vals.length - 1);
     const space = Math.min(12, 62 / Math.max(1, ...vals));
-    return <ZoomableGraph><svg className="mt-chart" viewBox="0 0 230 105" role={editChart ? "group" : "img"}
+    const graph = <svg className="mt-chart" viewBox={editChart ? "-5 0 240 153" : "0 0 230 105"} role={editChart ? "group" : "img"}
       aria-label={vals.map((count, i) => `${labels[i]}: ${count} dots`).join(", ")}>
       <path d="M20 81H210" stroke="currentColor" />
       {vals.map((count, i) => <g key={i} {...editProps(i)}>
@@ -264,12 +279,14 @@ export function Visual({ data, onSimulated, editChart, showLoan = true }: {
         <text x={x(i)} y="100" textAnchor="middle">{labels[i]}</text>
         {Array.from({length: count}, (_, j) => <circle key={j} cx={x(i)} cy={72 - space * j} r={Math.min(4, space * .42)} fill="#317e6c" />)}
       </g>)}
-    </svg></ZoomableGraph>;
+      {editChart?.active != null && countControls(x(editChart.active), 107)}
+    </svg>;
+    return editChart ? graph : <ZoomableGraph>{graph}</ZoomableGraph>;
   }
   if (data.kind === "histogram") {
     const width = 220 / vals.length;
     const scale = 65 / Math.max(1, ...vals);
-    return <ZoomableGraph><svg className="mt-chart" viewBox="0 0 250 115" role={editChart ? "group" : "img"} aria-label={vals.map((v, i) => labels[i] + ", frequency " + v).join(". ")}>
+    const graph = <svg className="mt-chart" viewBox={editChart ? "-16 0 282 164" : "0 0 250 115"} role={editChart ? "group" : "img"} aria-label={vals.map((v, i) => labels[i] + ", frequency " + v).join(". ")}>
       <text x="9" y="12">Frequency</text>
       {vals.map((v, i) => <g key={i} {...editProps(i)}>
         {editChart && <rect className="mt-chart-hit" x={14 + i * width} y="15" width={width} height="99" rx="4" />}
@@ -277,7 +294,9 @@ export function Visual({ data, onSimulated, editChart, showLoan = true }: {
         <text x={14 + (i + .5) * width} y={87 - scale * v} textAnchor="middle">{v}</text>
         <text x={14 + (i + .5) * width} y="108" textAnchor="middle">{labels[i]}</text>
       </g>)}
-    </svg></ZoomableGraph>;
+      {editChart?.active != null && countControls(14 + (editChart.active + .5) * width, 118)}
+    </svg>;
+    return editChart ? graph : <ZoomableGraph>{graph}</ZoomableGraph>;
   }
   if (data.kind === "percent-bar") {
     const colors = ["#317e6c", "#d3a951", "#8fa6d0"];

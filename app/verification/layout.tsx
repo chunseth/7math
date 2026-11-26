@@ -3,7 +3,7 @@ import "../mentalist/trail.css";
 import "./verification.css";
 
 export const metadata = {
-  title: "Verification Trail | 7Math Arena",
+  title: "Verification | 7Math Arena",
   robots: { index: false },
 };
 

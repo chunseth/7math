@@ -9,46 +9,60 @@ export default function StemEditor({ prompt, labels, disabled, onChange }: {
   const values = (/plot for ([\d, ]+)\./.exec(prompt)?.[1] ?? "").split(", ").filter(Boolean).map(Number);
   const [picked, setPicked] = useState<number | null>(null);
   const [placed, setPlaced] = useState<{ index: number; row: number }[]>([]);
-  const stemRows = useRef<HTMLDivElement>(null);
-  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const rows = useRef<HTMLDivElement>(null);
+  const start = useRef<{ x: number; y: number } | null>(null);
+  const dragged = useRef(false);
+  const [drag, setDrag] = useState<{ index: number; x: number; y: number } | null>(null);
 
-  function leaves(row: number, items = placed) {
-    return items.filter(item => item.row === row).map(item => values[item.index] % 10).join(" ");
-  }
   function change(next: typeof placed) {
     setPlaced(next);
-    onChange(next.length === values.length ? labels.map((_, row) => leaves(row, next)) : []);
+    onChange(next.length === values.length ? labels.map((_, row) =>
+      next.filter(item => item.row === row).map(item => values[item.index] % 10).join(" ")) : []);
   }
+
   function place(index: number | null, row: number) {
-    if (disabled || index === null || !Number.isInteger(index) || index < 0 || index >= values.length || placed.some(item => item.index === index)) return;
+    if (disabled || index === null || placed.some(item => item.index === index)) return;
     change([...placed, { index, row }]);
     setPicked(null);
   }
 
   return <div className="mt-stem-editor">
-    <p>Drag each number to its stem, or tap a number and then a stem. Place leaves in order.</p>
+    <p>Drag each number to its stem, or select a number and then its stem. Place leaves in order. Tap a leaf to remove it.</p>
     <div className="mt-stem-layout">
-      <div ref={stemRows} className="mt-stem-rows" role="group" aria-label="Stems">{labels.map((label, row) => <button key={label} type="button" disabled={disabled} data-stem-row={row}
-        onClick={() => place(picked, row)} onDragOver={event => event.preventDefault()} onDrop={event => {
-          event.preventDefault();
-          const index = event.dataTransfer.getData("application/x-7math-stem");
-          if (index) place(Number(index), row);
-        }}><strong>{label}</strong><span>{leaves(row) || "—"}</span></button>)}</div>
-      <div className="mt-field-buttons" role="group" aria-label="Numbers to place">{values.map((value, index) => placed.some(item => item.index === index) ? null :
-        <button key={index} type="button" disabled={disabled} className="mt-stem-token" aria-pressed={picked === index} draggable={!disabled}
-          onClick={() => setPicked(index)} onDragStart={event => event.dataTransfer.setData("application/x-7math-stem", String(index))}
-          onPointerDown={event => {
-            if (event.pointerType === "touch") touchStart.current = { x: event.clientX, y: event.clientY };
-          }}
-          onPointerCancel={() => { touchStart.current = null; }}
-          onPointerUp={event => {
-            const start = touchStart.current;
-            touchStart.current = null;
-            if (!start || Math.hypot(event.clientX - start.x, event.clientY - start.y) < 10) return;
-            const target = document.elementFromPoint(event.clientX, event.clientY)?.closest<HTMLButtonElement>("[data-stem-row]");
-            if (target && stemRows.current?.contains(target)) place(index, Number(target.dataset.stemRow));
-          }}>{value}</button>)}</div>
+      <div ref={rows} className="mt-stem-rows" role="group" aria-label="Stems">{labels.map((label, row) =>
+        <div key={label} className="mt-stem-row" data-stem-row={row}>
+          <button type="button" aria-label={label} disabled={disabled} onClick={() => place(picked, row)}>{label}</button>
+          {placed.filter(item => item.row === row).map(({ index }) => <button type="button" key={index} disabled={disabled}
+            aria-label={"Remove leaf " + values[index] % 10 + " from " + label.toLowerCase()}
+            onClick={() => change(placed.filter(item => item.index !== index))}>{values[index] % 10}</button>)}
+        </div>)}</div>
+      <div className="mt-stem-source"><strong>Numbers to sort</strong>
+        <div className="mt-field-buttons" role="group" aria-label="Numbers to sort">
+          {values.map((value, index) => placed.some(item => item.index === index) ? null :
+            <button key={index} type="button" disabled={disabled} className="mt-stem-token" aria-pressed={picked === index}
+              onClick={event => { if (!dragged.current || event.detail === 0) setPicked(index); dragged.current = false; }}
+              onPointerDown={event => {
+                if (event.button !== 0) return;
+                start.current = { x: event.clientX, y: event.clientY };
+                dragged.current = false;
+                event.currentTarget.setPointerCapture(event.pointerId);
+              }}
+              onPointerMove={event => {
+                if (!start.current || Math.hypot(event.clientX - start.current.x, event.clientY - start.current.y) < 6 && !dragged.current) return;
+                dragged.current = true;
+                setDrag({ index, x: event.clientX, y: event.clientY });
+              }}
+              onPointerCancel={() => { start.current = null; setDrag(null); }}
+              onPointerUp={event => {
+                start.current = null;
+                setDrag(null);
+                if (!dragged.current) return;
+                const target = document.elementFromPoint(event.clientX, event.clientY)?.closest<HTMLElement>("[data-stem-row]");
+                if (target && rows.current?.contains(target)) place(index, Number(target.dataset.stemRow));
+              }}>{value}</button>)}
+        </div>
+      </div>
     </div>
-    <button type="button" disabled={disabled || !placed.length} onClick={() => change(placed.slice(0, -1))}>Undo last leaf</button>
+    {drag && <span className="mt-stem-drag" aria-hidden="true" style={{ left: drag.x, top: drag.y }}>{values[drag.index]}</span>}
   </div>;
 }

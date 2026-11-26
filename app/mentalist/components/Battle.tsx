@@ -1,11 +1,13 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { cardTitles, cardTopic, formatRunTime, levelById, skillById, type RunView, sprites } from "../../../lib/mentalist/model";
+import { cardTitles, cardTopic, formatRunTime, isFieldAttempt, levelById, skillById, type RunView, sprites } from "../../../lib/mentalist/model";
 import { discardRound, post, RequestError, storeRound } from "../../../lib/mentalist/client";
 import Answer from "./Answer";
 import { Visual } from "./Visual";
 import { Leaderboard } from "./Leaderboard";
 import { advance, checkLocally, type RoundDraft } from "../../../lib/mentalist/round";
+import { displayAttempt, studentPrompt } from "../../../lib/mentalist/least-order";
+import QuestionPrompt from "./QuestionPrompt";
 
 export function Battle({
   initial,
@@ -29,6 +31,7 @@ export function Battle({
     [stale, setStale] = useState<"expired" | "ended" | null>(null);
   const [reset, setReset] = useState(0),
     [feedback, setFeedback] = useState(""),
+    [reduce, setReduce] = useState(""),
     [hit, setHit] = useState({ n: 0, type: "" });
   const [simulated, setSimulated] = useState("");
   const [leaving, setLeaving] = useState(false);
@@ -130,10 +133,12 @@ export function Battle({
       setHit(h => ({ n: h.n + 1, type: outcome }));
       setError("");
       if (outcome === "incorrect") {
-        setFeedback(raw + " was incorrect. Try again.");
-        setReset(n => n + 1);
-      } else if (outcome === "simplification") setFeedback(`${raw} is equivalent. Write it in simplest form.`);
-      else { setFeedback(""); setReset(0); }
+        setFeedback(isFieldAttempt(raw) ? "" : displayAttempt(raw) + " was incorrect. Try again.");
+        if (!isFieldAttempt(raw)) setReset(n => n + 1);
+      } else if (outcome === "simplification") {
+        setReduce(raw);
+        setFeedback("Equivalent fraction. Simplify your answer.");
+      } else { setFeedback(""); setReduce(""); setReset(0); }
       if (done) setEnding("finish");
       time.current.sum = 0;
     } catch (e) {
@@ -283,7 +288,7 @@ export function Battle({
       </div>
       <section className="mt-prompt" key={e.id}>
         <p>{level.title}</p>
-        <h1>{e.question.prompt}</h1>
+        <h1><QuestionPrompt text={reduce ? `Reduce ${reduce}.` : studentPrompt(e.question)} /></h1>
         <Visual data={e.question.visual} showLoan={false} onSimulated={() => setSimulated(e.id)} />
       </section>
       <div className="mt-input-area">
@@ -296,7 +301,7 @@ export function Battle({
           disabled={
             busy ||
             leaving ||
-            (e.question.visual?.kind === "simulation" && simulated !== e.id)
+            (e.question.visual?.kind === "simulation" && !e.question.visual.coinTrials && simulated !== e.id)
           }
           onAnswer={answer}
         />

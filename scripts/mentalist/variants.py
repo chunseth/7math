@@ -157,11 +157,17 @@ def extension(s, l, n, v):
             f"△ABC ∼ △DEF. Angle B measures {a+b}°. Find angle E in degrees.", a + b
         )
     if s == "chance.space" and l == 2 and v == 2:
+        coin_first = n % 4 >= 2
+        first, second = ("H", "T") if n % 2 == 0 else ("T", "H")
+        def outcome(side, flip=False):
+            return f"{side}, {a}" if coin_first != flip else f"{a}, {side}"
+        events = ("toss a coin, then roll a 36-sided die" if coin_first else
+                  "roll a 36-sided die, then toss a coin")
         return "organized-list", fields(
-            f"List the two ordered outcomes beginning with {a} on a 36-sided die numbered 1–36, followed by a coin toss. Enter heads first.",
+            f"You {events}. The die shows {a}. List the two ordered outcomes. Enter {'heads' if first == 'H' else 'tails'} first.",
             ["First outcome", "Second outcome"],
-            [f"{a}, H", f"{a}, T"],
-            [[f"H, {a}", f"{a}, T"], [f"T, {a}", f"{a}, H"]],
+            [outcome(first), outcome(second)],
+            [[outcome(first, True), outcome(second)], [outcome(second, True), outcome(first)]],
             n,
             kind="list",
         )

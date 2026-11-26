@@ -3,120 +3,59 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { post, RequestError } from "../../lib/mentalist/client";
-import { levelById, type Outcome } from "../../lib/mentalist/model";
-import {
-  countReviews, reviewCases, verificationGrades, verificationWorlds,
-  type ReviewCase, type ReviewDecision, type ReviewWorld,
-} from "../../lib/verification/model";
+import { isFieldAttempt, type Outcome } from "../../lib/mentalist/model";
+import { studentPrompt } from "../../lib/mentalist/least-order";
+import { countReviews, nextReview, type ReviewCase, type ReviewDecision, type ReviewSet } from "../../lib/verification/model";
 import Answer from "../mentalist/components/Answer";
-import { LessonVideo } from "../mentalist/components/PreviewFeed";
+import QuestionPrompt from "../mentalist/components/QuestionPrompt";
 import { Visual } from "../mentalist/components/Visual";
 import ExportReports from "./ExportReports";
 
-export default function VerificationTrail({ world, initial }: {
-  world: ReviewWorld;
+export default function VerificationTrail({ set, initial }: {
+  set: ReviewSet;
   initial: Record<string, ReviewDecision>;
 }) {
   const [decisions, setDecisions] = useState(initial);
-  const [opened, setOpened] = useState<string | null>(null);
-  const examples = reviewCases(world);
-  const next = examples.find(item => !decisions[item.id]);
-  const current = examples.find(item => item.id === opened);
-  const counts = countReviews(world, decisions);
-  const reviewed = counts.accepted + counts.flagged;
-  const theme = verificationWorlds[world.grade];
+  const current = nextReview(set, decisions);
+  const counts = countReviews(set, decisions);
+  const finished = counts.accepted + counts.flagged + counts.skipped;
+  const completion = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [opened]);
+    if (!current) {
+      window.scrollTo(0, 0);
+      completion.current?.focus({ preventScroll: true });
+    }
+  }, [current]);
 
-  function saved(decision: ReviewDecision) {
-    const after = { ...decisions, [decision.id]: decision };
-    setDecisions(after);
-    setOpened(examples.find(item => !after[item.id])?.id ?? null);
-  }
-
-  const title = `${world.grade}math · ${theme.name}`;
-  return <main className={`mt-shell verify-home verify-world-${world.grade}`}>
+  return <main className="mt-shell verify-home">
     <header className="verify-header">
-      <Link href="/verification">← Worlds</Link>
-      {current
-        ? <button type="button" onClick={() => setOpened(null)}>World map</button>
-        : <ExportReports />}
+      <Link href="/">← Main menu</Link>
+      <ExportReports setId={set.id} />
     </header>
-    {current ? <CaseReview key={current.id} world={world} item={current}
-      position={examples.indexOf(current) + 1} total={counts.total}
-      decision={decisions[current.id]} onSaved={saved} /> : <>
-      <nav className="verify-grade-nav" aria-label="Change verification world">
-        {verificationGrades.map(grade => <Link key={grade} href={`/verification/${grade}`}
-          aria-current={grade === world.grade ? "page" : undefined}>{grade}math</Link>)}
-      </nav>
-      <div className="verify-world-banner">
-        <img src={`/sprites/${theme.sprite}.png`} alt="" width="92" height="92" />
-        <div>
-          <h1>{title}</h1>
-          <p>{theme.focus}</p>
-        </div>
-      </div>
-      <div className="verify-summary">
-        <div>
-          <strong>{reviewed} of {counts.total} reviewed</strong>
-          <p>{counts.accepted} accepted · {counts.flagged} flagged for follow-up</p>
-        </div>
-        {next && <button className="mt-primary" type="button" onClick={() => setOpened(next.id)}>
-          {reviewed ? "Continue review" : "Start review"}
-        </button>}
-      </div>
-      <progress className="verify-progress" value={reviewed} max={counts.total} aria-label="World progress" />
-      {!next && <p className="verify-complete" role="status">
-        ★ World review complete. {counts.flagged > 0 ? "Export your bug reports for follow-up." : "All examples accepted."}
-      </p>}
-      <div className="verify-map" aria-label={`${title} checkpoints`}>
-        {world.chapters.map(chapter => <section key={chapter.title}>
-          <h2>{chapter.title}</h2>
-          <ol>
-            {chapter.checkpoints.map(checkpoint => {
-              const done = checkpoint.cases.filter(item => decisions[item.id]).length;
-              const complete = done === checkpoint.cases.length;
-              const flagged = checkpoint.cases.filter(item => decisions[item.id]?.status === "flagged").length;
-              const active = checkpoint.cases.find(item => item.id === next?.id);
-              const target = active ?? checkpoint.cases[0];
-              const available = complete || !!active;
-              const first = examples.indexOf(checkpoint.cases[0]) + 1;
-              return <li key={checkpoint.title}>
-                <button className="verify-stop" type="button" disabled={!available}
-                  aria-current={active ? "step" : undefined} onClick={() => setOpened(target.id)}>
-                  <span aria-hidden="true" className="verify-marker">{complete ? (flagged ? "⚑" : "✓") : first}</span>
-                  <span><strong>{checkpoint.title}</strong>
-                    <small>{complete ? "Reviewed" : active ? "Available" : "Locked"} · {done}/{checkpoint.cases.length} examples{flagged > 0 && ` · ${flagged} flagged`}</small>
-                  </span>
-                </button>
-                {done > 0 && <div className="verify-reviewed">
-                  {checkpoint.cases.map((item, i) => decisions[item.id] &&
-                    <button type="button" key={item.id} onClick={() => setOpened(item.id)}
-                      aria-label={`Review ${checkpoint.title}, example ${i + 1}, ${decisions[item.id].status}`}>
-                      <span aria-hidden="true">{decisions[item.id].status === "accepted" ? "✓" : "⚑"}</span> {i + 1}
-                    </button>)}
-                </div>}
-              </li>;
-            })}
-          </ol>
-        </section>)}
-      </div>
-    </>}
+    <h1>Verification</h1>
+    <div className="verify-summary" aria-live="polite">
+      <strong>{finished} of {counts.total} completed</strong>
+      <p>{counts.accepted} accepted · {counts.flagged} flagged · {counts.skipped} skipped</p>
+    </div>
+    <progress className="verify-progress" value={finished} max={counts.total} aria-label="Review progress" />
+    {current
+      ? <CaseReview key={current.id} setId={set.id} item={current} position={set.cases.indexOf(current) + 1} total={counts.total}
+        onSaved={decision => setDecisions(previous => ({ ...previous, [decision.id]: decision }))} />
+      : <h2 className="verify-complete" tabIndex={-1} ref={completion}>Review complete</h2>}
   </main>;
 }
 
-function CaseReview({ world, item, position, total, decision, onSaved }: {
-  world: ReviewWorld;
+function CaseReview({ setId, item, position, total, onSaved }: {
+  setId: string;
   item: ReviewCase;
   position: number;
   total: number;
-  decision?: ReviewDecision;
   onSaved: (decision: ReviewDecision) => void;
 }) {
   const { question } = item;
   const [raw, setRaw] = useState<string | null>(null);
+  const [reduce, setReduce] = useState("");
   const [attempt, setAttempt] = useState(0);
   const [simulated, setSimulated] = useState(false);
   const [reporting, setReporting] = useState(false);
@@ -129,24 +68,27 @@ function CaseReview({ world, item, position, total, decision, onSaved }: {
   const reportField = useRef<HTMLTextAreaElement>(null);
   const decisionHeading = useRef<HTMLHeadingElement>(null);
 
-  useEffect(() => { heading.current?.focus(); }, []);
+  useEffect(() => {
+    heading.current?.focus({ preventScroll: true });
+    window.scrollTo(0, 0);
+  }, []);
   useEffect(() => {
     if (reporting) reportField.current?.focus();
     else if (raw !== null) decisionHeading.current?.focus();
   }, [reporting, raw]);
 
-  const context = { grade: world.grade, version: world.version, example: item.id };
+  const context = { setId, example: item.id };
 
   function showError(error: unknown) {
     setMessage(error instanceof Error ? error.message : "Could not complete the request. Try again.");
     if (error instanceof RequestError) {
       if (error.status === 401) setExpired(true);
-      if (error.status === 409) setMessage("The trail has changed. Reload to see your current progress.");
+      if (error.status === 409) setMessage("The review set has changed. Reload to see your progress.");
     }
   }
 
   async function check(value: string, calculated = false) {
-    if (locked.current || raw !== null || reporting || decision) return;
+    if (locked.current || raw !== null || reporting) return;
     locked.current = true;
     setBusy(true);
     setMessage("");
@@ -155,8 +97,9 @@ function CaseReview({ world, item, position, total, decision, onSaved }: {
       if (calculated && outcome !== "correct") return;
       if (outcome === "correct") setRaw(value);
       else {
-        setMessage(outcome === "simplification" ? `${value} is equivalent. Write it in simplest form.` : "Try again.");
-        setAttempt(value => value + 1);
+        if (outcome === "simplification") setReduce(value);
+        setMessage(isFieldAttempt(value) ? "" : outcome === "simplification" ? "Equivalent fraction. Simplify your answer." : "Try again.");
+        if (!isFieldAttempt(value)) setAttempt(value => value + 1);
       }
     } catch (error) {
       showError(error);
@@ -168,7 +111,7 @@ function CaseReview({ world, item, position, total, decision, onSaved }: {
   }
 
   async function save(status: ReviewDecision["status"]) {
-    if (locked.current || decision || (status === "accepted" && raw === null)) return;
+    if (locked.current || (status === "accepted" && raw === null)) return;
     if (status === "flagged" && !note.trim()) return;
     locked.current = true;
     setBusy(true);
@@ -185,48 +128,34 @@ function CaseReview({ world, item, position, total, decision, onSaved }: {
   }
 
   return <>
-    <p className="verify-location">Grade {world.grade} · Example {position} of {total}</p>
-    <div className="verify-encounter">
-      <section className="verify-question" aria-labelledby="verification-question">
-        <p>{levelById.get(item.level)?.title ?? item.level}</p>
-        <h1 id="verification-question" ref={heading} tabIndex={-1}>{question.prompt}</h1>
-        <Visual data={question.visual} showLoan={!!decision} onSimulated={() => setSimulated(true)} />
-        {!decision && <Answer key={question.visual?.kind === "loan" ? "loan" : attempt} question={question}
-          disabled={busy || reporting || raw !== null || (question.visual?.kind === "simulation" && !simulated)}
-          onAnswer={check} />}
-      </section>
-      <aside className="verify-note" aria-label="Reviewer note">
-        <h2>What to look for</h2>
-        <p>{item.note}</p>
-        {item.workedExample && <LessonVideo level={item.level} />}
-        <p className="verify-identifiers"><span>{item.level}</span><span>{item.questionId}</span></p>
-      </aside>
-    </div>
-    {decision ? <section className="verify-decision" aria-label="Saved review">
-      <h2>{decision.status === "accepted" ? "✓ Accepted" : "⚑ Bug reported"}</h2>
-      {decision.note && <p className="verify-saved-note">{decision.note}</p>}
-    </section> : <>
-      {raw !== null && <section className="verify-decision" aria-label="Review decision">
-        <h2 tabIndex={-1} ref={decisionHeading}>Correct. Review this problem.</h2>
-        {!reporting && <div className="verify-actions">
-          <button className="mt-primary" type="button" disabled={busy} onClick={() => void save("accepted")}>Accept problem</button>
-          <button type="button" disabled={busy} onClick={() => { setMessage(""); setReporting(true); }}>Report a bug</button>
-        </div>}
-      </section>}
-      {raw === null && !reporting && <button className="verify-blocked" type="button" disabled={busy}
-        onClick={() => { setMessage(""); setReporting(true); }}>Can’t answer because of a bug</button>}
+    <p className="verify-location">Question {position} of {total}</p>
+    <section className="verify-question" aria-labelledby="verification-question">
+      <h2 id="verification-question" ref={heading} tabIndex={-1}>
+        <QuestionPrompt text={reduce && raw === null ? `Reduce ${reduce}.` : studentPrompt(question)} />
+      </h2>
+      <Visual data={question.visual} showLoan={false} onSimulated={() => setSimulated(true)} />
+      <Answer key={question.visual?.kind === "loan" ? "loan" : attempt} question={question}
+        disabled={busy || reporting || raw !== null || (question.visual?.kind === "simulation" && !question.visual.coinTrials && !simulated)}
+        onAnswer={check} />
+    </section>
+    <section className="verify-decision" aria-label="Review decision">
+      {raw !== null && <h2 tabIndex={-1} ref={decisionHeading}>Correct</h2>}
+      {!reporting && <div className="verify-actions">
+        {raw !== null && <button className="mt-primary" type="button" disabled={busy} onClick={() => void save("accepted")}>Accept problem</button>}
+        <button type="button" disabled={busy} onClick={() => { setMessage(""); setReporting(true); }}>Report a bug</button>
+        <button type="button" disabled={busy} onClick={() => void save("skipped")}>Skip question</button>
+      </div>}
       {reporting && <form className="verify-report" onSubmit={event => { event.preventDefault(); void save("flagged"); }}>
-        <label htmlFor="verification-note">What is wrong with this problem?</label>
+        <label htmlFor="verification-note">Describe the bug</label>
         <textarea ref={reportField} id="verification-note" required maxLength={1500} rows={4} disabled={busy}
-          value={note} onChange={event => setNote(event.target.value)}
-          placeholder="Describe what you expected and what happened." />
+          value={note} onChange={event => setNote(event.target.value)} />
         <div className="verify-actions">
           <button className="mt-primary" disabled={busy || !note.trim()}>Save bug report</button>
           <button type="button" disabled={busy} onClick={() => { setReporting(false); setMessage(""); }}>Cancel</button>
         </div>
       </form>}
       {message && <p className="verify-message" role="status">{message}</p>}
-      {expired && <a href={`/verification/${world.grade}`}>Sign in again</a>}
-    </>}
+      {expired && <a href="/verification/sign-in">Sign in again</a>}
+    </section>
   </>;
 }

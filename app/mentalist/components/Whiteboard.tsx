@@ -26,8 +26,16 @@ export default function Whiteboard() {
   return <details className="mt-whiteboard">
     <summary>Whiteboard</summary>
     <canvas ref={board} width={640} height={320} aria-label="Draw scratch work here"
-      onPointerDown={event => { if (!stroke.current) { event.currentTarget.setPointerCapture(event.pointerId); draw(event); } }}
+      onPointerDown={event => {
+        if (event.button !== 0 || stroke.current) return;
+        event.preventDefault();
+        window.getSelection()?.removeAllRanges();
+        event.currentTarget.setPointerCapture(event.pointerId);
+        draw(event);
+      }}
       onPointerMove={event => { if (stroke.current) draw(event); }}
+      onPointerCancel={() => { stroke.current = null; }}
+      onContextMenu={event => event.preventDefault()}
       onLostPointerCapture={event => { if (stroke.current?.pointer === event.pointerId) stroke.current = null; }} />
     <button type="button" onClick={() => {
       const canvas = board.current;

@@ -1,4 +1,4 @@
-/* Verification uses document scrolling so long questions and review forms can grow past the viewport. */
+/* Long questions and report forms use document scrolling. */
 body:has(.verify-home, .verify-gate) {
   height: auto;
   min-height: 100%;
@@ -6,8 +6,7 @@ body:has(.verify-home, .verify-gate) {
 }
 
 .verify-home, .verify-gate {
-  --world-ink: #205945;
-  --world-tint: #e0efe4;
+  --review-ink: #205945;
   width: min(100%, 48rem);
   min-height: 100dvh;
   margin-inline: auto;
@@ -15,153 +14,27 @@ body:has(.verify-home, .verify-gate) {
   padding: 1rem clamp(.9rem, 4vw, 2rem) 2rem;
 }
 
-.verify-world-7 {
-  --world-ink: #274b78;
-  --world-tint: #e3ebf7;
-}
-
-.verify-world-8 {
-  --world-ink: #653c71;
-  --world-tint: #f0e6f2;
-}
-
-.verify-header, .verify-summary, .verify-world-banner, .verify-actions, .verify-grade-nav {
+.verify-header, .verify-summary, .verify-actions {
   display: flex;
   flex-wrap: wrap;
   gap: .65rem 1rem;
   align-items: center;
 }
 
-.verify-header, .verify-summary {
-  justify-content: space-between;
-}
+.verify-header, .verify-summary { justify-content: space-between; }
+.verify-header { margin-bottom: 1rem; }
+.verify-summary p, .verify-export p { margin: .2rem 0; }
 
-.verify-header {
-  margin-bottom: 1rem;
-}
-
-.verify-worlds, .verify-map {
-  display: grid;
-  gap: 1rem;
-  margin-top: 1.2rem;
-}
-
-.verify-world, .verify-world-banner {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: .9rem;
-  border-radius: 1rem;
-  background: var(--world-tint);
-  min-width: 0;
-}
-
-.verify-world {
-  border: 1px solid color-mix(in srgb, var(--world-ink) 30%, white);
-  text-decoration: none;
-}
-
-.verify-world > div, .verify-world-banner > div {
-  min-width: 0;
-  flex: 1;
-}
-
-.verify-world small, .verify-world-banner h1, .verify-map h2 {
-  color: var(--world-ink);
-}
-
-.verify-world p, .verify-world-banner p, .verify-summary p, .verify-export p {
-  margin: .2rem 0;
-}
-
-.verify-world progress, .verify-progress {
+.verify-progress {
   display: block;
   width: 100%;
   margin: .5rem 0 .2rem;
-  accent-color: var(--world-ink);
+  accent-color: var(--review-ink);
 }
 
-.verify-world span, .verify-location, .verify-identifiers, .verify-stop small {
-  font-size: .84rem;
-}
+.verify-location { font-size: .9rem; }
 
-.verify-world-banner {
-  margin-block: 1rem;
-}
-
-.verify-world img, .verify-world-banner img {
-  object-fit: contain;
-  image-rendering: pixelated;
-}
-
-.verify-grade-nav a {
-  padding: .35rem .7rem;
-  border-radius: .55rem;
-}
-
-.verify-grade-nav a[aria-current="page"] {
-  color: var(--world-ink);
-  background: var(--world-tint);
-}
-
-.verify-map ol {
-  list-style: none;
-  margin: .8rem 0 0 1.35rem;
-  padding: 0 0 0 .75rem;
-  border-left: 3px dashed color-mix(in srgb, var(--world-ink) 40%, white);
-}
-
-.verify-map li + li {
-  margin-top: .5rem;
-}
-
-.verify-home .verify-stop {
-  display: flex;
-  gap: .6rem;
-  align-items: center;
-  width: 100%;
-  text-align: left;
-}
-
-.verify-home .verify-stop[aria-current="step"] {
-  background: var(--world-tint);
-  border-color: var(--world-ink);
-}
-
-.verify-marker {
-  display: grid;
-  place-items: center;
-  background: var(--world-ink);
-  color: white;
-  border-radius: 50%;
-  min-width: 2rem;
-  height: 2rem;
-}
-
-.verify-stop small, .verify-identifiers span {
-  display: block;
-}
-
-.verify-home .verify-reviewed {
-  display: flex;
-  gap: .4rem;
-  flex-wrap: wrap;
-  padding-top: .45rem;
-}
-
-.verify-home .verify-reviewed button {
-  font-size: .85rem;
-  padding: .25rem .5rem;
-}
-
-.verify-encounter {
-  display: grid;
-  gap: .8rem;
-  grid-template-columns: minmax(0, 1fr);
-  align-items: start;
-}
-
-.verify-question, .verify-note, .verify-decision, .verify-report, .verify-gate form {
+.verify-question, .verify-decision, .verify-gate form {
   border: 1px solid var(--border);
   border-radius: 1rem;
   background: #fff;
@@ -169,37 +42,11 @@ body:has(.verify-home, .verify-gate) {
   min-width: 0;
 }
 
-.verify-question h1 {
-  font-size: clamp(1.05rem, 4vw, 1.4rem);
-}
-
-.verify-note {
-  background: var(--world-tint);
-}
-
-.verify-note h2, .verify-decision h2 {
-  font-size: 1.1rem;
-}
-
-.verify-identifiers {
-  overflow-wrap: anywhere;
-}
-
-.verify-decision, .verify-report, .verify-home .verify-blocked {
-  margin-top: .85rem;
-}
-
-.verify-report, .verify-login-fields, .verify-gate label {
-  display: grid;
-  gap: .5rem;
-}
-
-.verify-login-fields {
-  min-width: 0;
-  margin: 0;
-  border: 0;
-  padding: 0;
-}
+.verify-question h2 { font-size: clamp(1.1rem, 4vw, 1.4rem); margin-bottom: .65rem; }
+.verify-decision { margin-top: .85rem; }
+.verify-decision h2 { font-size: 1.1rem; margin-bottom: .65rem; }
+.verify-report, .verify-login-fields, .verify-gate label { display: grid; gap: .5rem; }
+.verify-login-fields { min-width: 0; margin: 0; border: 0; padding: 0; }
 
 .verify-report textarea {
   width: 100%;
@@ -212,20 +59,7 @@ body:has(.verify-home, .verify-gate) {
 
 .verify-complete, .verify-message {
   padding: .4rem .6rem;
-  border-left: 3px solid var(--world-ink);
+  border-left: 3px solid var(--review-ink);
 }
 
-.verify-saved-note {
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
-}
-
-.verify-export {
-  max-width: 100%;
-}
-
-@media (min-width: 42rem) {
-  .verify-encounter {
-    grid-template-columns: minmax(0, 1fr) minmax(12rem, .52fr);
-  }
-}
+.verify-export { max-width: 100%; }
