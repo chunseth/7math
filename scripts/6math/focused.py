@@ -617,9 +617,10 @@ def problem(key, seed):
             100 * n,
         )
     if key == "annual-gap":
+        annual_hours = 2000
         return q(
-            f"Two jobs pay ${n+k} and ${n} per hour for {1200+50*n} hours yearly. What is their annual earnings difference?",
-            k * (1200 + 50 * n),
+            f"Two jobs pay ${n+k} and ${n} per hour for {annual_hours} hours yearly. What is their annual earnings difference?",
+            k * annual_hours,
         )
     if key == "lifetime":
         return q(

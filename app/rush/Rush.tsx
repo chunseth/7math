@@ -260,6 +260,7 @@ function Question({ run, position, advance }: {
   const [checking, setChecking] = useState(false);
   const [simulated, setSimulated] = useState(false);
   const [attempt, setAttempt] = useState(0);
+  const [reduce, setReduce] = useState("");
   const [error, setError] = useState("");
   const locked = useRef(false);
   const heading = useRef<HTMLHeadingElement>(null);
@@ -272,10 +273,14 @@ function Question({ run, position, advance }: {
     if (locked.current) return;
     locked.current = true;
     setChecking(true);
+    setError("");
     try {
       const outcome = await checkLocally(run.pack, position, raw);
-      advance(raw, outcome === "correct" ? "correct" : "incorrect");
-      return;
+      if (outcome !== "simplification") {
+        advance(raw, outcome);
+        return;
+      }
+      setReduce(raw);
     } catch {
       setError("Could not check your answer. Try again.");
     }
@@ -285,7 +290,9 @@ function Question({ run, position, advance }: {
   }
 
   return <>
-    <h2 ref={heading} tabIndex={-1}><QuestionPrompt part={partTitle} text={studentPrompt(question)} /></h2>
+    <h2 ref={heading} tabIndex={-1} aria-live="polite">
+      <QuestionPrompt part={partTitle} text={reduce ? `Reduce ${reduce}.` : studentPrompt(question)} />
+    </h2>
     <Visual data={question.visual} showLoan={false} onSimulated={() => setSimulated(true)} />
     <div className="rush-answer">
       <Answer key={question.visual?.kind === "loan" ? "loan" : attempt} question={question} singleAttempt fractionDelayMs={450}

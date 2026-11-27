@@ -13,7 +13,7 @@ async function publish() {
   const grade = process.argv.find(arg => arg.startsWith("--grade="))?.slice(8) ?? "7";
   if (!["6", "7", "8"].includes(grade)) throw new Error("Choose grade 6, 7, or 8.");
   execFileSync("python3", ["-B", resolve(__dirname, grade === "7" ? "build.py" : `../${grade}math/build.py`), "--check"], { stdio: "inherit" });
-  const raw = gunzipSync(readFileSync(resolve(root, grade === "7" ? "content/mentalist/bank-v7.json.gz" : `content/${grade}math/bank.json.gz`)));
+  const raw = gunzipSync(readFileSync(resolve(root, grade === "7" ? "content/mentalist/bank-v8.json.gz" : `content/${grade}math/bank.json.gz`)));
   const bank = JSON.parse(raw);
   const stage = process.argv.find((a) => a.startsWith("--stage="))?.slice(8);
   if (!["slice", "numeric", "complete"].includes(stage))

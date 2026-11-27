@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { gunzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
-import { fieldCheckText, fieldFormat, fieldValue, hasSequentialFields, type CourseGrade, type Question } from "./model";
+import { curriculumVersion, fieldCheckText, fieldFormat, fieldValue, hasSequentialFields, type CourseGrade, type Question } from "./model";
 
 export type BankQuestion = Question & { answer: string };
 export function publicQuestion({ prompt, control, visual, answer }: BankQuestion): Question {
@@ -19,16 +19,16 @@ type CourseBank = {
 
 const files = {
   6: "content/6math/bank.json.gz",
-  7: "content/mentalist/bank-v7.json.gz",
   8: "content/8math/bank.json.gz",
 };
-const banks = new Map<CourseGrade, CourseBank>();
+const banks = new Map<string, CourseBank>();
 
-export function readCourseBank(grade: CourseGrade): CourseBank {
-  let bank = banks.get(grade);
+export function readCourseBank(grade: CourseGrade, grade7Version = curriculumVersion): CourseBank {
+  const file = grade === 7 ? `content/mentalist/bank-v${grade7Version}.json.gz` : files[grade];
+  let bank = banks.get(file);
   if (!bank) {
-    bank = JSON.parse(gunzipSync(readFileSync(join(process.cwd(), files[grade]))).toString("utf8")) as CourseBank;
-    banks.set(grade, bank);
+    bank = JSON.parse(gunzipSync(readFileSync(join(process.cwd(), file))).toString("utf8")) as CourseBank;
+    banks.set(file, bank);
   }
   return bank;
 }

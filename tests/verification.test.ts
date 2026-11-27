@@ -15,12 +15,12 @@ test("the retest contains exactly the corrected reports in export order", () => 
   assert.equal(set.cases.length, 28);
   assert.equal(sources.size, 28);
   assert.deepEqual(set.cases.map(({ grade, level, questionId }) => [grade, level, questionId]), reportedQuestions);
-  assert.match(set.id, /^reported-v1-[a-f0-9]{24}$/);
+  assert.equal(set.id, "reported-v1-bd7b7cc84cfc08d0e4a5651e");
   assert.deepEqual([...new Set(set.cases.map(item => item.grade))].sort(), [...verificationGrades]);
   assert.equal(set.cases[0].question.prompt, "$400 earns 2% compounded annually. Find the ending balance after two years.");
   assert.equal(sources.get(set.cases[0].id)?.question.answer, "416.16");
   for (const item of set.cases) {
-    const bank = readCourseBank(item.grade);
+    const bank = readCourseBank(item.grade, 7);
     const question = bank.questions[item.questionId];
     assert.ok(bank.levels.find(level => level.id === item.level)?.pool.some(slot => slot.q === item.questionId));
     assert.equal(item.bankVersion, bank.version);

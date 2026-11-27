@@ -5,7 +5,7 @@ from fractions import Fraction as F
 
 def q(prompt, answer, kind=None, *, signed=False, visual=None, places=None):
     value = F(answer)
-    if kind is None:
+    if kind in (None, "fraction"):
         kind = "whole" if value.denominator == 1 else "fraction"
     if kind == "decimal":
         places = (

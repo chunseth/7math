@@ -6,13 +6,14 @@ import type { ReviewCase, ReviewSet } from "./model";
 
 type CaseSource = Omit<ReviewCase, "question"> & { question: BankQuestion };
 type VerificationCatalog = { set: ReviewSet; sources: Map<string, CaseSource> };
+const reviewedVersions = { 6: 6007, 7: 7, 8: 8006 };
 let catalog: VerificationCatalog | undefined;
 
 export function verificationCatalog(): VerificationCatalog {
   if (catalog) return catalog;
   const sources = new Map<string, CaseSource>();
   const cases = reportedQuestions.map(([grade, level, questionId]): ReviewCase => {
-    const bank = readCourseBank(grade);
+    const bank = readCourseBank(grade, reviewedVersions[7]);
     const question = bank.questions[questionId];
     const pool = bank.levels.find(item => item.id === level)?.pool;
     const id = [grade, level, questionId].join(":");
@@ -26,7 +27,8 @@ export function verificationCatalog(): VerificationCatalog {
   });
 
   const digest = createHash("sha256")
-    .update(JSON.stringify(cases.map(({ id, bankVersion }) => [id, bankVersion]))).digest("hex");
+    // Keep this retest's progress when an unrelated question changes the bank version.
+    .update(JSON.stringify(cases.map(({ id, grade }) => [id, reviewedVersions[grade]]))).digest("hex");
   catalog = { set: { id: "reported-v1-" + digest.slice(0, 24), cases }, sources };
   return catalog;
 }

@@ -2114,7 +2114,7 @@
   "id": "g6.steps-income",
   "title": "Compare training costs and lifetime income",
   "unit": "Personal finance",
-  "example": "One job pays $19 per hour and another pays $16. Both pay for 1800 hours. Find the yearly earnings gap.",
+  "example": "One job pays $19 per hour and another pays $16. Both pay for 2000 hours. Find the yearly earnings gap.",
   "standards": [
    "6.14H"
   ],
@@ -2125,7 +2125,7 @@
   "stages": [
    {
     "title": "Compare annual earnings across occupations",
-    "example": "One job pays $19 per hour and another pays $16. Both pay for 1800 hours. Find the yearly earnings gap."
+    "example": "One job pays $19 per hour and another pays $16. Both pay for 2000 hours. Find the yearly earnings gap."
    },
    {
     "title": "Compare earnings across working lifetimes",

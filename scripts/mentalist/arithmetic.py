@@ -96,8 +96,16 @@ def arithmetic(skill, level, n, v):
             if v != 0:
                 b = -b
         if level == (4 if op in ("add", "subtract") else 3):
-            a = F(n % 7 + 1) + F(1, d)
-            b = F(v + 1) + F(1, d + 1)
+            if op == "multiply":
+                # Use single-digit factors even after converting to improper fractions.
+                first, second = [(2, 3), (2, 4), (3, 4)][v]
+                left = [top for top in range(first + 1, 10) if gcd(top, first) == 1]
+                right = [top for top in range(second + 1, 10) if gcd(top, second) == 1]
+                a = F(left[n % len(left)], first)
+                b = F(right[n // len(left) % len(right)], second)
+            else:
+                a = F(n % 7 + 1) + F(1, d)
+                b = F(v + 1) + F(1, d + 1)
             operands = (mixed(a), mixed(b))
     if family != "fraction" or operands is None:
         operands = tuple(

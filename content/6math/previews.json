@@ -4402,7 +4402,7 @@
  },
  {
   "model": "worked",
-  "prompt": "One job pays $19 per hour and another pays $16. Both pay for 1800 hours. Find the yearly earnings gap.",
+  "prompt": "One job pays $19 per hour and another pays $16. Both pay for 2000 hours. Find the yearly earnings gap.",
   "steps": [
    {
     "label": "Find the hourly difference.",
@@ -4410,11 +4410,11 @@
    },
    {
     "label": "Multiply by paid hours.",
-    "math": "3 × 1800"
+    "math": "3 × 2000"
    }
   ],
-  "result": "$5400",
-  "answer": "$5400",
+  "result": "$6000",
+  "answer": "$6000",
   "color": "#246650",
   "skill": "g6.steps-income",
   "level": "g6.steps-income.1"
