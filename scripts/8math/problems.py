@@ -5,6 +5,8 @@ from math import sqrt, pi
 from random import Random
 from formats import q, choose, grid, table, fields, item, tenth_line, scatter_task
 
+DISTANCE_OFFSETS = ((3, 4, 5), (-6, 8, 10), (8, -6, 10))
+
 
 def image_triangle(before, after, action):
     vertices = ", ".join(f"{label}({x}, {y})" for label, (x, y) in zip("ABC", before))
@@ -333,7 +335,7 @@ def problem(slug, seed):
             )
         if v == 1:
             return q(
-                f"A triangle's exterior angle is {a+b}°. A remote interior angle is {a}°. Find the other remote angle.",
+                f"In triangle ABC, side BC extends past C to D. Exterior angle ACD is {a+b}°, and angle A is {a}°. Find angle B.",
                 b,
             )
         return choice(
@@ -405,9 +407,12 @@ def problem(slug, seed):
     if slug == "proportional":
         if v == 0:
             return choice(
-                f"A meter begins at {n} liters and gains {k} liters each minute. Is the reading proportional to time?",
-                "No, the initial reading is nonzero",
-                ["Yes, the rate is constant", "Yes, volume increases"],
+                f"A tank starts with {n} L at minute 0 and gains {k} L each minute. Is the total volume directly proportional to the time since minute 0?",
+                f"No. The rate is constant and the starting volume is {n} L.",
+                [
+                    "Yes. A constant rate always makes a relationship proportional.",
+                    "Yes. Doubling the elapsed time always doubles the total volume.",
+                ],
             )
         if v == 1:
             return choice(
@@ -550,10 +555,10 @@ def problem(slug, seed):
         )
     if slug == "distance":
         x, y = n - 6, 3 - n
-        dx, dy = [(3, 4), (-5, 12), (8, -15)][v]
+        dx, dy, distance = DISTANCE_OFFSETS[v]
         return q(
-            f"Find the straight-line distance from ({x}, {y}) to ({x+dx*n}, {y+dy*n}).",
-            n * [5, 13, 17][v],
+            f"Find the straight-line distance from ({x}, {y}) to ({x+dx}, {y+dy}).",
+            distance,
         )
     if slug == "cylinder":
         if v == 0:

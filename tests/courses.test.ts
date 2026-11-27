@@ -17,7 +17,7 @@ type Bank = {
 };
 const specs = {
   6: { count: 222, skills: 92, version: 6008, opening: "g6.foundation-sums.1", singleton: "6.11", strands: {2:"E",3:"E",4:"H",5:"C",6:"C",7:"D",8:"D",9:"C",10:"B",12:"D",13:"B",14:"H"} },
-  8: { count: 225, skills: 101, version: 8007, opening: "g8.foundation-numbers.1", singleton: "8.9", strands: {2:"D",3:"C",4:"C",5:"I",6:"C",7:"D",8:"D",10:"D",11:"C",12:"G"} },
+  8: { count: 225, skills: 101, version: 8008, opening: "g8.foundation-numbers.1", singleton: "8.9", strands: {2:"D",3:"C",4:"C",5:"I",6:"C",7:"D",8:"D",10:"D",11:"C",12:"G"} },
 };
 
 for (const number of [6, 8] as const) {
@@ -104,6 +104,53 @@ test("Grades 6–8 use whole-number entry for integer results from fraction arit
   }
 });
 
+test("fractional unit rates use noninteger measurements and give fractional answers", () => {
+  for (const [gradeNumber, id] of [[7, "ratio.unit.2"], [8, "g8.foundation-ratios.4"]] as const) {
+    const bank = readCourseBank(gradeNumber);
+    const { pool } = bank.levels.find(level => level.id === id)!;
+    for (const { q } of pool) {
+      const { prompt, answer, control } = bank.questions[q];
+      const match = /^(\d+)\/2 liters cover (\d+)\/2 m²\./.exec(prompt);
+      assert.ok(match, prompt);
+      const [, liters, area] = match.map(Number);
+      assert.ok(liters % 2 && area % 2 && liters % area, prompt);
+      assert.equal(control.kind, "fraction", prompt);
+      const rate = parseAnswer(answer)!;
+      assert.equal(rate.numerator * BigInt(area), rate.denominator * BigInt(liters), prompt);
+    }
+  }
+});
+
+test("Grade 8 geometry identifies the exterior angle and uses small diagonal distances", () => {
+  const bank = readCourseBank(8);
+  const questions = (id: string) => bank.levels.find(level => level.id === id)!.pool.map(({ q }) => bank.questions[q]);
+  const focused = questions("g8.steps-triangle.2");
+  const mixed = questions("g8.triangle.1").filter(({ prompt }) => /exterior angle/i.test(prompt));
+  assert.equal(mixed.length, 8);
+  for (const { prompt } of [...focused, ...mixed]) {
+    assert.match(prompt, /Side BC extends past C to D\./i);
+    assert.match(prompt, /exterior angle ACD/i);
+  }
+  for (const id of ["g8.distance.1", "g8.steps-distance.2"]) {
+    for (const { prompt, answer } of questions(id)) {
+      const points = /\((-?\d+), (-?\d+)\) to \((-?\d+), (-?\d+)\)/.exec(prompt);
+      assert.ok(points, prompt);
+      const [, x, y, endX, endY] = points.map(Number);
+      const dx = Math.abs(endX - x), dy = Math.abs(endY - y);
+      assert.ok(dx > 0 && dx <= 8 && dy > 0 && dy <= 8, prompt);
+      assert.equal(Number(answer) ** 2, dx ** 2 + dy ** 2, prompt);
+    }
+  }
+});
+
+test("the Grade 8 tank question credits constant change with a nonzero starting volume", () => {
+  const question = readCourseBank(8).questions["g8.proportional.q16"];
+  assert.match(question.prompt, /7 L at minute 0 and gains 2 L each minute/);
+  assert.match(question.prompt, /directly proportional/);
+  assert.equal(gradeQuestion(question, question.answer,
+    "No. The rate is constant and the starting volume is 7 L.")?.outcome, "correct");
+});
+
 test("all box summaries use the median of each half with varied middle gaps", () => {
   const bank: Bank = JSON.parse(gunzipSync(readFileSync("content/6math/bank.json.gz")).toString());
   const { pool } = bank.levels.find(level => level.id === "g6.steps-spread.4")!;
@@ -126,7 +173,7 @@ test("all box summaries use the median of each half with varied middle gaps", ()
 test("number bubbles score a wrong tap immediately and require all three correct taps", async () => {
   for (const [path, level] of [
     ["content/6math/bank.json.gz", "g6.steps-order.2"],
-    ["content/mentalist/bank-v8.json.gz", "review.numberline.2"],
+    ["content/mentalist/bank-v9.json.gz", "review.numberline.2"],
   ]) {
     const bank: Bank = JSON.parse(gunzipSync(readFileSync(path)).toString());
     const { pool } = bank.levels.find(item => item.id === level)!;
@@ -213,7 +260,7 @@ for (const number of [6, 8] as const) test(`Grade ${number} progression preserve
 });
 
 test("the shared rectangular-prism nets have opposite matching faces and linear choices fit every row uniquely", () => {
-  const sources = ["content/6math/bank.json.gz", "content/mentalist/bank-v8.json.gz", "content/8math/bank.json.gz"];
+  const sources = ["content/6math/bank.json.gz", "content/mentalist/bank-v9.json.gz", "content/8math/bank.json.gz"];
   let nets = 0, linear = 0;
   for (const source of sources) {
     const bank: Bank = JSON.parse(gunzipSync(readFileSync(source)).toString());

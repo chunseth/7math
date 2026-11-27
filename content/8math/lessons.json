@@ -865,7 +865,7 @@
    },
    {
     "title": "Use the exterior angle relationship",
-    "example": "The remote interior angles of a triangle are 18° and 46°. Find the exterior angle."
+    "example": "In triangle ABC, angles A and B are 18° and 46°. Side BC extends past C to D. Find exterior angle ACD."
    },
    {
     "title": "Test two triangles for angle-angle similarity",
@@ -876,7 +876,7 @@
  {
   "id": "g8.triangle",
   "title": "Triangle sums, exterior angles and AA",
-  "example": "A triangle has remote interior angles of 42° and 61°. Find the exterior angle.",
+  "example": "In triangle ABC, angles A and B are 42° and 61°. Side BC extends past C to D. Find exterior angle ACD.",
   "unit": "Similarity and transformations",
   "standards": [
    "8.8D"
@@ -1556,7 +1556,7 @@
    },
    {
     "title": "Find the diagonal distance between two points",
-    "example": "Find the distance from (−8, 8) to (7, 44)."
+    "example": "Find the distance from (-9, 3) to (-15, 11)."
    },
    {
     "title": "Express a noninteger distance using a radical",

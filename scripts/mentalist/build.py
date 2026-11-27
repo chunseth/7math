@@ -11,11 +11,11 @@ from variants import extension
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "content/mentalist"
-VERSION = 8
+VERSION = 9
 skills = json.loads((OUT / "skills.json").read_text())
 catalog = json.loads((ROOT / "docs/curriculum/skill-tree.json").read_text())
-previous = json.loads(gzip.decompress((OUT / "bank-v7.json.gz").read_bytes()))
-previous_pools = {level["id"]: level["pool"] for level in previous["levels"]}
+previous = json.loads(gzip.decompress((OUT / f"bank-v{VERSION - 1}.json.gz").read_bytes()))
+previous_levels = {level["id"]: level for level in previous["levels"]}
 levels = []
 questions = {}
 sets = []
@@ -155,9 +155,10 @@ for skill in skills:
             if positions not in blueprints:
                 blueprints.append(positions)
         # Expire preloaded packs when their questions change in this release.
-        set_version = VERSION if pool != previous_pools.get(lid) else 4
+        previous_level = previous_levels.get(lid)
+        unchanged = previous_level is not None and pool == previous_level["pool"]
         for bank, positions in enumerate(blueprints):
-            sid = f"v{set_version}.{lid}.set{bank+1}"
+            sid = previous_level["sets"][bank] if unchanged else f"v{VERSION}.{lid}.set{bank+1}"
             levelsets.append(sid)
             assert len({p["q"] for p in positions}) == 12
             sets.append(dict(id=sid, level=lid, positions=positions))
