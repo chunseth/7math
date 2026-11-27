@@ -6,7 +6,6 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   distDir: process.env.NODE_ENV === "development" ? ".next-dev" : ".next",
   outputFileTracingIncludes: {
-    "/api/rush": curriculumBanks,
     "/api/mentalist": curriculumBanks,
     "/verification": curriculumBanks,
     "/verification/*": curriculumBanks,

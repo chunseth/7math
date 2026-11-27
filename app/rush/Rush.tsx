@@ -1,83 +1,52 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { post, RequestError } from "../../lib/mentalist/client";
 import { formatRunTime, type Outcome } from "../../lib/mentalist/model";
 import { checkLocally } from "../../lib/mentalist/round";
 import { studentPrompt } from "../../lib/mentalist/least-order";
 import QuestionPrompt, { useQuestionPart } from "../mentalist/components/QuestionPrompt";
-import { rushGrades, rushLength, type RushBoard, type RushGrade, type RushResult, type RushRun } from "../../lib/rush/model";
+import { rushLength, type RushGrade, type RushResult, type RushRun } from "../../lib/rush/model";
 import Answer from "../mentalist/components/Answer";
 import { emptyCredentials, PlayerFields } from "../mentalist/components/PlayerFields";
 import { Visual } from "../mentalist/components/Visual";
+import { GradeMenu, Leaderboard } from "./GradeMenu";
 
 type ActiveRun = RushRun & { started: number };
-type FinishedRun = RushResult & { runId: string; answers: (string | null)[]; ranked: boolean };
+type FinishedRun = RushResult & { runId: string; answers: (string | null)[] };
 type RushFeedback = Exclude<Outcome, "simplification">;
 
-export default function Rush({ rankingEnabled, hasSession }: { rankingEnabled: boolean; hasSession: boolean }) {
+export default function Rush({ available, hasSession }: { available: boolean; hasSession: boolean }) {
   const [signedIn, setSignedIn] = useState(hasSession);
   const [grade, setGrade] = useState<RushGrade>(7);
+  const [boardGrade, setBoardGrade] = useState<RushGrade | null>(null);
   const [flash, setFlash] = useState<{ step: number; outcome: RushFeedback } | null>(null);
   const [run, setRun] = useState<ActiveRun | null>(null);
   const [finished, setFinished] = useState<FinishedRun | null>(null);
   const [starting, setStarting] = useState(false);
   const [startError, setStartError] = useState("");
   const [saveState, setSaveState] = useState<"saving" | "saved" | "error" | null>(null);
-  const [board, setBoard] = useState<RushBoard | null>(null);
-  const [boardError, setBoardError] = useState("");
-  const [boardRevision, setBoardRevision] = useState(0);
 
-  useEffect(() => {
-    if (!signedIn || run || saveState === "saving") return;
-    let current = true;
-    setBoardError("");
-    post<RushBoard>({ action: "rushBoard", grade }).then(data => {
-      if (current) setBoard(data);
-    }).catch(error => {
-      if (!current) return;
-      if (error instanceof RequestError && error.status === 401) setSignedIn(false);
-      else setBoardError("Could not load the Rush leaderboard.");
-    });
-    return () => { current = false; };
-  }, [signedIn, run, saveState, boardRevision, grade]);
+  const requireSignIn = useCallback(() => {
+    setBoardGrade(null);
+    setSignedIn(false);
+  }, []);
 
-  function selectGrade(next: RushGrade) {
-    if (grade === next) return;
-    setGrade(next);
-    setFinished(null);
-    setSaveState(null);
-    setStartError("");
-    setBoard(null);
-    setBoardError("");
-    setFlash(null);
-  }
-
-  async function start(guest = !signedIn) {
-    if (starting) return;
+  async function start(selectedGrade: RushGrade) {
+    if (starting || !signedIn) return;
+    setGrade(selectedGrade);
     setStarting(true);
     setStartError("");
     try {
-      let next: RushRun;
-      if (guest) {
-        const response = await fetch(`/api/rush?grade=${grade}`, { cache: "no-store" });
-        if (!response.ok) throw Error("Could not load Rush questions.");
-        next = await response.json();
-      } else {
-        next = await post<RushRun>({ action: "rushStart", grade });
-      }
+      const next = await post<RushRun>({ action: "rushStart", grade: selectedGrade });
       setFinished(null);
       setSaveState(null);
       setFlash(null);
       setRun({ ...next, started: performance.now() });
     } catch (error) {
-      if (error instanceof RequestError && error.status === 401) {
-        setSignedIn(false);
-        setStartError("Sign in again to play for a rank, or start a guest run.");
-      } else {
-        setStartError(guest ? "Could not load Rush questions. Try again." : "Could not start a ranked run. Try again or play as a guest.");
-      }
+      if (error instanceof RequestError && error.status === 401) requireSignIn();
+      else setStartError("Could not start Rush. Try again.");
     } finally {
       setStarting(false);
     }
@@ -89,15 +58,16 @@ export default function Rush({ rankingEnabled, hasSession }: { rankingEnabled: b
       const saved = await post<RushResult>({ action: "rushFinish", run: result.runId, answers: result.answers });
       setFinished({ ...result, ...saved });
       setSaveState("saved");
-    } catch {
+    } catch (error) {
       setSaveState("error");
+      if (error instanceof RequestError && error.status === 401) requireSignIn();
     }
   }
 
   function finish(result: FinishedRun) {
     setRun(null);
     setFinished(result);
-    if (result.ranked) void save(result);
+    void save(result);
   }
 
   return (
@@ -105,74 +75,53 @@ export default function Rush({ rankingEnabled, hasSession }: { rankingEnabled: b
       {flash && <div key={flash.step} className={`rush-border-glow rush-border-${flash.outcome}`} aria-hidden="true" />}
       <div className="rush-layout">
         <header className="rush-header">
-          <Link href="/">← Game modes</Link>
+          <Link href="/">← Main Menu</Link>
           <h1>Rush</h1>
         </header>
-        {run ? <Play key={run.pack.set} run={run} onFinish={finish}
-          onFeedback={(step, outcome) => setFlash(outcome ? { step, outcome } : null)} /> : <>
-          <section className="rush-card rush-intro" aria-label={finished ? "Run results" : "Start Rush"}>
-            <div className="rush-grade-picker" role="group" aria-label="Rush grade">
-              {rushGrades.map(option => <button key={option} type="button" aria-pressed={grade === option}
-                disabled={starting || saveState === "saving"} onClick={() => selectGrade(option)}>Grade {option}</button>)}
+        {!available ? <p role="alert">Rush is currently unavailable.</p> :
+          !signedIn ? <AccountGate onSuccess={() => setSignedIn(true)} /> :
+          run ? <Play key={run.pack.set} run={run} onFinish={finish}
+            onFeedback={(step, outcome) => setFlash(outcome ? { step, outcome } : null)} /> :
+          finished ? <section className="rush-card rush-summary" aria-labelledby="rush-result-title">
+            <h2 id="rush-result-title">{grade}math Rush complete</h2>
+            <div className="rush-results" aria-live="polite">
+              <div><strong>{finished.score}/{rushLength}</strong><span>Score</span></div>
+              <div><strong>{formatRunTime(finished.elapsedMs)}</strong><span>Time</span></div>
             </div>
-            {finished ? <>
-              <h2>Grade {grade} Rush complete</h2>
-              <div className="rush-results" aria-live="polite">
-                <div><strong>{finished.score}/{rushLength}</strong><span>Score</span></div>
-                <div><strong>{formatRunTime(finished.elapsedMs)}</strong><span>Time</span></div>
-              </div>
-              <p role="status">{saveState === "saving" ? "Saving your score…" : saveState === "saved" ? "Score saved to the leaderboard." :
-                saveState === "error" ? "Your score could not be saved. You can retry below." : "Guest run"}</p>
-              {saveState === "error" && <button type="button" onClick={() => void save(finished)}>Retry saving</button>}
-            </> : <>
-              <h2>{rushLength} random questions</h2>
-              <p>Play a mix from the Grade {grade} curriculum. You get one scored answer per question and can skip any question.</p>
-            </>}
-            <div className="rush-actions">
-              <button className="mt-primary" type="button" disabled={starting || saveState === "saving"}
-                onClick={() => void start()}>
-                {starting ? "Loading questions…" : finished ? "Play again" : "Start Rush"}
-              </button>
-              {startError && signedIn && <button type="button" disabled={starting} onClick={() => void start(true)}>Play as guest</button>}
-            </div>
+            <p role="status">{saveState === "saving" ? "Saving your score…" : saveState === "saved" ? "Score saved." : "Could not save your score."}</p>
             {startError && <p role="alert">{startError}</p>}
-          </section>
-          <section className="rush-card rush-leaderboard" aria-labelledby="rush-leaderboard">
-            <h2 id="rush-leaderboard">Grade {grade} Rush leaderboard</h2>
-            <p>Highest score first. Fastest time breaks ties.</p>
-            {!rankingEnabled ? <p>Ranked play is unavailable here.</p> :
-              !signedIn ? <SignIn onSuccess={() => setSignedIn(true)} /> :
-              boardError ? <div><p role="alert">{boardError}</p>
-                <button type="button" onClick={() => setBoardRevision(revision => revision + 1)}>Retry loading scores</button></div> :
-              board?.grade !== grade ? <p role="status">Loading scores…</p> :
-              !board.records.length ? <p>No ranked runs yet. Finish a run to set the first score.</p> :
-              <table className="mt-leaderboard" aria-label="Rush rankings">
-                <thead><tr><th scope="col">Rank</th><th scope="col">Player</th><th scope="col">Score</th><th scope="col">Time</th></tr></thead>
-                <tbody>{board.records.map(record => <tr key={record.username} className={record.username === board.username ? "mt-own-record" : undefined}>
-                  <td>#{record.rank}</td>
-                  <th scope="row">{record.username}{record.username === board.username && " (you)"}</th>
-                  <td>{record.score}/{rushLength}</td><td>{formatRunTime(record.elapsedMs)}</td>
-                </tr>)}</tbody>
-              </table>}
-          </section>
-        </>}
+            <div className="rush-actions">
+              <button className="rush-action" type="button" disabled={starting || saveState === "saving"} onClick={() => void start(grade)}>Play again</button>
+              {saveState === "error" && <button type="button" disabled={starting} onClick={() => void save(finished)}>Retry saving</button>}
+              <button type="button" disabled={starting || saveState === "saving"} onClick={() => {
+                setFinished(null);
+                setFlash(null);
+                setStartError("");
+              }}>Back to grades</button>
+            </div>
+          </section> :
+          <GradeMenu grade={grade} starting={starting} onGrade={setGrade} onStart={start} onBoard={setBoardGrade} />}
+        {startError && !finished && <p role="alert">{startError}</p>}
+        {signedIn && boardGrade && <Leaderboard key={boardGrade} grade={boardGrade}
+          close={() => setBoardGrade(null)} onAuthRequired={requireSignIn} />}
       </div>
     </main>
   );
 }
 
-function SignIn({ onSuccess }: { onSuccess: () => void }) {
-  const [show, setShow] = useState(false);
+function AccountGate({ onSuccess }: { onSuccess: () => void }) {
+  const [create, setCreate] = useState(false);
   const [credentials, setCredentials] = useState(emptyCredentials);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
-  async function signIn(event: FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (busy) return;
     setBusy(true);
     setError("");
     try {
-      await post({ action: "login", ...credentials, create: false });
+      await post({ action: "login", ...credentials, create });
       onSuccess();
     } catch (error) {
       setError(error instanceof Error ? error.message : "Could not sign in.");
@@ -180,14 +129,20 @@ function SignIn({ onSuccess }: { onSuccess: () => void }) {
     }
   }
 
-  return <>
-    <p>Sign in with your 7math player account to see scores and rank on your next run.</p>
-    {show ? <form className="rush-sign-in" onSubmit={signIn}>
-      <PlayerFields value={credentials} onChange={setCredentials} create={false} />
+  return <section className="rush-card rush-account" aria-labelledby="rush-account-title">
+    <h2 id="rush-account-title">{create ? "Create a player" : "Sign in to Rush"}</h2>
+    <form onSubmit={submit}>
+      <fieldset className="rush-account-fields" disabled={busy}>
+        <PlayerFields value={credentials} onChange={setCredentials} create={create} />
+        <button className="rush-action" type="submit">{busy ? (create ? "Creating player…" : "Signing in…") : create ? "Create player" : "Sign in"}</button>
+      </fieldset>
       {error && <p role="alert">{error}</p>}
-      <button type="submit" disabled={busy}>{busy ? "Signing in…" : "Sign in"}</button>
-    </form> : <button type="button" onClick={() => setShow(true)}>Sign in</button>}
-  </>;
+    </form>
+    <button type="button" disabled={busy} onClick={() => {
+      setCreate(!create);
+      setError("");
+    }}>{create ? "Sign in instead" : "Create a player"}</button>
+  </section>;
 }
 
 function Play({ run, onFinish, onFeedback }: {
@@ -204,7 +159,7 @@ function Play({ run, onFinish, onFeedback }: {
     const total = score + (outcome === "correct" ? 1 : 0);
     onFeedback(next.length, outcome);
     if (next.length === rushLength) {
-      onFinish({ runId: run.pack.set, answers: next, score: total, ranked: run.ranked,
+      onFinish({ runId: run.pack.set, answers: next, score: total,
         elapsedMs: Math.round(performance.now() - run.started) });
       return;
     }

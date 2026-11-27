@@ -1,6 +1,10 @@
 import { useEffect, useRef, type ReactNode } from "react";
 
-export function Sheet({ children, close }: { children: ReactNode; close: () => void }) {
+export function Sheet({ children, close, labelledBy }: {
+  children: ReactNode;
+  close: () => void;
+  labelledBy?: string;
+}) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const d = ref.current!;
@@ -13,6 +17,7 @@ export function Sheet({ children, close }: { children: ReactNode; close: () => v
     <dialog
       ref={ref}
       className="mt-sheet"
+      aria-labelledby={labelledBy}
       onCancel={(e) => {
         e.preventDefault();
         close();
