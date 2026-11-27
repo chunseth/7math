@@ -115,43 +115,45 @@ export default function Rush({ available, hasSession }: { available: boolean; ha
   }
 
   return (
-    <main className="mt-shell rush-shell">
+    <main className="mt-shell mt-home rush-shell" inert={boardGrade !== null}>
       {flash && <div key={flash.step} className={`rush-border-glow rush-border-${flash.outcome}`} aria-hidden="true" />}
-      <div className="rush-layout" inert={boardGrade !== null}>
-        <header className="mt-top rush-header">
-          {run ? <button className="rush-back" type="button" aria-label={`Back to ${run.grade}math Rush menu`}
-            onClick={() => leaveRun(run)}>‹</button> :
-            <Link className="rush-back" href="/" aria-label="Main menu">‹</Link>}
-          <h1>{run ? `${run.grade}math Rush` : "Rush"}</h1>
-        </header>
-        {!available ? <p role="alert">Rush is currently unavailable.</p> :
-          !signedIn ? <AccountGate onSuccess={() => setSignedIn(true)} /> :
-          run ? <Play key={run.pack.set} run={run} onFinish={finish}
-            onFeedback={(step, outcome) => {
-              if (activeRunId.current === run.pack.set) setFlash({ step, outcome });
-            }} /> :
-          finished ? <section className="rush-theme rush-summary" data-grade={grade} aria-labelledby="rush-result-title">
-            <h2 className="rush-grade-title" id="rush-result-title">{grade}math Rush complete</h2>
-            <div className="rush-results" aria-live="polite">
-              <div><span>Score</span><strong>{finished.score}/{rushLength}</strong></div>
-              <div><span>Time</span><strong>{formatRunTime(finished.elapsedMs)}</strong></div>
-            </div>
-            <p role="status">{saveState === "saving" ? "Saving your score…" : saveState === "saved" ? "Score saved." : "Could not save your score."}</p>
-            {startError && <p role="alert">{startError}</p>}
-            <div className="rush-actions">
-              <button className="rush-action" type="button" disabled={starting || saveState !== "saved"}
-                aria-haspopup="dialog" onClick={event => openBoard(grade, event.currentTarget)}>View score on leaderboard</button>
-              <button type="button" disabled={starting || saveState === "saving"} onClick={() => void start(grade)}>Play again</button>
-              {saveState === "error" && <button type="button" disabled={starting} onClick={() => void save(finished)}>Retry saving</button>}
-              <button type="button" disabled={starting || saveState === "saving"} onClick={() => {
-                setFinished(null);
-                setFlash(null);
-                setStartError("");
-              }}>Back to grades</button>
-            </div>
-          </section> :
-          <GradeMenu grade={grade} starting={starting} onGrade={setGrade} onStart={start} onBoard={openBoard} />}
-        {startError && !finished && <p role="alert">{startError}</p>}
+      <header className="mt-top">
+        {run ? <button className="rush-back" type="button" aria-label={`Back to ${run.grade}math Rush menu`}
+          onClick={() => leaveRun(run)}>‹</button> :
+          <Link href="/" aria-label="Main menu">‹</Link>}
+        <strong role="heading" aria-level={1}>{run ? `${run.grade}math Rush` : "Rush"}</strong>
+      </header>
+      <div className="rush-content">
+        <div className="rush-layout">
+          {!available ? <p role="alert">Rush is currently unavailable.</p> :
+            !signedIn ? <AccountGate onSuccess={() => setSignedIn(true)} /> :
+            run ? <Play key={run.pack.set} run={run} onFinish={finish}
+              onFeedback={(step, outcome) => {
+                if (activeRunId.current === run.pack.set) setFlash({ step, outcome });
+              }} /> :
+            finished ? <section className="rush-theme rush-summary" data-grade={grade} aria-labelledby="rush-result-title">
+              <h2 id="rush-result-title">{grade}math Rush complete</h2>
+              <div className="rush-results" aria-live="polite">
+                <div><span>Score</span><strong>{finished.score}/{rushLength}</strong></div>
+                <div><span>Time</span><strong>{formatRunTime(finished.elapsedMs)}</strong></div>
+              </div>
+              <p role="status">{saveState === "saving" ? "Saving your score…" : saveState === "saved" ? "Score saved." : "Could not save your score."}</p>
+              {startError && <p role="alert">{startError}</p>}
+              <div className="rush-actions">
+                <button className="rush-action" type="button" disabled={starting || saveState !== "saved"}
+                  aria-haspopup="dialog" onClick={event => openBoard(grade, event.currentTarget)}>View score on leaderboard</button>
+                <button type="button" disabled={starting || saveState === "saving"} onClick={() => void start(grade)}>Play again</button>
+                {saveState === "error" && <button type="button" disabled={starting} onClick={() => void save(finished)}>Retry saving</button>}
+                <button type="button" disabled={starting || saveState === "saving"} onClick={() => {
+                  setFinished(null);
+                  setFlash(null);
+                  setStartError("");
+                }}>Back to grades</button>
+              </div>
+            </section> :
+            <GradeMenu grade={grade} starting={starting} onGrade={setGrade} onStart={start} onBoard={openBoard} />}
+          {startError && !finished && <p role="alert">{startError}</p>}
+        </div>
       </div>
       {signedIn && boardGrade && <Leaderboard key={boardGrade} grade={boardGrade} board={boards[boardGrade]}
         status={boardStatus} result={finished && grade === boardGrade && saveState === "saved" ? finished : null}
