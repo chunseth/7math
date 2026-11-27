@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Kalam:wght@700&family=Patrick+Hand&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap");
 
 .mt-shell.rush-shell {
   --ink: #173f4d;
@@ -60,21 +60,24 @@
   --rush-accent: #9fe9ff;
   --rush-action-ink: #102c4d;
   --rush-action-shadow: #58a8ce;
-  --rush-title-font: "Patrick Hand", "Bradley Hand", cursive;
 }
 
 .rush-grade-page[data-grade="7"] {
-  --rush-title-font: "Caveat", "Bradley Hand", cursive;
+  --rush-dark: #203e40;
+  --rush-light: #365951;
+  --rush-shadow: #172e30;
+  --rush-accent: #c2dfcf;
+  --rush-action-ink: #223e38;
+  --rush-action-shadow: #87b09b;
 }
 
 .rush-grade-page[data-grade="8"] {
-  --rush-dark: #492352;
-  --rush-light: #75366d;
+  --rush-dark: #462b4f;
+  --rush-light: #674564;
   --rush-shadow: #36183c;
-  --rush-accent: #ffcdac;
-  --rush-action-ink: #542638;
-  --rush-action-shadow: #d2856a;
-  --rush-title-font: "Kalam", "Bradley Hand", cursive;
+  --rush-accent: #eac7d5;
+  --rush-action-ink: #492e43;
+  --rush-action-shadow: #bc92a7;
 }
 
 .rush-pages {
@@ -118,7 +121,7 @@
 
 .mt-shell .rush-grade-title {
   margin: 0;
-  font-family: var(--rush-title-font);
+  font-family: "Kalam", "Bradley Hand", cursive;
   font-size: clamp(60px, 16vw, 100px);
   font-weight: 700;
   line-height: 1;
@@ -159,7 +162,7 @@
 .rush-podium i:nth-child(2) { height: 19px; }
 .rush-podium i:nth-child(3) { height: 14px; }
 
-.rush-page-nav { display: flex; justify-content: center; }
+.rush-page-nav { display: flex; justify-content: center; gap: 8px; margin-top: 3px; }
 .mt-shell .rush-page-nav button {
   display: grid;
   place-items: center;
@@ -169,26 +172,49 @@
   border: 0;
   background: transparent;
 }
-.rush-page-nav button::before {
-  content: "";
-  width: 10px;
-  height: 10px;
+.rush-page-nav button span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
   border-radius: 999px;
-  background: #567680;
+  border: 1px solid #78969e;
+  color: #294a55;
+  font-size: 14px;
+  line-height: 1;
 }
-.rush-page-nav button[aria-pressed="true"]::before { width: 22px; background: #173f4d; }
+.rush-page-nav button[aria-current="page"] span { color: #fff; border-color: #173f4d; background: #173f4d; }
 
-.rush-art { color: var(--rush-accent); }
-.rush-equation {
-  font: 700 clamp(36px, 11vw, 68px)/1 "Kalam", "Bradley Hand", cursive;
-  rotate: -7deg;
+.rush-art {
+  position: relative;
+  width: min(100%, 380px);
+  height: 100%;
+  color: var(--rush-accent);
+  font: 700 clamp(20px, 6vw, 34px)/1 "Kalam", "Bradley Hand", cursive;
+  user-select: none;
 }
+.rush-equation { position: absolute; left: 4%; top: 20%; rotate: -8deg; white-space: nowrap; }
+.rush-fractions {
+  position: absolute;
+  right: 5%;
+  bottom: 14%;
+  display: flex;
+  align-items: center;
+  gap: .25em;
+  rotate: 9deg;
+}
+.rush-fraction { display: inline-grid; text-align: center; }
+.rush-fraction > span:first-child { border-bottom: 1.5px solid currentColor; padding: 0 .16em; }
+.rush-fraction > span:last-child { padding-top: .12em; }
 
 .rush-triangle {
-  position: relative;
-  width: clamp(125px, 42vw, 190px);
+  position: absolute;
+  left: 7%;
+  top: 30%;
+  width: clamp(82px, 27vw, 132px);
   aspect-ratio: 1.732;
-  font: 700 clamp(19px, 5vw, 26px)/1 "Kalam", cursive;
+  font-size: clamp(14px, 4vw, 20px);
+  rotate: -12deg;
 }
 .rush-triangle::before {
   content: "";
@@ -198,16 +224,42 @@
   clip-path: polygon(0 0, 100% 100%, 0 100%, 0 0, 3px 6px, 3px calc(100% - 3px), calc(100% - 11px) calc(100% - 3px), 3px 6px);
 }
 .rush-triangle span { position: absolute; }
-.rush-angle-60 { left: 12px; top: -4px; }
+.rush-angle-60 { left: 10px; top: -3px; }
 .rush-angle-90 { left: 0; bottom: -1.15em; }
-.rush-angle-30 { right: -1.35em; bottom: -.22em; }
+.rush-angle-30 { right: -1.45em; bottom: -.22em; }
 
-.rush-solids { display: flex; align-items: flex-end; gap: clamp(20px, 7vw, 42px); }
-.rush-cylinder, .rush-sphere { position: relative; display: block; border: 3px solid currentColor; }
+.rush-circle {
+  position: absolute;
+  right: 7%;
+  bottom: 9%;
+  width: clamp(56px, 21vw, 100px);
+  aspect-ratio: 1;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  rotate: -25deg;
+  font-size: .72em;
+}
+.rush-circle i { position: absolute; top: 50%; left: 50%; width: 50%; border-top: 2px dotted currentColor; }
+.rush-circle i::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: -3px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.rush-circle span { position: absolute; left: 65%; bottom: 53%; }
+
+.rush-cylinder, .rush-sphere { position: absolute; display: block; border: 3px solid currentColor; }
 .rush-cylinder {
+  top: 9%;
+  left: 14%;
   width: clamp(56px, 17vw, 86px);
   aspect-ratio: .72;
   border-radius: 50% / 15%;
+  rotate: -16deg;
 }
 .rush-cylinder::before, .rush-sphere::before, .rush-sphere::after {
   content: "";
@@ -217,9 +269,12 @@
 }
 .rush-cylinder::before { inset: -2px -2px auto; height: 26%; }
 .rush-sphere {
+  right: 10%;
+  bottom: 5%;
   width: clamp(72px, 24vw, 114px);
   aspect-ratio: 1;
   border-radius: 50%;
+  rotate: 19deg;
 }
 .rush-sphere::before { inset: 30% -2px; border-top-style: dashed; }
 .rush-sphere::after { inset: -2px 24%; rotate: 18deg; border-left-style: dashed; }
@@ -245,12 +300,30 @@
 .rush-results strong { font-size: clamp(1.45rem, 7vw, 2.2rem); font-variant-numeric: tabular-nums; }
 .rush-results span { color: var(--muted); }
 
-.rush-shell .mt-sheet {
-  max-width: calc(100% - 20px);
-  padding: clamp(12px, 4vw, 24px);
+.mt-shell.rush-leaderboard-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  background: #102b4ca6;
 }
-.rush-shell .mt-leaderboard { overflow-wrap: anywhere; }
-.rush-shell .mt-sheet::backdrop { background: #102b4c99; }
+
+.rush-leaderboard-panel {
+  width: min(100%, 460px);
+  max-height: min(85vh, 85dvh);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: clamp(12px, 4vw, 24px);
+  border: 1px solid #c3d9e1;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 40px #102b4c40;
+}
+.rush-leaderboard-panel h2 { font-size: clamp(20px, 6vw, 28px); }
+.mt-shell button.rush-leaderboard-close { float: right; min-width: 44px; min-height: 44px; font-size: 22px; line-height: 1; }
+.rush-leaderboard-panel .mt-leaderboard { overflow-wrap: anywhere; }
 
 .rush-border-glow {
   position: fixed;

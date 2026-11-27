@@ -21,6 +21,7 @@ export default function Rush({ available, hasSession }: { available: boolean; ha
   const [signedIn, setSignedIn] = useState(hasSession);
   const [grade, setGrade] = useState<RushGrade>(7);
   const [boardGrade, setBoardGrade] = useState<RushGrade | null>(null);
+  const boardTrigger = useRef<HTMLButtonElement>(null);
   const [flash, setFlash] = useState<{ step: number; outcome: RushFeedback } | null>(null);
   const [run, setRun] = useState<ActiveRun | null>(null);
   const [finished, setFinished] = useState<FinishedRun | null>(null);
@@ -32,6 +33,11 @@ export default function Rush({ available, hasSession }: { available: boolean; ha
     setBoardGrade(null);
     setSignedIn(false);
   }, []);
+
+  function closeBoard() {
+    setBoardGrade(null);
+    requestAnimationFrame(() => boardTrigger.current?.focus({ preventScroll: true }));
+  }
 
   async function start(selectedGrade: RushGrade) {
     if (starting || !signedIn) return;
@@ -73,7 +79,7 @@ export default function Rush({ available, hasSession }: { available: boolean; ha
   return (
     <main className="mt-shell rush-shell">
       {flash && <div key={flash.step} className={`rush-border-glow rush-border-${flash.outcome}`} aria-hidden="true" />}
-      <div className="rush-layout">
+      <div className="rush-layout" inert={boardGrade !== null}>
         <header className="rush-header">
           <Link href="/">← Main Menu</Link>
           <h1>Rush</h1>
@@ -100,11 +106,15 @@ export default function Rush({ available, hasSession }: { available: boolean; ha
               }}>Back to grades</button>
             </div>
           </section> :
-          <GradeMenu grade={grade} starting={starting} onGrade={setGrade} onStart={start} onBoard={setBoardGrade} />}
+          <GradeMenu grade={grade} starting={starting} onGrade={setGrade} onStart={start}
+            onBoard={(selected, trigger) => {
+              boardTrigger.current = trigger;
+              setBoardGrade(selected);
+            }} />}
         {startError && !finished && <p role="alert">{startError}</p>}
-        {signedIn && boardGrade && <Leaderboard key={boardGrade} grade={boardGrade}
-          close={() => setBoardGrade(null)} onAuthRequired={requireSignIn} />}
       </div>
+      {signedIn && boardGrade && <Leaderboard key={boardGrade} grade={boardGrade}
+        close={closeBoard} onAuthRequired={requireSignIn} />}
     </main>
   );
 }
