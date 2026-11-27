@@ -1,16 +1,16 @@
 import { useEffect, useRef } from "react";
-import { miningResources, miningRules, resourceIds, rockType, rockTypes, type RockId } from "../../lib/crafters/config";
+import { miningResources, miningRules, resourceIds, rockTypes, type RockId } from "../../lib/crafters/config";
 import type { MiningView } from "../../lib/crafters/expedition";
+import { atlas, coreRockArt, type RockFrame } from "../../lib/crafters/rock-art";
+import { RockSprite } from "./rocks/RockSprite";
 
-export function RockArt({ type, damage = 0, locked = false }: { type: RockId; damage?: number; locked?: boolean }) {
+export function RockArt({ type, variant = 0, frame = 0, locked = false }: {
+  type: RockId; variant?: number; frame?: RockFrame; locked?: boolean;
+}) {
+  const family = coreRockArt[type];
   return (
-    <span className="mine-rock-art" data-mineral={rockType(type).visual} data-locked={locked} aria-hidden="true">
-      <span className="mine-rock-shadow" />
-      <span className="mine-rock-shape">
-        <span className="mine-rock-facets" />
-        <span className="mine-rock-flecks"><i /><i /><i /><i /><i /></span>
-        {damage > 0 && <span className="mine-rock-cracks" data-heavy={damage >= 0.5}><i /><i /><i /></span>}
-      </span>
+    <span className="mine-rock-art" data-locked={locked} aria-hidden="true">
+      <RockSprite appearance={{ family, variant: variant % atlas.families[family].variants.length }} frame={frame} />
     </span>
   );
 }

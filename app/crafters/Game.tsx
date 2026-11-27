@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, type CSSProperties, type RefObject } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { post, RequestError } from "../../lib/mentalist/client";
 import { miningResources, miningRules, resourceIds, rockType, type RockId } from "../../lib/crafters/config";
 import { canDescend, type ExpeditionSummary, type MiningView, type SwingResult } from "../../lib/crafters/expedition";
 import { Catalogue, ResourceIcon, RockArt } from "./MiningParts";
+import { rockFrame } from "../../lib/crafters/rock-art";
+import { TerrainSprite } from "./rocks/RockSprite";
 import { miningSound, unlockMiningSound } from "./sound";
 
 type Command = { action: "start"; id: string; previous: string | null }
@@ -84,7 +86,7 @@ function Effects({ effects }: { effects: Effect[] }) {
 
 function animateHit(target: Element) {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  target.animate([
+  target.animate?.([
     { transform: "translate(0)" }, { transform: "translate(-3px, 2px) rotate(-3deg)" },
     { transform: "translate(3px, -1px) rotate(2deg)" }, { transform: "translate(0)" },
   ], { duration: 155 });
@@ -203,6 +205,7 @@ export default function Game({ initial }: { initial: MiningView }) {
       if (slot === undefined || !target || !active.rocks[slot]?.remaining) return;
       animateHit(target);
       if (!muted) miningSound("hit");
+      navigator.vibrate?.(10);
       void send({ action, slot, ...context }, center(target));
     } else void send({ action, ...context });
   }
@@ -216,7 +219,7 @@ export default function Game({ initial }: { initial: MiningView }) {
 
   const canGoDeeper = active ? canDescend(active.energy, active.stairSlot !== null) : false;
   return (
-    <main ref={shell} className="cf-shell mine-shell" data-active={Boolean(active)}>
+    <main ref={shell} className="cf-shell mine-shell">
       <div className="mine-content">
         <header className="mine-top">
           <div className="mine-brand"><Link href="/">Game modes</Link><h1 ref={heading} tabIndex={-1}>Crafters</h1></div>
@@ -249,8 +252,8 @@ export default function Game({ initial }: { initial: MiningView }) {
                 {active.rocks.map((rock, slot) => {
                   if (!rock.remaining) return <div key={slot} className="mine-cell mine-cleared">
                     {active.stairSlot === slot
-                      ? <span className="mine-staircase" role="img" aria-label="Staircase discovered"><i /><i /><i /><i /></span>
-                      : <span className="mine-rubble" aria-hidden="true" />}
+                      ? <span className="mine-staircase" role="img" aria-label="Staircase discovered"><TerrainSprite terrain="stairs" /></span>
+                      : <TerrainSprite terrain="empty" className="mine-rubble" />}
                   </div>;
                   const { name } = rockType(rock.type);
                   return <button
@@ -258,7 +261,7 @@ export default function Game({ initial }: { initial: MiningView }) {
                     aria-label={`${name}, ${rock.remaining} of ${rock.durability} swings left`}
                     onClick={event => play("swing", slot, event.currentTarget)}
                   >
-                    <RockArt type={rock.type} damage={1 - rock.remaining / rock.durability} />
+                    <RockArt type={rock.type} variant={slot + active.floor} frame={rockFrame(rock)} />
                     <span className="mine-durability" aria-hidden="true">
                       {Array.from({ length: rock.durability }, (_, pip) => <i key={pip} data-filled={pip < rock.remaining} />)}
                       <small>{rock.remaining}</small>

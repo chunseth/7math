@@ -1,5 +1,5 @@
 .cf-shell {
-  height: 100%;
+  height: var(--app-height, 100dvh);
   min-height: 0;
   overflow: auto;
   overscroll-behavior-y: contain;
@@ -36,8 +36,6 @@
   --mine-gold: #f2bd62;
   --mine-line: #4d493b;
   --mine-panel: #262923;
-  min-height: 100%;
-  min-height: 0;
   color: var(--mine-ink);
   background:
     radial-gradient(ellipse at 45% 6%, #3d3025 0, transparent 30rem),
@@ -161,90 +159,20 @@
 .mine-rock { touch-action: manipulation; padding: .18rem .2rem .25rem; cursor: pointer; }
 .mine-rock:not([aria-disabled="true"]):hover { background: #ffe7b40b; border-color: #efcc7863; }
 .mine-rock[aria-disabled="true"] { cursor: progress; }
-.mine-rock-art {
-  --boulder-light: #a6aa9a;
-  --boulder-mid: #707b71;
-  --boulder-low: #424c44;
-  --ore-light: #bdc1ad;
-  --ore-mid: #8c9381;
-  position: relative;
-  isolation: isolate;
+.mine-rock-art { display: block; width: 93%; max-width: 11.5rem; }
+.mine-rock-art .rock-sprite, .mine-cleared .rock-sprite {
   display: block;
-  width: 89%;
-  max-width: 9.6rem;
-  aspect-ratio: 1.42;
+  width: 100%;
+  background-repeat: no-repeat;
 }
-.mine-rock-art[data-mineral="coal"] { --boulder-light: #8c9085; --boulder-mid: #626d66; --boulder-low: #3f4743; --ore-light: #535649; --ore-mid: #202822; }
-.mine-rock-art[data-mineral="copper"] { --boulder-light: #aa9b80; --boulder-mid: #827963; --boulder-low: #504e40; --ore-light: #ffd092; --ore-mid: #e17d46; }
-.mine-rock-art[data-mineral="tin"] { --boulder-light: #929f9e; --boulder-mid: #5c7478; --boulder-low: #3b4a4d; --ore-light: #d7efef; --ore-mid: #8fbbc7; }
-.mine-rock-art[data-mineral="iron"] { --boulder-light: #a89c8b; --boulder-mid: #72655d; --boulder-low: #474444; --ore-light: #f0b7a4; --ore-mid: #bc6d60; }
-.mine-rock-art[data-mineral="crystal"] { --boulder-light: #9e8fad; --boulder-mid: #675d7b; --boulder-low: #403e55; --ore-light: #e2c5ff; --ore-mid: #ac68df; }
-.mine-rock-shadow, .mine-rock-shape, .mine-rock-facets, .mine-rock-flecks, .mine-rock-cracks { position: absolute; display: block; }
-.mine-rock-shadow { inset: 68% 4% 2%; background: #0c1210aa; border-radius: 50%; filter: blur(4px); }
-.mine-rock-shape {
-  inset: 3% 1% 13%;
-  clip-path: polygon(1% 72%, 9% 45%, 23% 21%, 43% 6%, 69% 8%, 87% 22%, 96% 48%, 99% 72%, 83% 93%, 57% 99%, 31% 97%, 12% 86%);
-  background: linear-gradient(145deg, var(--boulder-light) 3%, var(--boulder-mid) 41%, var(--boulder-low) 73%);
-}
-.mine-rock-art[data-mineral="granite"] .mine-rock-shape { inset: 12% 7% 13%; }
-.mine-rock-art[data-mineral="tin"] .mine-rock-shape { transform: scaleX(-1); }
-.mine-rock-art[data-mineral="iron"] .mine-rock-shape { inset-inline: 5%; }
-.mine-rock-facets { inset: 0; background: var(--boulder-mid); clip-path: polygon(3% 66%, 23% 25%, 43% 9%, 26% 48%, 31% 80%, 52% 91%, 81% 80%, 98% 64%, 86% 91%, 54% 100%, 26% 93%); }
-.mine-rock-facets::before, .mine-rock-facets::after { content: ""; position: absolute; inset: 0; }
-.mine-rock-facets::before { background: #dde1bc40; clip-path: polygon(14% 47%, 43% 5%, 61% 10%, 35% 40%, 23% 62%); }
-.mine-rock-facets::after { background: #18261d49; clip-path: polygon(3% 64%, 27% 67%, 52% 84%, 76% 78%, 98% 64%, 84% 99%, 34% 100%); }
-.mine-rock-flecks, .mine-rock-cracks { inset: 0; }
-.mine-rock-flecks i { position: absolute; width: 14%; height: 20%; background: linear-gradient(143deg, var(--ore-light) 37%, var(--ore-mid) 40%); clip-path: polygon(9% 32%, 63% 0, 100% 29%, 85% 75%, 32% 97%, 0 70%); }
-.mine-rock-flecks i:nth-child(1) { left: 31%; top: 37%; transform: rotate(-8deg); }
-.mine-rock-flecks i:nth-child(2) { left: 56%; top: 28%; transform: rotate(18deg) scale(.76); }
-.mine-rock-flecks i:nth-child(3) { left: 65%; top: 50%; transform: rotate(-17deg) scale(.84); }
-.mine-rock-flecks i:nth-child(4) { left: 43%; top: 62%; transform: rotate(25deg) scale(.55); }
-.mine-rock-flecks i:nth-child(5) { left: 15%; top: 55%; transform: rotate(13deg) scale(.56); }
-.mine-rock-art[data-mineral="granite"] .mine-rock-flecks { opacity: .34; transform: scale(.83); }
-.mine-rock-art[data-mineral="granite"] .mine-rock-flecks i { transform: scale(.33); }
-.mine-rock-art[data-mineral="crystal"] .mine-rock-flecks i { height: 42%; width: 15%; clip-path: polygon(35% 0, 78% 10%, 100% 43%, 65% 100%, 17% 94%, 0 55%); }
-.mine-rock-art[data-mineral="crystal"] .mine-rock-flecks i:nth-child(2) { top: 15%; transform: rotate(18deg); }
-.mine-rock-art[data-mineral="crystal"] .mine-rock-flecks i:nth-child(3) { top: 35%; transform: rotate(26deg) scale(.75); }
-.mine-rock-art[data-mineral="crystal"] .mine-rock-flecks i:nth-child(4) { top: 50%; }
-.mine-rock-art[data-locked="true"] { filter: brightness(.42) saturate(.18); }
-.mine-rock-art[data-locked="true"] .mine-rock-flecks { display: none; }
-.mine-rock-cracks i { position: absolute; inset: 0; background: #242824bc; }
-.mine-rock-cracks i:nth-child(1) { clip-path: polygon(48% 0, 52% 0, 49% 26%, 58% 42%, 47% 59%, 53% 85%, 49% 100%, 49% 86%, 43% 59%, 54% 42%, 46% 27%); }
-.mine-rock-cracks i:nth-child(2) { clip-path: polygon(14% 43%, 28% 42%, 37% 51%, 47% 53%, 47% 57%, 34% 55%, 26% 45%); }
-.mine-rock-cracks i:nth-child(3) { clip-path: polygon(49% 65%, 65% 72%, 79% 64%, 90% 70%, 80% 67%, 66% 77%, 49% 70%); }
-.mine-rock-cracks[data-heavy="false"] i:nth-child(n+2) { display: none; }
+.mine-rock-art[data-locked="true"] { filter: brightness(.22) saturate(0); }
 .mine-durability { white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: .19rem; color: var(--mine-muted); font-variant-numeric: tabular-nums; }
 .mine-durability i { width: clamp(.24rem, 1.2vw, .45rem); height: .23rem; border-radius: .12rem; background: #575447; }
 .mine-durability i[data-filled="true"] { background: #f4c277; }
 .mine-durability small { margin-left: .13rem; font-size: .66rem; line-height: 1; }
-.mine-rubble {
-  width: 53%;
-  aspect-ratio: 2.4;
-  background:
-    radial-gradient(ellipse at 48% 58%, #8b83674f 0 7%, transparent 8%),
-    radial-gradient(ellipse at 76% 63%, #9a8b6861 0 6%, transparent 7%),
-    radial-gradient(ellipse at 20% 47%, #a1987861 0 7%, transparent 8%),
-    radial-gradient(ellipse, #181e18, transparent 71%);
-}
-.mine-staircase {
-  width: 74%;
-  max-width: 7.2rem;
-  aspect-ratio: 1.25;
-  display: grid;
-  grid-template-rows: repeat(4, 1fr);
-  background: #181a17;
-  border: 2px solid #977653;
-  border-radius: .5rem .5rem .25rem .25rem;
-  padding: 9% 11% 8%;
-  box-shadow: 0 0 1.2rem #ffd48645, inset 0 .4rem .5rem #0a0e0c;
-  transform: perspective(9rem) rotateX(22deg);
-  animation: mine-stairs .44s ease-out both;
-}
-.mine-staircase i { border-top: 2px solid #d5a96c; background: linear-gradient(#a27854, #554731 85%); }
-.mine-staircase i:nth-child(2) { opacity: .87; }
-.mine-staircase i:nth-child(3) { opacity: .73; }
-.mine-staircase i:nth-child(4) { opacity: .58; }
-.mine-status { color: #f8d99d; min-height: 1.4rem; text-align: center; font-size: .84rem; margin-block: .4rem !important; }
+.mine-cleared .mine-rubble { width: 93%; max-width: 11.5rem; opacity: .78; }
+.mine-staircase { width: 93%; max-width: 11.5rem; animation: mine-stairs .44s ease-out both; }
+.mine-arena .mine-status { color: #f8d99d; min-height: 1.4rem; text-align: center; font-size: .84rem; margin-block: .4rem; }
 .mine-exit { justify-content: space-between; }
 
 .mine-resources { display: grid; padding: 0; margin: 0; list-style: none; gap: .3rem; }

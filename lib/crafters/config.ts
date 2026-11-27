@@ -55,3 +55,5 @@ export type RockId = (typeof rockTypes)[number]["id"];
 export function rockType(id: RockId): RockDefinition {
   return rockTypes.find(rock => rock.id === id)!;
 }
+
+export const rockDefinitions: readonly (RockDefinition & { id: RockId })[] = rockTypes;

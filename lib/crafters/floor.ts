@@ -1,4 +1,4 @@
-import { miningResources, miningRules, resourceIds, rockType, rockTypes, type MiningResource, type RockId } from "./config";
+import { miningResources, miningRules, resourceIds, rockDefinitions, rockType, type MiningResource, type RockId } from "./config";
 
 export type Random = () => number;
 export type Drop = { resource: MiningResource; quantity: number };
@@ -48,7 +48,7 @@ export function rollRock(id: RockId, tier: number, random: Random): Rock {
 
 export function generateFloor(number: number, random: Random): MineFloor {
   const tier = difficultyTier(number);
-  const available = rockTypes.filter((rock: (typeof rockTypes)[number] & { lastFloor: number | null }) =>
+  const available = rockDefinitions.filter(rock =>
     number >= rock.firstFloor && (rock.lastFloor === null || number <= rock.lastFloor));
   const stairSlot = Math.floor(random() * miningRules.rocksPerFloor);
   const rocks = Array.from({ length: miningRules.rocksPerFloor }, (): Rock => {

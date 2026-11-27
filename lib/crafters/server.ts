@@ -1,7 +1,7 @@
 import { randomInt, randomUUID } from "node:crypto";
 import type { PoolClient } from "pg";
 import { GameError, one, rows, uuid, type Identity } from "../mentalist/db";
-import { miningResources, miningRules, rockTypes, type RockId } from "./config";
+import { miningResources, miningRules, rockTypes } from "./config";
 import {
   beginExpedition, makeDecision, publicExpedition, recordRockBreak,
   type Decision, type DecisionError, type Expedition, type ExpeditionTransition,
@@ -116,7 +116,7 @@ export async function playMining(db: PoolClient, who: Identity, body: Record<str
     if (!rock) throw new GameError("Unknown rock.");
     const [discovered] = await rows(db, "select 1 from mining_rock_stats where profile=$1 and rock=$2", [profile, rock]);
     if (discovered) await logEvent(db, profile, active?.id ?? null, "catalogue", now, {
-      type: rock satisfies RockId, floor: active?.floor.number ?? null, energyBefore: active?.energy ?? null,
+      type: rock, floor: active?.floor.number ?? null, energyBefore: active?.energy ?? null,
     });
     return {};
   }
