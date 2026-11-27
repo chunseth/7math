@@ -1,8 +1,7 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { post, RequestError } from "../../lib/mentalist/client";
 import { formatRunTime } from "../../lib/mentalist/model";
-import { rushGrades, rushLength, type RushBoard, type RushGrade } from "../../lib/rush/model";
+import { rushGrades, rushLength, type RushBoard, type RushGrade, type RushResult } from "../../lib/rush/model";
 
 function visibleGrade(track: HTMLDivElement) {
   const center = track.getBoundingClientRect().left + track.clientWidth / 2;
@@ -50,7 +49,7 @@ export function GradeMenu({ grade, starting, onGrade, onStart, onBoard }: {
       }
     }}>
       {rushGrades.map(option => (
-        <section className="rush-grade-page" data-grade={option} aria-labelledby={`rush-grade-${option}`}
+        <section className="rush-theme rush-grade-page" data-grade={option} aria-labelledby={`rush-grade-${option}`}
           aria-hidden={grade !== option} key={option}>
           <div className="rush-grade-board">
             <button className="rush-board-trigger" type="button" aria-haspopup="dialog" disabled={starting}
@@ -105,31 +104,23 @@ function GradeArt({ grade }: { grade: RushGrade }) {
   return <div className="rush-art" aria-hidden="true"><i className="rush-cylinder" /><i className="rush-sphere" /></div>;
 }
 
-export function Leaderboard({ grade, close, onAuthRequired }: {
+export function Leaderboard({ grade, board, status, result, close, onAuthRequired, retry }: {
   grade: RushGrade;
+  board?: RushBoard;
+  status: "loading" | "error" | "expired" | "ready";
+  result: RushResult | null;
   close: () => void;
   onAuthRequired: () => void;
+  retry: () => void;
 }) {
-  const [board, setBoard] = useState<RushBoard | null>(null);
-  const [error, setError] = useState("");
-  const [expired, setExpired] = useState(false);
-  const [revision, setRevision] = useState(0);
+  const records = board?.records ?? [];
+  const placeholders = Array.from({ length: Math.max(5 - records.length, 0) }, (_, index) => records.length + index + 1);
+  const personalBest = result && records.find(record => record.username === board?.username);
   const panel = useRef<HTMLElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
   useLayoutEffect(() => {
     closeButton.current?.focus();
   }, []);
-  useEffect(() => {
-    let active = true;
-    post<RushBoard>({ action: "rushBoard", grade }).then(data => {
-      if (active) setBoard(data);
-    }).catch(error => {
-      if (!active) return;
-      if (error instanceof RequestError && error.status === 401) setExpired(true);
-      else setError("Could not load scores.");
-    });
-    return () => { active = false; };
-  }, [grade, revision]);
 
   return createPortal(<div className="mt-shell rush-leaderboard-layer" onClick={event => {
     if (event.target === event.currentTarget) close();
@@ -147,27 +138,40 @@ export function Leaderboard({ grade, close, onAuthRequired }: {
       (event.shiftKey ? last : first).focus();
     }
   }}>
-    <section ref={panel} className="rush-leaderboard-panel" role="dialog" aria-modal="true" aria-labelledby="rush-leaderboard-title">
+    <section ref={panel} className="rush-theme rush-leaderboard-panel" data-grade={grade}
+      role="dialog" aria-modal="true" aria-labelledby="rush-leaderboard-title">
       <button ref={closeButton} className="rush-leaderboard-close" type="button" onClick={close} aria-label="Close leaderboard">×</button>
       <h2 id="rush-leaderboard-title">{grade}math leaderboard</h2>
-      {expired ? <>
+      {!board && status === "expired" && <>
         <p role="alert">Sign in again to see scores.</p>
         <button type="button" onClick={onAuthRequired}>Sign in</button>
-      </> : error ? <>
-        <p role="alert">{error}</p>
-        <button type="button" onClick={() => { setError(""); setRevision(value => value + 1); }}>Retry</button>
-      </> : !board ? <p role="status">Loading scores…</p> :
-        !board.records.length ? <p>No scores yet.</p> :
-        <table className="mt-leaderboard" aria-labelledby="rush-leaderboard-title">
-          <thead><tr><th scope="col">Rank</th><th scope="col">Player</th><th scope="col">Score</th><th scope="col">Time</th></tr></thead>
-          <tbody>{board.records.map(record => (
-            <tr key={record.username} className={record.username === board.username ? "mt-own-record" : undefined}>
+      </>}
+      {!board && status === "error" && <>
+        <p role="alert">Could not load scores.</p>
+        <button type="button" onClick={retry}>Retry</button>
+      </>}
+      {!board && status === "loading" && <p role="status">Loading scores…</p>}
+      {result && <p className="rush-board-result">
+        <span>This run</span>
+        <strong>{result.score}/{rushLength} · {formatRunTime(result.elapsedMs)}</strong>
+        {personalBest && <span>Your best rank <strong>#{personalBest.rank}</strong></span>}
+      </p>}
+      <table className="rush-board-table" aria-labelledby="rush-leaderboard-title">
+        <thead><tr><th scope="col">Rank</th><th scope="col">Player</th><th scope="col">Score</th><th scope="col">Time</th></tr></thead>
+        <tbody>
+          {records.map(record => {
+            const own = record.username === board?.username;
+            return <tr key={record.username} className={own ? "rush-own-record" : undefined}>
               <td>#{record.rank}</td>
-              <th scope="row">{record.username}{record.username === board.username && " (you)"}</th>
+              <th scope="row">{record.username}{own && <span className="rush-you"> You</span>}</th>
               <td>{record.score}/{rushLength}</td><td>{formatRunTime(record.elapsedMs)}</td>
-            </tr>
-          ))}</tbody>
-        </table>}
+            </tr>;
+          })}
+          {placeholders.map(rank => <tr key={rank} className="rush-empty-record">
+            <td>#{rank}</td><th scope="row"><span aria-label="Open spot">—</span></th><td>—</td><td>—</td>
+          </tr>)}
+        </tbody>
+      </table>
     </section>
   </div>, document.body);
 }

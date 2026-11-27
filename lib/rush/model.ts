@@ -14,3 +14,4 @@ export type RushRun = { grade: RushGrade; pack: LevelPack; ranked: boolean };
 export type RushResult = { score: number; elapsedMs: number };
 export type RushRecord = RushResult & { rank: number; username: string };
 export type RushBoard = { grade: RushGrade; username: string; records: RushRecord[] };
+export type RushSaved = RushResult & { board?: RushBoard };

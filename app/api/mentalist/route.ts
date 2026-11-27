@@ -20,7 +20,7 @@ import { faculty, teacherUser } from "../../../lib/mentalist/teacher";
 import { craft } from "../../../lib/mentalist/craft";
 import { survivorPack } from "../../../lib/survivor/server";
 import { rushGrade } from "../../../lib/rush/model";
-import { finishRush, rushBoard, startRush } from "../../../lib/rush/server";
+import { finishRush, rushBoard, rushBoards, startRush } from "../../../lib/rush/server";
 import { checkReview, exportReviewBugs, saveReview } from "../../../lib/verification/server";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -84,6 +84,7 @@ export async function POST(req: NextRequest) {
       if (b.action === "survivorPack") return survivorPack(db, who);
       if (b.action === "state") return studentState(db, who, courseGrade(b.grade));
       if (b.action === "leaderboard") return leaderboard(db, b.level);
+      if (b.action === "rushBoards") return rushBoards(db, who);
       if (b.action === "rushBoard" || b.action === "rushStart") {
         const grade = rushGrade(b.grade);
         if (!grade) throw new GameError("Choose Grade 6, 7, or 8.");
