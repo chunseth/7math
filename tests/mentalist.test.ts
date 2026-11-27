@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { accessMap, cardTopic, currentLevel, complete, evaluate, grade, levels, mainPathLevels, lessonStops, mainPathProgress, skills, type Recorded } from "../lib/mentalist/model";
 import { previewGoal, sideGoals } from "../lib/mentalist/preview-goals";
+import { readCourseBank } from "../lib/mentalist/bank";
 import previews from "../content/mentalist/previews.json";
 import { existsSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
@@ -12,7 +13,7 @@ type Bank = {
   sets: { level: string; positions: Slot[] }[];
   questions: Record<string, { prompt: string; visual?: unknown; control: Parameters<typeof grade>[0]; answer: string }>;
 };
-const bank: Bank = JSON.parse(gunzipSync(readFileSync("content/mentalist/bank-v7.json.gz")).toString());
+const bank: Bank = JSON.parse(gunzipSync(readFileSync("content/mentalist/bank-v8.json.gz")).toString());
 test("all 237 levels have 24 distinct gradeable questions and five balanced round blueprints", () => {
   assert.equal(skills.filter((s) => s.world !== "review").length, 62);
   assert.equal(skills.length, 87);
@@ -40,11 +41,30 @@ test("all 237 levels have 24 distinct gradeable questions and five balanced roun
       );
       assert.equal(new Set(s.positions.map((p) => p.q)).size, 12);
       for (const p of s.positions) {
-        const { control, answer } = bank.questions[p.q],
-          raw = control.kind === "fraction" && !answer.includes("/") ? answer + "/1" : answer;
-        assert.equal(grade(control, answer, raw)?.outcome, "correct", p.q);
+        const { control, answer } = bank.questions[p.q];
+        assert.equal(grade(control, answer, answer)?.outcome, "correct", p.q);
       }
     }
+  }
+});
+test("Grade 6 and Grade 7 mixed-number products use single-digit factors after conversion", () => {
+  for (const [grade, id] of [[6, "g6.steps-fraction-products.3"], [7, "fraction.multiply.3"]] as const) {
+    const { levels, questions } = readCourseBank(grade);
+    const { pool } = levels.find(level => level.id === id)!;
+    const pairs = new Set<string>();
+    for (const { q } of pool) {
+      const { prompt } = questions[q];
+      const operands = prompt.split(" × ");
+      assert.equal(operands.length, 2, prompt);
+      for (const operand of operands) {
+        const mixed = /^([1-9]) ([1-9])\/([2-9])$/.exec(operand);
+        assert.ok(mixed, prompt);
+        const [, whole, numerator, denominator] = mixed.map(Number);
+        assert.ok(numerator < denominator && whole * denominator + numerator <= 9, prompt);
+      }
+      pairs.add(operands.sort().join(" × "));
+    }
+    assert.equal(pairs.size, 24, id);
   }
 });
 test("one sampled level per fact group, with zero dividends and shared topic cards", () => {

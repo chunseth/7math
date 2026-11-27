@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { post, RequestError } from "../../lib/mentalist/client";
 import { formatRunTime, type Outcome } from "../../lib/mentalist/model";
 import { checkLocally } from "../../lib/mentalist/round";
@@ -9,7 +9,7 @@ import { studentPrompt } from "../../lib/mentalist/least-order";
 import QuestionPrompt, { useQuestionPart } from "../mentalist/components/QuestionPrompt";
 import { rushLength, type RushBoard, type RushGrade, type RushResult, type RushRun, type RushSaved } from "../../lib/rush/model";
 import Answer from "../mentalist/components/Answer";
-import { emptyCredentials, PlayerFields } from "../mentalist/components/PlayerFields";
+import AccountGate from "./AccountGate";
 import { Visual } from "../mentalist/components/Visual";
 import { GradeMenu, Leaderboard } from "./GradeMenu";
 
@@ -165,42 +165,6 @@ export default function Rush({ available, hasSession }: { available: boolean; ha
   );
 }
 
-function AccountGate({ onSuccess }: { onSuccess: () => void }) {
-  const [create, setCreate] = useState(false);
-  const [credentials, setCredentials] = useState(emptyCredentials);
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");
-
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (busy) return;
-    setBusy(true);
-    setError("");
-    try {
-      await post({ action: "login", ...credentials, create });
-      onSuccess();
-    } catch (error) {
-      setError(error instanceof Error ? error.message : "Could not sign in.");
-      setBusy(false);
-    }
-  }
-
-  return <section className="rush-card rush-account" aria-labelledby="rush-account-title">
-    <h2 id="rush-account-title">{create ? "Create a player" : "Sign in to Rush"}</h2>
-    <form onSubmit={submit}>
-      <fieldset className="rush-account-fields" disabled={busy}>
-        <PlayerFields value={credentials} onChange={setCredentials} create={create} />
-        <button className="rush-action" type="submit">{busy ? (create ? "Creating player…" : "Signing in…") : create ? "Create player" : "Sign in"}</button>
-      </fieldset>
-      {error && <p role="alert">{error}</p>}
-    </form>
-    <button type="button" disabled={busy} onClick={() => {
-      setCreate(!create);
-      setError("");
-    }}>{create ? "Sign in instead" : "Create a player"}</button>
-  </section>;
-}
-
 function Play({ run, onFinish, onFeedback }: {
   run: ActiveRun;
   onFinish: (result: FinishedRun) => void;
@@ -260,6 +224,7 @@ function Question({ run, position, advance }: {
   const [checking, setChecking] = useState(false);
   const [simulated, setSimulated] = useState(false);
   const [attempt, setAttempt] = useState(0);
+  const [reduce, setReduce] = useState("");
   const [error, setError] = useState("");
   const locked = useRef(false);
   const heading = useRef<HTMLHeadingElement>(null);
@@ -272,10 +237,14 @@ function Question({ run, position, advance }: {
     if (locked.current) return;
     locked.current = true;
     setChecking(true);
+    setError("");
     try {
       const outcome = await checkLocally(run.pack, position, raw);
-      advance(raw, outcome === "correct" ? "correct" : "incorrect");
-      return;
+      if (outcome !== "simplification") {
+        advance(raw, outcome);
+        return;
+      }
+      setReduce(raw);
     } catch {
       setError("Could not check your answer. Try again.");
     }
@@ -285,7 +254,9 @@ function Question({ run, position, advance }: {
   }
 
   return <>
-    <h2 ref={heading} tabIndex={-1}><QuestionPrompt part={partTitle} text={studentPrompt(question)} /></h2>
+    <h2 ref={heading} tabIndex={-1} aria-live="polite">
+      <QuestionPrompt part={partTitle} text={reduce ? `Reduce ${reduce}.` : studentPrompt(question)} />
+    </h2>
     <Visual data={question.visual} showLoan={false} onSimulated={() => setSimulated(true)} />
     <div className="rush-answer">
       <Answer key={question.visual?.kind === "loan" ? "loan" : attempt} question={question} singleAttempt fractionDelayMs={450}

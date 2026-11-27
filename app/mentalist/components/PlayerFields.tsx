@@ -1,14 +1,16 @@
-import { sprites } from "../../../lib/mentalist/model";
+import { starterSprites } from "../../../lib/mentalist/sprites";
+import { StarterPicker } from "./StarterPicker";
 
-export const emptyCredentials = { username: "", pin: "", sprite: sprites[0] };
+export const emptyCredentials = { username: "", pin: "", sprite: starterSprites[0] };
 export type Credentials = typeof emptyCredentials;
 
 export function PlayerFields({
-  value, onChange, create,
+  value, onChange, create, busy,
 }: {
   value: Credentials;
   onChange: (credentials: Credentials) => void;
   create: boolean;
+  busy?: boolean;
 }) {
   return (
     <>
@@ -36,12 +38,7 @@ export function PlayerFields({
         />
       </label>
       {create && (
-        <label>
-          Character
-          <select value={value.sprite} onChange={(e) => onChange({ ...value, sprite: e.target.value })}>
-            {sprites.map((sprite) => <option key={sprite}>{sprite}</option>)}
-          </select>
-        </label>
+        <StarterPicker value={value.sprite} onChange={(sprite) => onChange({ ...value, sprite })} disabled={busy} />
       )}
     </>
   );

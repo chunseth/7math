@@ -227,8 +227,7 @@
 
 .cf-login form { gap: .9rem; margin-top: 1.25rem; }
 
-.cf-login input,
-.cf-login select {
+.cf-login input:not([type="radio"]) {
   width: 100%;
   padding: .55rem .65rem;
   border: 1px solid #9fb4a6;

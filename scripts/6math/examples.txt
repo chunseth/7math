@@ -65,7 +65,7 @@ credit-use|Two borrowers each owe $800. One pays on time and one repeatedly pays
 aid-kind|A college offers wages for an eligible campus job. What type of aid is this?|It requires work in an eligible job.|work → wages|This aid is earned as the student works.|work-study|work-study
 aid-gap|A term costs $2400. A grant pays $800 and savings cover $600. Find the funding gap.|Combine available funds.|800 + 600 = 1400|Subtract from the cost.|2400 − 1400|$1000
 loan-share|A package has a $900 grant and a $600 loan. How much normally needs repayment?|Identify the borrowed portion.|loan = 600|The grant is separate from the loan principal.|900 + 600 = 1500|$600
-annual-gap|One job pays $19 per hour and another pays $16. Both pay for 1800 hours. Find the yearly earnings gap.|Find the hourly difference.|19 − 16 = 3|Multiply by paid hours.|3 × 1800|$5400
+annual-gap|One job pays $19 per hour and another pays $16. Both pay for 2000 hours. Find the yearly earnings gap.|Find the hourly difference.|19 − 16 = 3|Multiply by paid hours.|3 × 2000|$6000
 lifetime|Compare jobs paying $42000 and $38000 yearly for 30 years at constant salaries. Find the lifetime difference.|Find the annual gap.|42000 − 38000 = 4000|Multiply by years worked.|4000 × 30|$120000
 break-even|Training costs $9000 and increases yearly pay by $3000. When do the extra earnings cover the cost?|Let years times extra pay equal the cost.|3000 × t = 9000|Divide by extra pay per year.|9000 ÷ 3000|3 years
 algebra.graph.1|Where is the solution of 2x = 8 on a number line?|Divide both sides by two.|x = 8 ÷ 2|One value solves the equation.|x = 4|point at 4

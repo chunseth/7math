@@ -32,7 +32,7 @@ export default function SignIn({ next }: { next: string }) {
         <h1>{create ? "Create a Crafters player" : "Sign in to Crafters"}</h1>
         <p>Crafters and 7math share the same player account.</p>
         <form onSubmit={signIn}>
-          <PlayerFields value={credentials} onChange={setCredentials} create={create} />
+          <PlayerFields value={credentials} onChange={setCredentials} create={create} busy={busy} />
           {error && <p role="alert">{error}</p>}
           <button disabled={busy}>{create ? "Create player" : "Sign in"}</button>
         </form>

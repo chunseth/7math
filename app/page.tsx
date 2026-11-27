@@ -8,6 +8,7 @@ const gameModes = [
   { href: "/crafters", title: "Crafters" },
   { href: "/survivor", title: "Survivor", theme: "survivor" },
   { href: "/rush", title: "Rush", theme: "rush" },
+  { href: "/rush-rivals", title: "Rush Rivals", theme: "rivals" },
 ];
 
 export const dynamic = "force-dynamic";

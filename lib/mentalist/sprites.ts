@@ -1,0 +1,25 @@
+export const starterSprites = ["raijin", "phoenix", "pooka", "long", "banshee"];
+
+export const sprites = [
+  ...starterSprites,
+  "skinwalker",
+  "nian",
+  "jormungandr",
+  "simurgh",
+  "naga",
+  "hydra",
+  "garuda",
+  "pegasus",
+  "anubis",
+  "valkyrie",
+  "oni",
+  "horus",
+  "griffin",
+  "chupacabra",
+  "fenrir",
+  "minotaur",
+  "kitsune",
+  "seraph",
+  "sphynx",
+  "quetzalcoatl",
+];

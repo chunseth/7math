@@ -28,16 +28,13 @@ import {
 import { isSupabaseConfigured, supabase } from "../../lib/supabase";
 import { clearActiveProfileId, getActiveProfileId, setActiveProfileId } from "../../lib/legacy-profile";
 import type { ChestReward, ChestSlot, Profile, SkillCard, StudentProgress } from "../../lib/database.types";
+import { starterSprites } from "../../lib/mentalist/sprites";
+import { StarterPicker } from "./components/StarterPicker";
 
 const allNumbers = Array.from({ length: 12 }, (_, number) => number + 1);
 const CHEST_UNLOCK_MS = 2 * 60 * 60 * 1000;
 const QUEUE_CHEST_COST = 1000;
 const INSTANT_OPEN_COST = 6000;
-const spriteNames = [
-  "raijin", "phoenix", "pooka", "long", "banshee", "skinwalker", "nian", "jormungandr", "simurgh", "naga",
-  "hydra", "garuda", "pegasus", "anubis", "valkyrie", "oni", "horus", "griffin", "chupacabra", "fenrir",
-  "minotaur", "kitsune", "seraph", "sphynx", "quetzalcoatl",
-];
 
 type PlayerState = {
   profile: Profile;
@@ -75,7 +72,7 @@ function HomeContent() {
   const [player, setPlayer] = useState<PlayerState | null>(null);
   const [showSignin, setShowSignin] = useState(false);
   const [showCharacterSelect, setShowCharacterSelect] = useState(false);
-  const [selectedSprite, setSelectedSprite] = useState(spriteNames[0]);
+  const [selectedSprite, setSelectedSprite] = useState(starterSprites[0]);
   const [hasCheckedSession, setHasCheckedSession] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [username, setUsername] = useState("");
@@ -232,6 +229,7 @@ function HomeContent() {
     setPlayer(null);
     setUsername("");
     setPinCode("");
+    setSelectedSprite(starterSprites[0]);
     setMessage("");
     setShowUserMenu(false);
     setShowSignin(true);
@@ -549,17 +547,11 @@ function HomeContent() {
       {hasCheckedSession && showCharacterSelect && (
         <div className="signin-overlay" role="dialog" aria-modal="true" aria-labelledby="character-title">
           <div className="signin-card character-card">
-            <h1 id="character-title">Choose Your Sprite</h1>
-            <p>Pick your player icon.</p>
-            <div className="sprite-grid">
-              {spriteNames.map((sprite) => (
-                <button className={`sprite-option ${selectedSprite === sprite ? "selected" : ""}`} key={sprite} onClick={() => setSelectedSprite(sprite)} aria-label={`Choose ${sprite}`}>
-                  <img src={`/sprites/${sprite}.png`} alt="" />
-                </button>
-              ))}
-            </div>
+            <h1 id="character-title">Create a player</h1>
+            <StarterPicker value={selectedSprite} onChange={setSelectedSprite} disabled={loading} />
+            {message && <p role="alert">{message}</p>}
             <button disabled={loading} onClick={finishSignup}>{loading ? "LOADING" : "CREATE PLAYER"}</button>
-            <button className="secondary-button" onClick={() => { setShowCharacterSelect(false); setShowSignin(true); }}>BACK</button>
+            <button className="secondary-button" disabled={loading} onClick={() => { setShowCharacterSelect(false); setShowSignin(true); }}>BACK</button>
           </div>
         </div>
       )}

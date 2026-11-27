@@ -1,5 +1,6 @@
 const { chromium } = require("playwright-core");
 const { Client } = require("pg");
+const { createHash, randomUUID } = require("node:crypto");
 const assert = require("node:assert/strict");
 const base = process.env.MENTALIST_TEST_ORIGIN,
   url = process.env.MENTALIST_DATABASE_URL;
@@ -37,6 +38,12 @@ if (!base || !url || ![base, url].every((u) => ["127.0.0.1", "localhost"].includ
     await p.getByRole("region", { name: "Curriculum map" }).locator('[aria-current="step"]').click();
     await p.getByRole("button", { name: "Play", exact: true }).click();
     await p.getByRole("button", { name: "Create a player", exact: true }).click();
+    const starters = p.getByRole("group", { name: "Choose your starter" });
+    await starters.waitFor();
+    assert.equal(await starters.getByRole("radio").count(), 5);
+    assert.equal(await starters.locator("img").count(), 5);
+    await starters.locator("img").evaluateAll(images => Promise.all(images.map(image => image.decode())));
+    await starters.getByRole("radio", { name: "Phoenix" }).check();
     const name = "ui_" + Date.now().toString(36);
     await p.getByLabel("Username", { exact: true }).fill(name);
     await p.getByLabel("Two-digit PIN").fill("57");
@@ -75,7 +82,10 @@ if (!base || !url || ![base, url].every((u) => ["127.0.0.1", "localhost"].includ
         [t],
       )
     ).rows[0].id;
-    const profile = (await db.query("select id from public.profiles where username=$1", [name])).rows[0].id;
+    const { id: profile, sprite_name: sprite } = (await db.query(
+      "select id, sprite_name from public.profiles where username=$1", [name],
+    )).rows[0];
+    assert.equal(sprite, "phoenix");
     await db.query("insert into mentalist.roster(class,profile) values($1,$2)", [c, profile]);
     await db.query(
       "insert into mentalist.decisions(class,profile,skill,teacher,kind) values($1,$2,'fraction.add',$3,'assignment')",
@@ -156,6 +166,49 @@ if (!base || !url || ![base, url].every((u) => ["127.0.0.1", "localhost"].includ
     await p.getByText("Your rank by best total time").waitFor();
     assert.deepEqual(actions.slice(offlineStart), ["saveBattle"]);
     console.log("Verified zero answer requests, local fraction grading, reload recovery and idempotent batch retry.");
+
+    const rushId = randomUUID();
+    const rushQuestions = Array.from({ length: 12 }, (_, index) => ({
+      prompt: `Write ${index + 2}/${2 * (index + 2)} in lowest terms.`,
+      control: { kind: "fraction", signed: false }, answer: "1/2",
+    }));
+    const rushPack = { level: "rush", set: rushId, questions: rushQuestions.map(({ answer, ...question }, index) => ({
+      ...question, check: createHash("sha256").update(JSON.stringify([rushId, index, answer])).digest("hex"),
+    })) };
+    await db.query("insert into mentalist.rush_runs(id,profile,grade,questions) values($1,$2,7,$3)",
+      [rushId, profile, JSON.stringify(rushQuestions)]);
+    await p.route("**/api/mentalist", async route => {
+      if (route.request().postDataJSON().action !== "rushStart") return route.fallback();
+      await route.fulfill({ json: { grade: 7, pack: rushPack, ranked: true } });
+    });
+    await p.goto(base + "/rush", { waitUntil: "domcontentloaded" });
+    await p.getByRole("button", { name: "Start Rush", exact: true }).click();
+    const rush = p.getByRole("region", { name: "Rush questions" });
+    await rush.getByRole("heading", { name: rushQuestions[0].prompt, exact: true }).waitFor();
+    for (const answer of ["2/4", "6/12"]) {
+      await p.keyboard.type(answer);
+      await rush.getByRole("heading", { name: `Reduce ${answer}.`, exact: true }).waitFor();
+      await rush.getByText("Question 1 of 12", { exact: true }).waitFor();
+      assert.equal(await p.locator(".rush-border-incorrect").count(), 0);
+    }
+    await p.keyboard.type("1/2");
+    await rush.getByText("Question 2 of 12", { exact: true }).waitFor();
+    await p.keyboard.type("3/4");
+    await rush.getByText("Question 3 of 12", { exact: true }).waitFor();
+    const savingRush = p.waitForResponse(response => response.url().endsWith("/api/mentalist") &&
+      response.request().postDataJSON()?.action === "rushFinish");
+    for (let position = 3; position <= 12; position++) {
+      await rush.getByText(`Question ${position} of 12`, { exact: true }).waitFor();
+      await rush.getByRole("button", { name: "Skip question" }).click();
+    }
+    const savedRush = await savingRush;
+    assert.equal(savedRush.ok(), true);
+    assert.deepEqual(savedRush.request().postDataJSON().answers, ["1/2", "3/4", ...Array(10).fill(null)]);
+    assert.equal((await savedRush.json()).score, 1);
+    await p.getByText("Score saved.", { exact: true }).waitFor();
+    await p.getByText("1/12", { exact: true }).waitFor();
+    console.log("Verified Rush reduction stays on the question and preserves the ranked point.");
+
     assert.equal(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
     assert.deepEqual(errors, []);
     console.log("Mobile map, signup, keypad, miss, advance, exit, world jump, menus and viewport passed.");

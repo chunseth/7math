@@ -30,7 +30,7 @@ def expand_course(
     original_clips = {c["skill"]: c for c in clips}
     topics = {s["id"][3:]: s for s in lessons}
     source = ROOT / "content/mentalist"
-    shared = json.loads(gzip.decompress((source / "bank-v7.json.gz").read_bytes()))
+    shared = json.loads(gzip.decompress((source / "bank-v8.json.gz").read_bytes()))
     shared_levels = {l["id"]: l for l in shared["levels"]}
     # Grade 6 intentionally retains one-step practice while Grade 7 advances
     # to two-step number-line tasks under the same Grade 7 level IDs.
@@ -165,5 +165,9 @@ def expand_course(
             skills.append(dict(originals[mixed], prerequisites=[skill]))
             levels.append(original_levels[mixed])
             videos.append(original_clips[mixed])
-    bank.update(version=6007 if grade == 6 else 8006, skills=skills, levels=levels)
+    version = 6008 if grade == 6 else 8007
+    # A pack prepared before publication must be reloaded before a new ranked run.
+    for round_set in bank["sets"]:
+        round_set["id"] = f"v{version}.{round_set['id']}"
+    bank.update(version=version, skills=skills, levels=levels)
     return catalog, videos, bank

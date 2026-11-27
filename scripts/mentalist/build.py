@@ -11,8 +11,11 @@ from variants import extension
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "content/mentalist"
+VERSION = 8
 skills = json.loads((OUT / "skills.json").read_text())
 catalog = json.loads((ROOT / "docs/curriculum/skill-tree.json").read_text())
+previous = json.loads(gzip.decompress((OUT / "bank-v7.json.gz").read_bytes()))
+previous_pools = {level["id"]: level["pool"] for level in previous["levels"]}
 levels = []
 questions = {}
 sets = []
@@ -151,8 +154,10 @@ for skill in skills:
             positions = [rng.choice(pair) for pair in zip(first, second)]
             if positions not in blueprints:
                 blueprints.append(positions)
+        # Expire preloaded packs when their questions change in this release.
+        set_version = VERSION if pool != previous_pools.get(lid) else 4
         for bank, positions in enumerate(blueprints):
-            sid = f"v4.{lid}.set{bank+1}"
+            sid = f"v{set_version}.{lid}.set{bank+1}"
             levelsets.append(sid)
             assert len({p["q"] for p in positions}) == 12
             sets.append(dict(id=sid, level=lid, positions=positions))
@@ -187,7 +192,7 @@ assert (
 coverage = matrix(catalog["nodes"], levels, skills)
 bank = dict(
     coverage=coverage,
-    version=7,
+    version=VERSION,
     templates=list(templates.values()),
     skills=skills,
     levels=levels,
@@ -208,7 +213,7 @@ files = {
     / "coverage.json": (
         json.dumps(coverage, ensure_ascii=False, indent=1) + "\n"
     ).encode(),
-    OUT / "bank-v7.json.gz": gzip.compress(data, mtime=0),
+    OUT / f"bank-v{VERSION}.json.gz": gzip.compress(data, mtime=0),
     OUT
     / "trail.json": (json.dumps(preview, ensure_ascii=False, indent=1) + "\n").encode(),
 }

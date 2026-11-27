@@ -30,6 +30,8 @@ def problem(slug, seed):
     if slug == "repeat":
         block = 10 + n if v == 1 else n
         if v == 0:
+            if n == 9:
+                return q("What is the exact value of 0.999…?", 1)
             return q(
                 f"Write 0.{n}{n}{n}… as a fraction in lowest terms.",
                 F(n, 9),

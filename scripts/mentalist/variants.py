@@ -117,7 +117,7 @@ def extension(s, l, n, v):
         )
     if s == "ratio.equivalent" and l == 1 and v == 2:
         return "part-to-part", q(
-            f"A bowl has {a*k} oranges and {b*k} pears. Find oranges per pear as a simplified fraction.",
+            f"A bowl has {a*k} oranges and {b*k} pears. Find the number of oranges per pear.",
             F(a, b),
             "fraction",
         )

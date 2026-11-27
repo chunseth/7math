@@ -1,6 +1,6 @@
 import { Pool, type PoolClient } from "pg";
 import { createHash, randomBytes } from "node:crypto";
-import { sprites } from "./model";
+import { starterSprites } from "./sprites";
 
 export class GameError extends Error {
   constructor(
@@ -103,7 +103,8 @@ export async function login(db: PoolClient, username: string, pin: string, sprit
     `select p.id,c.pin_hash=crypt($2,c.pin_hash) as valid from public.profiles p left join credentials c on c.profile=p.id where p.username=$1`,
     [name, pin],
   );
-  if (!profile && create && sprites.includes(sprite)) {
+  if (!profile && create) {
+    if (!starterSprites.includes(sprite)) return { error: "Choose one of the five starters.", status: 400 };
     profile = await one(
       db,
       "insert into public.profiles(username,display_name,sprite_name) values($1,$1,$2) returning id",

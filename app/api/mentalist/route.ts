@@ -21,6 +21,7 @@ import { craft } from "../../../lib/mentalist/craft";
 import { survivorPack } from "../../../lib/survivor/server";
 import { rushGrade } from "../../../lib/rush/model";
 import { finishRush, rushBoard, rushBoards, startRush } from "../../../lib/rush/server";
+import { isRivalsAction, rivals } from "../../../lib/rivals/server";
 import { checkReview, exportReviewBugs, saveReview } from "../../../lib/verification/server";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -84,6 +85,7 @@ export async function POST(req: NextRequest) {
       if (b.action === "survivorPack") return survivorPack(db, who);
       if (b.action === "state") return studentState(db, who, courseGrade(b.grade));
       if (b.action === "leaderboard") return leaderboard(db, b.level);
+      if (isRivalsAction(b.action)) return rivals(db, who, b.action, b);
       if (b.action === "rushBoards") return rushBoards(db, who);
       if (b.action === "rushBoard" || b.action === "rushStart") {
         const grade = rushGrade(b.grade);

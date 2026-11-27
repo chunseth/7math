@@ -387,7 +387,7 @@ def topic(s, l, n, v):
                 )
             if l == 3 and v == 1:
                 return q(
-                    "Find the ratio of walkers to cyclists as a simplified fraction.",
+                    "Find the number of walkers per cyclist.",
                     F(a, b),
                     "fraction",
                     visual=chart("bars", [a, b], ["Walk", "Bike"]),
@@ -491,7 +491,7 @@ def topic(s, l, n, v):
                 )
             if l == 3:
                 return q(
-                    f"x/{k} + {b}/2 = {a+b}/2. Find x as a fraction.",
+                    f"x/{k} + {b}/2 = {a+b}/2. Find x.",
                     F(a * k, 2),
                     "fraction",
                 )

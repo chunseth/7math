@@ -368,13 +368,14 @@ export default function Trail({
         >
           <h2>{create ? "Create a player" : "Player sign-in"}</h2>
           <form onSubmit={sign}>
-            <PlayerFields value={credentials} onChange={setCredentials} create={create} />
+            <PlayerFields value={credentials} onChange={setCredentials} create={create} busy={busy} />
             {notice}
             <button className="mt-primary" disabled={busy}>
               {create ? "Create player" : "Sign in"}
             </button>
           </form>
           <button
+            disabled={busy}
             onClick={() => {
               setCreate(!create);
               setMessage("");

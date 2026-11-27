@@ -298,7 +298,7 @@
 }
 .rush-account-fields { display: grid; gap: 12px; min-width: 0; border: 0; padding: 0; margin: 0; }
 .rush-account label { display: grid; gap: 4px; }
-.mt-shell .rush-account input, .mt-shell .rush-account select, .mt-shell .rush-account > button {
+.mt-shell .rush-account input:not([type="radio"]), .mt-shell .rush-account > button {
   min-width: 0;
   min-height: 44px;
   color: #173f4d;

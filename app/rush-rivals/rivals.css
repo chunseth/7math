@@ -1,0 +1,225 @@
+.rivals-shell.mt-shell {
+  --ink: #f4efff;
+  --muted: #dfd4f3;
+  --border: #6b6186;
+  height: 100dvh;
+  overflow-y: auto;
+  background: #19172f;
+  color: #f4efff;
+}
+
+.rivals-shell .mt-top {
+  background: #241e41;
+  border-color: #4b416b;
+  color: #fbf7ff;
+}
+
+.rivals-shell .mt-top > a { color: #a0f1e5; }
+
+.rivals-shell .mt-top h1 {
+  margin: 0;
+  color: inherit;
+  font: 800 clamp(1.5rem, 5vw, 2rem)/1 "Barlow Condensed", sans-serif;
+}
+
+.rivals-content {
+  width: min(100%, 63rem);
+  margin-inline: auto;
+  padding: clamp(.4rem, 2.5vw, 1.5rem);
+}
+
+.rivals-content > .rush-account {
+  --ink: #203438;
+  --muted: #405d60;
+  --border: #b8cfce;
+  max-width: 26rem;
+  margin: 1rem auto;
+}
+
+.rivals-lobby {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  width: min(100%, 29rem);
+  margin: clamp(1rem, 8vh, 4rem) auto;
+  padding: clamp(1.25rem, 5vw, 2.5rem);
+  border: 1px solid #5d507f;
+  border-radius: 1.25rem;
+  background: #2d254a;
+  text-align: center;
+}
+
+.rivals-lobby h2,
+.rivals-lobby p,
+.rivals-message h2,
+.rivals-message p {
+  margin: 0;
+}
+
+.rivals-lobby h2,
+.rivals-message h2 {
+  font: 800 clamp(1.7rem, 6vw, 2.7rem)/1 "Barlow Condensed", sans-serif;
+}
+
+.rivals-grades,
+.rivals-actions,
+.rivals-exit {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+}
+
+.rivals-shell :is(.rivals-lobby, .rivals-actions, .rivals-exit) button {
+  min-height: 44px;
+  border: 1px solid #8779a8;
+  border-radius: .55rem;
+  padding: .5rem .8rem;
+  background: #383053;
+  color: #fff;
+  font-weight: 700;
+}
+
+.rivals-shell button[aria-pressed="true"],
+.rivals-shell :is(.rivals-lobby, .rivals-actions) button.rivals-primary {
+  border-color: #a0f1e5;
+  background: #a0f1e5;
+  color: #182f38;
+}
+
+.rivals-race {
+  display: grid;
+  grid-template-columns: minmax(2.25rem, clamp(2.65rem, 12vw, 7.5rem)) minmax(0, 1fr) minmax(2.25rem, clamp(2.65rem, 12vw, 7.5rem));
+  align-items: start;
+  gap: clamp(.2rem, 1.5vw, .8rem);
+}
+
+.rivals-track {
+  --track-color: #7bf2dd;
+  display: grid;
+  position: sticky;
+  top: .5rem;
+  justify-items: center;
+  align-content: start;
+  gap: .4rem;
+  min-width: 0;
+  color: var(--track-color);
+  text-align: center;
+}
+
+.rivals-track-opponent { --track-color: #ffa5bd; }
+
+.rivals-track-name {
+  overflow: hidden;
+  max-width: 100%;
+  color: #f4efff;
+  font-size: clamp(.64rem, 2.4vw, .9rem);
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rivals-track > strong {
+  font: 800 clamp(1.25rem, 5vw, 2.5rem)/1 "Barlow Condensed", sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+.rivals-meter {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: .17rem;
+  width: clamp(.95rem, 4.3vw, 2.3rem);
+  height: clamp(9rem, 38svh, 21rem);
+  padding: .18rem;
+  border: 1px solid #5b5277;
+  border-radius: .6rem;
+  background: #29223f;
+}
+
+.rivals-meter span {
+  flex: 1;
+  border-radius: .25rem;
+  background: #4c4263;
+}
+
+.rivals-meter span[data-filled="true"] { background: var(--track-color); }
+
+.rivals-center { min-width: 0; }
+
+.rivals-race-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 2rem;
+  padding-inline: .4rem;
+  color: #e0d6fb;
+  font-size: .85rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.rivals-question {
+  --ink: #292240;
+  --muted: #5b5075;
+  --border: #cbc1df;
+  min-width: 0;
+  border-radius: .9rem;
+  background: #f9f7ff;
+  color: #292240;
+  padding: clamp(.55rem, 3vw, 1.5rem);
+  text-align: center;
+}
+
+.rivals-play h2 {
+  margin-top: 0;
+  overflow-wrap: anywhere;
+  font-size: clamp(1.03rem, 4vw, 1.65rem);
+}
+
+.rivals-play h2:focus { outline: none; }
+
+.rivals-message {
+  display: grid;
+  gap: 1rem;
+  padding-block: clamp(.8rem, 5vh, 2.5rem);
+}
+
+.rivals-shell .rivals-countdown {
+  color: #4c3484;
+  font: 800 clamp(3rem, 15vw, 6rem)/1 "Barlow Condensed", sans-serif;
+}
+
+.rivals-results {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .5rem;
+}
+
+.rivals-results > div {
+  display: grid;
+  align-content: start;
+  gap: .25rem;
+  padding: .5rem .25rem;
+  border-radius: .5rem;
+  background: #ebe4f8;
+  overflow-wrap: anywhere;
+}
+
+.rivals-exit {
+  margin-top: .65rem;
+  font-size: .85rem;
+}
+
+.rivals-notice { text-align: center; }
+
+@media (max-width: 450px) {
+  .rivals-race {
+    grid-template-columns: minmax(0, 2rem) minmax(0, 1fr) minmax(0, 2rem);
+  }
+
+  .rivals-shell .rivals-play .mt-keypad {
+    width: 100%;
+    max-width: 100%;
+  }
+}

@@ -48,7 +48,7 @@ export const worldTitles = branchTitles;
 export const worlds = [...new Set(skills.map((s) => s.world))];
 export const skillById = new Map<string, (typeof skills)[number]>([...skills, ...courseSkills].map(s => [s.id, s]));
 export const levelById = new Map([...levels, ...courses[6].levels, ...grade8Levels].map(l => [l.id, l]));
-export const curriculumVersion = 7;
+export const curriculumVersion = 8;
 const formerSkillIds = new Map<string, string>();
 for (const skill of skills)
   for (const table of skill.tables ?? []) formerSkillIds.set(skill.group + "." + table, skill.id);
@@ -74,33 +74,7 @@ export const lessonStops = lessonPlan.map(([id]) => ({
   levels: levels.filter(level => level.skill === id),
 }));
 export const mainPathLevels = lessonStops.flatMap(stop => stop.levels);
-export const sprites = [
-  "raijin",
-  "phoenix",
-  "pooka",
-  "long",
-  "banshee",
-  "skinwalker",
-  "nian",
-  "jormungandr",
-  "simurgh",
-  "naga",
-  "hydra",
-  "garuda",
-  "pegasus",
-  "anubis",
-  "valkyrie",
-  "oni",
-  "horus",
-  "griffin",
-  "chupacabra",
-  "fenrir",
-  "minotaur",
-  "kitsune",
-  "seraph",
-  "sphynx",
-  "quetzalcoatl",
-];
+export { sprites } from "./sprites";
 export const checkpoint = {
   level: "signed.add.2",
   review: "review.multiply.8-9.1",
