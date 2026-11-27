@@ -225,11 +225,31 @@ function Play({ run, onFinish, onFeedback }: {
 
   return <section className="rush-card rush-play" aria-label="Rush questions">
     <div className="rush-progress">
-      <label htmlFor="rush-progress">Question {position + 1} of {rushLength}</label>
+      <div className="rush-progress-heading">
+        <label htmlFor="rush-progress">Question {position + 1} of {rushLength}</label>
+        <RushTimer started={run.started} />
+      </div>
       <progress id="rush-progress" value={position} max={rushLength} />
     </div>
     <Question key={position} run={run} position={position} advance={advance} />
   </section>;
+}
+
+function RushTimer({ started }: { started: number }) {
+  const [elapsedMs, setElapsedMs] = useState(0);
+
+  useEffect(() => {
+    function update() {
+      setElapsedMs(Math.round(performance.now() - started));
+    }
+    update();
+    const timer = window.setInterval(update, 100);
+    return () => window.clearInterval(timer);
+  }, [started]);
+
+  return <time className="rush-timer" role="timer" aria-label="Elapsed time" dateTime={`PT${elapsedMs / 1000}S`}>
+    {formatRunTime(elapsedMs)}
+  </time>;
 }
 
 function Question({ run, position, advance }: {

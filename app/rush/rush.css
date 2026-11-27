@@ -481,6 +481,22 @@
   text-align: left;
   font-weight: 700;
 }
+.rush-progress-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.rush-timer {
+  min-width: 9ch;
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: #e5e8f5;
+  color: #343e83;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
 .rush-progress progress {
   appearance: none;
   accent-color: #4d58a6;
