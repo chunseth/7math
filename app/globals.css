@@ -272,126 +272,103 @@ button {
 }
 
 .mode-menu {
-  height: 100%;
-  overflow: auto;
-  padding: 18px 14px;
-}
-
-.mode-select-shell {
-  justify-content: center;
-}
-
-.mode-select-menu {
   display: grid;
   align-content: safe center;
+  height: 100%;
+  overflow-y: auto;
+  padding: clamp(14px, 4vw, 36px);
 }
 
-.mode-menu-heading {
-  width: min(760px, 100%);
-  margin: 0 auto 14px;
-}
-
-.mode-select-grid {
-  width: min(880px, 100%);
-  margin: 0 auto;
+.mode-menu-list {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  width: min(100%, 520px);
+  margin-inline: auto;
+  gap: 12px;
+}
+
+.mode-menu-list h1 {
+  margin: 0 0 4px;
+  color: #173f4d;
+  font: 800 clamp(28px, 6vw, 40px)/1.1 "Barlow Condensed", sans-serif;
 }
 
 .mode-card {
-  width: min(760px, 100%);
-  min-height: 210px;
-  margin: 0 auto;
-  border: 4px solid #fff;
-  border-radius: 8px;
-  padding: clamp(18px, 4vw, 28px);
-  display: grid;
-  align-content: center;
-  justify-items: start;
-  gap: 8px;
-  background:
-    linear-gradient(135deg, #173f4d 0 46%, #1c8c8a 46% 100%);
+  --mode-dark: #173f4d;
+  --mode-light: #1c7474;
+  --mode-shadow: #0f2d38;
+  --mode-accent: #f4ae32;
+  --mode-button-ink: #4f3500;
+  --mode-button-shadow: #bb7714;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 66px;
+  padding: 8px clamp(12px, 4vw, 20px);
+  border: 2px solid #fff;
+  border-radius: 10px;
+  background: linear-gradient(115deg, var(--mode-dark) 0 52%, var(--mode-light) 52% 100%);
   color: #fff;
-  box-shadow: 0 8px 0 #0f2d38, 0 16px 28px #173f4d33;
-  text-align: left;
+  box-shadow: 0 3px 0 var(--mode-shadow);
 }
 
-.mode-select-card {
-  width: 100%;
-  min-height: 300px;
+.mode-card[data-theme="grade-6"] {
+  --mode-dark: #123760;
+  --mode-light: #235a96;
+  --mode-shadow: #102b4c;
+  --mode-accent: #9fe9ff;
+  --mode-button-ink: #102c4d;
+  --mode-button-shadow: #58a8ce;
 }
 
-.mode-select-card:nth-child(2) {
-  background:
-    linear-gradient(135deg, #24412f 0 46%, #b48b35 46% 100%);
-  box-shadow: 0 8px 0 #172b1e, 0 16px 28px #24412f33;
+.mode-card[data-theme="grade-8"] {
+  --mode-dark: #492352;
+  --mode-light: #75366d;
+  --mode-shadow: #36183c;
+  --mode-accent: #ffcdac;
+  --mode-button-ink: #542638;
+  --mode-button-shadow: #d2856a;
 }
 
-.mode-select-survivor {
-  background: linear-gradient(135deg, #1b3029 0 46%, #3f7559 46% 100%);
-  box-shadow: 0 8px 0 #142620, 0 16px 28px #24463b33;
+.mode-card[data-theme="survivor"] {
+  --mode-dark: #1b3029;
+  --mode-light: #3f7559;
+  --mode-shadow: #142620;
 }
 
-.mode-select-rush {
-  background: linear-gradient(135deg, #223052 0 46%, #4b57a0 46% 100%);
-  box-shadow: 0 8px 0 #1b2443, 0 16px 28px #22305233;
-}
-
-@media (min-width: 900px) {
-  .mode-select-grid:has(.mode-select-survivor) {
-    width: min(1060px, 100%);
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+.mode-card[data-theme="rush"] {
+  --mode-dark: #223052;
+  --mode-light: #4b57a0;
+  --mode-shadow: #1b2443;
 }
 
 .mode-card strong {
-  font: 900 clamp(36px, 9vw, 72px) "Barlow Condensed", sans-serif;
-  letter-spacing: 0;
-  line-height: .9;
+  font: 800 clamp(24px, 5vw, 32px)/1 "Barlow Condensed", sans-serif;
 }
 
-.mode-card small {
-  max-width: 440px;
-  color: #d8edf2;
-  font: 900 14px/1.35 Nunito, Arial, sans-serif;
-}
-
-.mode-card b {
-  margin-top: 10px;
+.mode-card a {
+  display: grid;
+  place-items: center;
+  min-width: 80px;
+  min-height: 44px;
+  padding-inline: 12px;
   border-radius: 7px;
-  padding: 10px 22px;
-  background: #f4ae32;
-  color: #4f3500;
-  box-shadow: inset 0 -3px #bb7714;
-  font: 900 15px "Barlow Condensed", sans-serif;
-  letter-spacing: 1.3px;
-  text-transform: uppercase;
-}
-
-.mode-card a,
-.mode-card a:visited,
-.mode-card a:hover {
-  margin-top: 10px;
-  border-radius: 7px;
-  padding: 10px 22px;
-  background: #f4ae32;
-  color: #4f3500;
-  box-shadow: inset 0 -3px #bb7714;
-  font: 900 15px "Barlow Condensed", sans-serif;
-  letter-spacing: 1.3px;
+  background: var(--mode-accent);
+  color: var(--mode-button-ink);
+  box-shadow: inset 0 -3px var(--mode-button-shadow);
+  font: 800 15px "Barlow Condensed", sans-serif;
+  letter-spacing: 1px;
   text-decoration: none;
   text-transform: uppercase;
 }
 
-.mode-badge {
-  border-radius: 999px;
-  padding: 5px 10px;
-  background: #eaf8fb;
-  color: #1379b4;
-  font: 900 11px "Barlow Condensed", sans-serif;
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
+.mode-card a:hover {
+  filter: brightness(1.08);
+}
+
+.mode-card a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
 }
 
 .mode-shortcuts {
@@ -973,30 +950,6 @@ button {
 }
 
 @media (max-width: 700px) {
-  .mode-menu {
-    padding: 12px;
-  }
-
-  .mode-select-menu {
-    align-content: start;
-  }
-
-  .mode-select-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .mode-select-card {
-    min-height: 220px;
-  }
-
-  .mode-menu-heading {
-    margin-bottom: 10px;
-  }
-
-  .mode-card {
-    min-height: 190px;
-  }
-
   .mode-shortcuts {
     grid-template-columns: 1fr;
     gap: 8px;
