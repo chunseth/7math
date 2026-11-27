@@ -2,6 +2,10 @@ import Link from "next/link";
 
 const gameModes = [
   {
+    description: "Practice rational numbers, ratios, equations, geometry, statistics, and personal finance.",
+    href: "/6math", kicker: "Grade 6", title: "6math",
+  },
+  {
     description: "Explore the Grade 7 skill tree and try untimed practice with integers, decimals, fractions, percents, and equations.",
     href: "/skills",
     kicker: "Skill Practice",
@@ -9,9 +13,17 @@ const gameModes = [
   },
   {
     description: "Quick mental math battles with Play, Map, and Numbers progression.",
-    href: "/mentalist",
+    href: "/7math",
     kicker: "Current Mode",
-    title: "Mentalist",
+    title: "7math",
+  },
+  {
+    description: "Explore Grade 8 mathematics, watch worked examples, and practice each lesson.",
+    href: "/8math", kicker: "Grade 8", title: "8math",
+  },
+  {
+    description: "Retest corrected questions from the latest bug reports.",
+    href: "/verification", kicker: "Curriculum Review", title: "Verification",
   },
   {
     description: "Spend energy to mine ore, then craft pickaxes and swords for your player.",
@@ -20,17 +32,23 @@ const gameModes = [
     title: "Crafters",
   },
   {
-    description: "Dodge enemy fire, solve math from your Mentalist clears, and face the boss at three minutes.",
+    description: "Clear a full 7math concept to unlock Survivor. Dodge enemy fire and solve math to fight the boss.",
     href: "/survivor",
     kicker: "Arena Survival",
     title: "Survivor",
+  },
+  {
+    description: "Pick a grade, race through 12 random questions, and see where you rank.",
+    href: "/rush",
+    kicker: "Timed Challenge",
+    title: "Rush",
   },
 ];
 
 export const dynamic="force-dynamic";
 export default function Home() {
   const curriculum=process.env.MENTALIST_CURRICULUM==="1";
-  const modes=curriculum?gameModes.filter(m=>m.href!=="/skills").map(m=>m.href==="/mentalist"?{...m,description:"Follow the Grade 7 trail, practice a concept, and collect topic cards."}:m):gameModes.filter(m=>m.href!=="/survivor");
+  const modes = curriculum ? gameModes.filter(mode => mode.href !== "/skills") : gameModes;
   return (
     <main className="shell mode-select-shell">
       <section className="mode-menu mode-select-menu">
@@ -40,11 +58,11 @@ export default function Home() {
 
         <div className="mode-select-grid">
           {modes.map((mode) => (
-            <article className={`mode-card mode-select-card${mode.href === "/survivor" ? " mode-select-survivor" : ""}`} key={mode.title}>
+            <article className={`mode-card mode-select-card${mode.href === "/survivor" ? " mode-select-survivor" : ""}${mode.href === "/rush" ? " mode-select-rush" : ""}`} key={mode.title}>
               <span className="mode-badge">{mode.kicker}</span>
               <strong>{mode.title}</strong>
-              <small>{mode.description}</small>
-              <Link href={mode.href}>Select</Link>
+              <small>{curriculum && mode.href === "/7math" ? "Follow the Grade 7 trail, practice a concept, and collect topic cards." : mode.description}</small>
+              <Link href={mode.href} aria-label={`Select ${mode.title}`}>Select</Link>
             </article>
           ))}
         </div>

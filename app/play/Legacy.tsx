@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import NumberPad from "../components/NumberPad";
 import {
   ADDITION_SKILLS,
   DIVISION_NUMBERS,
@@ -136,7 +137,6 @@ const spriteNames = [
   "minotaur", "kitsune", "seraph", "sphynx", "quetzalcoatl",
 ];
 
-const keypadKeys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "clear", "0", "back"];
 
 // Seconds the "unskippable" teaching video runs before Retry unlocks.
 const TEACHING_AD_SECONDS = 5;
@@ -259,7 +259,7 @@ export default function PlayPage() {
 
   useEffect(() => {
     if (!getActiveProfileId()) {
-      router.replace("/mentalist");
+      router.replace("/7math");
     }
   }, [router]);
 
@@ -444,7 +444,7 @@ export default function PlayPage() {
       if (/^\d$/.test(event.key)) {
         event.preventDefault();
         enterDigit(event.key);
-      } else if (event.key === "Backspace") {
+      } else if (event.key === "Backspace" || event.key === "Delete") {
         event.preventDefault();
         setAnswer((value) => value.slice(0, -1));
       }
@@ -804,12 +804,7 @@ export default function PlayPage() {
   function handleKey(key: string) {
     if (isInputLocked) return;
 
-    if (key === "clear") {
-      setAnswer("");
-      return;
-    }
-
-    if (key === "back") {
+    if (key === "Backspace") {
       setAnswer((value) => value.slice(0, -1));
       return;
     }
@@ -882,12 +877,12 @@ export default function PlayPage() {
   function leaveMatch() {
     if (!canLeave) return;
     const status = summary && summary.chestStatus !== "pending" ? summary.chestStatus : "missed";
-    router.replace(`/mentalist?chest=${status}`);
+    router.replace(`/7math?chest=${status}`);
   }
 
   function leaveAfterBossDefeat() {
     if (savingRewards || hasPendingLevelUpChests || adCountdown > 0) return;
-    router.replace(worldProgressReset ? "/mentalist?bossReset=1" : "/mentalist");
+    router.replace(worldProgressReset ? "/7math?bossReset=1" : "/7math");
   }
 
   async function openLevelUpChest() {
@@ -1167,13 +1162,7 @@ export default function PlayPage() {
             {answer || "?"}
           </div>
 
-          <div className="play-keypad" aria-label="Number pad">
-            {keypadKeys.map((key) => (
-              <button className={key.length > 1 ? "utility-key" : ""} key={key} onClick={() => handleKey(key)}>
-                {key === "back" ? "⌫" : key === "clear" ? "C" : key}
-              </button>
-            ))}
-          </div>
+          <NumberPad className="play-keypad" disabled={isInputLocked} onKey={handleKey} />
         </section>
       )}
     </main>

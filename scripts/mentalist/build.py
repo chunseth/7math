@@ -1,4 +1,4 @@
-"""Compile fixed sets offline. Rebuild with python3 -B scripts/mentalist/build.py."""
+"""Compile level question pools and round blueprints offline. Rebuild with python3 -B scripts/mentalist/build.py."""
 
 import gzip, hashlib, json, random, sys
 from fractions import Fraction
@@ -27,6 +27,8 @@ def target(s, q):
         return 60
     if s.startswith(("review.multiply.", "review.divide.")):
         return 5
+    if q.get("visual", {}).get("kind") == "signed-groups":
+        return 30
     if s.startswith("signed."):
         return 10
     if s.startswith("decimal."):
@@ -87,90 +89,70 @@ for skill in skills:
         lid = f"{s}.{l}"
         levelsets = []
         configs = []
-        for bank in range(5):
-            positions = []
-            used = set()
-            tables = skill.get("tables", [])
-            # Reproducible, balanced samples for publication. Play order is shuffled per run.
-            samples = []
-            rng = random.Random(f"{lid}.set{bank+1}")
-            for table in tables:
-                operands = range(2, 13) if table == 0 and skill["group"] == "review.divide" else range(13)
-                samples.extend((table, n) for n in rng.sample(operands, 12 // len(tables)))
-            for slot in range(12):
-                tags = variants(s, l)
-                n = slot + bank * 7 + 1
-                v = slot % len(tags)
+        pool = []
+        used = set()
+        tables = skill.get("tables", [])
+        tags = variants(s, l)
+        rng = random.Random(lid)
+        operands = {}
+        for table in tables:
+            # Keep 0 ÷ 1 in the zero-dividend family and avoid division by zero.
+            values = range(1, 13) if skill["group"] == "review.divide" and table in (0, 1) else range(13)
+            operands[table] = rng.sample(list(values), len(values))
+        for index in range(24):
+            slot = index % 12
+            v = tables[slot % len(tables)] if tables else slot % len(tags)
+            n = rng.randrange(1, 80)
+            for _ in range(512):
+                extra = None if tables else extension(s, l, n, v)
                 if tables:
-                    v, n = samples[slot]
-                for attempt in range(256):
-                    extra = extension(s, l, n, v)
-                    if tables:
-                        row = fact(skill["group"], v, n)
-                    elif extra:
-                        _, row = extra
-                    elif s.startswith(("signed.", "fraction.", "decimal.")):
-                        row = arithmetic(s, l, n, v)
-                    elif s.startswith("review."):
-                        row = review(s, l, n, v)
-                    else:
-                        row = topic(s, l, n, v)
-                    key = json.dumps(
-                        [row["prompt"], row.get("visual"), row["control"]],
-                        sort_keys=True,
-                    )
-                    surface = json.dumps(
-                        [
-                            row["prompt"],
-                            row.get("visual"),
-                            [f["label"] for f in row["control"].get("fields", [])],
-                        ],
-                        sort_keys=True,
-                    )
-                    if surface not in used:
-                        break
-                    n += 1
+                    n = operands[v].pop()
+                    row = fact(skill["group"], v, n, reverse=(slot + index // 12) % 2 == 1)
+                    tag = f"table-{v}"
+                    module = "arithmetic"
+                elif extra:
+                    tag, row = extra
+                    module = "variants"
+                elif s.startswith(("signed.", "fraction.", "decimal.")):
+                    row = arithmetic(s, l, n, v)
+                    tag, module = tags[v], "arithmetic"
+                elif s.startswith("review."):
+                    row = review(s, l, n, v)
+                    tag, module = tags[v], "arithmetic"
                 else:
-                    raise ValueError((lid, bank, slot, "duplicate scenario"))
-                audit(row)
-                used.add(surface)
-                ident = row.pop(
-                    "id", s + "." + hashlib.sha256(key.encode()).hexdigest()[:16]
-                )
-                if ident in questions:
-                    assert questions[ident] == row, (lid, ident)
-                questions[ident] = row
-                tag = f"table-{v}" if tables else extra[0] if extra else tags[v]
-                variant = f"{lid}.{tag}"
-                templates[variant] = dict(
-                    id=variant,
-                    level=lid,
-                    focus=title,
-                    variant=tag,
-                    authoringModule=(
-                        "variants"
-                        if extra
-                        else (
-                            "arithmetic"
-                            if s.startswith(
-                                ("review.", "signed.", "decimal.", "fraction.")
-                            )
-                            else "topics"
-                        )
-                    ),
-                    parameterNames=["configuration", "variantIndex"],
-                    response=row["control"]["kind"],
-                    scoring="exact-rational-or-structured-v1",
-                )
-                positions.append(
-                    dict(
-                        q=ident,
-                        variant=variant,
-                        parameters=[n, v],
-                        target=target(s, row),
-                    )
-                )
-            sid = f"{lid}.set{bank+1}"
+                    row = topic(s, l, n, v)
+                    tag, module = tags[v], "topics"
+                surface = json.dumps([row["prompt"], row.get("visual"),
+                    [f["label"] for f in row["control"].get("fields", [])]], sort_keys=True)
+                if surface not in used:
+                    break
+                n += 1
+            else:
+                raise ValueError((lid, index, "duplicate scenario"))
+            audit(row)
+            used.add(surface)
+            key = json.dumps([row["prompt"], row.get("visual"), row["control"]], sort_keys=True)
+            ident = row.pop("id", s + "." + hashlib.sha256(key.encode()).hexdigest()[:16])
+            if ident in questions:
+                assert questions[ident] == row, (lid, ident)
+            questions[ident] = row
+            variant = f"{lid}.{tag}"
+            templates[variant] = dict(
+                id=variant, level=lid, focus=title, variant=tag,
+                authoringModule=module,
+                parameterNames=["configuration", "variantIndex"], response=row["control"]["kind"],
+                scoring="exact-rational-or-structured-v1",
+            )
+            pool.append(dict(q=ident, variant=variant, parameters=[n, v], target=target(s, row)))
+        # Keep the published 12-slot blueprints available to set-based consumers.
+        first, second = pool[:12], pool[12:]
+        blueprints = [first, second]
+        while len(blueprints) < 5:
+            positions = [rng.choice(pair) for pair in zip(first, second)]
+            if positions not in blueprints:
+                blueprints.append(positions)
+        for bank, positions in enumerate(blueprints):
+            sid = f"v4.{lid}.set{bank+1}"
             levelsets.append(sid)
             assert len({p["q"] for p in positions}) == 12
             sets.append(dict(id=sid, level=lid, positions=positions))
@@ -190,6 +172,7 @@ for skill in skills:
                 title=title,
                 ordinal=l,
                 sets=levelsets,
+                pool=pool,
                 slots=configs[0],
                 preview={k: v for k, v in example.items() if k in ("prompt", "visual")},
                 target=sum(p["target"] for p in sets[-1]["positions"]),
@@ -204,7 +187,7 @@ assert (
 coverage = matrix(catalog["nodes"], levels, skills)
 bank = dict(
     coverage=coverage,
-    version=2,
+    version=7,
     templates=list(templates.values()),
     skills=skills,
     levels=levels,
@@ -225,7 +208,7 @@ files = {
     / "coverage.json": (
         json.dumps(coverage, ensure_ascii=False, indent=1) + "\n"
     ).encode(),
-    OUT / "bank-v2.json.gz": gzip.compress(data, mtime=0),
+    OUT / "bank-v7.json.gz": gzip.compress(data, mtime=0),
     OUT
     / "trail.json": (json.dumps(preview, ensure_ascii=False, indent=1) + "\n").encode(),
 }

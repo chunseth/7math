@@ -508,21 +508,21 @@
   {
     "level": "ratio.equivalent.3",
     "skill": "ratio.equivalent",
-    "prompt": "A mix uses 3 lemons per 8 cups. How many cups for 9 lemons?",
+    "prompt": "Complete the ratio table. Lemons: 3, 9, 12. Cups: 8, blank, blank.",
     "model": "worked",
     "color": "#834745",
     "steps": [
       {
-        "label": "Scale lemons to nine.",
-        "math": "9 ÷ 3 = 3"
+        "label": "Find the factor for each lemon entry.",
+        "math": "9 ÷ 3 = 3, 12 ÷ 3 = 4"
       },
       {
-        "label": "Scale cups the same way.",
-        "math": "8 × 3"
+        "label": "Scale the cups by the same factors.",
+        "math": "8 × 3 = 24, 8 × 4 = 32"
       }
     ],
-    "result": "24 cups",
-    "answer": "24 cups"
+    "result": "24 and 32 cups",
+    "answer": "24 and 32 cups"
   },
   {
     "skill": "ratio.unit",
@@ -701,21 +701,21 @@
   {
     "level": "review.coordinate.2",
     "skill": "review.coordinate",
-    "prompt": "A graph uses 5 miles per vertical tick. What does the fourth tick above zero mean?",
+    "prompt": "A volume axis shows 5 liters per tick. A point is four ticks high. What is its volume?",
     "model": "worked",
     "color": "#764d79",
     "steps": [
       {
-        "label": "Read one interval.",
-        "math": "1 tick = 5 miles"
+        "label": "Read the scale on the vertical axis.",
+        "math": "1 tick = 5 liters"
       },
       {
-        "label": "Scale to four ticks.",
-        "math": "4 × 5"
+        "label": "Count four of those intervals.",
+        "math": "4 × 5 = 20"
       }
     ],
-    "result": "20 miles",
-    "answer": "20 miles"
+    "result": "20 liters",
+    "answer": "20 liters"
   },
   {
     "level": "ratio.constant.1",
@@ -2659,21 +2659,21 @@
   {
     "level": "stats.sample.2",
     "skill": "stats.sample",
-    "prompt": "A random sample finds 12 of 20 support a change. Is 60% an estimate or an exact population value?",
+    "prompt": "A bike club survey finds 12 of 20 bike to school. What can we conclude?",
     "model": "worked",
     "color": "#315c92",
     "steps": [
       {
-        "label": "Find the sample share.",
+        "label": "Find the share of the group surveyed.",
         "math": "12/20 = 0.60"
       },
       {
-        "label": "Only part of the population was sampled.",
-        "math": "20 people"
+        "label": "The sample comes only from the club.",
+        "math": "60% of this group"
       }
     ],
-    "result": "estimate",
-    "answer": "estimate"
+    "result": "club share only",
+    "answer": "club share only"
   },
   {
     "level": "stats.populations.1",
@@ -4010,16 +4010,16 @@
   {
     "level": "algebra.graph.1",
     "skill": "algebra.graph",
-    "prompt": "Where is the solution of 2x = 8 on a number line?",
+    "prompt": "Solve 2x + 3 = 11, then mark its solution.",
     "model": "worked",
     "color": "#20654c",
     "steps": [
       {
-        "label": "Divide both sides by two.",
-        "math": "x = 8 ÷ 2"
+        "label": "Subtract three from both sides.",
+        "math": "2x = 8"
       },
       {
-        "label": "One value solves the equation.",
+        "label": "Divide by two and mark the one solution.",
         "math": "x = 4"
       }
     ],
@@ -4029,40 +4029,40 @@
   {
     "level": "algebra.graph.2",
     "skill": "algebra.graph",
-    "prompt": "Graph x < −1. Which endpoint and direction?",
+    "prompt": "Solve 2x + 3 < 11, then graph its solution set.",
     "model": "worked",
     "color": "#20654c",
     "steps": [
       {
-        "label": "Exclude the boundary.",
-        "math": "x ≠ −1"
+        "label": "Subtract three and divide by two.",
+        "math": "2x < 8, x < 4"
       },
       {
-        "label": "Test a value on the left.",
-        "math": "−2 < −1"
+        "label": "Exclude 4 and shade toward smaller values.",
+        "math": "3 < 4"
       }
     ],
-    "result": "open, left",
-    "answer": "open, left"
+    "result": "open at 4, left",
+    "answer": "open at 4, left"
   },
   {
     "level": "algebra.graph.3",
     "skill": "algebra.graph",
-    "prompt": "Graph x ≥ 2. Which endpoint and direction?",
+    "prompt": "Solve 2x + 1 ≥ 8, then graph its solution set.",
     "model": "worked",
     "color": "#20654c",
     "steps": [
       {
-        "label": "Include the boundary.",
-        "math": "2 ≥ 2"
+        "label": "Subtract one and divide by two.",
+        "math": "2x ≥ 7, x ≥ 7/2"
       },
       {
-        "label": "Test a value on the right.",
-        "math": "3 ≥ 2"
+        "label": "Include 7/2 and shade toward larger values.",
+        "math": "4 ≥ 7/2"
       }
     ],
-    "result": "closed, right",
-    "answer": "closed, right"
+    "result": "closed at 7/2, right",
+    "answer": "closed at 7/2, right"
   },
   {
     "level": "geometry.angles.1",

@@ -283,7 +283,7 @@ button {
 
 .mode-select-menu {
   display: grid;
-  align-content: center;
+  align-content: safe center;
 }
 
 .mode-menu-heading {
@@ -331,6 +331,11 @@ button {
 .mode-select-survivor {
   background: linear-gradient(135deg, #1b3029 0 46%, #3f7559 46% 100%);
   box-shadow: 0 8px 0 #142620, 0 16px 28px #24463b33;
+}
+
+.mode-select-rush {
+  background: linear-gradient(135deg, #223052 0 46%, #4b57a0 46% 100%);
+  box-shadow: 0 8px 0 #1b2443, 0 16px 28px #22305233;
 }
 
 @media (min-width: 900px) {
@@ -1895,6 +1900,9 @@ button {
   border-color: #94aeb7;
 }
 
+.number-pad-zero { grid-column: 2; }
+.number-pad-delete { grid-column: 3; }
+
 .play-keypad {
   width: min(430px, 94vw);
   display: grid;
@@ -1917,7 +1925,7 @@ button {
   box-shadow: 0 2px 0 #9ab8bd44;
 }
 
-.play-keypad .utility-key {
+.play-keypad .number-pad-delete {
   background: #edf7f8;
   color: #52727b;
   font-size: clamp(18px, 3.8vw, 25px);
@@ -3748,8 +3756,8 @@ button.student-row > strong {
 .curriculum-login { margin: 20px 0; }
 .curriculum-shell summary { cursor: pointer; padding: 8px 0; }
 .curriculum-controls { margin: 16px 0; }
-.curriculum-controls label, .numeric-response label { display: flex; flex-direction: column; gap: 6px; }
-.curriculum-controls input, .curriculum-controls select, .numeric-response input { font: inherit; border: 1px solid #a9b6c9; border-radius: 6px; padding: 10px; background: white; color: #172338; max-width: 100%; }
+.curriculum-controls label { display: flex; flex-direction: column; gap: 6px; }
+.curriculum-controls input, .curriculum-controls select { font: inherit; border: 1px solid #a9b6c9; border-radius: 6px; padding: 10px; background: white; color: #172338; max-width: 100%; }
 .curriculum-branches { margin: 24px 0; }
 .curriculum-shell button[aria-pressed="true"] { border-color: #3158c5; background: #edf3ff; color: #173475; box-shadow: inset 0 0 0 1px #3158c5; }
 .curriculum-layout { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(300px, 1.4fr); gap: 24px; align-items: start; }
@@ -3762,8 +3770,9 @@ button.student-row > strong {
 .curriculum-detail li { margin: 8px 0; line-height: 1.5; }
 .curriculum-shell .curriculum-text-button { border: 0; padding: 2px; color: #244cae; text-decoration: underline; text-align: left; }
 .curriculum-shell .curriculum-primary { background: #244cae; color: #fff; margin-top: 16px; }
-.numeric-response input { font-size: 24px; width: 100%; }
-.numeric-response-keys { display: flex; flex-wrap: wrap; gap: 8px; }
+.numeric-response output { display: block; font-size: 24px; }
+.numeric-response-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; max-width: 320px; margin-bottom: .4rem; }
+.numeric-response-pad button { min-height: 44px; }
 .numeric-response p { font-size: 14px; }
 .curriculum-assignments { margin: 24px 0; padding: 24px; }
 .curriculum-assignments ul { padding-left: 20px; }

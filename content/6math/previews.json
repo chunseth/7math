@@ -1,0 +1,4480 @@
+[
+ {
+  "level": "g6.foundation-sums.1",
+  "skill": "g6.foundation-sums",
+  "prompt": "What is 8 + 5?",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Split five to make ten.",
+    "math": "5 = 2 + 3"
+   },
+   {
+    "label": "Add the leftover three.",
+    "math": "8 + 2 + 3"
+   }
+  ],
+  "result": "13",
+  "answer": "13",
+  "mediaCourse": "mentalist",
+  "media": "review.add.1"
+ },
+ {
+  "level": "g6.foundation-sums.2",
+  "skill": "g6.foundation-sums",
+  "prompt": "Add 38 and 27.",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Add the tens.",
+    "math": "38 + 20 = 58"
+   },
+   {
+    "label": "Add the ones.",
+    "math": "58 + 7"
+   }
+  ],
+  "result": "65",
+  "answer": "65",
+  "mediaCourse": "mentalist",
+  "media": "review.add.2"
+ },
+ {
+  "level": "g6.foundation-sums.3",
+  "skill": "g6.foundation-sums",
+  "prompt": "What goes in 135 + □ = 210?",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Count up to 200.",
+    "math": "200 − 135 = 65"
+   },
+   {
+    "label": "Count ten more.",
+    "math": "65 + 10"
+   }
+  ],
+  "result": "75",
+  "answer": "75",
+  "mediaCourse": "mentalist",
+  "media": "review.add.3"
+ },
+ {
+  "level": "g6.foundation-differences.1",
+  "skill": "g6.foundation-differences",
+  "prompt": "What is 14 − 6?",
+  "model": "worked",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "Subtract four to reach ten.",
+    "math": "14 − 4 = 10"
+   },
+   {
+    "label": "Subtract the other two.",
+    "math": "10 − 2"
+   }
+  ],
+  "result": "8",
+  "answer": "8",
+  "mediaCourse": "mentalist",
+  "media": "review.subtract.1"
+ },
+ {
+  "level": "g6.foundation-differences.2",
+  "skill": "g6.foundation-differences",
+  "prompt": "Find 62 − 28.",
+  "model": "worked",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "Take away thirty.",
+    "math": "62 − 30 = 32"
+   },
+   {
+    "label": "Give two back.",
+    "math": "32 + 2"
+   }
+  ],
+  "result": "34",
+  "answer": "34",
+  "mediaCourse": "mentalist",
+  "media": "review.subtract.2"
+ },
+ {
+  "level": "g6.foundation-differences.3",
+  "skill": "g6.foundation-differences",
+  "prompt": "What goes in 400 − □ = 165?",
+  "model": "worked",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "Find the gap to 200.",
+    "math": "200 − 165 = 35"
+   },
+   {
+    "label": "Add the gap to 400.",
+    "math": "35 + 200"
+   }
+  ],
+  "result": "235",
+  "answer": "235",
+  "mediaCourse": "mentalist",
+  "media": "review.subtract.3"
+ },
+ {
+  "level": "g6.foundation-products.1",
+  "skill": "g6.foundation-products",
+  "prompt": "What is 0 × 8?",
+  "model": "worked",
+  "color": "#764d79",
+  "steps": [
+   {
+    "label": "Zero groups contain no objects.",
+    "math": "0 groups"
+   },
+   {
+    "label": "No group contributes any eights.",
+    "math": "0 × 8"
+   }
+  ],
+  "result": "0",
+  "answer": "0",
+  "media": "review.multiply.0.1",
+  "mediaCourse": "mentalist"
+ },
+ {
+  "level": "g6.foundation-products.2",
+  "skill": "g6.foundation-products",
+  "prompt": "What is 2 × 7?",
+  "model": "worked",
+  "color": "#876124",
+  "steps": [
+   {
+    "label": "Two equal groups form a double.",
+    "math": "7 + 7"
+   },
+   {
+    "label": "Break the second seven into three and four.",
+    "math": "10 + 4"
+   }
+  ],
+  "result": "14",
+  "answer": "14",
+  "media": "review.multiply.2.1",
+  "mediaCourse": "mentalist"
+ },
+ {
+  "level": "g6.foundation-products.3",
+  "skill": "g6.foundation-products",
+  "prompt": "What is 5 × 8?",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Ten groups give eighty.",
+    "math": "10 × 8 = 80"
+   },
+   {
+    "label": "Five groups are half as many.",
+    "math": "80 ÷ 2"
+   }
+  ],
+  "result": "40",
+  "answer": "40",
+  "media": "review.multiply.5.1",
+  "mediaCourse": "mentalist"
+ },
+ {
+  "level": "g6.foundation-products.4",
+  "skill": "g6.foundation-products",
+  "prompt": "What is 6 × 7?",
+  "model": "worked",
+  "color": "#3b666e",
+  "steps": [
+   {
+    "label": "Use five groups first.",
+    "math": "5 × 7 = 35"
+   },
+   {
+    "label": "Add one more seven.",
+    "math": "35 + 7"
+   }
+  ],
+  "result": "42",
+  "answer": "42",
+  "media": "review.multiply.6.1",
+  "mediaCourse": "mentalist"
+ },
+ {
+  "level": "g6.foundation-products.5",
+  "skill": "g6.foundation-products",
+  "prompt": "What is 8 × 6?",
+  "model": "worked",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "Compute four groups.",
+    "math": "4 × 6 = 24"
+   },
+   {
+    "label": "Double to get eight groups.",
+    "math": "24 × 2"
+   }
+  ],
+  "result": "48",
+  "answer": "48",
+  "media": "review.multiply.8.1",
+  "mediaCourse": "mentalist"
+ },
+ {
+  "level": "g6.foundation-products.6",
+  "skill": "g6.foundation-products",
+  "prompt": "What is 11 × 6?",
+  "model": "worked",
+  "color": "#876124",
+  "steps": [
+   {
+    "label": "Find ten groups first.",
+    "math": "10 × 6 = 60"
+   },
+   {
+    "label": "Add the eleventh group.",
+    "math": "60 + 6"
+   }
+  ],
+  "result": "66",
+  "answer": "66",
+  "media": "review.multiply.11.1",
+  "mediaCourse": "mentalist"
+ },
+ {
+  "level": "g6.foundation-division.1",
+  "skill": "g6.foundation-division",
+  "prompt": "What is 9 ÷ 1?",
+  "model": "worked",
+  "color": "#3b666e",
+  "steps": [
+   {
+    "label": "Make groups of one.",
+    "math": "1 + 1 + 1 = 3"
+   },
+   {
+    "label": "Nine ones make nine groups.",
+    "math": "1 × 9 = 9"
+   }
+  ],
+  "result": "9",
+  "answer": "9",
+  "media": "review.divide.1.1",
+  "mediaCourse": "mentalist"
+ },
+ {
+  "level": "g6.foundation-division.2",
+  "skill": "g6.foundation-division",
+  "prompt": "What is 12 ÷ 2?",
+  "model": "worked",
+  "color": "#3b666e",
+  "steps": [
+   {
+    "label": "Find the missing number of equal groups.",
+    "math": "2 × x = 12"
+   },
+   {
+    "label": "Count a known group, then the rest.",
+    "math": "2 × 5 + 2 = 12"
+   }
+  ],
+  "result": "6",
+  "answer": "6",
+  "media": "review.divide.2.1",
+  "mediaCourse": "mentalist"
+ },
+ {
+  "level": "g6.foundation-division.3",
+  "skill": "g6.foundation-division",
+  "prompt": "What is 20 ÷ 5?",
+  "model": "worked",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "Find the missing number of equal groups.",
+    "math": "5 × x = 20"
+   },
+   {
+    "label": "Count a known group, then the rest.",
+    "math": "5 × 3 + 5 = 20"
+   }
+  ],
+  "result": "4",
+  "answer": "4",
+  "media": "review.divide.5.1",
+  "mediaCourse": "mentalist"
+ },
+ {
+  "level": "g6.foundation-division.4",
+  "skill": "g6.foundation-division",
+  "prompt": "What is 30 ÷ 6?",
+  "model": "worked",
+  "color": "#764d79",
+  "steps": [
+   {
+    "label": "Find the missing number of equal groups.",
+    "math": "6 × x = 30"
+   },
+   {
+    "label": "Count a known group, then the rest.",
+    "math": "6 × 4 + 6 = 30"
+   }
+  ],
+  "result": "5",
+  "answer": "5",
+  "media": "review.divide.6.1",
+  "mediaCourse": "mentalist"
+ },
+ {
+  "level": "g6.foundation-division.5",
+  "skill": "g6.foundation-division",
+  "prompt": "What is 56 ÷ 8?",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Find the missing number of equal groups.",
+    "math": "8 × x = 56"
+   },
+   {
+    "label": "Count a known group, then the rest.",
+    "math": "8 × 6 + 8 = 56"
+   }
+  ],
+  "result": "7",
+  "answer": "7",
+  "media": "review.divide.8.1",
+  "mediaCourse": "mentalist"
+ },
+ {
+  "level": "g6.foundation-division.6",
+  "skill": "g6.foundation-division",
+  "prompt": "What is 55 ÷ 11?",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Find the missing number of equal groups.",
+    "math": "11 × x = 55"
+   },
+   {
+    "label": "Count a known group, then the rest.",
+    "math": "11 × 4 + 11 = 55"
+   }
+  ],
+  "result": "5",
+  "answer": "5",
+  "media": "review.divide.11.1",
+  "mediaCourse": "mentalist"
+ },
+ {
+  "level": "g6.foundation-whole.1",
+  "skill": "g6.foundation-whole",
+  "prompt": "Find □ in 7 × □ = 56.",
+  "model": "worked",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "Undo multiplication by seven.",
+    "math": "56 ÷ 7"
+   },
+   {
+    "label": "Check with the product.",
+    "math": "7 × 8 = 56"
+   }
+  ],
+  "result": "8",
+  "answer": "8",
+  "mediaCourse": "mentalist",
+  "media": "review.whole.1"
+ },
+ {
+  "level": "g6.foundation-whole.2",
+  "skill": "g6.foundation-whole",
+  "prompt": "What is 30 × 40?",
+  "model": "worked",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "Multiply the nonzero digits.",
+    "math": "3 × 4 = 12"
+   },
+   {
+    "label": "Include both tens.",
+    "math": "12 × 100"
+   }
+  ],
+  "result": "1200",
+  "answer": "1200",
+  "mediaCourse": "mentalist",
+  "media": "review.whole.2"
+ },
+ {
+  "level": "g6.foundation-whole.3",
+  "skill": "g6.foundation-whole",
+  "prompt": "Compute 23 × 14.",
+  "model": "worked",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "Split fourteen.",
+    "math": "23 × 10 = 230"
+   },
+   {
+    "label": "Add four more groups.",
+    "math": "230 + 92"
+   }
+  ],
+  "result": "322",
+  "answer": "322",
+  "mediaCourse": "mentalist",
+  "media": "review.whole.3"
+ },
+ {
+  "level": "g6.foundation-whole.4",
+  "skill": "g6.foundation-whole",
+  "prompt": "Share 156 stickers among 12 students.",
+  "model": "worked",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "Give each student ten.",
+    "math": "156 − 120 = 36"
+   },
+   {
+    "label": "Share the rest.",
+    "math": "10 + 36 ÷ 12"
+   }
+  ],
+  "result": "13 each",
+  "answer": "13 each",
+  "mediaCourse": "mentalist",
+  "media": "review.whole.4"
+ },
+ {
+  "level": "g6.foundation-fractions.1",
+  "skill": "g6.foundation-fractions",
+  "prompt": "How many eighths equal three quarters?",
+  "model": "worked",
+  "color": "#876124",
+  "steps": [
+   {
+    "label": "Double the number of pieces.",
+    "math": "4 × 2 = 8"
+   },
+   {
+    "label": "Double the number shaded.",
+    "math": "3 × 2 = 6"
+   }
+  ],
+  "result": "6/8",
+  "answer": "6/8",
+  "mediaCourse": "mentalist",
+  "media": "review.fractions.1"
+ },
+ {
+  "level": "g6.foundation-fractions.2",
+  "skill": "g6.foundation-fractions",
+  "prompt": "Simplify 18/24.",
+  "model": "worked",
+  "color": "#876124",
+  "steps": [
+   {
+    "label": "Divide both parts by six.",
+    "math": "18 ÷ 6 = 3"
+   },
+   {
+    "label": "Reduce the denominator too.",
+    "math": "24 ÷ 6 = 4"
+   }
+  ],
+  "result": "3/4",
+  "answer": "3/4",
+  "mediaCourse": "mentalist",
+  "media": "review.fractions.2"
+ },
+ {
+  "level": "g6.foundation-fractions.3",
+  "skill": "g6.foundation-fractions",
+  "prompt": "Which is larger, 3/5 or 5/8?",
+  "model": "worked",
+  "color": "#876124",
+  "steps": [
+   {
+    "label": "Use fortieths.",
+    "math": "3/5 = 24/40"
+   },
+   {
+    "label": "Compare the numerators.",
+    "math": "5/8 = 25/40"
+   }
+  ],
+  "result": "5/8 > 3/5",
+  "answer": "5/8 > 3/5",
+  "mediaCourse": "mentalist",
+  "media": "review.fractions.3"
+ },
+ {
+  "level": "g6.foundation-fractions.4",
+  "skill": "g6.foundation-fractions",
+  "prompt": "Write 3½ as one fraction.",
+  "model": "worked",
+  "color": "#876124",
+  "steps": [
+   {
+    "label": "Count halves in three wholes.",
+    "math": "3 × 2 = 6"
+   },
+   {
+    "label": "Include the extra half.",
+    "math": "6 + 1 = 7"
+   }
+  ],
+  "result": "7/2",
+  "answer": "7/2",
+  "mediaCourse": "mentalist",
+  "media": "review.fractions.4"
+ },
+ {
+  "level": "g6.foundation-fractions.5",
+  "skill": "g6.foundation-fractions",
+  "prompt": "Add 2/7 and 3/7.",
+  "model": "worked",
+  "color": "#876124",
+  "steps": [
+   {
+    "label": "The pieces are already sevenths.",
+    "math": "2 + 3 = 5"
+   },
+   {
+    "label": "Keep their size.",
+    "math": "5 × 1/7"
+   }
+  ],
+  "result": "5/7",
+  "answer": "5/7",
+  "mediaCourse": "mentalist",
+  "media": "fraction.add.1"
+ },
+ {
+  "skill": "g6.foundation-fractions",
+  "topic": "Fraction addition",
+  "prompt": "What is ½ + ⅓?",
+  "model": "strips",
+  "color": "#7b4947",
+  "steps": [
+   {
+    "label": "Split both strips into sixths.",
+    "math": "1/2 = 3/6"
+   },
+   {
+    "label": "A third covers two sixths.",
+    "math": "1/3 = 2/6"
+   }
+  ],
+  "result": "3/6 + 2/6 = 5/6",
+  "answer": "5/6",
+  "level": "g6.foundation-fractions.6",
+  "mediaCourse": "mentalist",
+  "media": "fraction.add"
+ },
+ {
+  "level": "g6.foundation-fractions.7",
+  "skill": "g6.foundation-fractions",
+  "prompt": "Subtract 2/9 from 7/9.",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Both fractions count ninths.",
+    "math": "7 − 2 = 5"
+   },
+   {
+    "label": "Keep the denominator.",
+    "math": "5 × 1/9"
+   }
+  ],
+  "result": "5/9",
+  "answer": "5/9",
+  "mediaCourse": "mentalist",
+  "media": "fraction.subtract.1"
+ },
+ {
+  "level": "g6.foundation-fractions.8",
+  "skill": "g6.foundation-fractions",
+  "prompt": "Compute 5/6 − 1/4.",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Use twelfths.",
+    "math": "10/12 − 3/12"
+   },
+   {
+    "label": "Subtract the numerators.",
+    "math": "10 − 3 = 7"
+   }
+  ],
+  "result": "7/12",
+  "answer": "7/12",
+  "mediaCourse": "mentalist",
+  "media": "fraction.subtract.2"
+ },
+ {
+  "level": "g6.steps-sets.1",
+  "skill": "g6.steps-sets",
+  "prompt": "Which is the smallest standard number set containing −8?",
+  "model": "worked",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "A negative is outside the whole numbers.",
+    "math": "−8 < 0"
+   },
+   {
+    "label": "It has no fractional part.",
+    "math": "−8 = −8/1"
+   }
+  ],
+  "result": "integer",
+  "answer": "integer",
+  "mediaCourse": "mentalist",
+  "media": "number.sets.1"
+ },
+ {
+  "level": "g6.steps-sets.2",
+  "skill": "g6.steps-sets",
+  "prompt": "What set comes just above whole numbers in the usual nested sets?",
+  "model": "worked",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "Whole numbers begin at zero.",
+    "math": "0, 1, 2"
+   },
+   {
+    "label": "Include their negative opposites.",
+    "math": "−2, −1, 0, 1, 2"
+   }
+  ],
+  "result": "integers",
+  "answer": "integers",
+  "mediaCourse": "mentalist",
+  "media": "number.sets.2"
+ },
+ {
+  "skill": "g6.sets",
+  "level": "g6.sets.1",
+  "model": "worked",
+  "prompt": "Which is the smallest set containing −6 among whole numbers, integers and rational numbers?",
+  "steps": [
+   {
+    "label": "Whole numbers start at zero.",
+    "math": "0, 1, 2"
+   },
+   {
+    "label": "Negative counting numbers are integers and can be written as fractions.",
+    "math": "−6 = −6/1"
+   }
+  ],
+  "result": "integers",
+  "answer": "integers",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "A cave floor lies 12 m below the entrance. What is its signed elevation relative to the entrance?",
+  "steps": [
+   {
+    "label": "Use the entrance as the reference point.",
+    "math": "entrance = 0"
+   },
+   {
+    "label": "Below the reference point means negative.",
+    "math": "0 − 12"
+   }
+  ],
+  "result": "−12 m",
+  "answer": "−12 m",
+  "color": "#246650",
+  "skill": "g6.steps-opposites",
+  "level": "g6.steps-opposites.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "What is the opposite of −3.5?",
+  "steps": [
+   {
+    "label": "An opposite lies the same distance from zero.",
+    "math": "distance = 3.5"
+   },
+   {
+    "label": "Cross to the other side.",
+    "math": "−3.5 → 3.5"
+   }
+  ],
+  "result": "3.5",
+  "answer": "3.5",
+  "color": "#246650",
+  "skill": "g6.steps-opposites",
+  "level": "g6.steps-opposites.2"
+ },
+ {
+  "level": "g6.steps-opposites.3",
+  "skill": "g6.steps-opposites",
+  "prompt": "How far is −7 from zero?",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Distance counts steps.",
+    "math": "−7 + 7 = 0"
+   },
+   {
+    "label": "Read the absolute value.",
+    "math": "abs(−7) = 7"
+   }
+  ],
+  "result": "7 units",
+  "answer": "7 units",
+  "mediaCourse": "mentalist",
+  "media": "review.numberline.1"
+ },
+ {
+  "skill": "g6.opposites",
+  "level": "g6.opposites.1",
+  "model": "worked",
+  "prompt": "A diver is at −8 m. How far is she from sea level?",
+  "steps": [
+   {
+    "label": "Locate the diver relative to zero.",
+    "math": "−8 < 0"
+   },
+   {
+    "label": "Distance is the number of units between positions.",
+    "math": "0 − (−8)"
+   }
+  ],
+  "result": "8 m",
+  "answer": "8 m",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "Four hikers share three loaves equally. How much does each receive?",
+  "steps": [
+   {
+    "label": "Cut each loaf into four equal pieces.",
+    "math": "1 ÷ 4 = 1/4"
+   },
+   {
+    "label": "Give each hiker one piece from each loaf.",
+    "math": "3 × 1/4"
+   }
+  ],
+  "result": "3/4 loaf",
+  "answer": "3/4 loaf",
+  "color": "#246650",
+  "skill": "g6.steps-quotients",
+  "level": "g6.steps-quotients.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "What quotient does the fraction 7/4 represent?",
+  "steps": [
+   {
+    "label": "The top number is the amount being divided.",
+    "math": "7"
+   },
+   {
+    "label": "The bottom number gives the number of equal groups.",
+    "math": "7 ÷ 4"
+   }
+  ],
+  "result": "7 ÷ 4",
+  "answer": "7 ÷ 4",
+  "color": "#246650",
+  "skill": "g6.steps-quotients",
+  "level": "g6.steps-quotients.2"
+ },
+ {
+  "model": "worked",
+  "prompt": "Six campers share four pizzas. How many pizzas give nine campers the same share?",
+  "steps": [
+   {
+    "label": "Reduce to the smallest whole-number batch.",
+    "math": "4/6 = 2/3"
+   },
+   {
+    "label": "Nine campers need three such batches.",
+    "math": "2 × 3"
+   }
+  ],
+  "result": "6 pizzas",
+  "answer": "6 pizzas",
+  "color": "#246650",
+  "skill": "g6.steps-quotients",
+  "level": "g6.steps-quotients.3"
+ },
+ {
+  "skill": "g6.quotients",
+  "level": "g6.quotients.1",
+  "model": "worked",
+  "prompt": "Five friends share three pizzas equally. How much does each receive?",
+  "steps": [
+   {
+    "label": "Divide the pizzas by the number of friends.",
+    "math": "3 ÷ 5"
+   },
+   {
+    "label": "Write the quotient as a fraction.",
+    "math": "3/5"
+   }
+  ],
+  "result": "3/5 of a pizza",
+  "answer": "3/5 of a pizza",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "level": "g6.steps-order.1",
+  "skill": "g6.steps-order",
+  "prompt": "A line from 1 to 2 has four equal intervals. Find the third mark after 1.",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Find one interval.",
+    "math": "1 ÷ 4 = 0.25"
+   },
+   {
+    "label": "Move three intervals.",
+    "math": "1 + 3 × 0.25"
+   }
+  ],
+  "result": "1.75",
+  "answer": "1.75",
+  "mediaCourse": "mentalist",
+  "media": "review.numberline.3"
+ },
+ {
+  "level": "g6.steps-order.2",
+  "skill": "g6.steps-order",
+  "prompt": "Which is colder, −4.5° or −4.2°?",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Compare tenths below zero.",
+    "math": "45 > 42"
+   },
+   {
+    "label": "Farther left is colder.",
+    "math": "−4.5 < −4.2"
+   }
+  ],
+  "result": "−4.5°",
+  "answer": "−4.5°",
+  "mediaCourse": "mentalist",
+  "media": "review.numberline.2"
+ },
+ {
+  "level": "g6.steps-order.3",
+  "skill": "g6.steps-order",
+  "prompt": "Write 3/8 as a decimal.",
+  "model": "worked",
+  "color": "#764d79",
+  "steps": [
+   {
+    "label": "Divide three by eight.",
+    "math": "3 ÷ 8"
+   },
+   {
+    "label": "Check with multiplication.",
+    "math": "0.375 × 8 = 3"
+   }
+  ],
+  "result": "0.375",
+  "answer": "0.375",
+  "mediaCourse": "mentalist",
+  "media": "review.conversions.1"
+ },
+ {
+  "skill": "g6.order",
+  "level": "g6.order.1",
+  "model": "worked",
+  "prompt": "Which is colder, −0.75°C or −1/2°C?",
+  "steps": [
+   {
+    "label": "Express both temperatures as decimals.",
+    "math": "−1/2 = −0.5"
+   },
+   {
+    "label": "The value farther left is colder.",
+    "math": "−0.75 < −0.5"
+   }
+  ],
+  "result": "−0.75°",
+  "answer": "−0.75°",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "level": "g6.steps-add.1",
+  "skill": "g6.steps-add",
+  "prompt": "What is −6 + (−4)?",
+  "model": "worked",
+  "color": "#3b666e",
+  "steps": [
+   {
+    "label": "Both numbers point left.",
+    "math": "6 + 4 = 10"
+   },
+   {
+    "label": "Keep the shared negative sign.",
+    "math": "−(6 + 4)"
+   }
+  ],
+  "result": "−10",
+  "answer": "−10",
+  "mediaCourse": "mentalist",
+  "media": "signed.add.1"
+ },
+ {
+  "skill": "g6.steps-add",
+  "topic": "Signed addition",
+  "prompt": "What is 3 + (−7)?",
+  "model": "numberline",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "Move three left to reach zero.",
+    "math": "3 − 3 = 0"
+   },
+   {
+    "label": "Four more steps take you below zero.",
+    "math": "0 − 4 = −4"
+   }
+  ],
+  "result": "3 + (−7) = −4",
+  "answer": "−4",
+  "level": "g6.steps-add.2",
+  "mediaCourse": "mentalist",
+  "media": "signed.add"
+ },
+ {
+  "level": "g6.steps-add.3",
+  "skill": "g6.steps-add",
+  "prompt": "A gain of 8 cancels a loss of 8. What is the total?",
+  "model": "worked",
+  "color": "#3b666e",
+  "steps": [
+   {
+    "label": "Write gain and loss.",
+    "math": "8 + (−8)"
+   },
+   {
+    "label": "Pair opposite amounts.",
+    "math": "8 − 8"
+   }
+  ],
+  "result": "0",
+  "answer": "0",
+  "mediaCourse": "mentalist",
+  "media": "signed.add.3"
+ },
+ {
+  "level": "g6.steps-add.4",
+  "skill": "g6.steps-add",
+  "prompt": "What is −3 − 5?",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Start three below zero.",
+    "math": "−3"
+   },
+   {
+    "label": "Move five more left.",
+    "math": "−(3 + 5)"
+   }
+  ],
+  "result": "−8",
+  "answer": "−8",
+  "mediaCourse": "mentalist",
+  "media": "signed.subtract.1"
+ },
+ {
+  "level": "g6.steps-add.5",
+  "skill": "g6.steps-add",
+  "prompt": "What is −6 − (−9)?",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Subtracting a negative adds its opposite.",
+    "math": "−6 + 9"
+   },
+   {
+    "label": "Cancel six from nine.",
+    "math": "9 − 6"
+   }
+  ],
+  "result": "3",
+  "answer": "3",
+  "mediaCourse": "mentalist",
+  "media": "signed.subtract.2"
+ },
+ {
+  "level": "g6.steps-add.6",
+  "skill": "g6.steps-add",
+  "prompt": "Find 0 − (−4) − 7.",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Subtract negative four.",
+    "math": "0 + 4 = 4"
+   },
+   {
+    "label": "Move seven left.",
+    "math": "4 − 7"
+   }
+  ],
+  "result": "−3",
+  "answer": "−3",
+  "mediaCourse": "mentalist",
+  "media": "signed.subtract.3"
+ },
+ {
+  "level": "g6.steps-add.7",
+  "skill": "g6.steps-add",
+  "prompt": "A diver starts at −8 m and rises 3.5 m. Find the new elevation.",
+  "model": "worked",
+  "color": "#876124",
+  "steps": [
+   {
+    "label": "Use positive change for rising.",
+    "math": "−8 + 3.5"
+   },
+   {
+    "label": "The diver stays below zero.",
+    "math": "−(8 − 3.5)"
+   }
+  ],
+  "result": "−4.5 m",
+  "answer": "−4.5 m",
+  "mediaCourse": "mentalist",
+  "media": "number.context.1"
+ },
+ {
+  "skill": "g6.add",
+  "level": "g6.add.1",
+  "model": "worked",
+  "prompt": "The temperature is −4°C and falls another 3 degrees. Where does it end?",
+  "steps": [
+   {
+    "label": "Start below zero.",
+    "math": "−4"
+   },
+   {
+    "label": "Move three units left.",
+    "math": "−4 − 3"
+   }
+  ],
+  "result": "−7°",
+  "answer": "−7°",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "level": "g6.steps-multiply.1",
+  "skill": "g6.steps-multiply",
+  "prompt": "Compute (−6)(−4).",
+  "model": "worked",
+  "color": "#876124",
+  "steps": [
+   {
+    "label": "Two negative factors give a positive product.",
+    "math": "6 × 4"
+   },
+   {
+    "label": "Multiply the magnitudes.",
+    "math": "6 + 6 + 6 + 6"
+   }
+  ],
+  "result": "24",
+  "answer": "24",
+  "mediaCourse": "mentalist",
+  "media": "signed.multiply.1"
+ },
+ {
+  "level": "g6.steps-multiply.2",
+  "skill": "g6.steps-multiply",
+  "prompt": "A diver descends 3 meters each minute for 5 minutes. Find the change.",
+  "model": "worked",
+  "color": "#876124",
+  "steps": [
+   {
+    "label": "Use a negative rate.",
+    "math": "−3 m/min"
+   },
+   {
+    "label": "Multiply rate by time.",
+    "math": "−3 × 5"
+   }
+  ],
+  "result": "−15 m",
+  "answer": "−15 m",
+  "mediaCourse": "mentalist",
+  "media": "signed.multiply.2"
+ },
+ {
+  "level": "g6.steps-multiply.3",
+  "skill": "g6.steps-multiply",
+  "prompt": "Find −36 ÷ 6.",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Unlike signs give a negative quotient.",
+    "math": "36 ÷ 6 = 6"
+   },
+   {
+    "label": "Apply the sign.",
+    "math": "−(36 ÷ 6)"
+   }
+  ],
+  "result": "−6",
+  "answer": "−6",
+  "mediaCourse": "mentalist",
+  "media": "signed.divide.1"
+ },
+ {
+  "level": "g6.steps-multiply.4",
+  "skill": "g6.steps-multiply",
+  "prompt": "The temperature falls 21 degrees in 3 hours. Find the hourly change.",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Use signed change.",
+    "math": "−21"
+   },
+   {
+    "label": "Divide by elapsed time.",
+    "math": "−21 ÷ 3"
+   }
+  ],
+  "result": "−7 per hour",
+  "answer": "−7 per hour",
+  "mediaCourse": "mentalist",
+  "media": "signed.divide.2"
+ },
+ {
+  "skill": "g6.multiply",
+  "level": "g6.multiply.1",
+  "model": "worked",
+  "prompt": "A balance changes by −$6 per day for four days. Find the total change.",
+  "steps": [
+   {
+    "label": "Combine four equal changes.",
+    "math": "−6 − 6 − 6 − 6"
+   },
+   {
+    "label": "Use a signed product.",
+    "math": "4 × (−6)"
+   }
+  ],
+  "result": "−$24",
+  "answer": "−$24",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "level": "g6.steps-factors.1",
+  "skill": "g6.steps-factors",
+  "prompt": "What is the greatest common factor of 18 and 24?",
+  "model": "worked",
+  "color": "#764d79",
+  "steps": [
+   {
+    "label": "Write both in groups of six.",
+    "math": "18 = 3 × 6"
+   },
+   {
+    "label": "Three and four share no larger factor than one.",
+    "math": "24 = 4 × 6"
+   }
+  ],
+  "result": "6",
+  "answer": "6",
+  "mediaCourse": "mentalist",
+  "media": "review.factors.1"
+ },
+ {
+  "level": "g6.steps-factors.2",
+  "skill": "g6.steps-factors",
+  "prompt": "Find the least common multiple of 4 and 6.",
+  "model": "worked",
+  "color": "#764d79",
+  "steps": [
+   {
+    "label": "List multiples of four.",
+    "math": "4, 8, 12"
+   },
+   {
+    "label": "Stop at the first shared multiple.",
+    "math": "6, 12"
+   }
+  ],
+  "result": "12",
+  "answer": "12",
+  "mediaCourse": "mentalist",
+  "media": "review.factors.2"
+ },
+ {
+  "model": "worked",
+  "prompt": "What exponent belongs on 3 in the prime factorization of 108?",
+  "steps": [
+   {
+    "label": "Remove factors of two.",
+    "math": "108 ÷ 4 = 27"
+   },
+   {
+    "label": "Count the threes that make 27.",
+    "math": "3 × 3 × 3"
+   }
+  ],
+  "result": "3",
+  "answer": "3",
+  "color": "#246650",
+  "skill": "g6.steps-factors",
+  "level": "g6.steps-factors.3"
+ },
+ {
+  "skill": "g6.factors",
+  "level": "g6.factors.1",
+  "model": "worked",
+  "prompt": "What is the least common multiple of 12 and 18?",
+  "steps": [
+   {
+    "label": "Break each number into primes.",
+    "math": "12 = 2² × 3"
+   },
+   {
+    "label": "Use the largest power of each prime.",
+    "math": "2² × 3²"
+   }
+  ],
+  "result": "36",
+  "answer": "36",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "A recipe uses 8 cups. A scaled batch uses 3/4 as much. How many cups does it use?",
+  "steps": [
+   {
+    "label": "One fourth of the original is two cups.",
+    "math": "8 ÷ 4 = 2"
+   },
+   {
+    "label": "Use three of those portions.",
+    "math": "3 × 2"
+   }
+  ],
+  "result": "6 cups",
+  "answer": "6 cups",
+  "color": "#246650",
+  "skill": "g6.steps-fraction-products",
+  "level": "g6.steps-fraction-products.1"
+ },
+ {
+  "level": "g6.steps-fraction-products.2",
+  "skill": "g6.steps-fraction-products",
+  "prompt": "Multiply 3/5 by 10/9.",
+  "model": "worked",
+  "color": "#3b666e",
+  "steps": [
+   {
+    "label": "Cancel common factors across the product.",
+    "math": "10 ÷ 5 = 2"
+   },
+   {
+    "label": "Reduce three ninths.",
+    "math": "3/9 = 1/3"
+   }
+  ],
+  "result": "2/3",
+  "answer": "2/3",
+  "mediaCourse": "mentalist",
+  "media": "fraction.multiply.1"
+ },
+ {
+  "level": "g6.steps-fraction-products.3",
+  "skill": "g6.steps-fraction-products",
+  "prompt": "Find 1½ × 2⅔.",
+  "model": "worked",
+  "color": "#3b666e",
+  "steps": [
+   {
+    "label": "Change to improper fractions.",
+    "math": "3/2 × 8/3"
+   },
+   {
+    "label": "Cancel threes, then divide.",
+    "math": "8 ÷ 2"
+   }
+  ],
+  "result": "4",
+  "answer": "4",
+  "mediaCourse": "mentalist",
+  "media": "fraction.multiply.3"
+ },
+ {
+  "skill": "g6.fraction-products",
+  "level": "g6.fraction-products.1",
+  "model": "worked",
+  "prompt": "A recipe uses 3/4 cup. How much is needed for 2/3 of a batch?",
+  "steps": [
+   {
+    "label": "Both factors are below one.",
+    "math": "2/3 × 3/4"
+   },
+   {
+    "label": "Reduce before multiplying.",
+    "math": "2/4"
+   }
+  ],
+  "result": "1/2 cup",
+  "answer": "1/2 cup",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "What number times 4/7 equals one?",
+  "steps": [
+   {
+    "label": "Swap the numerator and denominator.",
+    "math": "4/7 → 7/4"
+   },
+   {
+    "label": "Check that the product is one.",
+    "math": "28/28 = 1"
+   }
+  ],
+  "result": "7/4",
+  "answer": "7/4",
+  "color": "#246650",
+  "skill": "g6.steps-fraction-division",
+  "level": "g6.steps-fraction-division.1"
+ },
+ {
+  "level": "g6.steps-fraction-division.2",
+  "skill": "g6.steps-fraction-division",
+  "prompt": "Compute 3/4 ÷ 1/2.",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Invert the divisor.",
+    "math": "3/4 × 2/1"
+   },
+   {
+    "label": "Multiply and reduce.",
+    "math": "6/4"
+   }
+  ],
+  "result": "3/2",
+  "answer": "3/2",
+  "mediaCourse": "mentalist",
+  "media": "fraction.divide.1"
+ },
+ {
+  "level": "g6.steps-fraction-division.3",
+  "skill": "g6.steps-fraction-division",
+  "prompt": "How many ¾-cup servings fit in 2¼ cups?",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Use an improper fraction.",
+    "math": "9/4 ÷ 3/4"
+   },
+   {
+    "label": "Multiply by the reciprocal.",
+    "math": "9/4 × 4/3"
+   }
+  ],
+  "result": "3 servings",
+  "answer": "3 servings",
+  "mediaCourse": "mentalist",
+  "media": "fraction.divide.3"
+ },
+ {
+  "skill": "g6.fraction-division",
+  "level": "g6.fraction-division.1",
+  "model": "worked",
+  "prompt": "How many 1/4-cup scoops fill 3/2 cups?",
+  "steps": [
+   {
+    "label": "A whole cup contains four scoops.",
+    "math": "1 ÷ (1/4) = 4"
+   },
+   {
+    "label": "Multiply the available cups by four.",
+    "math": "3/2 × 4"
+   }
+  ],
+  "result": "6 scoops",
+  "answer": "6 scoops",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "level": "g6.steps-decimals.1",
+  "skill": "g6.steps-decimals",
+  "prompt": "What is 1.2 × 0.4?",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Multiply whole-number digits.",
+    "math": "12 × 4 = 48"
+   },
+   {
+    "label": "Both factors are in tenths.",
+    "math": "48 ÷ 100"
+   }
+  ],
+  "result": "0.48",
+  "answer": "0.48",
+  "mediaCourse": "mentalist",
+  "media": "decimal.multiply.1"
+ },
+ {
+  "level": "g6.steps-decimals.2",
+  "skill": "g6.steps-decimals",
+  "prompt": "Apples cost $2.40 per kg. What do 1.5 kg cost?",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "One kilogram costs 2.40.",
+    "math": "2.40 × 1"
+   },
+   {
+    "label": "Half a kilogram costs 1.20.",
+    "math": "2.40 + 1.20"
+   }
+  ],
+  "result": "$3.60",
+  "answer": "$3.60",
+  "mediaCourse": "mentalist",
+  "media": "decimal.multiply.3"
+ },
+ {
+  "level": "g6.steps-decimals.3",
+  "skill": "g6.steps-decimals",
+  "prompt": "Compute 4.8 ÷ 0.6.",
+  "model": "worked",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "Scale both numbers by ten.",
+    "math": "48 ÷ 6"
+   },
+   {
+    "label": "Check the quotient.",
+    "math": "6 × 8 = 48"
+   }
+  ],
+  "result": "8",
+  "answer": "8",
+  "mediaCourse": "mentalist",
+  "media": "decimal.divide.1"
+ },
+ {
+  "level": "g6.steps-decimals.4",
+  "skill": "g6.steps-decimals",
+  "prompt": "How many 0.75 L bottles can 4.5 L fill?",
+  "model": "worked",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "Divide total by bottle size.",
+    "math": "4.5 ÷ 0.75"
+   },
+   {
+    "label": "Scale to hundredths.",
+    "math": "450 ÷ 75"
+   }
+  ],
+  "result": "6 bottles",
+  "answer": "6 bottles",
+  "mediaCourse": "mentalist",
+  "media": "decimal.divide.3"
+ },
+ {
+  "skill": "g6.decimals",
+  "level": "g6.decimals.1",
+  "model": "worked",
+  "prompt": "A 2.4 m ribbon is cut into 0.3 m strips. How many strips fit?",
+  "steps": [
+   {
+    "label": "Scale both lengths by ten.",
+    "math": "2.4 ÷ 0.3 = 24 ÷ 3"
+   },
+   {
+    "label": "Count equal groups.",
+    "math": "24 ÷ 3"
+   }
+  ],
+  "result": "8 strips",
+  "answer": "8 strips",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "level": "g6.steps-fluency.1",
+  "skill": "g6.steps-fluency",
+  "prompt": "Add 4.7 and 2.36.",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Align place values.",
+    "math": "4.70 + 2.36"
+   },
+   {
+    "label": "Combine whole and fractional parts.",
+    "math": "6 + 1.06"
+   }
+  ],
+  "result": "7.06",
+  "answer": "7.06",
+  "mediaCourse": "mentalist",
+  "media": "decimal.add.1"
+ },
+ {
+  "level": "g6.steps-fluency.2",
+  "skill": "g6.steps-fluency",
+  "prompt": "Compute 8.4 − 2.75.",
+  "model": "worked",
+  "color": "#3b666e",
+  "steps": [
+   {
+    "label": "Write matching decimal places.",
+    "math": "8.40 − 2.75"
+   },
+   {
+    "label": "Subtract in hundredths.",
+    "math": "840 − 275 = 565"
+   }
+  ],
+  "result": "5.65",
+  "answer": "5.65",
+  "mediaCourse": "mentalist",
+  "media": "decimal.subtract.1"
+ },
+ {
+  "level": "g6.steps-fluency.3",
+  "skill": "g6.steps-fluency",
+  "prompt": "Ribbon pieces measure 2.75 m and 1.9 m. Find the total.",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Align hundredths.",
+    "math": "2.75 + 1.90"
+   },
+   {
+    "label": "Add the lengths.",
+    "math": "3 + 1.65"
+   }
+  ],
+  "result": "4.65 m",
+  "answer": "4.65 m",
+  "mediaCourse": "mentalist",
+  "media": "decimal.add.3"
+ },
+ {
+  "model": "worked",
+  "prompt": "A group claims 936 ÷ 18 = 52. How can multiplication verify the quotient?",
+  "steps": [
+   {
+    "label": "Break the quotient into tens and ones.",
+    "math": "18 × 50 = 900"
+   },
+   {
+    "label": "Add the product of the remaining two.",
+    "math": "900 + 36 = 936"
+   }
+  ],
+  "result": "52 is correct",
+  "answer": "52 is correct",
+  "color": "#246650",
+  "skill": "g6.steps-fluency",
+  "level": "g6.steps-fluency.4"
+ },
+ {
+  "skill": "g6.fluency",
+  "level": "g6.fluency.1",
+  "model": "worked",
+  "prompt": "A store divides 1512 pencils equally among 24 classes. How many does each class get?",
+  "steps": [
+   {
+    "label": "Divide off sixty groups first.",
+    "math": "24 × 60 = 1440"
+   },
+   {
+    "label": "Divide the remaining pencils and combine.",
+    "math": "72 ÷ 24 = 3"
+   }
+  ],
+  "result": "63 pencils",
+  "answer": "63 pencils",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "level": "g6.steps-ratios.1",
+  "skill": "g6.steps-ratios",
+  "prompt": "A bag has 4 red and 6 blue beads. Find red to blue.",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Keep red first.",
+    "math": "4 : 6"
+   },
+   {
+    "label": "Divide both counts by two.",
+    "math": "4 ÷ 2 : 6 ÷ 2"
+   }
+  ],
+  "result": "2 : 3",
+  "answer": "2 : 3",
+  "mediaCourse": "mentalist",
+  "media": "ratio.equivalent.1"
+ },
+ {
+  "level": "g6.steps-ratios.2",
+  "skill": "g6.steps-ratios",
+  "prompt": "Two cups of rice serve 5 people. What serves 15?",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Find the scale factor.",
+    "math": "15 ÷ 5 = 3"
+   },
+   {
+    "label": "Scale the rice too.",
+    "math": "2 × 3"
+   }
+  ],
+  "result": "6 cups",
+  "answer": "6 cups",
+  "mediaCourse": "mentalist",
+  "media": "ratio.equivalent.2"
+ },
+ {
+  "level": "g6.steps-ratios.3",
+  "skill": "g6.steps-ratios",
+  "prompt": "Complete the ratio table. Lemons: 3, 9, 12. Cups: 8, blank, blank.",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Find the factor for each lemon entry.",
+    "math": "9 ÷ 3 = 3, 12 ÷ 3 = 4"
+   },
+   {
+    "label": "Scale the cups by the same factors.",
+    "math": "8 × 3 = 24, 8 × 4 = 32"
+   }
+  ],
+  "result": "24 and 32 cups",
+  "answer": "24 and 32 cups",
+  "mediaCourse": "mentalist",
+  "media": "ratio.equivalent.3"
+ },
+ {
+  "skill": "g6.ratios",
+  "level": "g6.ratios.1",
+  "model": "worked",
+  "prompt": "Trail mix uses 3 cups of oats for 2 of nuts. How many cups of oats go with 8 of nuts?",
+  "steps": [
+   {
+    "label": "Find the scale factor for nuts.",
+    "math": "8 ÷ 2 = 4"
+   },
+   {
+    "label": "Scale the oats by the same factor.",
+    "math": "3 × 4"
+   }
+  ],
+  "result": "12 cups",
+  "answer": "12 cups",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "skill": "g6.steps-rates",
+  "topic": "Unit rates",
+  "prompt": "Three notebooks cost $12.",
+  "subprompt": "What does one notebook cost?",
+  "model": "notebooks",
+  "color": "#466392",
+  "steps": [
+   {
+    "label": "Share the cost across three notebooks.",
+    "math": "12 ÷ 3 = 4"
+   },
+   {
+    "label": "Check three equal shares.",
+    "math": "4 + 4 + 4 = 12"
+   }
+  ],
+  "result": "$4",
+  "unit": "per notebook",
+  "answer": "$4 per notebook",
+  "level": "g6.steps-rates.1",
+  "mediaCourse": "mentalist",
+  "media": "ratio.unit"
+ },
+ {
+  "level": "g6.steps-rates.2",
+  "skill": "g6.steps-rates",
+  "prompt": "Travel at 45 mph for 2.5 hours. How far do you go?",
+  "model": "worked",
+  "color": "#764d79",
+  "steps": [
+   {
+    "label": "Distance is rate times time.",
+    "math": "45 × 2.5"
+   },
+   {
+    "label": "Split the time.",
+    "math": "90 + 22.5"
+   }
+  ],
+  "result": "112.5 miles",
+  "answer": "112.5 miles",
+  "mediaCourse": "mentalist",
+  "media": "ratio.travel.1"
+ },
+ {
+  "level": "g6.steps-rates.3",
+  "skill": "g6.steps-rates",
+  "prompt": "How long does 150 km take at 60 km/h?",
+  "model": "worked",
+  "color": "#764d79",
+  "steps": [
+   {
+    "label": "Time is distance over rate.",
+    "math": "150 ÷ 60"
+   },
+   {
+    "label": "Reduce the fraction.",
+    "math": "15/6 = 5/2"
+   }
+  ],
+  "result": "2.5 hours",
+  "answer": "2.5 hours",
+  "mediaCourse": "mentalist",
+  "media": "ratio.travel.3"
+ },
+ {
+  "level": "g6.steps-rates.4",
+  "skill": "g6.steps-rates",
+  "prompt": "Four pens cost $6. Six cost $8. Which pack costs less per pen?",
+  "model": "worked",
+  "color": "#3b666e",
+  "steps": [
+   {
+    "label": "Price the small pack.",
+    "math": "6 ÷ 4 = 1.50"
+   },
+   {
+    "label": "Price the larger pack, rounded.",
+    "math": "8 ÷ 6 ≈ 1.33"
+   }
+  ],
+  "result": "six pens",
+  "answer": "six pens",
+  "mediaCourse": "mentalist",
+  "media": "ratio.unit.3"
+ },
+ {
+  "skill": "g6.rates",
+  "level": "g6.rates.1",
+  "model": "worked",
+  "prompt": "Six notebooks cost $9. What will four cost at the same rate?",
+  "steps": [
+   {
+    "label": "Find dollars per notebook.",
+    "math": "9 ÷ 6 = 1.5"
+   },
+   {
+    "label": "Multiply by the new quantity.",
+    "math": "4 × 1.5"
+   }
+  ],
+  "result": "$6",
+  "answer": "$6",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "How many meters are in 450 cm?",
+  "steps": [
+   {
+    "label": "One meter contains 100 cm.",
+    "math": "100 cm = 1 m"
+   },
+   {
+    "label": "Divide to count larger units.",
+    "math": "450 ÷ 100"
+   }
+  ],
+  "result": "4.5 m",
+  "answer": "4.5 m",
+  "color": "#246650",
+  "skill": "g6.steps-convert",
+  "level": "g6.steps-convert.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "How many pints fill three gallons?",
+  "steps": [
+   {
+    "label": "Each gallon contains four quarts.",
+    "math": "3 × 4 = 12"
+   },
+   {
+    "label": "Each quart contains two pints.",
+    "math": "12 × 2"
+   }
+  ],
+  "result": "24 pints",
+  "answer": "24 pints",
+  "color": "#246650",
+  "skill": "g6.steps-convert",
+  "level": "g6.steps-convert.2"
+ },
+ {
+  "level": "g6.steps-convert.3",
+  "skill": "g6.steps-convert",
+  "prompt": "Use 1 inch = 2.54 cm. Convert 5 inches.",
+  "model": "worked",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "Multiply by centimeters per inch.",
+    "math": "5 × 2.54"
+   },
+   {
+    "label": "Combine the partial products.",
+    "math": "10 + 2.70"
+   }
+  ],
+  "result": "12.7 cm",
+  "answer": "12.7 cm",
+  "mediaCourse": "mentalist",
+  "media": "ratio.units.1"
+ },
+ {
+  "level": "g6.steps-convert.4",
+  "skill": "g6.steps-convert",
+  "prompt": "Using 1 mile ≈ 1.6 km, estimate the miles in 12 km.",
+  "model": "worked",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "Set the quantities in proportion.",
+    "math": "1.6x = 12"
+   },
+   {
+    "label": "Divide by km per mile.",
+    "math": "12 ÷ 1.6"
+   }
+  ],
+  "result": "7.5 miles",
+  "answer": "7.5 miles",
+  "mediaCourse": "mentalist",
+  "media": "ratio.units.2"
+ },
+ {
+  "skill": "g6.convert",
+  "level": "g6.convert.1",
+  "model": "worked",
+  "prompt": "A trail is 2.5 km long. How many meters is that?",
+  "steps": [
+   {
+    "label": "One kilometer equals a thousand meters.",
+    "math": "1 km = 1000 m"
+   },
+   {
+    "label": "Multiply the number of kilometers.",
+    "math": "2.5 × 1000"
+   }
+  ],
+  "result": "2500 m",
+  "answer": "2500 m",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "On a hundred grid, 4 full rows and 3 extra squares are shaded. What percent is shaded?",
+  "steps": [
+   {
+    "label": "Each full row contains ten squares.",
+    "math": "4 × 10 = 40"
+   },
+   {
+    "label": "Add the extra squares out of one hundred.",
+    "math": "40 + 3"
+   }
+  ],
+  "result": "43%",
+  "answer": "43%",
+  "color": "#246650",
+  "skill": "g6.steps-percent-models",
+  "level": "g6.steps-percent-models.1"
+ },
+ {
+  "level": "g6.steps-percent-models.2",
+  "skill": "g6.steps-percent-models",
+  "prompt": "Write 0.46 as a percent.",
+  "model": "worked",
+  "color": "#764d79",
+  "steps": [
+   {
+    "label": "Percent means per hundred.",
+    "math": "0.46 = 46/100"
+   },
+   {
+    "label": "Count the hundredths.",
+    "math": "46 out of 100"
+   }
+  ],
+  "result": "46%",
+  "answer": "46%",
+  "mediaCourse": "mentalist",
+  "media": "review.conversions.2"
+ },
+ {
+  "level": "g6.steps-percent-models.3",
+  "skill": "g6.steps-percent-models",
+  "prompt": "Convert 7/20 to a percent.",
+  "model": "worked",
+  "color": "#764d79",
+  "steps": [
+   {
+    "label": "Scale the denominator to 100.",
+    "math": "20 × 5 = 100"
+   },
+   {
+    "label": "Scale the numerator.",
+    "math": "7 × 5 = 35"
+   }
+  ],
+  "result": "35%",
+  "answer": "35%",
+  "mediaCourse": "mentalist",
+  "media": "review.conversions.3"
+ },
+ {
+  "level": "g6.steps-percent-models.4",
+  "skill": "g6.steps-percent-models",
+  "prompt": "Which is greater, 62% or 5/8?",
+  "model": "worked",
+  "color": "#764d79",
+  "steps": [
+   {
+    "label": "Write the fraction as a decimal.",
+    "math": "5 ÷ 8 = 0.625"
+   },
+   {
+    "label": "Compare percentages.",
+    "math": "62.5% > 62%"
+   }
+  ],
+  "result": "5/8",
+  "answer": "5/8",
+  "mediaCourse": "mentalist",
+  "media": "review.conversions.4"
+ },
+ {
+  "skill": "g6.percent-models",
+  "level": "g6.percent-models.1",
+  "model": "worked",
+  "prompt": "A display has 25 lit squares out of 100. What fraction is lit?",
+  "steps": [
+   {
+    "label": "Percent means per hundred.",
+    "math": "25/100 = 25%"
+   },
+   {
+    "label": "Divide numerator and denominator by 25.",
+    "math": "25/100 = 1/4"
+   }
+  ],
+  "result": "1/4",
+  "answer": "1/4",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "level": "g6.steps-percent.1",
+  "skill": "g6.steps-percent",
+  "prompt": "What is 15% of 80?",
+  "model": "worked",
+  "color": "#3b666e",
+  "steps": [
+   {
+    "label": "Find ten percent.",
+    "math": "0.10 × 80 = 8"
+   },
+   {
+    "label": "Add another five percent.",
+    "math": "8 + 4"
+   }
+  ],
+  "result": "12",
+  "answer": "12",
+  "mediaCourse": "mentalist",
+  "media": "percent.parts.1"
+ },
+ {
+  "level": "g6.steps-percent.2",
+  "skill": "g6.steps-percent",
+  "prompt": "What percent of 48 is 18?",
+  "model": "worked",
+  "color": "#3b666e",
+  "steps": [
+   {
+    "label": "Divide part by whole.",
+    "math": "18 ÷ 48 = 0.375"
+   },
+   {
+    "label": "Convert to hundredths.",
+    "math": "0.375 × 100"
+   }
+  ],
+  "result": "37.5%",
+  "answer": "37.5%",
+  "mediaCourse": "mentalist",
+  "media": "percent.parts.3"
+ },
+ {
+  "level": "g6.steps-percent.3",
+  "skill": "g6.steps-percent",
+  "prompt": "Twelve students are 30% of a club. How many are in it?",
+  "model": "worked",
+  "color": "#3b666e",
+  "steps": [
+   {
+    "label": "Set up part over rate.",
+    "math": "12 ÷ 0.30"
+   },
+   {
+    "label": "Check the whole.",
+    "math": "0.30 × 40 = 12"
+   }
+  ],
+  "result": "40 students",
+  "answer": "40 students",
+  "mediaCourse": "mentalist",
+  "media": "percent.parts.2"
+ },
+ {
+  "skill": "g6.percent",
+  "level": "g6.percent.1",
+  "model": "worked",
+  "prompt": "Twelve seats make up 30% of a theater row. How many seats are there?",
+  "steps": [
+   {
+    "label": "Write the part as a fraction of the whole.",
+    "math": "0.3 × w = 12"
+   },
+   {
+    "label": "Divide the part by the decimal rate.",
+    "math": "12 ÷ 0.3"
+   }
+  ],
+  "result": "40 seats",
+  "answer": "40 seats",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "In 5 × 5 × 5 × 5, what is the exponent when written as a power?",
+  "steps": [
+   {
+    "label": "Identify the repeated factor.",
+    "math": "base = 5"
+   },
+   {
+    "label": "Count the copies of that factor.",
+    "math": "5^4"
+   }
+  ],
+  "result": "4",
+  "answer": "4",
+  "color": "#246650",
+  "skill": "g6.steps-powers",
+  "level": "g6.steps-powers.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "How much is 6³?",
+  "steps": [
+   {
+    "label": "Write three copies of the base.",
+    "math": "6 × 6 × 6"
+   },
+   {
+    "label": "Multiply in order.",
+    "math": "36 × 6"
+   }
+  ],
+  "result": "216",
+  "answer": "216",
+  "color": "#246650",
+  "skill": "g6.steps-powers",
+  "level": "g6.steps-powers.2"
+ },
+ {
+  "level": "g6.steps-powers.3",
+  "skill": "g6.steps-powers",
+  "prompt": "Evaluate 6 + 3 × 4.",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Multiply first.",
+    "math": "3 × 4 = 12"
+   },
+   {
+    "label": "Then add.",
+    "math": "6 + 12"
+   }
+  ],
+  "result": "18",
+  "answer": "18",
+  "mediaCourse": "mentalist",
+  "media": "review.expressions.1"
+ },
+ {
+  "skill": "g6.powers",
+  "level": "g6.powers.1",
+  "model": "worked",
+  "prompt": "Evaluate 3 + 2 × 4².",
+  "steps": [
+   {
+    "label": "Evaluate the exponent first.",
+    "math": "4² = 16"
+   },
+   {
+    "label": "Multiply before adding.",
+    "math": "3 + 32"
+   }
+  ],
+  "result": "35",
+  "answer": "35",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "In 7x + 12, what is the coefficient of x?",
+  "steps": [
+   {
+    "label": "Separate the term containing x.",
+    "math": "7x"
+   },
+   {
+    "label": "Read the number multiplying x.",
+    "math": "7 × x"
+   }
+  ],
+  "result": "7",
+  "answer": "7",
+  "color": "#246650",
+  "skill": "g6.steps-expressions",
+  "level": "g6.steps-expressions.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "A box holds x cards. Write an expression for five fewer than twice that amount.",
+  "steps": [
+   {
+    "label": "Double the starting quantity.",
+    "math": "2x"
+   },
+   {
+    "label": "Take five away from the doubled amount.",
+    "math": "2x − 5"
+   }
+  ],
+  "result": "2x − 5",
+  "answer": "2x − 5",
+  "color": "#246650",
+  "skill": "g6.steps-expressions",
+  "level": "g6.steps-expressions.2"
+ },
+ {
+  "level": "g6.steps-expressions.3",
+  "skill": "g6.steps-expressions",
+  "prompt": "Evaluate 3x + 2 when x = 5.",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Substitute five.",
+    "math": "3 × 5 + 2"
+   },
+   {
+    "label": "Multiply before adding.",
+    "math": "15 + 2"
+   }
+  ],
+  "result": "17",
+  "answer": "17",
+  "mediaCourse": "mentalist",
+  "media": "review.expressions.2"
+ },
+ {
+  "skill": "g6.expressions",
+  "level": "g6.expressions.1",
+  "model": "worked",
+  "prompt": "A bag has n marbles. What does 3n + 2 give when n = 5?",
+  "steps": [
+   {
+    "label": "Replace the variable with five.",
+    "math": "3 × 5 + 2"
+   },
+   {
+    "label": "Multiply and add.",
+    "math": "15 + 2"
+   }
+  ],
+  "result": "17",
+  "answer": "17",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "What property explains 16 + 7 = 7 + 16?",
+  "steps": [
+   {
+    "label": "Compare the addends on both sides.",
+    "math": "16, 7 → 7, 16"
+   },
+   {
+    "label": "Their positions switch and their sum stays equal.",
+    "math": "23 = 23"
+   }
+  ],
+  "result": "commutative",
+  "answer": "commutative",
+  "color": "#246650",
+  "skill": "g6.steps-properties",
+  "level": "g6.steps-properties.1"
+ },
+ {
+  "level": "g6.steps-properties.2",
+  "skill": "g6.steps-properties",
+  "prompt": "Expand 4(x + 3).",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Multiply the variable term.",
+    "math": "4 × x = 4x"
+   },
+   {
+    "label": "Multiply the constant too.",
+    "math": "4 × 3 = 12"
+   }
+  ],
+  "result": "4x + 12",
+  "answer": "4x + 12",
+  "mediaCourse": "mentalist",
+  "media": "review.expressions.4"
+ },
+ {
+  "level": "g6.steps-properties.3",
+  "skill": "g6.steps-properties",
+  "prompt": "Simplify 5x + 2x − 3.",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Group like terms.",
+    "math": "(5 + 2)x"
+   },
+   {
+    "label": "Keep the constant.",
+    "math": "7x − 3"
+   }
+  ],
+  "result": "7x − 3",
+  "answer": "7x − 3",
+  "mediaCourse": "mentalist",
+  "media": "review.expressions.3"
+ },
+ {
+  "skill": "g6.properties",
+  "level": "g6.properties.1",
+  "model": "worked",
+  "prompt": "Rewrite 4(x + 3) without parentheses.",
+  "steps": [
+   {
+    "label": "Multiply each term by four.",
+    "math": "4 × x and 4 × 3"
+   },
+   {
+    "label": "Combine the two products.",
+    "math": "4x + 12"
+   }
+  ],
+  "result": "4x + 12",
+  "answer": "4x + 12",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "level": "g6.steps-coordinates.1",
+  "skill": "g6.steps-coordinates",
+  "prompt": "Which quadrant contains (−3, 4)?",
+  "model": "worked",
+  "color": "#764d79",
+  "steps": [
+   {
+    "label": "Move three units left.",
+    "math": "x = −3"
+   },
+   {
+    "label": "Move four units up.",
+    "math": "y = 4"
+   }
+  ],
+  "result": "quadrant two",
+  "answer": "quadrant two",
+  "mediaCourse": "mentalist",
+  "media": "review.coordinate.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "A volume axis shows 5 liters per tick. A point is four ticks high. What is its volume?",
+  "steps": [
+   {
+    "label": "Read the scale on the vertical axis.",
+    "math": "1 tick = 5 liters"
+   },
+   {
+    "label": "Count four of those intervals.",
+    "math": "4 × 5 = 20"
+   }
+  ],
+  "result": "20 liters",
+  "answer": "20 liters",
+  "color": "#246650",
+  "skill": "g6.steps-coordinates",
+  "level": "g6.steps-coordinates.2"
+ },
+ {
+  "model": "worked",
+  "prompt": "Reflect (−3, 5) across the x-axis. Where does it land?",
+  "steps": [
+   {
+    "label": "The horizontal position stays fixed.",
+    "math": "x = −3"
+   },
+   {
+    "label": "Reverse the vertical distance from the axis.",
+    "math": "5 → −5"
+   }
+  ],
+  "result": "(−3, −5)",
+  "answer": "(−3, −5)",
+  "color": "#246650",
+  "skill": "g6.steps-coordinates",
+  "level": "g6.steps-coordinates.3"
+ },
+ {
+  "skill": "g6.coordinates",
+  "level": "g6.coordinates.1",
+  "model": "worked",
+  "prompt": "Where is (−3, 2) relative to the origin?",
+  "steps": [
+   {
+    "label": "The first coordinate controls left or right.",
+    "math": "x = −3"
+   },
+   {
+    "label": "The second controls up or down.",
+    "math": "y = 2"
+   }
+  ],
+  "result": "3 left, 2 up",
+  "answer": "3 left, 2 up",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "A rule sends 4 to 11 and 9 to 16. How much does it add?",
+  "steps": [
+   {
+    "label": "Subtract an input from its output.",
+    "math": "11 − 4 = 7"
+   },
+   {
+    "label": "Check another pair.",
+    "math": "16 − 9 = 7"
+   }
+  ],
+  "result": "7",
+  "answer": "7",
+  "color": "#246650",
+  "skill": "g6.steps-rules",
+  "level": "g6.steps-rules.1"
+ },
+ {
+  "level": "g6.steps-rules.2",
+  "skill": "g6.steps-rules",
+  "prompt": "A table pairs 2 hours with 10 miles and 3 with 15. Find k in y = kx.",
+  "model": "worked",
+  "color": "#876124",
+  "steps": [
+   {
+    "label": "Divide output by input.",
+    "math": "10 ÷ 2 = 5"
+   },
+   {
+    "label": "Check the next pair.",
+    "math": "15 ÷ 3 = 5"
+   }
+  ],
+  "result": "k = 5",
+  "answer": "k = 5",
+  "mediaCourse": "mentalist",
+  "media": "ratio.constant.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "Rule A adds 3. Rule B triples. At input 4, which output is larger?",
+  "steps": [
+   {
+    "label": "Evaluate the additive rule.",
+    "math": "4 + 3 = 7"
+   },
+   {
+    "label": "Compare with the multiplicative rule.",
+    "math": "4 × 3 = 12"
+   }
+  ],
+  "result": "rule B",
+  "answer": "rule B",
+  "color": "#246650",
+  "skill": "g6.steps-rules",
+  "level": "g6.steps-rules.3"
+ },
+ {
+  "skill": "g6.rules",
+  "level": "g6.rules.1",
+  "model": "worked",
+  "prompt": "One machine adds 4 and one multiplies by 4. At input 3, how far apart are their outputs?",
+  "steps": [
+   {
+    "label": "Evaluate both rules.",
+    "math": "3 + 4 = 7"
+   },
+   {
+    "label": "Compare with the product.",
+    "math": "12 − 7"
+   }
+  ],
+  "result": "5",
+  "answer": "5",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "A tap fills 6 liters per minute. Which quantity depends on how long it runs?",
+  "steps": [
+   {
+    "label": "Time is the quantity we choose.",
+    "math": "t = minutes"
+   },
+   {
+    "label": "Water collected changes with time.",
+    "math": "liters = 6t"
+   }
+  ],
+  "result": "liters collected",
+  "answer": "liters collected",
+  "color": "#246650",
+  "skill": "g6.steps-variables",
+  "level": "g6.steps-variables.1"
+ },
+ {
+  "level": "g6.steps-variables.2",
+  "skill": "g6.steps-variables",
+  "prompt": "A table lists (2, 14) and (5, 35). Find y when x = 6.",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Find output per input.",
+    "math": "14 ÷ 2 = 7"
+   },
+   {
+    "label": "Use six inputs.",
+    "math": "6 × 7"
+   }
+  ],
+  "result": "42",
+  "answer": "42",
+  "mediaCourse": "mentalist",
+  "media": "ratio.represent.2"
+ },
+ {
+  "level": "g6.steps-variables.3",
+  "skill": "g6.steps-variables",
+  "prompt": "Which point at x = 3 lies on the graph of y = 4x?",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Take three horizontal steps.",
+    "math": "x = 3"
+   },
+   {
+    "label": "Find the height.",
+    "math": "4 × 3 = 12"
+   }
+  ],
+  "result": "(3, 12)",
+  "answer": "(3, 12)",
+  "mediaCourse": "mentalist",
+  "media": "ratio.represent.3"
+ },
+ {
+  "level": "g6.steps-variables.4",
+  "skill": "g6.steps-variables",
+  "prompt": "A graph goes through (0, 0) and (2, 9). Write its table rule.",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Find the rate.",
+    "math": "9 ÷ 2 = 4.5"
+   },
+   {
+    "label": "Scale any input x.",
+    "math": "4.5 × x"
+   }
+  ],
+  "result": "y = 4.5x",
+  "answer": "y = 4.5x",
+  "mediaCourse": "mentalist",
+  "media": "ratio.represent.4"
+ },
+ {
+  "skill": "g6.variables",
+  "level": "g6.variables.1",
+  "model": "worked",
+  "prompt": "A tap fills 3 liters per minute starting empty. Which equation gives liters y after x minutes?",
+  "steps": [
+   {
+    "label": "Time is the independent input.",
+    "math": "x = minutes"
+   },
+   {
+    "label": "Multiply the input by the rate.",
+    "math": "3 × x"
+   }
+  ],
+  "result": "y = 3x",
+  "answer": "y = 3x",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "After depositing $9, a balance is $22. Which equation uses x for the starting balance?",
+  "steps": [
+   {
+    "label": "Begin with the unknown starting amount.",
+    "math": "x"
+   },
+   {
+    "label": "Add the deposit to reach the final amount.",
+    "math": "x + 9 = 22"
+   }
+  ],
+  "result": "x + 9 = 22",
+  "answer": "x + 9 = 22",
+  "color": "#246650",
+  "skill": "g6.steps-write-equations",
+  "level": "g6.steps-write-equations.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "Five equal tickets total $35. Write an equation for the price of one ticket.",
+  "steps": [
+   {
+    "label": "Let x be the price of one.",
+    "math": "x"
+   },
+   {
+    "label": "Five copies give the total.",
+    "math": "5 × x = 35"
+   }
+  ],
+  "result": "5x = 35",
+  "answer": "5x = 35",
+  "color": "#246650",
+  "skill": "g6.steps-write-equations",
+  "level": "g6.steps-write-equations.2"
+ },
+ {
+  "model": "worked",
+  "prompt": "Which story fits x/4 = 6 when x is a number of stickers?",
+  "steps": [
+   {
+    "label": "Start with an unknown total.",
+    "math": "x stickers"
+   },
+   {
+    "label": "Make four equal shares of six.",
+    "math": "x ÷ 4 = 6"
+   }
+  ],
+  "result": "4 groups of 6",
+  "answer": "4 groups of 6",
+  "color": "#246650",
+  "skill": "g6.steps-write-equations",
+  "level": "g6.steps-write-equations.3"
+ },
+ {
+  "skill": "g6.write-equations",
+  "level": "g6.write-equations.1",
+  "model": "worked",
+  "prompt": "A notebook and a $4 pen cost $11. Write an equation for the notebook price n.",
+  "steps": [
+   {
+    "label": "Combine the two prices.",
+    "math": "n + 4"
+   },
+   {
+    "label": "Set their sum equal to the total.",
+    "math": "n + 4 = 11"
+   }
+  ],
+  "result": "n + 4 = 11",
+  "answer": "n + 4 = 11",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "level": "g6.steps-solve.1",
+  "skill": "g6.steps-solve",
+  "prompt": "Solve x − 7 = 12.",
+  "model": "worked",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "Undo subtraction.",
+    "math": "x = 12 + 7"
+   },
+   {
+    "label": "Check the result.",
+    "math": "19 − 7 = 12"
+   }
+  ],
+  "result": "x = 19",
+  "answer": "x = 19",
+  "mediaCourse": "mentalist",
+  "media": "review.onestep.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "Solve x/6 = 7.",
+  "steps": [
+   {
+    "label": "Undo division by multiplying by six.",
+    "math": "x = 7 × 6"
+   },
+   {
+    "label": "Check the result in the original equation.",
+    "math": "42 ÷ 6 = 7"
+   }
+  ],
+  "result": "42",
+  "answer": "42",
+  "color": "#246650",
+  "skill": "g6.steps-solve",
+  "level": "g6.steps-solve.2"
+ },
+ {
+  "level": "g6.steps-solve.3",
+  "skill": "g6.steps-solve",
+  "prompt": "Where is the solution of 2x = 8 on a number line?",
+  "model": "worked",
+  "color": "#246650",
+  "steps": [
+   {
+    "label": "Divide both sides by two.",
+    "math": "x = 8 ÷ 2"
+   },
+   {
+    "label": "One value solves the equation.",
+    "math": "x = 4"
+   }
+  ],
+  "result": "point at 4",
+  "answer": "point at 4"
+ },
+ {
+  "model": "worked",
+  "prompt": "Does x = 5 solve 3x = 18?",
+  "steps": [
+   {
+    "label": "Replace x with the proposed value.",
+    "math": "3 × 5 = 15"
+   },
+   {
+    "label": "Compare the two sides.",
+    "math": "15 ≠ 18"
+   }
+  ],
+  "result": "no",
+  "answer": "no",
+  "color": "#246650",
+  "skill": "g6.steps-solve",
+  "level": "g6.steps-solve.4"
+ },
+ {
+  "skill": "g6.solve",
+  "level": "g6.solve.1",
+  "model": "worked",
+  "prompt": "Solve x/3 = 5. Check your solution.",
+  "steps": [
+   {
+    "label": "Undo division by multiplying by three.",
+    "math": "x = 5 × 3"
+   },
+   {
+    "label": "Put the solution back into the equation.",
+    "math": "15 ÷ 3 = 5"
+   }
+  ],
+  "result": "x = 15",
+  "answer": "x = 15",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "A ride requires a height of at least 120 cm. Write the constraint for height h.",
+  "steps": [
+   {
+    "label": "The boundary height qualifies.",
+    "math": "h = 120 is allowed"
+   },
+   {
+    "label": "Taller riders qualify too.",
+    "math": "h ≥ 120"
+   }
+  ],
+  "result": "h ≥ 120",
+  "answer": "h ≥ 120",
+  "color": "#246650",
+  "skill": "g6.steps-inequalities",
+  "level": "g6.steps-inequalities.1"
+ },
+ {
+  "level": "g6.steps-inequalities.2",
+  "skill": "g6.steps-inequalities",
+  "prompt": "Solve x + 4 < 10.",
+  "model": "worked",
+  "color": "#315c92",
+  "steps": [
+   {
+    "label": "Subtract four on both sides.",
+    "math": "x < 10 − 4"
+   },
+   {
+    "label": "Simplify the boundary.",
+    "math": "10 − 4 = 6"
+   }
+  ],
+  "result": "x < 6",
+  "answer": "x < 6",
+  "mediaCourse": "mentalist",
+  "media": "review.onestep.2"
+ },
+ {
+  "level": "g6.steps-inequalities.3",
+  "skill": "g6.steps-inequalities",
+  "prompt": "Graph x < −1. Which endpoint and direction?",
+  "model": "worked",
+  "color": "#246650",
+  "steps": [
+   {
+    "label": "Exclude the boundary.",
+    "math": "x ≠ −1"
+   },
+   {
+    "label": "Test a value on the left.",
+    "math": "−2 < −1"
+   }
+  ],
+  "result": "open, left",
+  "answer": "open, left"
+ },
+ {
+  "level": "g6.steps-inequalities.4",
+  "skill": "g6.steps-inequalities",
+  "prompt": "Graph x ≥ 2. Which endpoint and direction?",
+  "model": "worked",
+  "color": "#246650",
+  "steps": [
+   {
+    "label": "Include the boundary.",
+    "math": "2 ≥ 2"
+   },
+   {
+    "label": "Test a value on the right.",
+    "math": "3 ≥ 2"
+   }
+  ],
+  "result": "closed, right",
+  "answer": "closed, right"
+ },
+ {
+  "model": "worked",
+  "prompt": "A bus holds at most 48 riders. Can 31 students and 18 adults board together?",
+  "steps": [
+   {
+    "label": "Count everyone boarding.",
+    "math": "31 + 18 = 49"
+   },
+   {
+    "label": "Compare the count with the limit.",
+    "math": "49 > 48"
+   }
+  ],
+  "result": "no",
+  "answer": "no",
+  "color": "#246650",
+  "skill": "g6.steps-inequalities",
+  "level": "g6.steps-inequalities.5"
+ },
+ {
+  "skill": "g6.inequalities",
+  "level": "g6.inequalities.1",
+  "model": "worked",
+  "prompt": "A bag must weigh at most 12 kg. The empty bag weighs 2 kg. What loads fit?",
+  "steps": [
+   {
+    "label": "Write the constraint for the load x.",
+    "math": "x + 2 ≤ 12"
+   },
+   {
+    "label": "Subtract 2. Include the boundary.",
+    "math": "x ≤ 10"
+   }
+  ],
+  "result": "x ≤ 10 kg",
+  "answer": "x ≤ 10 kg",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "level": "g6.steps-triangles.1",
+  "skill": "g6.steps-triangles",
+  "prompt": "A triangle has angles 52° and 71°. Find the third.",
+  "model": "worked",
+  "color": "#876124",
+  "steps": [
+   {
+    "label": "Add the known angles.",
+    "math": "52 + 71 = 123"
+   },
+   {
+    "label": "Subtract from 180.",
+    "math": "180 − 123"
+   }
+  ],
+  "result": "57°",
+  "answer": "57°",
+  "mediaCourse": "mentalist",
+  "media": "review.angles.3"
+ },
+ {
+  "model": "worked",
+  "prompt": "Can sticks of lengths 3, 7 and 10 form a triangle?",
+  "steps": [
+   {
+    "label": "Add the two shorter lengths.",
+    "math": "3 + 7 = 10"
+   },
+   {
+    "label": "Equality leaves the sticks flat.",
+    "math": "10 = 10"
+   }
+  ],
+  "result": "no",
+  "answer": "no",
+  "color": "#246650",
+  "skill": "g6.steps-triangles",
+  "level": "g6.steps-triangles.2"
+ },
+ {
+  "model": "worked",
+  "prompt": "Triangle AB = 7, BC = 5 and CA = 9. Which angle is largest?",
+  "steps": [
+   {
+    "label": "Find the longest side.",
+    "math": "9 > 7 > 5"
+   },
+   {
+    "label": "The largest angle faces CA.",
+    "math": "CA → B"
+   }
+  ],
+  "result": "angle B",
+  "answer": "angle B",
+  "color": "#246650",
+  "skill": "g6.steps-triangles",
+  "level": "g6.steps-triangles.3"
+ },
+ {
+  "skill": "g6.triangles",
+  "level": "g6.triangles.1",
+  "model": "worked",
+  "prompt": "Can lengths 4, 6 and 11 form a triangle?",
+  "steps": [
+   {
+    "label": "Add the two shorter sides.",
+    "math": "4 + 6 = 10"
+   },
+   {
+    "label": "They must reach past the longest side.",
+    "math": "10 < 11"
+   }
+  ],
+  "result": "no",
+  "answer": "no",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "level": "g6.steps-area.1",
+  "skill": "g6.steps-area",
+  "prompt": "A rectangle measures 8 cm by 3 cm. Find its area.",
+  "model": "worked",
+  "color": "#764d79",
+  "steps": [
+   {
+    "label": "Use length times width.",
+    "math": "8 × 3"
+   },
+   {
+    "label": "Count square units.",
+    "math": "8 + 8 + 8"
+   }
+  ],
+  "result": "24 sq cm",
+  "answer": "24 sq cm",
+  "mediaCourse": "mentalist",
+  "media": "review.area.1"
+ },
+ {
+  "level": "g6.steps-area.2",
+  "skill": "g6.steps-area",
+  "prompt": "Find the area of a parallelogram with base 9 and perpendicular height 4.",
+  "model": "worked",
+  "color": "#764d79",
+  "steps": [
+   {
+    "label": "Use base times height.",
+    "math": "9 × 4"
+   },
+   {
+    "label": "Multiply the dimensions.",
+    "math": "9 + 9 + 9 + 9"
+   }
+  ],
+  "result": "36 sq units",
+  "answer": "36 sq units",
+  "mediaCourse": "mentalist",
+  "media": "review.area.2"
+ },
+ {
+  "level": "g6.steps-area.3",
+  "skill": "g6.steps-area",
+  "prompt": "A triangle has base 10 m and height 7 m. Find its area.",
+  "model": "worked",
+  "color": "#764d79",
+  "steps": [
+   {
+    "label": "Build the corresponding rectangle.",
+    "math": "10 × 7 = 70"
+   },
+   {
+    "label": "Take half of its area.",
+    "math": "70 ÷ 2"
+   }
+  ],
+  "result": "35 sq m",
+  "answer": "35 sq m",
+  "mediaCourse": "mentalist",
+  "media": "review.area.3"
+ },
+ {
+  "model": "worked",
+  "prompt": "A triangle of area 30 cm² has a 12 cm base. Find the height.",
+  "steps": [
+   {
+    "label": "Double the area to recover base times height.",
+    "math": "2 × 30 = 60"
+   },
+   {
+    "label": "Divide by the base.",
+    "math": "60 ÷ 12"
+   }
+  ],
+  "result": "5 cm",
+  "answer": "5 cm",
+  "color": "#246650",
+  "skill": "g6.steps-area",
+  "level": "g6.steps-area.4"
+ },
+ {
+  "skill": "g6.area",
+  "level": "g6.area.1",
+  "model": "worked",
+  "prompt": "A triangle has base 7 cm and perpendicular height 4 cm. Find its area.",
+  "steps": [
+   {
+    "label": "Two copies form a parallelogram.",
+    "math": "7 × 4 = 28"
+   },
+   {
+    "label": "One triangle covers half.",
+    "math": "28 ÷ 2"
+   }
+  ],
+  "result": "14 cm²",
+  "answer": "14 cm²",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "level": "g6.steps-trapezoids.1",
+  "skill": "g6.steps-trapezoids",
+  "prompt": "A trapezoid has bases 6 and 10 cm and height 4 cm. Find its area.",
+  "model": "worked",
+  "color": "#764d79",
+  "steps": [
+   {
+    "label": "Average the two bases.",
+    "math": "(6 + 10) ÷ 2 = 8"
+   },
+   {
+    "label": "Multiply by height.",
+    "math": "8 × 4"
+   }
+  ],
+  "result": "32 sq cm",
+  "answer": "32 sq cm",
+  "mediaCourse": "mentalist",
+  "media": "review.area.4"
+ },
+ {
+  "level": "g6.steps-trapezoids.2",
+  "skill": "g6.steps-trapezoids",
+  "prompt": "Remove a 2 by 3 corner from an 8 by 6 rectangle. Find the area left.",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Find the whole rectangle.",
+    "math": "8 × 6 = 48"
+   },
+   {
+    "label": "Subtract the cutout.",
+    "math": "48 − 6"
+   }
+  ],
+  "result": "42 sq units",
+  "answer": "42 sq units",
+  "mediaCourse": "mentalist",
+  "media": "area.composite.1"
+ },
+ {
+  "level": "g6.steps-trapezoids.3",
+  "skill": "g6.steps-trapezoids",
+  "prompt": "A 6 by 4 parallelogram touches a triangle with base 6 and height 3. Find total area.",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Find each area.",
+    "math": "6 × 4 = 24"
+   },
+   {
+    "label": "Add the triangle's nine units.",
+    "math": "24 + 6 × 3 ÷ 2"
+   }
+  ],
+  "result": "33 sq units",
+  "answer": "33 sq units",
+  "mediaCourse": "mentalist",
+  "media": "area.composite.2"
+ },
+ {
+  "level": "g6.steps-trapezoids.4",
+  "skill": "g6.steps-trapezoids",
+  "prompt": "A trapezoid with bases 4 and 8 and height 3 joins a 3 by 2 rectangle. Find total area.",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Find the trapezoid area.",
+    "math": "(4 + 8) × 3 ÷ 2 = 18"
+   },
+   {
+    "label": "Add the rectangle.",
+    "math": "18 + 6"
+   }
+  ],
+  "result": "24 sq units",
+  "answer": "24 sq units",
+  "mediaCourse": "mentalist",
+  "media": "area.composite.3"
+ },
+ {
+  "skill": "g6.trapezoids",
+  "level": "g6.trapezoids.1",
+  "model": "worked",
+  "prompt": "A trapezoid has bases 5 and 9 cm and height 3 cm. Find its area.",
+  "steps": [
+   {
+    "label": "Two copies form a parallelogram.",
+    "math": "(5 + 9) × 3 = 42"
+   },
+   {
+    "label": "Divide the doubled area by two.",
+    "math": "42 ÷ 2"
+   }
+  ],
+  "result": "21 cm²",
+  "answer": "21 cm²",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "A box floor is 7 unit cubes long and 4 wide. How many cubes make one layer?",
+  "steps": [
+   {
+    "label": "Count the cubes in one row.",
+    "math": "7"
+   },
+   {
+    "label": "Use four equal rows.",
+    "math": "4 × 7"
+   }
+  ],
+  "result": "28 cubes",
+  "answer": "28 cubes",
+  "color": "#246650",
+  "skill": "g6.steps-prisms",
+  "level": "g6.steps-prisms.1"
+ },
+ {
+  "level": "g6.steps-prisms.2",
+  "skill": "g6.steps-prisms",
+  "prompt": "A rectangular prism is 4 cm by 3 cm by 5 cm. Find its volume.",
+  "model": "worked",
+  "color": "#764d79",
+  "steps": [
+   {
+    "label": "Find the base area.",
+    "math": "4 × 3 = 12"
+   },
+   {
+    "label": "Multiply by height.",
+    "math": "12 × 5"
+   }
+  ],
+  "result": "60 cubic cm",
+  "answer": "60 cubic cm",
+  "mediaCourse": "mentalist",
+  "media": "solid.prism.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "A prism measures 1.5 m by 2 m by 3 m. What is its volume?",
+  "steps": [
+   {
+    "label": "Find one layer's area.",
+    "math": "1.5 × 2 = 3"
+   },
+   {
+    "label": "Multiply by the height.",
+    "math": "3 × 3"
+   }
+  ],
+  "result": "9 m³",
+  "answer": "9 m³",
+  "color": "#246650",
+  "skill": "g6.steps-prisms",
+  "level": "g6.steps-prisms.3"
+ },
+ {
+  "model": "worked",
+  "prompt": "A prism has volume 84 cm³ and base area 14 cm². Find the height.",
+  "steps": [
+   {
+    "label": "Each centimeter of height adds 14 cubic centimeters.",
+    "math": "14 × h = 84"
+   },
+   {
+    "label": "Divide the volume by the base area.",
+    "math": "84 ÷ 14"
+   }
+  ],
+  "result": "6 cm",
+  "answer": "6 cm",
+  "color": "#246650",
+  "skill": "g6.steps-prisms",
+  "level": "g6.steps-prisms.4"
+ },
+ {
+  "skill": "g6.prisms",
+  "level": "g6.prisms.1",
+  "model": "worked",
+  "prompt": "A prism holds 30 cm³. Its base is 2.5 cm by 4 cm. Find its height.",
+  "steps": [
+   {
+    "label": "Calculate the area of one layer.",
+    "math": "2.5 × 4 = 10"
+   },
+   {
+    "label": "Divide the volume by base area.",
+    "math": "30 ÷ 10"
+   }
+  ],
+  "result": "3 cm",
+  "answer": "3 cm",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "What is the length between (−4, 3) and (2, 3)?",
+  "steps": [
+   {
+    "label": "Both points have the same vertical coordinate.",
+    "math": "y = 3"
+   },
+   {
+    "label": "Subtract their horizontal positions.",
+    "math": "2 − (−4)"
+   }
+  ],
+  "result": "6 units",
+  "answer": "6 units",
+  "color": "#246650",
+  "skill": "g6.steps-polygons",
+  "level": "g6.steps-polygons.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "Three corners of a rectangle are (1, 2), (5, 2) and (5, 6). Find the missing corner.",
+  "steps": [
+   {
+    "label": "Match its horizontal position with the left edge.",
+    "math": "x = 1"
+   },
+   {
+    "label": "Match its vertical position with the upper edge.",
+    "math": "y = 6"
+   }
+  ],
+  "result": "(1, 6)",
+  "answer": "(1, 6)",
+  "color": "#246650",
+  "skill": "g6.steps-polygons",
+  "level": "g6.steps-polygons.2"
+ },
+ {
+  "model": "worked",
+  "prompt": "A rectangle spans x from −2 to 4 and y from −1 to 3. Find its area.",
+  "steps": [
+   {
+    "label": "Find its width and height.",
+    "math": "4 − (−2) = 6, 3 − (−1) = 4"
+   },
+   {
+    "label": "Multiply the perpendicular lengths.",
+    "math": "6 × 4"
+   }
+  ],
+  "result": "24 square units",
+  "answer": "24 square units",
+  "color": "#246650",
+  "skill": "g6.steps-polygons",
+  "level": "g6.steps-polygons.3"
+ },
+ {
+  "skill": "g6.polygons",
+  "level": "g6.polygons.1",
+  "model": "worked",
+  "prompt": "A rectangle spans x = −3 to x = 2 and y = 1 to y = 5. What is its area?",
+  "steps": [
+   {
+    "label": "Count across the horizontal interval.",
+    "math": "2 − (−3) = 5"
+   },
+   {
+    "label": "Multiply width by vertical distance.",
+    "math": "5 × (5 − 1)"
+   }
+  ],
+  "result": "20 square units",
+  "answer": "20 square units",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "level": "g6.steps-nets.1",
+  "skill": "g6.steps-nets",
+  "prompt": "How many rectangles form the net of a rectangular prism?",
+  "model": "worked",
+  "color": "#3b666e",
+  "steps": [
+   {
+    "label": "Count a top and a bottom.",
+    "math": "2"
+   },
+   {
+    "label": "Add the four side faces.",
+    "math": "2 + 4"
+   }
+  ],
+  "result": "6 rectangles",
+  "answer": "6 rectangles",
+  "mediaCourse": "mentalist",
+  "media": "solid.nets.1"
+ },
+ {
+  "level": "g6.steps-nets.2",
+  "skill": "g6.steps-nets",
+  "prompt": "What faces form a triangular prism's net?",
+  "model": "worked",
+  "color": "#3b666e",
+  "steps": [
+   {
+    "label": "Each end is a triangle.",
+    "math": "2 triangles"
+   },
+   {
+    "label": "Each edge of the base has a side panel.",
+    "math": "3 rectangles"
+   }
+  ],
+  "result": "2 triangles, 3 rectangles",
+  "answer": "2 triangles, 3 rectangles",
+  "mediaCourse": "mentalist",
+  "media": "solid.nets.2"
+ },
+ {
+  "level": "g6.steps-nets.3",
+  "skill": "g6.steps-nets",
+  "prompt": "How many triangular flaps surround a rectangular pyramid's base in a net?",
+  "model": "worked",
+  "color": "#3b666e",
+  "steps": [
+   {
+    "label": "Count the edges of the base.",
+    "math": "4 edges"
+   },
+   {
+    "label": "Each edge meets one triangular face.",
+    "math": "4 × 1"
+   }
+  ],
+  "result": "4 triangles",
+  "answer": "4 triangles",
+  "mediaCourse": "mentalist",
+  "media": "solid.nets.3"
+ },
+ {
+  "level": "g6.steps-nets.4",
+  "skill": "g6.steps-nets",
+  "prompt": "Find the surface area of a 2 by 3 by 4 prism.",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Find areas of the three face pairs.",
+    "math": "6 + 8 + 12 = 26"
+   },
+   {
+    "label": "Each area occurs twice.",
+    "math": "2 × 26"
+   }
+  ],
+  "result": "52 sq units",
+  "answer": "52 sq units",
+  "mediaCourse": "mentalist",
+  "media": "solid.surface.1"
+ },
+ {
+  "level": "g6.steps-nets.5",
+  "skill": "g6.steps-nets",
+  "prompt": "A square pyramid has base side 4 and each face has slant height 3. Find its surface area.",
+  "model": "worked",
+  "color": "#20654c",
+  "steps": [
+   {
+    "label": "Find four triangular areas.",
+    "math": "4 × (4 × 3 ÷ 2) = 24"
+   },
+   {
+    "label": "Add the square base.",
+    "math": "24 + 16"
+   }
+  ],
+  "result": "40 sq units",
+  "answer": "40 sq units",
+  "mediaCourse": "mentalist",
+  "media": "solid.surface.3"
+ },
+ {
+  "skill": "g6.nets",
+  "level": "g6.nets.1",
+  "model": "worked",
+  "prompt": "A box measures 2 by 3 by 4 cm. How much paper covers its six faces?",
+  "steps": [
+   {
+    "label": "Find the three different face areas.",
+    "math": "2 × 3 = 6, 2 × 4 = 8, 3 × 4 = 12"
+   },
+   {
+    "label": "Double their sum for the opposite faces.",
+    "math": "2 × (6 + 8 + 12)"
+   }
+  ],
+  "result": "52 square cm",
+  "answer": "52 square cm",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "Which varies among students in one class, their room number or their commute time?",
+  "steps": [
+   {
+    "label": "Identify the shared fact.",
+    "math": "same room"
+   },
+   {
+    "label": "Students can take different times to reach school.",
+    "math": "8, 12, 16 minutes"
+   }
+  ],
+  "result": "commute time",
+  "answer": "commute time",
+  "color": "#246650",
+  "skill": "g6.steps-questions",
+  "level": "g6.steps-questions.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "Students name the sport they like best. What type of data is collected?",
+  "steps": [
+   {
+    "label": "Each answer names a group.",
+    "math": "soccer, tennis"
+   },
+   {
+    "label": "Groups can be counted without measuring a numeric amount.",
+    "math": "category counts"
+   }
+  ],
+  "result": "categorical",
+  "answer": "categorical",
+  "color": "#246650",
+  "skill": "g6.steps-questions",
+  "level": "g6.steps-questions.2"
+ },
+ {
+  "model": "worked",
+  "prompt": "Researchers record the height of each of 20 trees. What is one observational unit?",
+  "steps": [
+   {
+    "label": "A row describes one object.",
+    "math": "1 row → 1 tree"
+   },
+   {
+    "label": "Height is the measurement on that object.",
+    "math": "height in meters"
+   }
+  ],
+  "result": "one tree",
+  "answer": "one tree",
+  "color": "#246650",
+  "skill": "g6.steps-questions",
+  "level": "g6.steps-questions.3"
+ },
+ {
+  "skill": "g6.questions",
+  "level": "g6.questions.1",
+  "model": "worked",
+  "prompt": "Which tells us about variation: one runner's assigned lane or the team's race times?",
+  "steps": [
+   {
+    "label": "An assigned lane gives one fixed value.",
+    "math": "lane 4"
+   },
+   {
+    "label": "Different runners can record different times.",
+    "math": "12, 14, 13"
+   }
+  ],
+  "result": "team times",
+  "answer": "team times",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "level": "g6.steps-dot-stem.1",
+  "skill": "g6.steps-dot-stem",
+  "prompt": "A dot plot has two dots at 1, three at 2, and one at 3. Find the mode.",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Compare the frequencies.",
+    "math": "2, 3, 1"
+   },
+   {
+    "label": "The largest stack is over two.",
+    "math": "3 dots at 2"
+   }
+  ],
+  "result": "2",
+  "answer": "2",
+  "mediaCourse": "mentalist",
+  "media": "review.data.4"
+ },
+ {
+  "model": "worked",
+  "prompt": "Make a dot plot for 4, 5, 4, 6, 4, 5.",
+  "steps": [
+   {
+    "label": "Count observations at each tick.",
+    "math": "4: 3, 5: 2, 6: 1"
+   },
+   {
+    "label": "Stack that many dots above each tick.",
+    "math": "3, 2, 1"
+   }
+  ],
+  "result": "3, 2, 1",
+  "answer": "3, 2, 1",
+  "color": "#246650",
+  "skill": "g6.steps-dot-stem",
+  "level": "g6.steps-dot-stem.2"
+ },
+ {
+  "model": "worked",
+  "prompt": "A stem of 4 has leaves 1, 3 and 8. With tens as stems, what is the greatest value?",
+  "steps": [
+   {
+    "label": "The stem contributes four tens.",
+    "math": "4 × 10 = 40"
+   },
+   {
+    "label": "Use the largest leaf as the ones digit.",
+    "math": "40 + 8"
+   }
+  ],
+  "result": "48",
+  "answer": "48",
+  "color": "#246650",
+  "skill": "g6.steps-dot-stem",
+  "level": "g6.steps-dot-stem.3"
+ },
+ {
+  "model": "worked",
+  "prompt": "Build a stem-and-leaf plot for 52, 55, 56, 61, 64.",
+  "steps": [
+   {
+    "label": "Group observations by their tens digits.",
+    "math": "52, 55, 56 and 61, 64"
+   },
+   {
+    "label": "Write ones digits in order within each row.",
+    "math": "5: 2, 5, 6 and 6: 1, 4"
+   }
+  ],
+  "result": "5: 2, 5, 6 and 6: 1, 4",
+  "answer": "5: 2, 5, 6 and 6: 1, 4",
+  "color": "#246650",
+  "skill": "g6.steps-dot-stem",
+  "level": "g6.steps-dot-stem.4"
+ },
+ {
+  "skill": "g6.dot-stem",
+  "level": "g6.dot-stem.1",
+  "model": "worked",
+  "prompt": "In a stem-and-leaf plot, stem 3 has leaves 1, 1 and 7. How many values exceed 30?",
+  "steps": [
+   {
+    "label": "Use the tens stem and ones leaves.",
+    "math": "31, 31, 37"
+   },
+   {
+    "label": "Count each observation, including repeats.",
+    "math": "1 + 1 + 1"
+   }
+  ],
+  "result": "3",
+  "answer": "3",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "Bins cover 0–9, 10–19 and 20–29. Which includes 20?",
+  "steps": [
+   {
+    "label": "The second bin ends at 19.",
+    "math": "20 > 19"
+   },
+   {
+    "label": "The next bin starts at 20.",
+    "math": "20 ≤ 20 ≤ 29"
+   }
+  ],
+  "result": "20 to 29",
+  "answer": "20 to 29",
+  "color": "#246650",
+  "skill": "g6.steps-histograms",
+  "level": "g6.steps-histograms.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "Build a histogram for 4, 8, 12, 19, 25 using 10-wide bins.",
+  "steps": [
+   {
+    "label": "Group the values into intervals.",
+    "math": "0−9: 2, 10−19: 2, 20−29: 1"
+   },
+   {
+    "label": "Use each count as a bar height.",
+    "math": "2, 2, 1"
+   }
+  ],
+  "result": "2, 2, 1",
+  "answer": "2, 2, 1",
+  "color": "#246650",
+  "skill": "g6.steps-histograms",
+  "level": "g6.steps-histograms.2"
+ },
+ {
+  "model": "worked",
+  "prompt": "A histogram shows 4 values from 0–9, 6 from 10–19 and 3 from 20–29. How many are at least 10?",
+  "steps": [
+   {
+    "label": "Use the last two intervals.",
+    "math": "10 to 29"
+   },
+   {
+    "label": "Add their frequencies.",
+    "math": "6 + 3"
+   }
+  ],
+  "result": "9",
+  "answer": "9",
+  "color": "#246650",
+  "skill": "g6.steps-histograms",
+  "level": "g6.steps-histograms.3"
+ },
+ {
+  "skill": "g6.histograms",
+  "level": "g6.histograms.1",
+  "model": "worked",
+  "prompt": "Scores are 12, 15, 19, 20 and 24. How tall is the bar for scores 10 through 19?",
+  "steps": [
+   {
+    "label": "Select values inside that interval.",
+    "math": "12, 15, 19"
+   },
+   {
+    "label": "Count the selected scores.",
+    "math": "1 + 1 + 1"
+   }
+  ],
+  "result": "3",
+  "answer": "3",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "What is the mean of 5, 7 and 12?",
+  "steps": [
+   {
+    "label": "Combine the values.",
+    "math": "5 + 7 + 12 = 24"
+   },
+   {
+    "label": "Share the total equally among three entries.",
+    "math": "24 ÷ 3"
+   }
+  ],
+  "result": "8",
+  "answer": "8",
+  "color": "#246650",
+  "skill": "g6.steps-center",
+  "level": "g6.steps-center.1"
+ },
+ {
+  "level": "g6.steps-center.2",
+  "skill": "g6.steps-center",
+  "prompt": "Find the median of 8, 2, 6, 4.",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Order the values.",
+    "math": "2, 4, 6, 8"
+   },
+   {
+    "label": "Average the middle two.",
+    "math": "(4 + 6) ÷ 2"
+   }
+  ],
+  "result": "5",
+  "answer": "5",
+  "mediaCourse": "mentalist",
+  "media": "review.data.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "Change 9 to 39 in the list 3, 6, 9. How much does the mean increase?",
+  "steps": [
+   {
+    "label": "Only one value increases.",
+    "math": "39 − 9 = 30"
+   },
+   {
+    "label": "Spread that change over three entries.",
+    "math": "30 ÷ 3"
+   }
+  ],
+  "result": "10",
+  "answer": "10",
+  "color": "#246650",
+  "skill": "g6.steps-center",
+  "level": "g6.steps-center.3"
+ },
+ {
+  "skill": "g6.center",
+  "level": "g6.center.1",
+  "model": "worked",
+  "prompt": "Compare the mean and median of 2, 3, 4, 5 and 16.",
+  "steps": [
+   {
+    "label": "Find the middle of the ordered list.",
+    "math": "median = 4"
+   },
+   {
+    "label": "Divide the sum by five.",
+    "math": "30 ÷ 5 = 6"
+   }
+  ],
+  "result": "mean > median",
+  "answer": "mean > median",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "Find the range of 14, 9, 18 and 12.",
+  "steps": [
+   {
+    "label": "Locate both extremes.",
+    "math": "min = 9, max = 18"
+   },
+   {
+    "label": "Measure their separation.",
+    "math": "18 − 9"
+   }
+  ],
+  "result": "9",
+  "answer": "9",
+  "color": "#246650",
+  "skill": "g6.steps-spread",
+  "level": "g6.steps-spread.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "Use the median of each half of 2, 4, 6, 8, 10, 12. Find Q1.",
+  "steps": [
+   {
+    "label": "Take the lower three values.",
+    "math": "2, 4, 6"
+   },
+   {
+    "label": "Read the middle of that half.",
+    "math": "2 < 4 < 6"
+   }
+  ],
+  "result": "4",
+  "answer": "4",
+  "color": "#246650",
+  "skill": "g6.steps-spread",
+  "level": "g6.steps-spread.2"
+ },
+ {
+  "level": "g6.steps-spread.3",
+  "skill": "g6.steps-spread",
+  "prompt": "The lower quartile is 12 and the upper is 19. Find the IQR.",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Use the quartiles.",
+    "math": "19 − 12"
+   },
+   {
+    "label": "Measure the middle half's spread.",
+    "math": "12 + 7 = 19"
+   }
+  ],
+  "result": "7",
+  "answer": "7",
+  "mediaCourse": "mentalist",
+  "media": "review.data.2"
+ },
+ {
+  "model": "worked",
+  "prompt": "Build a box plot for 2, 3, 5, 7, 9, 12.",
+  "steps": [
+   {
+    "label": "The outside values are the whisker ends.",
+    "math": "2 and 12"
+   },
+   {
+    "label": "Find the middle of each half and the middle of the full list.",
+    "math": "3, 6, 9"
+   }
+  ],
+  "result": "2, 3, 6, 9, 12",
+  "answer": "2, 3, 6, 9, 12",
+  "color": "#246650",
+  "skill": "g6.steps-spread",
+  "level": "g6.steps-spread.4"
+ },
+ {
+  "skill": "g6.spread",
+  "level": "g6.spread.1",
+  "model": "worked",
+  "prompt": "A box plot has minimum 2, Q1 of 5, median 7, Q3 of 9 and maximum 17. Find the IQR.",
+  "steps": [
+   {
+    "label": "Use the edges of the box.",
+    "math": "9 and 5"
+   },
+   {
+    "label": "Subtract the lower quartile.",
+    "math": "9 − 5"
+   }
+  ],
+  "result": "4",
+  "answer": "4",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "level": "g6.steps-categories.1",
+  "skill": "g6.steps-categories",
+  "prompt": "A bar chart shows 14 bus riders and 9 walkers. How many more ride the bus?",
+  "model": "worked",
+  "color": "#3b666e",
+  "steps": [
+   {
+    "label": "Read the two bar heights.",
+    "math": "14, 9"
+   },
+   {
+    "label": "Subtract the smaller count.",
+    "math": "14 − 9"
+   }
+  ],
+  "result": "5 students",
+  "answer": "5 students",
+  "mediaCourse": "mentalist",
+  "media": "stats.graphs.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "In a poll, 12 prefer art, 8 music and 15 drama. Find the modal category.",
+  "steps": [
+   {
+    "label": "Compare the three frequencies.",
+    "math": "15 > 12 > 8"
+   },
+   {
+    "label": "Match the largest count with its category.",
+    "math": "15 → drama"
+   }
+  ],
+  "result": "drama",
+  "answer": "drama",
+  "color": "#246650",
+  "skill": "g6.steps-categories",
+  "level": "g6.steps-categories.2"
+ },
+ {
+  "level": "g6.steps-categories.3",
+  "skill": "g6.steps-categories",
+  "prompt": "A chart shows 18 of 60 students chose art. What percent is that?",
+  "model": "worked",
+  "color": "#3b666e",
+  "steps": [
+   {
+    "label": "Write part over whole.",
+    "math": "18/60 = 3/10"
+   },
+   {
+    "label": "Convert to percent.",
+    "math": "3/10 × 100"
+   }
+  ],
+  "result": "30%",
+  "answer": "30%",
+  "mediaCourse": "mentalist",
+  "media": "stats.graphs.3"
+ },
+ {
+  "skill": "g6.categories",
+  "level": "g6.categories.1",
+  "model": "worked",
+  "prompt": "In a poll of 40 students, 18 chose art, 12 music and 10 drama. What percent chose the mode?",
+  "steps": [
+   {
+    "label": "Find the most frequent category.",
+    "math": "18 > 12 > 10"
+   },
+   {
+    "label": "Convert its share to a percent.",
+    "math": "18 ÷ 40 = 0.45"
+   }
+  ],
+  "result": "45%",
+  "answer": "45%",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "level": "g6.steps-deviation.1",
+  "skill": "g6.steps-deviation",
+  "prompt": "Scores are 2, 3, 3, 4, 12. Which way is the tail?",
+  "model": "worked",
+  "color": "#834745",
+  "steps": [
+   {
+    "label": "Most scores cluster low.",
+    "math": "2, 3, 3, 4"
+   },
+   {
+    "label": "The distant value is high.",
+    "math": "12 > 4"
+   }
+  ],
+  "result": "right",
+  "answer": "right",
+  "mediaCourse": "mentalist",
+  "media": "review.data.3"
+ },
+ {
+  "model": "worked",
+  "prompt": "A score is 8 and the class mean is 13. Find its absolute deviation.",
+  "steps": [
+   {
+    "label": "Subtract the mean.",
+    "math": "8 − 13 = −5"
+   },
+   {
+    "label": "Measure distance without a sign.",
+    "math": "abs(−5)"
+   }
+  ],
+  "result": "5",
+  "answer": "5",
+  "color": "#246650",
+  "skill": "g6.steps-deviation",
+  "level": "g6.steps-deviation.2"
+ },
+ {
+  "model": "worked",
+  "prompt": "Values 2, 6, 10 have mean 6. Find their mean absolute deviation.",
+  "steps": [
+   {
+    "label": "Measure each distance from six.",
+    "math": "4, 0, 4"
+   },
+   {
+    "label": "Average those distances.",
+    "math": "8 ÷ 3"
+   }
+  ],
+  "result": "8/3",
+  "answer": "8/3",
+  "color": "#246650",
+  "skill": "g6.steps-deviation",
+  "level": "g6.steps-deviation.3"
+ },
+ {
+  "skill": "g6.deviation",
+  "level": "g6.deviation.1",
+  "model": "worked",
+  "prompt": "Find the mean absolute deviation of 2, 4 and 6 minutes.",
+  "steps": [
+   {
+    "label": "The mean is four minutes.",
+    "math": "(2 + 4 + 6) ÷ 3 = 4"
+   },
+   {
+    "label": "Average the distances from the mean.",
+    "math": "(2 + 0 + 2) ÷ 3"
+   }
+  ],
+  "result": "4/3 minutes",
+  "answer": "4/3 minutes",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "A checking account costs $3 per month plus $2 per outside ATM use. Find the fee after four uses.",
+  "steps": [
+   {
+    "label": "Multiply uses by the per-use charge.",
+    "math": "4 × 2 = 8"
+   },
+   {
+    "label": "Add the fixed monthly fee.",
+    "math": "8 + 3"
+   }
+  ],
+  "result": "$11",
+  "answer": "$11",
+  "color": "#246650",
+  "skill": "g6.steps-accounts",
+  "level": "g6.steps-accounts.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "A charges $8 monthly. B charges $2 plus $1 per withdrawal. Which is cheaper with four withdrawals?",
+  "steps": [
+   {
+    "label": "Compute the bill for B.",
+    "math": "2 + 4 × 1 = 6"
+   },
+   {
+    "label": "Compare the two totals.",
+    "math": "6 < 8"
+   }
+  ],
+  "result": "account B",
+  "answer": "account B",
+  "color": "#246650",
+  "skill": "g6.steps-accounts",
+  "level": "g6.steps-accounts.2"
+ },
+ {
+  "model": "worked",
+  "prompt": "A buyer pays $18 with a debit card. Which balance goes down at purchase?",
+  "steps": [
+   {
+    "label": "Debit draws from money already deposited.",
+    "math": "checking funds"
+   },
+   {
+    "label": "Subtract the purchase from that account.",
+    "math": "balance − 18"
+   }
+  ],
+  "result": "checking balance",
+  "answer": "checking balance",
+  "color": "#246650",
+  "skill": "g6.steps-accounts",
+  "level": "g6.steps-accounts.3"
+ },
+ {
+  "skill": "g6.accounts",
+  "level": "g6.accounts.1",
+  "model": "worked",
+  "prompt": "Account A costs $3 monthly. B costs $1 plus $1 per ATM use. Which costs less with four uses?",
+  "steps": [
+   {
+    "label": "Total the fees for B.",
+    "math": "1 + 4 × 1 = 5"
+   },
+   {
+    "label": "Compare with A.",
+    "math": "3 < 5"
+   }
+  ],
+  "result": "account A",
+  "answer": "account A",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "An account opens with $80, receives $35 and pays out $12. Find its balance.",
+  "steps": [
+   {
+    "label": "Add the incoming funds.",
+    "math": "80 + 35 = 115"
+   },
+   {
+    "label": "Subtract the outgoing funds.",
+    "math": "115 − 12"
+   }
+  ],
+  "result": "$103",
+  "answer": "$103",
+  "color": "#246650",
+  "skill": "g6.steps-register",
+  "level": "g6.steps-register.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "Move $25 from checking to savings. Checking started at $90. What is its new balance?",
+  "steps": [
+   {
+    "label": "Identify the sending account.",
+    "math": "checking sends 25"
+   },
+   {
+    "label": "Subtract funds leaving checking.",
+    "math": "90 − 25"
+   }
+  ],
+  "result": "$65",
+  "answer": "$65",
+  "color": "#246650",
+  "skill": "g6.steps-register",
+  "level": "g6.steps-register.2"
+ },
+ {
+  "model": "worked",
+  "prompt": "A register shows $71. An unrecorded $8 fee appears on the statement. Find the corrected register balance.",
+  "steps": [
+   {
+    "label": "The bank already charged the fee.",
+    "math": "fee = 8"
+   },
+   {
+    "label": "Subtract it once in the register.",
+    "math": "71 − 8"
+   }
+  ],
+  "result": "$63",
+  "answer": "$63",
+  "color": "#246650",
+  "skill": "g6.steps-register",
+  "level": "g6.steps-register.3"
+ },
+ {
+  "skill": "g6.register",
+  "level": "g6.register.1",
+  "model": "worked",
+  "prompt": "Start with $80. Deposit $25, pay $18 and transfer $10 to savings. Find the checking balance.",
+  "steps": [
+   {
+    "label": "Add money entering checking.",
+    "math": "80 + 25 = 105"
+   },
+   {
+    "label": "Subtract both amounts leaving checking.",
+    "math": "105 − 18 − 10"
+   }
+  ],
+  "result": "$77",
+  "answer": "$77",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "A loan report shows 18 payments and one missed payment. Which part describes repayment history?",
+  "steps": [
+   {
+    "label": "Look for the borrower's past payments.",
+    "math": "18 payments"
+   },
+   {
+    "label": "A missed payment is also part of that history.",
+    "math": "1 missed"
+   }
+  ],
+  "result": "payment record",
+  "answer": "payment record",
+  "color": "#246650",
+  "skill": "g6.steps-credit",
+  "level": "g6.steps-credit.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "A report lists a $200 account the borrower never opened. What should they do?",
+  "steps": [
+   {
+    "label": "Check whether the entry belongs to the borrower.",
+    "math": "check records"
+   },
+   {
+    "label": "Gather evidence and dispute the inaccurate entry.",
+    "math": "dispute error"
+   }
+  ],
+  "result": "dispute the entry",
+  "answer": "dispute the entry",
+  "color": "#246650",
+  "skill": "g6.steps-credit",
+  "level": "g6.steps-credit.2"
+ },
+ {
+  "model": "worked",
+  "prompt": "Two borrowers each owe $800. One pays on time and one repeatedly pays late. Which history suggests lower repayment risk?",
+  "steps": [
+   {
+    "label": "Compare repayment behavior.",
+    "math": "same debt"
+   },
+   {
+    "label": "Consistent on-time payments support a lower risk assessment.",
+    "math": "on time → lower risk"
+   }
+  ],
+  "result": "on-time payer",
+  "answer": "on-time payer",
+  "color": "#246650",
+  "skill": "g6.steps-credit",
+  "level": "g6.steps-credit.3"
+ },
+ {
+  "skill": "g6.credit",
+  "level": "g6.credit.1",
+  "model": "worked",
+  "prompt": "Why would a lender look at a borrower's record of 12 on-time payments?",
+  "steps": [
+   {
+    "label": "Payment history records how a debt was repaid.",
+    "math": "12 of 12 on time"
+   },
+   {
+    "label": "It helps a lender estimate repayment risk.",
+    "math": "on time → lower risk"
+   }
+  ],
+  "result": "payment history",
+  "answer": "payment history",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "A college offers wages for an eligible campus job. What type of aid is this?",
+  "steps": [
+   {
+    "label": "It requires work in an eligible job.",
+    "math": "work → wages"
+   },
+   {
+    "label": "This aid is earned as the student works.",
+    "math": "work-study"
+   }
+  ],
+  "result": "work-study",
+  "answer": "work-study",
+  "color": "#246650",
+  "skill": "g6.steps-college",
+  "level": "g6.steps-college.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "A term costs $2400. A grant pays $800 and savings cover $600. Find the funding gap.",
+  "steps": [
+   {
+    "label": "Combine available funds.",
+    "math": "800 + 600 = 1400"
+   },
+   {
+    "label": "Subtract from the cost.",
+    "math": "2400 − 1400"
+   }
+  ],
+  "result": "$1000",
+  "answer": "$1000",
+  "color": "#246650",
+  "skill": "g6.steps-college",
+  "level": "g6.steps-college.2"
+ },
+ {
+  "model": "worked",
+  "prompt": "A package has a $900 grant and a $600 loan. How much normally needs repayment?",
+  "steps": [
+   {
+    "label": "Identify the borrowed portion.",
+    "math": "loan = 600"
+   },
+   {
+    "label": "The grant is separate from the loan principal.",
+    "math": "900 + 600 = 1500"
+   }
+  ],
+  "result": "$600",
+  "answer": "$600",
+  "color": "#246650",
+  "skill": "g6.steps-college",
+  "level": "g6.steps-college.3"
+ },
+ {
+  "skill": "g6.college",
+  "level": "g6.college.1",
+  "model": "worked",
+  "prompt": "A course costs $1600. A grant covers $700 and savings cover $400. What remains to fund?",
+  "steps": [
+   {
+    "label": "Add the resources already available.",
+    "math": "700 + 400 = 1100"
+   },
+   {
+    "label": "Subtract them from the cost.",
+    "math": "1600 − 1100"
+   }
+  ],
+  "result": "$500",
+  "answer": "$500",
+  "subprompt": "",
+  "color": "#246650"
+ },
+ {
+  "model": "worked",
+  "prompt": "One job pays $19 per hour and another pays $16. Both pay for 1800 hours. Find the yearly earnings gap.",
+  "steps": [
+   {
+    "label": "Find the hourly difference.",
+    "math": "19 − 16 = 3"
+   },
+   {
+    "label": "Multiply by paid hours.",
+    "math": "3 × 1800"
+   }
+  ],
+  "result": "$5400",
+  "answer": "$5400",
+  "color": "#246650",
+  "skill": "g6.steps-income",
+  "level": "g6.steps-income.1"
+ },
+ {
+  "model": "worked",
+  "prompt": "Compare jobs paying $42000 and $38000 yearly for 30 years at constant salaries. Find the lifetime difference.",
+  "steps": [
+   {
+    "label": "Find the annual gap.",
+    "math": "42000 − 38000 = 4000"
+   },
+   {
+    "label": "Multiply by years worked.",
+    "math": "4000 × 30"
+   }
+  ],
+  "result": "$120000",
+  "answer": "$120000",
+  "color": "#246650",
+  "skill": "g6.steps-income",
+  "level": "g6.steps-income.2"
+ },
+ {
+  "model": "worked",
+  "prompt": "Training costs $9000 and increases yearly pay by $3000. When do the extra earnings cover the cost?",
+  "steps": [
+   {
+    "label": "Let years times extra pay equal the cost.",
+    "math": "3000 × t = 9000"
+   },
+   {
+    "label": "Divide by extra pay per year.",
+    "math": "9000 ÷ 3000"
+   }
+  ],
+  "result": "3 years",
+  "answer": "3 years",
+  "color": "#246650",
+  "skill": "g6.steps-income",
+  "level": "g6.steps-income.3"
+ },
+ {
+  "skill": "g6.income",
+  "level": "g6.income.1",
+  "model": "worked",
+  "prompt": "Job A pays $4000 more each year but requires $12000 extra training. When do extra earnings cover the cost?",
+  "steps": [
+   {
+    "label": "Find the annual advantage.",
+    "math": "4000 per year"
+   },
+   {
+    "label": "Divide training cost by the advantage.",
+    "math": "12000 ÷ 4000"
+   }
+  ],
+  "result": "3 years",
+  "answer": "3 years",
+  "subprompt": "",
+  "color": "#246650"
+ }
+]

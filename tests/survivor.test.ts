@@ -145,13 +145,15 @@ test("one keypad accepts both targets, handles shared prefixes, and resolves equ
   type(run, "1");
   assert.equal(run.enemy?.kind === "boss" && run.enemy.health, BOSS_HEALTH - 1);
 
-  const force = play("4", "1", "12");
-  arriveAtBoss(force);
-  stepRun(force, idle, CHARGE_MS);
-  type(force, "1");
-  editAnswer(force, "Enter");
-  assert.ok(force.orb);
-  assert.equal(force.enemy?.kind === "boss" && force.enemy.health, BOSS_HEALTH - 1);
+  const short = play("4", "1", "12");
+  arriveAtBoss(short);
+  stepRun(short, idle, CHARGE_MS);
+  type(short, "1");
+  stepRun(short, idle, 799);
+  assert.equal(short.enemy?.kind === "boss" && short.enemy.health, BOSS_HEALTH);
+  stepRun(short, idle, 1);
+  assert.ok(short.orb);
+  assert.equal(short.enemy?.kind === "boss" && short.enemy.health, BOSS_HEALTH - 1);
 
   const equal = play("4", "-0.5", "-1/2");
   arriveAtBoss(equal);

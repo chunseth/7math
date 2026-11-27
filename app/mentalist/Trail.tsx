@@ -4,6 +4,9 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import {
   accessMap,
   checkpoint,
+  courses,
+  type CourseGrade,
+  gradeOf,
   currentSkill,
   levelById,
   mainPathProgress,
@@ -13,7 +16,9 @@ import {
 } from "../../lib/mentalist/model";
 import type { LevelPack, RoundDraft, StartedRound } from "../../lib/mentalist/round";
 import { post, RequestError, restoreRound, storeRound } from "../../lib/mentalist/client";
-import { LessonVideo, PreviewFeed } from "./components/PreviewFeed";
+import { Connections } from "../8math/Connections";
+import { Practice } from "../8math/Practice";
+import { CourseFeed, LessonVideo, PreviewFeed } from "./components/PreviewFeed";
 import { previewGoal } from "../../lib/mentalist/preview-goals";
 import previews from "../../content/mentalist/previews.json";
 import { CurriculumMap } from "./components/CurriculumMap";
@@ -26,14 +31,21 @@ import { Visual } from "./components/Visual";
 import "./trail.css";
 
 export default function Trail({
+  grade = 7,
+  accounts = true,
   initialStudent,
   published,
   initialTab = "Map",
 }: {
+  grade?: CourseGrade;
+  accounts?: boolean;
   initialStudent: StudentState | null;
   published: string[];
   initialTab?: "Map" | "More Topics" | "Collection";
 }) {
+  const course = grade === 7 ? undefined : courses[grade];
+  const path = course?.levels;
+  const [practice, setPractice] = useState<string | null>(null);
   const [state, setState] = useState<StudentState | null>(initialStudent),
     [run, setRun] = useState<RoundDraft | null>(null),
     [tab, setTab] = useState<string>(initialTab),
@@ -49,13 +61,13 @@ export default function Trail({
   const pending = useRef<null | (() => Promise<void>)>(null),
     lock = useRef(false);
   const [publicAccess, setPublicAccess] = useState(() =>
-    accessMap(new Set(published), [], new Set(), new Set(), new Set()),
+    accessMap(new Set(published), [], new Set(), new Set(), new Set(), path),
   );
   const access = state?.access ?? publicAccess,
     byId = new Map(access.map((a) => [a.id, a])),
-    main = mainPathProgress(access);
+    main = mainPathProgress(access, path);
   const requestedGoal = useRef<string | null>(null);
-  const pinKey = state ? "mentalist:preview-goal:" + state.profile.id : null;
+  const pinKey = state && !course ? "mentalist:preview-goal:" + state.profile.id : null;
   const [savedPin, setSavedPin] = useState<{ key: string; skill: string } | null>(null);
   const pinned = savedPin?.key === pinKey ? savedPin?.skill : null;
   const goal = pinned ? previewGoal(pinned, access) : null;
@@ -83,6 +95,7 @@ export default function Trail({
     if (state && main.next && !run && tab === "Map")
       void prepare(state.profile.id, main.next).catch(() => {});
   }, [state?.profile.id, main.next, run, tab]);
+  const activeGrade = state?.activeLevel ? gradeOf(state.activeLevel) : grade;
   const playerId = state?.profile.id;
   const allowRestore = initialTab !== "Collection" || tab === "Map";
   const restoredPlayer = useRef<string | null>(null);
@@ -91,7 +104,7 @@ export default function Trail({
     else if (allowRestore && restoredPlayer.current !== playerId) {
       restoredPlayer.current = playerId;
       const saved = restoreRound(playerId, state?.activeRun ?? null);
-      if (saved) setRun(saved);
+      if (saved && gradeOf(saved.run.level) === grade) setRun(saved);
     }
   }, [playerId, allowRestore, state?.activeRun]);
   function saveGoal(key: string, skill: string | null) {
@@ -111,7 +124,12 @@ export default function Trail({
     void prepare(student.profile.id, target.next).catch(() => {});
     select(target.next);
   }
-  function tryPreview(skill: string) {
+  function tryPreview(skill: string, level = skill + ".1") {
+    if (course) {
+      if (state && playable(byId.get(level)!)) void prepare(state.profile.id, level).catch(() => {});
+      select(level);
+      return;
+    }
     if (state) openPreviewLevel(skill, state);
     else {
       requestedGoal.current = skill;
@@ -119,10 +137,10 @@ export default function Trail({
     }
   }
   useEffect(() => {
-    if (tab === "Map" && !run && (main.next || main.target)) {
+    if (tab === "Map" && !run && !practice && (main.next || main.target)) {
       document.getElementById("stop-" + (main.next ?? main.target))?.scrollIntoView({ block: "center" });
     }
-  }, [tab, run, main.next, main.target]);
+  }, [tab, run, practice, main.next, main.target]);
   async function request(work: () => Promise<void>) {
     if (lock.current) return;
     lock.current = true;
@@ -161,7 +179,10 @@ export default function Trail({
       let started: StartedRound;
       try { started = await post<StartedRound>(body); }
       catch (error) {
-        if (error instanceof RequestError && error.status === 409) packs.current.delete(player + "/" + id);
+        if (error instanceof RequestError && error.status === 409) {
+          packs.current.delete(player + "/" + id);
+          pack = undefined;
+        }
         throw error;
       }
       packs.current.delete(player + "/" + id);
@@ -176,7 +197,7 @@ export default function Trail({
     if (!state) setAuth(true);
   }
   function act(action: string, value: string) {
-    const body = { action, value, id: crypto.randomUUID() };
+    const body = { action, value, grade, id: crypto.randomUUID() };
     void request(async () => {
       setState(await post<StudentState>(body));
     });
@@ -186,7 +207,7 @@ export default function Trail({
     select(null);
     setTab("Map");
     void request(async () => {
-      setState(await post<StudentState>({ action: "state" }));
+      setState(await post<StudentState>({ action: "state", grade }));
     });
   }
   async function sign(e: FormEvent) {
@@ -194,7 +215,7 @@ export default function Trail({
     await request(async () => {
       await post({ action: "login", ...credentials, create });
       setCredentials({ ...credentials, pin: "" });
-      const s = await post<StudentState>({ action: "state" });
+      const s = await post<StudentState>({ action: "state", grade });
       setState(s);
       setAuth(false);
       const requested = requestedGoal.current;
@@ -202,6 +223,7 @@ export default function Trail({
       if (requested) openPreviewLevel(requested, s);
     });
   }
+  if (practice) return <Practice level={practice} close={() => { setPractice(null); select(practice); }} />;
   if (run)
     return (
       <>
@@ -224,6 +246,7 @@ export default function Trail({
     );
   const level = selected ? levelById.get(selected) : null,
     entry = selected ? byId.get(selected) : null;
+  const selectedSkill = level ? skillById.get(level.skill) : null;
   const notice = message && (
     <div role="alert" className="mt-alert">
       {message}
@@ -240,28 +263,30 @@ export default function Trail({
         <Link href="/" aria-label="Game modes">
           ‹
         </Link>
-        <strong>Mentalist</strong>
+        <strong>{grade}math</strong>
         <div />
         {state && <span className="mt-coins">{state.profile.coins.toLocaleString()} coins</span>}
-        <button
+        {accounts && <button
           className={state?.frame === "Gold" ? "mt-gold" : ""}
           onClick={() => (state ? setAccount(true) : setAuth(true))}
         >
           {state?.profile.username ?? "Sign in"}
-        </button>
+        </button>}
       </header>
       {!auth && !selected && !account && notice}
       {tab === "Map" && <>
         <div className="mt-map-progress">
           <span>Main path</span>
-          <span>{main.cleared} of {main.total} levels cleared</span>
-          <button onClick={() => openLeaderboard(main.next ?? main.target ?? "review.add.1")}>Leaderboards</button>
+          <span>{course && !main.total ? course.levels.length + " practice levels" : main.cleared + " of " + main.total + " levels cleared"}</span>
+          {accounts && (!course || main.total > 0) && <button onClick={() => openLeaderboard(main.next ?? main.target ?? (course?.levels[0].id ?? "review.add.1"))}>Leaderboards</button>}
         </div>
-        {main.total === 0 && <p className="mt-map-status">Lessons are awaiting publication.</p>}
+        {!course && main.total === 0 && <p className="mt-map-status">Lessons are awaiting publication.</p>}
         {main.target && !main.next && <p className="mt-map-status">Your next foundation is awaiting publication.</p>}
-        <CurriculumMap access={byId} main={main} open={id => { setMessage(""); select(id); }} />
+        <CurriculumMap grade={grade} access={byId} main={main}
+          open={id => { setMessage(""); select(id); }} />
       </>}
-      {tab === "More Topics" && <PreviewFeed access={access} onTry={tryPreview} pinned={pinned}
+      {tab === "More Topics" && course && <CourseFeed grade={grade === 6 ? 6 : 8} onTry={tryPreview} obscured={auth || account || !!selected || !!boardLevel} />}
+      {tab === "More Topics" && !course && <PreviewFeed access={access} onTry={tryPreview} pinned={pinned}
         obscured={auth || account || !!selected || !!boardLevel} />}
       {tab !== "Map" && tab !== "More Topics" &&
         (state ? (
@@ -276,8 +301,8 @@ export default function Trail({
             <button onClick={() => setAuth(true)}>Sign in to see your {tab.toLowerCase()}</button>
           </section>
         ))}
-      <nav className="mt-nav" aria-label="Mentalist menus">
-        {["Map", "More Topics", "Collection", "Rewards"].map((s, i) => (
+      <nav className="mt-nav" aria-label={grade + "math menus"}>
+        {(accounts ? ["Map", "More Topics", "Collection", "Rewards"] : ["Map", "More Topics"]).map((s, i) => (
           <button
             key={s}
             aria-current={tab === s ? "page" : undefined}
@@ -292,11 +317,10 @@ export default function Trail({
         ))}
       </nav>
       {boardLevel && state && !auth && <Leaderboard initialLevel={boardLevel} username={state.profile.username} close={() => setBoardLevel(null)} />}
-      {level && entry && !auth && !boardLevel && (
+      {level && selectedSkill && entry && !auth && !boardLevel && (
         <Sheet close={() => !busy && select(null)}>
-          <small>
-            {skillById.get(level.skill)!.title} · Level {level.ordinal}
-          </small>
+          {course && <p className="mt-level-unit">{selectedSkill.world.slice(3)}</p>}
+          <small>{selectedSkill.title} · Level {level.ordinal}</small>
           <h2>{level.title}</h2>
           <div className="mt-example">
             <small>Example question</small>
@@ -304,8 +328,10 @@ export default function Trail({
             <Visual data={level.preview.visual} />
           </div>
           <LessonVideo level={level.id} />
-          <p>Clear with 10 of 12 correct on the first try. For 3 stars, answer all 12 without a miss and meet the time target.</p>
-          <button onClick={() => openLeaderboard(level.id)}>View leaderboard</button>
+          {course && <Connections lessons={course.skills} level={level} access={byId} open={select} />}
+          {(!course || entry.state !== "planned") && <p>Clear with 10 of 12 correct on the first try. For 3 stars, answer all 12 without a miss and meet the time target. Some lessons also require a first-try answer on a specific skill.</p>}
+          {course && <button onClick={() => setPractice(level.id)}>{accounts && entry.state !== "planned" ? "Practice without saving" : "Practice lesson"}</button>}
+          {accounts && (!course || entry.state !== "planned") && <button onClick={() => openLeaderboard(level.id)}>View leaderboard</button>}
           {state?.offer && level.id === checkpoint.review && (
             <p className="mt-bonus">
               Perfect review +25 coins. This offer is used when you start. Answer all 12 correctly on the
@@ -316,11 +342,13 @@ export default function Trail({
             <button onClick={() => select(checkpoint.review)}>Visit 8 and 9 multiplication bonus</button>
           )}
           {notice}
-          {playable(entry) ? (
+          {playable(entry) && activeGrade !== grade ? (
+            <Link href={`/${activeGrade}math`}>Return to your active {activeGrade}math battle</Link>
+          ) : playable(entry) ? (
             <button className="mt-primary" disabled={busy || retry} onClick={() => enter(level.id)}>
               {busy ? "Starting…" : "Play"}
             </button>
-          ) : (
+          ) : (!course || entry.state !== "planned") && (
             <p>
               <strong>{entry.reason}</strong>
             </p>
@@ -391,6 +419,7 @@ export default function Trail({
                     new Set(),
                     new Set(),
                     new Set(),
+                    path,
                   ),
                 );
                 setState(null);

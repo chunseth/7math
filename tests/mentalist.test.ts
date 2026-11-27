@@ -6,18 +6,29 @@ import previews from "../content/mentalist/previews.json";
 import { existsSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
 import { readFileSync } from "node:fs";
+type Slot = { q: string; variant: string; target: number };
 type Bank = {
-  sets: { level: string; positions: { q: string; variant: string; target: number }[] }[];
-  questions: Record<string, { control: Parameters<typeof grade>[0]; answer: string }>;
+  levels: { id: string; pool: Slot[] }[];
+  sets: { level: string; positions: Slot[] }[];
+  questions: Record<string, { prompt: string; visual?: unknown; control: Parameters<typeof grade>[0]; answer: string }>;
 };
-const bank: Bank = JSON.parse(gunzipSync(readFileSync("content/mentalist/bank-v2.json.gz")).toString());
-test("all 237 levels have five distinct ordered sets, identical variant quotas and gradeable keys", () => {
+const bank: Bank = JSON.parse(gunzipSync(readFileSync("content/mentalist/bank-v7.json.gz")).toString());
+test("all 237 levels have 24 distinct gradeable questions and five balanced round blueprints", () => {
   assert.equal(skills.filter((s) => s.world !== "review").length, 62);
   assert.equal(skills.length, 87);
   assert.equal(levels.length, 237);
   assert.equal(bank.sets.length, 1185);
   for (const l of levels) {
+    const pool = bank.levels.find(level => level.id === l.id)!.pool;
+    assert.equal(pool.length, 24, l.id);
+    assert.equal(new Set(pool.map(slot => slot.q)).size, 24, l.id);
+    const surfaces = pool.map(({q}) => {
+      const question = bank.questions[q];
+      return JSON.stringify([question.prompt, question.visual, question.control.fields?.map(f => f.label)]);
+    });
+    assert.equal(new Set(surfaces).size, 24, l.id);
     const sets = bank.sets.filter((s) => s.level === l.id);
+    assert.deepEqual(new Set(sets.flatMap(s => s.positions.map(slot => slot.q))), new Set(pool.map(slot => slot.q)));
     assert.equal(sets.length, 5);
     assert.equal(new Set(sets.map((s) => s.positions.map((p) => p.q).join(","))).size, 5);
     const slots = sets[0].positions.map((p) => p.variant);
@@ -48,7 +59,7 @@ test("one sampled level per fact group, with zero dividends and shared topic car
           const items = set.positions.filter(p => p.variant.endsWith(".table-" + table));
           assert.equal(items.length, 12 / group.length);
           for (const {q} of items) {
-            if (op === "multiply") assert.ok(q.startsWith("fact.multiply." + table + "."));
+            if (op === "multiply") assert.ok(q.split(".").slice(2).includes(String(table)));
             else if (table === 0) assert.match(q, /^fact\.divide\.0\.[1-9]\d*$/);
             else assert.ok(q.endsWith("." + table));
           }

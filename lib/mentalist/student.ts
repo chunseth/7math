@@ -1,6 +1,8 @@
 import type { PoolClient } from "pg";
 import {
   accessMap,
+  courses,
+  type CourseGrade,
   checkpoint,
   curriculumVersion,
   currentLevel,
@@ -24,13 +26,23 @@ export function leaderboard(db: PoolClient, level: string) {
     join public.profiles p on p.id=l.profile where l.level=$1 order by l.total_rank,p.username`, [level]);
 }
 
-export async function publishedLevelIds(db: PoolClient): Promise<string[]> {
-  const records = await rows<{ level: string }>(db, "select level from published_levels where version=$1", [curriculumVersion]);
+// Grouped levels keep their IDs across the v2 and v3 content releases.
+export const publishedVersions = `select level, max(version) as version from published_levels
+  where version between 2 and ${curriculumVersion} group by level`;
+
+export function publishedFor(grade: CourseGrade) {
+  if (grade === 7) return publishedVersions;
+  const first = grade * 1000 + 1;
+  const latest = grade === 6 ? 6007 : 8006;
+  return `select level,max(version) as version from published_levels where version between ${first} and ${latest} group by level`;
+}
+export async function publishedLevelIds(db: PoolClient, grade: CourseGrade = 7): Promise<string[]> {
+  const records = await rows<{ level: string }>(db, publishedFor(grade));
   return records.map((record) => record.level);
 }
 
-export async function course(db: PoolClient, who: Identity) {
-  const published = await publishedLevelIds(db);
+export async function course(db: PoolClient, who: Identity, grade: CourseGrade = 7) {
+  const published = await publishedLevelIds(db, grade);
   const saved = await rows<Progress>(db, "select level,stars,review_due from clears where profile=$1", [
     who.profile,
   ]);
@@ -63,6 +75,7 @@ export async function course(db: PoolClient, who: Identity) {
     new Set(history.map((r) => currentLevel(r.level))),
     assigned,
     placed,
+    grade === 7 ? undefined : courses[grade].levels,
   );
   return { access, assigned, placed, clears, history };
 }
@@ -127,8 +140,8 @@ export async function quests(db: PoolClient, who: Identity) {
     { key: "explore", name: "Practice two different skills", count: practiced, goal: 2, coins: 75 },
   ].map((q) => ({ ...q, id: `quest.${day}.${q.key}`, claimed: claims.has(`quest.${day}.${q.key}`) }));
 }
-export async function studentState(db: PoolClient, who: Identity): Promise<StudentState> {
-  const data = await course(db, who);
+export async function studentState(db: PoolClient, who: Identity, grade: CourseGrade = 7): Promise<StudentState> {
+  const data = await course(db, who, grade);
   const profile = await one<StudentState["profile"]>(
     db,
     "select id,username,sprite_name,coins,xp from public.profiles where id=$1",
@@ -178,7 +191,7 @@ export async function studentState(db: PoolClient, who: Identity): Promise<Stude
     ownedSprites,
     legacySkills,
     access: data.access,
-    recommendation: await recommend(db, who, data),
+    recommendation: grade === 7 ? await recommend(db, who, data) : null,
     cards,
     legacy,
     chests,
@@ -190,6 +203,6 @@ export async function studentState(db: PoolClient, who: Identity): Promise<Stude
     activeLevel: active[0]?.level ?? null,
     title: appearance[0]?.title ?? null,
     frame: appearance[0]?.frame ?? null,
-    clearedSkills: skills.filter((s) => s.levels.every((_, i) => cleared.has(`${s.id}.${i + 1}`))).length,
+    clearedSkills: (grade === 7 ? skills : courses[grade].skills).filter((s) => s.levels.every((_, i) => cleared.has(`${s.id}.${i + 1}`))).length,
   };
 }

@@ -1,0 +1,74 @@
+# Activity | worked problem | explanation | math | explanation | math | answer
+signed-position|A cave floor lies 12 m below the entrance. What is its signed elevation relative to the entrance?|Use the entrance as the reference point.|entrance = 0|Below the reference point means negative.|0 − 12|−12 m
+opposite-point|What is the opposite of −3.5?|An opposite lies the same distance from zero.|distance = 3.5|Cross to the other side.|−3.5 → 3.5|3.5
+share|Four hikers share three loaves equally. How much does each receive?|Cut each loaf into four equal pieces.|1 ÷ 4 = 1/4|Give each hiker one piece from each loaf.|3 × 1/4|3/4 loaf
+fraction-bar|What quotient does the fraction 7/4 represent?|The top number is the amount being divided.|7|The bottom number gives the number of equal groups.|7 ÷ 4|7 ÷ 4
+scale-share|Six campers share four pizzas. How many pizzas give nine campers the same share?|Reduce to the smallest whole-number batch.|4/6 = 2/3|Nine campers need three such batches.|2 × 3|6 pizzas
+prime-power|What exponent belongs on 3 in the prime factorization of 108?|Remove factors of two.|108 ÷ 4 = 27|Count the threes that make 27.|3 × 3 × 3|3
+scale-product|A recipe uses 8 cups. A scaled batch uses 3/4 as much. How many cups does it use?|One fourth of the original is two cups.|8 ÷ 4 = 2|Use three of those portions.|3 × 2|6 cups
+reciprocal|What number times 4/7 equals one?|Swap the numerator and denominator.|4/7 → 7/4|Check that the product is one.|28/28 = 1|7/4
+division-check|A group claims 936 ÷ 18 = 52. How can multiplication verify the quotient?|Break the quotient into tens and ones.|18 × 50 = 900|Add the product of the remaining two.|900 + 36 = 936|52 is correct
+metric|How many meters are in 450 cm?|One meter contains 100 cm.|100 cm = 1 m|Divide to count larger units.|450 ÷ 100|4.5 m
+customary|How many pints fill three gallons?|Each gallon contains four quarts.|3 × 4 = 12|Each quart contains two pints.|12 × 2|24 pints
+grid-percent|On a hundred grid, 4 full rows and 3 extra squares are shaded. What percent is shaded?|Each full row contains ten squares.|4 × 10 = 40|Add the extra squares out of one hundred.|40 + 3|43%
+power-base|In 5 × 5 × 5 × 5, what is the exponent when written as a power?|Identify the repeated factor.|base = 5|Count the copies of that factor.|5^4|4
+power-value|How much is 6³?|Write three copies of the base.|6 × 6 × 6|Multiply in order.|36 × 6|216
+term|In 7x + 12, what is the coefficient of x?|Separate the term containing x.|7x|Read the number multiplying x.|7 × x|7
+translate|A box holds x cards. Write an expression for five fewer than twice that amount.|Double the starting quantity.|2x|Take five away from the doubled amount.|2x − 5|2x − 5
+identify-property|What property explains 16 + 7 = 7 + 16?|Compare the addends on both sides.|16, 7 → 7, 16|Their positions switch and their sum stays equal.|23 = 23|commutative
+mirror-axis|Reflect (−3, 5) across the x-axis. Where does it land?|The horizontal position stays fixed.|x = −3|Reverse the vertical distance from the axis.|5 → −5|(−3, −5)
+additive|A rule sends 4 to 11 and 9 to 16. How much does it add?|Subtract an input from its output.|11 − 4 = 7|Check another pair.|16 − 9 = 7|7
+compare-rules|Rule A adds 3. Rule B triples. At input 4, which output is larger?|Evaluate the additive rule.|4 + 3 = 7|Compare with the multiplicative rule.|4 × 3 = 12|rule B
+depend|A tap fills 6 liters per minute. Which quantity depends on how long it runs?|Time is the quantity we choose.|t = minutes|Water collected changes with time.|liters = 6t|liters collected
+add-story|After depositing $9, a balance is $22. Which equation uses x for the starting balance?|Begin with the unknown starting amount.|x|Add the deposit to reach the final amount.|x + 9 = 22|x + 9 = 22
+mult-story|Five equal tickets total $35. Write an equation for the price of one ticket.|Let x be the price of one.|x|Five copies give the total.|5 × x = 35|5x = 35
+inverse-story|Which story fits x/4 = 6 when x is a number of stickers?|Start with an unknown total.|x stickers|Make four equal shares of six.|x ÷ 4 = 6|4 groups of 6
+solve-factor|Solve x/6 = 7.|Undo division by multiplying by six.|x = 7 × 6|Check the result in the original equation.|42 ÷ 6 = 7|42
+check-value|Does x = 5 solve 3x = 18?|Replace x with the proposed value.|3 × 5 = 15|Compare the two sides.|15 ≠ 18|no
+bound-words|A ride requires a height of at least 120 cm. Write the constraint for height h.|The boundary height qualifies.|h = 120 is allowed|Taller riders qualify too.|h ≥ 120|h ≥ 120
+test-bound|A bus holds at most 48 riders. Can 31 students and 18 adults board together?|Count everyone boarding.|31 + 18 = 49|Compare the count with the limit.|49 > 48|no
+side-test|Can sticks of lengths 3, 7 and 10 form a triangle?|Add the two shorter lengths.|3 + 7 = 10|Equality leaves the sticks flat.|10 = 10|no
+side-angle|Triangle AB = 7, BC = 5 and CA = 9. Which angle is largest?|Find the longest side.|9 > 7 > 5|The largest angle faces CA.|CA → B|angle B
+missing-height|A triangle of area 30 cm² has a 12 cm base. Find the height.|Double the area to recover base times height.|2 × 30 = 60|Divide by the base.|60 ÷ 12|5 cm
+layer|A box floor is 7 unit cubes long and 4 wide. How many cubes make one layer?|Count the cubes in one row.|7|Use four equal rows.|4 × 7|28 cubes
+prism-fraction|A prism measures 1.5 m by 2 m by 3 m. What is its volume?|Find one layer's area.|1.5 × 2 = 3|Multiply by the height.|3 × 3|9 m³
+prism-height|A prism has volume 84 cm³ and base area 14 cm². Find the height.|Each centimeter of height adds 14 cubic centimeters.|14 × h = 84|Divide the volume by the base area.|84 ÷ 14|6 cm
+axis-length|What is the length between (−4, 3) and (2, 3)?|Both points have the same vertical coordinate.|y = 3|Subtract their horizontal positions.|2 − (−4)|6 units
+fourth-vertex|Three corners of a rectangle are (1, 2), (5, 2) and (5, 6). Find the missing corner.|Match its horizontal position with the left edge.|x = 1|Match its vertical position with the upper edge.|y = 6|(1, 6)
+coordinate-area|A rectangle spans x from −2 to 4 and y from −1 to 3. Find its area.|Find its width and height.|4 − (−2) = 6, 3 − (−1) = 4|Multiply the perpendicular lengths.|6 × 4|24 square units
+stat-question|Which varies among students in one class, their room number or their commute time?|Identify the shared fact.|same room|Students can take different times to reach school.|8, 12, 16 minutes|commute time
+data-type|Students name the sport they like best. What type of data is collected?|Each answer names a group.|soccer, tennis|Groups can be counted without measuring a numeric amount.|category counts|categorical
+sample-unit|Researchers record the height of each of 20 trees. What is one observational unit?|A row describes one object.|1 row → 1 tree|Height is the measurement on that object.|height in meters|one tree
+stack-dots|Make a dot plot for 4, 5, 4, 6, 4, 5.|Count observations at each tick.|4: 3, 5: 2, 6: 1|Stack that many dots above each tick.|3, 2, 1|3, 2, 1
+stem-read|A stem of 4 has leaves 1, 3 and 8. With tens as stems, what is the greatest value?|The stem contributes four tens.|4 × 10 = 40|Use the largest leaf as the ones digit.|40 + 8|48
+stem-write|Build a stem-and-leaf plot for 52, 55, 56, 61, 64.|Group observations by their tens digits.|52, 55, 56 and 61, 64|Write ones digits in order within each row.|5: 2, 5, 6 and 6: 1, 4|5: 2, 5, 6 and 6: 1, 4
+bin-edge|Bins cover 0–9, 10–19 and 20–29. Which includes 20?|The second bin ends at 19.|20 > 19|The next bin starts at 20.|20 ≤ 20 ≤ 29|20 to 29
+bin-count|Build a histogram for 4, 8, 12, 19, 25 using 10-wide bins.|Group the values into intervals.|0−9: 2, 10−19: 2, 20−29: 1|Use each count as a bar height.|2, 2, 1|2, 2, 1
+bin-total|A histogram shows 4 values from 0–9, 6 from 10–19 and 3 from 20–29. How many are at least 10?|Use the last two intervals.|10 to 29|Add their frequencies.|6 + 3|9
+mean|What is the mean of 5, 7 and 12?|Combine the values.|5 + 7 + 12 = 24|Share the total equally among three entries.|24 ÷ 3|8
+outlier|Change 9 to 39 in the list 3, 6, 9. How much does the mean increase?|Only one value increases.|39 − 9 = 30|Spread that change over three entries.|30 ÷ 3|10
+range|Find the range of 14, 9, 18 and 12.|Locate both extremes.|min = 9, max = 18|Measure their separation.|18 − 9|9
+quartiles|Use the median of each half of 2, 4, 6, 8, 10, 12. Find Q1.|Take the lower three values.|2, 4, 6|Read the middle of that half.|2 < 4 < 6|4
+box-summary|Build a box plot for 2, 3, 5, 7, 9, 12.|The outside values are the whisker ends.|2 and 12|Find the middle of each half and the middle of the full list.|3, 6, 9|2, 3, 6, 9, 12
+mode|In a poll, 12 prefer art, 8 music and 15 drama. Find the modal category.|Compare the three frequencies.|15 > 12 > 8|Match the largest count with its category.|15 → drama|drama
+distance-mean|A score is 8 and the class mean is 13. Find its absolute deviation.|Subtract the mean.|8 − 13 = −5|Measure distance without a sign.|abs(−5)|5
+mad|Values 2, 6, 10 have mean 6. Find their mean absolute deviation.|Measure each distance from six.|4, 0, 4|Average those distances.|8 ÷ 3|8/3
+fee-total|A checking account costs $3 per month plus $2 per outside ATM use. Find the fee after four uses.|Multiply uses by the per-use charge.|4 × 2 = 8|Add the fixed monthly fee.|8 + 3|$11
+fee-compare|A charges $8 monthly. B charges $2 plus $1 per withdrawal. Which is cheaper with four withdrawals?|Compute the bill for B.|2 + 4 × 1 = 6|Compare the two totals.|6 < 8|account B
+debit-credit|A buyer pays $18 with a debit card. Which balance goes down at purchase?|Debit draws from money already deposited.|checking funds|Subtract the purchase from that account.|balance − 18|checking balance
+deposit|An account opens with $80, receives $35 and pays out $12. Find its balance.|Add the incoming funds.|80 + 35 = 115|Subtract the outgoing funds.|115 − 12|$103
+transfer|Move $25 from checking to savings. Checking started at $90. What is its new balance?|Identify the sending account.|checking sends 25|Subtract funds leaving checking.|90 − 25|$65
+reconcile|A register shows $71. An unrecorded $8 fee appears on the statement. Find the corrected register balance.|The bank already charged the fee.|fee = 8|Subtract it once in the register.|71 − 8|$63
+credit-record|A loan report shows 18 payments and one missed payment. Which part describes repayment history?|Look for the borrower's past payments.|18 payments|A missed payment is also part of that history.|1 missed|payment record
+credit-error|A report lists a $200 account the borrower never opened. What should they do?|Check whether the entry belongs to the borrower.|check records|Gather evidence and dispute the inaccurate entry.|dispute error|dispute the entry
+credit-use|Two borrowers each owe $800. One pays on time and one repeatedly pays late. Which history suggests lower repayment risk?|Compare repayment behavior.|same debt|Consistent on-time payments support a lower risk assessment.|on time → lower risk|on-time payer
+aid-kind|A college offers wages for an eligible campus job. What type of aid is this?|It requires work in an eligible job.|work → wages|This aid is earned as the student works.|work-study|work-study
+aid-gap|A term costs $2400. A grant pays $800 and savings cover $600. Find the funding gap.|Combine available funds.|800 + 600 = 1400|Subtract from the cost.|2400 − 1400|$1000
+loan-share|A package has a $900 grant and a $600 loan. How much normally needs repayment?|Identify the borrowed portion.|loan = 600|The grant is separate from the loan principal.|900 + 600 = 1500|$600
+annual-gap|One job pays $19 per hour and another pays $16. Both pay for 1800 hours. Find the yearly earnings gap.|Find the hourly difference.|19 − 16 = 3|Multiply by paid hours.|3 × 1800|$5400
+lifetime|Compare jobs paying $42000 and $38000 yearly for 30 years at constant salaries. Find the lifetime difference.|Find the annual gap.|42000 − 38000 = 4000|Multiply by years worked.|4000 × 30|$120000
+break-even|Training costs $9000 and increases yearly pay by $3000. When do the extra earnings cover the cost?|Let years times extra pay equal the cost.|3000 × t = 9000|Divide by extra pay per year.|9000 ÷ 3000|3 years
+algebra.graph.1|Where is the solution of 2x = 8 on a number line?|Divide both sides by two.|x = 8 ÷ 2|One value solves the equation.|x = 4|point at 4
+algebra.graph.2|Graph x < −1. Which endpoint and direction?|Exclude the boundary.|x ≠ −1|Test a value on the left.|−2 < −1|open, left
+algebra.graph.3|Graph x ≥ 2. Which endpoint and direction?|Include the boundary.|2 ≥ 2|Test a value on the right.|3 ≥ 2|closed, right
+scaled-axes|A volume axis shows 5 liters per tick. A point is four ticks high. What is its volume?|Read the scale on the vertical axis.|1 tick = 5 liters|Count four of those intervals.|4 × 5 = 20|20 liters

@@ -40,6 +40,8 @@ def choose(prompt, correct, others, order, visual=None):
 
 
 def fields(prompt, labels, values, choices, order, visual=None, kind="table"):
+    if kind == "net" and prompt.endswith("The labeled numbers are face areas."):
+        prompt = prompt.replace("The labeled numbers are face areas.", "The labeled face areas are in cm².")
     opts = []
     for i, (label, val, options) in enumerate(zip(labels, values, choices)):
         opts.append(
@@ -50,6 +52,21 @@ def fields(prompt, labels, values, choices, order, visual=None, kind="table"):
         )
     return item(
         prompt, "|".join(map(str, values)), dict(kind=kind, fields=opts), visual
+    )
+
+
+def tenth_line(prompt, tick):
+    center = 10 * (tick // 10) + 5
+    return item(prompt, f"{tick / 10:g},0", dict(kind="line", limit=5, step=0.1, origin=center / 10))
+
+
+def scatter_task(points):
+    rows = [(str(x), str(y)) for x, y in points]
+    return item(
+        "Construct the scatterplot. Plot all three observations from the table.",
+        ";".join(sorted(f"{x},{y}" for x, y in rows)),
+        dict(kind="scatterplot", limit=10, points=len(rows)),
+        table(["x", "y"], rows),
     )
 
 

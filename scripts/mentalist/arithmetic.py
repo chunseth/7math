@@ -1,4 +1,5 @@
 from fractions import Fraction as F
+from math import gcd
 from operator import add, sub, mul, truediv
 from formats import q, choose, fields, grid, chart, table, mixed
 
@@ -82,6 +83,13 @@ def arithmetic(skill, level, n, v):
             operands = None
         if level == 2 and op in ("add", "subtract") and a.denominator == b.denominator:
             b = F(1, a.denominator + 1)
+        if level == 2 and op == "add":
+            first = 2 + n % 5
+            second = 2 + ((first - 2) + 1 + (n // 5) % 4) % 5
+            tops = [i for i in range(1, 2 * first) if gcd(i, first) == 1]
+            other_tops = [i for i in range(1, 2 * second) if gcd(i, second) == 1]
+            a = F(tops[(n // 6 + v) % len(tops)], first)
+            b = F(other_tops[(n // 7 + v) % len(other_tops)], second)
         if level == 3 if op in ("add", "subtract") else level == 2:
             if v != 1:
                 a = -a
@@ -95,6 +103,8 @@ def arithmetic(skill, level, n, v):
         operands = tuple(
             f"{float(z):g}" if family == "decimal" else str(z) for z in (a, b)
         )
+    if op in ("add", "multiply") and family != "signed" and n % 2:
+        operands = operands[::-1]
     prompt = (
         story or f"{operands[0]} {symbol} ({operands[1]})"
         if operands[1].startswith("-")
@@ -103,10 +113,11 @@ def arithmetic(skill, level, n, v):
     return q(prompt, fn(a, b), kind, signed=family == "signed" or level > 1)
 
 
-def fact(operation, table, operand):
+def fact(operation, table, operand, reverse=False):
     if operation == "review.multiply":
-        row = q(f"{table} × {operand}", table * operand)
-        row["id"] = f"fact.multiply.{table}.{operand}"
+        left, right = (operand, table) if reverse else (table, operand)
+        row = q(f"{left} × {right}", table * operand)
+        row["id"] = f"fact.multiply.{left}.{right}"
         row["family"] = f"multiply.{min(table,operand)}.{max(table,operand)}"
     else:
         divisor, quotient = (operand, 0) if table == 0 else (table, operand)
@@ -117,7 +128,7 @@ def fact(operation, table, operand):
 
 
 def review(s, l, n, v):
-    a = 2 + n % 16
+    a = 2 + n % 30
     b = 2 + (3 * n + 1) % 11
     if s in ("review.add", "review.subtract"):
         if l == 1:
@@ -127,10 +138,10 @@ def review(s, l, n, v):
         if l == 3:
             a, b = 110 + n * 7, 25 + n
         if s == "review.subtract":
-            return q(f"{a+b} − {a}", b)
+            return q(f"{a+b} − {b}", a) if n % 2 else q(f"{a+b} − {a}", b)
         if l == 3 and v == 1:
             return q(f"{a} + □ = {a+b}", b)
-        return q(f"{a} + {b}", a + b)
+        return q(f"{b} + {a}", a + b) if n % 2 else q(f"{a} + {b}", a + b)
     if s == "review.whole":
         return [
             q(f"{a} × □ = {a*b}", b),
@@ -157,17 +168,29 @@ def review(s, l, n, v):
             q(f"Write {a} 1/{b} as an improper fraction.", F(a * b + 1, b), "fraction"),
         ][l - 1]
     if s == "review.conversions":
+        if l == 4:
+            pct = 5 * a + v - 1
+            return choose(
+                f"Compare {pct}% with {a}/20. Which is larger, or are they equal?",
+                [f"{a}/20", "Equal", f"{pct}%"][v],
+                [f"{pct}%", f"{a}/20", "Equal"],
+                n,
+            )
         return [
             q(f"Write {a}/20 as a decimal.", F(a, 20), "decimal"),
             q(f"Write {a/100:g} as a percent.", a),
             q(f"Write {a}% as a fraction.", F(a, 100), "fraction"),
-            choose(f"Which is closest to {a}.89?", a + 1, [a, a + 2], n),
         ][l - 1]
     if s == "review.numberline":
         if l == 1:
             return q(f'Find the {"opposite" if v%2 else "absolute value"} of −{a}.', a)
         if l == 2:
-            return choose(f"Which is smallest: −{a}, 0, or {a}?", f"−{a}", ["0", a], n)
+            values = [-a, -a - b, -a + b] if v == 0 else [a, a + b, a - b] if v == 1 else [-a, 0, b]
+            ask_least = n % 2 == 0
+            return choose(
+                f"Which is {'least' if ask_least else 'greatest'}: {values[0]}, {values[1]}, or {values[2]}?",
+                (min if ask_least else max)(values), values, n,
+            )
         x = n % 19 - 9
         return grid(f"Place {x} on the number line.", x, 0, 10, "line")
     if s == "review.expressions":
@@ -182,9 +205,11 @@ def review(s, l, n, v):
         y = (n // 3 % 9 + 1) * (-1 if v == 0 else 1)
         if l == 1:
             return grid(f"Plot ({x}, {y}).", x, y)
+        pts = [[0, 0], [1, b], [a, a * b]]
         return q(
-            f"Each square represents {b} liters. How many liters do {a} squares represent?",
-            a * b,
+            f"Read the volume after {1 if v == 0 else a} {'minute' if v == 0 else 'minutes'}. Give the answer in liters.",
+            b if v == 0 else a * b,
+            visual=dict(kind="plot", labels=["Minutes", "Liters"], points=pts),
         )
     if s == "review.area":
         typ = (v + n) % 4 if l == 5 else l - 1

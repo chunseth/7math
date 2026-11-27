@@ -13,6 +13,7 @@ export class GameError extends Error {
 export const studentCookie = "mentalist_session";
 export const studentSessionMaxAge = 30 * 24 * 60 * 60;
 export const enabled = () => process.env.MENTALIST_CURRICULUM === "1";
+export const databaseConfigured = () => Boolean(process.env.MENTALIST_DATABASE_URL);
 let pool: Pool | undefined;
 export async function transaction<T>(fn: (db: PoolClient) => Promise<T>): Promise<T> {
   if (!process.env.MENTALIST_DATABASE_URL) throw new GameError("Curriculum database is unavailable.", 503);

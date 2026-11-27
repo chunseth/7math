@@ -1,0 +1,65 @@
+/* Long questions and report forms use document scrolling. */
+body:has(.verify-home, .verify-gate) {
+  height: auto;
+  min-height: 100%;
+  overflow-y: auto;
+}
+
+.verify-home, .verify-gate {
+  --review-ink: #205945;
+  width: min(100%, 48rem);
+  min-height: 100dvh;
+  margin-inline: auto;
+  border-inline: 1px solid var(--border);
+  padding: 1rem clamp(.9rem, 4vw, 2rem) 2rem;
+}
+
+.verify-header, .verify-summary, .verify-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem 1rem;
+  align-items: center;
+}
+
+.verify-header, .verify-summary { justify-content: space-between; }
+.verify-header { margin-bottom: 1rem; }
+.verify-summary p, .verify-export p { margin: .2rem 0; }
+
+.verify-progress {
+  display: block;
+  width: 100%;
+  margin: .5rem 0 .2rem;
+  accent-color: var(--review-ink);
+}
+
+.verify-location { font-size: .9rem; }
+
+.verify-question, .verify-decision, .verify-gate form {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: #fff;
+  padding: clamp(.9rem, 3vw, 1.25rem);
+  min-width: 0;
+}
+
+.verify-question h2 { font-size: clamp(1.1rem, 4vw, 1.4rem); margin-bottom: .65rem; }
+.verify-decision { margin-top: .85rem; }
+.verify-decision h2 { font-size: 1.1rem; margin-bottom: .65rem; }
+.verify-report, .verify-login-fields, .verify-gate label { display: grid; gap: .5rem; }
+.verify-login-fields { min-width: 0; margin: 0; border: 0; padding: 0; }
+
+.verify-report textarea {
+  width: 100%;
+  padding: .65rem;
+  border: 1px solid var(--border);
+  border-radius: .6rem;
+  font: inherit;
+  resize: vertical;
+}
+
+.verify-complete, .verify-message {
+  padding: .4rem .6rem;
+  border-left: 3px solid var(--review-ink);
+}
+
+.verify-export { max-width: 100%; }

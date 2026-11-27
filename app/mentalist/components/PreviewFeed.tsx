@@ -1,18 +1,20 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import grade6Clips from "../../../content/6math/previews.json";
+import grade8Clips from "../../../content/8math/previews.json";
 import clips from "../../../content/mentalist/previews.json";
-import { skillById, type Access } from "../../../lib/mentalist/model";
+import { gradeOf, levelById, skillById, type Access } from "../../../lib/mentalist/model";
 import { previewGoal, sideGoals } from "../../../lib/mentalist/preview-goals";
 import "./previews.css";
 
-type Clip = (typeof clips)[number];
-type Item = { clip: Clip; goal: ReturnType<typeof previewGoal> };
+type Clip = { level: string; skill: string; model: string; prompt: string; subprompt?: string; media?: string; mediaCourse?: string; steps: { label: string; math: string }[]; answer: string };
+type Item = { clip: Clip; caption?: string; goal: Pick<ReturnType<typeof previewGoal>, "remaining" | "foundations" | "available"> };
 
 function Playback({ clip, active, obscured }: { clip: Clip; active: boolean; obscured: boolean }) {
   const player = useRef<HTMLVideoElement>(null);
   const [paused, setPaused] = useState(false);
-  const base = "/mentalist/previews/" + (clip.media ?? (clip.model === "worked" ? clip.level : clip.skill));
+  const base = (clip.mediaCourse === "mentalist" || gradeOf(clip.skill) === 7 ? "/mentalist/previews/" : `/${gradeOf(clip.skill)}math/previews/`) + (clip.media ?? (clip.model === "worked" ? clip.level : clip.skill));
   useEffect(() => {
     if (!active || obscured) return;
     const video = player.current!;
@@ -41,7 +43,7 @@ function Playback({ clip, active, obscured }: { clip: Clip; active: boolean; obs
     };
   }, [active, obscured]);
 
-  const title = skillById.get(clip.skill)!.title;
+  const title = gradeOf(clip.skill) === 7 ? skillById.get(clip.skill)!.title : levelById.get(clip.level)!.title;
   return <>
     <video ref={player} muted playsInline loop disablePictureInPicture disableRemotePlayback
       controls={false} controlsList="nofullscreen nodownload noremoteplayback"
@@ -64,7 +66,7 @@ function Playback({ clip, active, obscured }: { clip: Clip; active: boolean; obs
 type ReelProps = {
   items: Item[];
   obscured: boolean;
-  onTry?: (skill: string) => void;
+  onTry?: (skill: string, level: string) => void;
 };
 
 function Reel({ items, obscured, onTry }: ReelProps) {
@@ -96,23 +98,23 @@ function Reel({ items, obscured, onTry }: ReelProps) {
       el.focus({preventScroll: true});
       el.scrollBy({top: (e.key === "ArrowDown" ? 1 : -1) * el.clientHeight, behavior: "instant"});
     }}>
-    {cards.map(({clip, goal}, i) => {
-      const title = skillById.get(clip.skill)!.title;
+    {cards.map(({clip, goal, caption}, i) => {
+      const title = gradeOf(clip.skill) === 7 ? skillById.get(clip.skill)!.title : levelById.get(clip.level)!.title;
       return <article key={i + clip.skill} className="mp-card" aria-label={title} inert={i !== position}>
         {Math.abs(i - position) <= 1 && <Playback clip={clip} active={i === position} obscured={obscured} />}
         <div className="mp-caption">
-          <div><h2>{title}</h2><p>{goal.remaining} {goal.remaining === 1 ? "level" : "levels"} to complete
+          <div><h2>{title}</h2><p>{caption ?? <>{goal.remaining} {goal.remaining === 1 ? "level" : "levels"} to complete
             {goal.foundations.length > 0 && <> · First, {skillById.get(goal.foundations[0])!.title}</>}
-          </p></div>
+          </>}</p></div>
           <button type="button" className="mp-try" disabled={!onTry || !goal.available}
-            onClick={() => onTry?.(clip.skill)}>Try it</button>
+            onClick={() => onTry?.(clip.skill, clip.level)}>Try it</button>
         </div>
       </article>;
     })}
   </div>;
 }
 
-const clipByLevel = new Map(clips.map(clip => [clip.level, clip]));
+const clipByLevel = new Map<string, Clip>([...clips,...grade6Clips,...grade8Clips].map(clip => [clip.level, clip]));
 
 export function LessonVideo({level}: {level: string}) {
   const [open, setOpen] = useState(false);
@@ -148,5 +150,14 @@ export function PreviewFeed({ access, obscured, onTry, pinned }: {
       <p className="mp-empty">{!onTry ? "Lesson availability is unavailable. Return to the map to reconnect." :
         eligible.length ? "No skills match this filter. Choose All to see your other skills." :
         "No unfinished side goals are available. Visit the map to continue or replay a lesson."}</p>}
+  </section>;
+}
+
+export function CourseFeed({ grade, obscured, onTry }: { grade: 6 | 8; obscured: boolean; onTry: (skill: string, level: string) => void }) {
+  const items = (grade === 6 ? grade6Clips : grade8Clips).map(clip => ({
+    clip, caption: skillById.get(clip.skill)!.world.slice(3), goal: { available: true, remaining: 1, foundations: [] },
+  }));
+  return <section className="mp-feed" aria-label={`Grade ${grade} worked examples`}>
+    <Reel items={items} obscured={obscured} onTry={onTry} />
   </section>;
 }

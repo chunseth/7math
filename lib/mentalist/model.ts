@@ -1,9 +1,12 @@
+import sixth from "../../content/6math/lessons.json";
+import eighth from "../../content/8math/lessons.json";
 import skillData from "../../content/mentalist/skills.json";
 import lessonPlan from "../../content/mentalist/lesson-plan.json";
 import trailData from "../../content/mentalist/trail.json";
 import { branchTitles } from "../curriculum/catalog";
 import { equal, formatRational, parseAnswer } from "../curriculum/rational";
 import type { Equipment } from "./resources";
+import { responseForGrade } from "./least-order";
 
 // Keep each slash on the word before it, with a space before the next word ("Bar/ dot plots").
 const spaceSlashes = (title: string) => title.replace(/\s*\/\s*/g, "/ ");
@@ -13,11 +16,39 @@ export const skills = skillData.map((skill) => ({
   levels: skill.levels.map(spaceSlashes),
 }));
 export const levels: Level[] = trailData.map((level) => ({ ...level, title: spaceSlashes(level.title) }));
+export type CourseGrade = 6 | 7 | 8;
+export const courseGrade = (value: unknown): CourseGrade => value === 6 || value === 8 ? value : 7;
+export const gradeOf = (id: string): CourseGrade => id.startsWith("g6.") ? 6 : id.startsWith("g8.") ? 8 : 7;
+
+type CourseLesson = {
+  id: string;
+  title: string;
+  unit: string;
+  example: string;
+  standards: string[];
+  prerequisites: string[];
+  stages?: { title: string; example: string }[];
+  previousPrerequisites?: string[];
+};
+function makeCourse(lessons: CourseLesson[], grade: 6 | 8) {
+  const skills = lessons.map(lesson => ({
+    ...lesson, group: lesson.id, levels: lesson.stages?.map(s => s.title) ?? [lesson.title], world: `g${grade}.${lesson.unit}`,
+  }));
+  const levels: Level[] = skills.flatMap(skill => skill.levels.map((title, i) => ({
+    id: skill.id + "." + (i+1), skill: skill.id, title, ordinal: i+1,
+    preview: { prompt: skill.stages?.[i].example ?? skill.example },
+  })));
+  return { skills, levels };
+}
+export const courses = { 6: makeCourse(sixth, 6), 8: makeCourse(eighth, 8) };
+const originalParents = new Map([...courses[6].skills, ...courses[8].skills].map(s => [s.id, s.previousPrerequisites]));
+export const { skills: grade8Skills, levels: grade8Levels } = courses[8];
+const courseSkills = [...courses[6].skills, ...grade8Skills];
 export const worldTitles = branchTitles;
 export const worlds = [...new Set(skills.map((s) => s.world))];
-export const skillById = new Map(skills.map((s) => [s.id, s]));
-export const levelById = new Map(levels.map((l) => [l.id, l]));
-export const curriculumVersion = 2;
+export const skillById = new Map<string, (typeof skills)[number]>([...skills, ...courseSkills].map(s => [s.id, s]));
+export const levelById = new Map([...levels, ...courses[6].levels, ...grade8Levels].map(l => [l.id, l]));
+export const curriculumVersion = 7;
 const formerSkillIds = new Map<string, string>();
 for (const skill of skills)
   for (const table of skill.tables ?? []) formerSkillIds.set(skill.group + "." + table, skill.id);
@@ -28,6 +59,7 @@ export function currentLevel(id: string) {
   return currentSkill(id.slice(0, ordinal)) + id.slice(ordinal);
 }
 export const cardTitles: Record<string, string> = {
+  ...Object.fromEntries(courseSkills.map(skill => [skill.world, skill.unit])),
   ...worldTitles, multiplication: "Multiplication", division: "Division",
 };
 export function cardTopic(skillId: string) {
@@ -83,8 +115,10 @@ export type Visual = {
   rows?: (string | number)[][];
   points?: number[][];
   outcomes?: string[];
+  coinTrials?: number;
   solid?: number;
   source?: string;
+  sampleSize?: number;
 };
 export type Level = {
   id: string;
@@ -95,16 +129,28 @@ export type Level = {
 };
 export type Control = {
   kind: string;
+  unit?: string;
   signed?: boolean;
   width?: number;
   places?: number;
   options?: string[];
-  fields?: { label: string; options: string[] }[];
+  fields?: { label: string; options: string[]; entry?: "number" | "text" }[];
   limit?: number;
   step?: number;
+  origin?: number;
   points?: number;
 };
-export type Question = { prompt: string; control: Control; visual?: Visual };
+type ResponseField = NonNullable<Control["fields"]>[number];
+export function responseFieldMode(kind: string, field: ResponseField, index: number) {
+  if (field.entry) return field.entry;
+  if (kind === "ray") return index === 0 ? "number" : "buttons";
+  if (kind === "net") return index === 2 ? "number" : "buttons";
+  if (kind === "list" || kind === "tree") return "buttons";
+  if (["boxplot", "record", "simulation", "table"].includes(kind) && field.options.every(value => parseAnswer(value))) return "number";
+  return "select";
+}
+
+export type Question = { prompt: string; control: Control; visual?: Visual; fieldChecks?: string[]; fieldFormats?: (Control | null)[] };
 export type Outcome = "incorrect" | "correct" | "simplification";
 export type Recorded = { outcome: Outcome; active_ms: number | null };
 export type Result = {
@@ -119,22 +165,26 @@ export type Result = {
   targetMs: number;
   retries: number;
   simplifications: number;
+  missingEvidence?: string[];
 };
-export function evaluate(positions: Recorded[][], targetMs: number): Result | null {
+export function evaluate(positions: Recorded[][], targetMs: number, evidence: (string | undefined)[] = []): Result | null {
   if (positions.length !== 12 || positions.some((events) => events.at(-1)?.outcome !== "correct"))
     return null;
   const events = positions.flat(),
     scored = events.filter((e) => e.outcome !== "simplification");
-  const firstTry = positions.filter(
+  const correctFirst = positions.map(
     (group) => group.find((e) => e.outcome !== "simplification")?.outcome === "correct",
-  ).length;
+  );
+  const firstTry = correctFirst.filter(Boolean).length;
+  const demonstrated = new Set(evidence.filter((_, index) => correctFirst[index]));
+  const missingEvidence = [...new Set(evidence.filter((name): name is string => !!name && !demonstrated.has(name)))];
   const times = positions.map(group => group.every(e => e.active_ms !== null)
     ? group.reduce((sum, e) => sum + e.active_ms!, 0)
     : null);
   const timed = times.filter((ms): ms is number => ms !== null);
   const activeMs = timed.length === 12 ? timed.reduce((sum, ms) => sum + ms, 0) : null;
   const retries = scored.length - 12;
-  const passed = firstTry >= 10;
+  const passed = firstTry >= 10 && missingEvidence.length === 0;
   return {
     firstTry,
     passed,
@@ -151,6 +201,7 @@ export function evaluate(positions: Recorded[][], targetMs: number): Result | nu
     targetMs,
     retries,
     simplifications: events.length - scored.length,
+    ...(missingEvidence.length ? { missingEvidence } : {}),
   };
 }
 export function complete(c: Control, raw: string) {
@@ -164,23 +215,53 @@ export function complete(c: Control, raw: string) {
   if (c.options) return c.options.includes(raw);
   if (c.fields) {
     const parts = raw.split("|");
-    return parts.length === c.fields.length && c.fields.every((field, i) => field.options.includes(parts[i]));
+    if (c.kind === "stem-plot" && !parts.some(Boolean)) return false;
+    return parts.length === c.fields.length && c.fields.every((field, i) => {
+      if (c.kind === "dotplot" || c.kind === "histogram") return /^\d{1,2}$/.test(parts[i]);
+      if (c.kind === "stem-plot") return /^(?:\d(?: \d){0,11})?$/.test(parts[i]);
+      const mode = responseFieldMode(c.kind, field, i);
+      if (mode === "number") return !!parseAnswer(parts[i]);
+      if (mode === "text") return /^[a-z]{1,3}$/i.test(parts[i].trim());
+      return field.options.includes(parts[i]);
+    });
   }
   if (c.limit) {
     const points = raw.split(";");
     if (points.length !== (c.points ?? 1)) return false;
-    const step = c.step ?? 1,
-      limit = c.limit;
+    const step = Math.round((c.step ?? 1) * 10);
+    const origin = Math.round((c.origin ?? 0) * 10);
+    const onGrid = (offset: number) => offset % step === 0 && Math.abs(offset / step) <= c.limit!;
     return points.every((pair) => {
-      if (!/^-?\d{1,2}(?:\.5)?,-?\d{1,2}(?:\.5)?$/.test(pair)) return false;
-      const [x, y] = pair.split(",").map(Number);
-      return (
-        [x, y].every((v) => Number.isInteger(v / step) && Math.abs(v / step) <= limit) &&
-        (c.kind !== "line" || y === 0)
-      );
+      if (!/^-?\d{1,2}(?:\.\d)?,-?\d{1,2}(?:\.\d)?$/.test(pair)) return false;
+      const [x, y] = pair.split(",").map(value => Math.round(Number(value) * 10));
+      return onGrid(x - origin) && onGrid(y) && (c.kind !== "line" || y === 0);
     });
   }
   return false;
+}
+export function normalizeStructuredAnswer(c: Control, raw: string) {
+  if (c.kind === "line" && c.origin !== undefined) return raw.split(",").map(Number).join(",");
+  // A rectangle placed at the origin may extend into any quadrant if the prompt gives only its dimensions.
+  if (c.kind === "drawing") return raw.split(",").map(value => Math.abs(Number(value))).join(",");
+  if (c.kind === "scatterplot") {
+    return raw.split(";").map(pair => pair.split(",").map(Number).join(",")).sort().join(";");
+  }
+  if (c.fields) {
+    const parts = raw.split("|");
+    return parts.map((part, i) => {
+      const field = c.fields?.[i];
+      if (!field || field.options.includes(part)) return part;
+      const mode = responseFieldMode(c.kind, field, i);
+      if (mode === "text") return part.trim().toLowerCase();
+      if (mode !== "number") return part;
+      const value = parseAnswer(part);
+      return value ? field.options.find(option => {
+        const equivalent = parseAnswer(option);
+        return equivalent && equal(value, equivalent);
+      }) ?? part : part;
+    }).join("|");
+  }
+  return raw;
 }
 export function grade(
   c: Control,
@@ -188,8 +269,10 @@ export function grade(
   raw: string,
 ): { outcome: Outcome; normalized: string } | null {
   if (!complete(c, raw)) return null;
-  if (!["whole", "decimal", "fraction"].includes(c.kind))
-    return { outcome: answer === raw ? "correct" : "incorrect", normalized: raw };
+  if (!["whole", "decimal", "fraction"].includes(c.kind)) {
+    const normalized = normalizeStructuredAnswer(c, raw);
+    return { outcome: normalizeStructuredAnswer(c, answer) === normalized ? "correct" : "incorrect", normalized };
+  }
   const value = parseAnswer(raw),
     expected = parseAnswer(answer);
   if (!value || !expected) return null;
@@ -201,6 +284,67 @@ export function grade(
   }
   return { outcome: "correct", normalized };
 }
+
+export function gradeQuestion(question: Question, answer: string, raw: string) {
+  if (question.visual?.coinTrials) {
+    const trial = /^tosses:([HT]+):(.+)$/.exec(raw);
+    if (raw.length > 256 || !trial || trial[1].length !== question.visual.coinTrials) return null;
+    answer = coinTrialAnswers(trial[1]).join("|");
+    raw = trial[2];
+  }
+  if (isFieldAttempt(raw)) {
+    const attempt = parseFieldAttempt(question.control, raw);
+    if (!attempt) return null;
+    const expected = fieldValue(question.control, attempt.index, answer.split("|")[attempt.index]);
+    if (expected === null || expected === attempt.value) return null;
+    return { outcome: "incorrect" as const, normalized: raw };
+  }
+  const response = responseForGrade(question, raw);
+  return response === null ? null : grade(question.control, answer, response);
+}
+
+export function hasSequentialFields(control: Control) {
+  return !!control.fields && !["dotplot", "histogram", "stem-plot"].includes(control.kind);
+}
+
+export function fieldValue(control: Control, index: number, raw: string) {
+  const field = control.fields?.[index];
+  if (!field || !raw || raw.length > 128) return null;
+  const mode = responseFieldMode(control.kind, field, index);
+  if (mode === "number") {
+    const number = parseAnswer(raw);
+    return number ? formatRational(number) : null;
+  }
+  if (mode === "text") return /^[a-z]{1,3}$/i.test(raw.trim()) ? raw.trim().toLowerCase() : null;
+  return field.options.includes(raw) ? raw : null;
+}
+
+export function fieldFormat(control: Control, index: number, answer: string): Control | null {
+  const field = control.fields?.[index];
+  if (!field || responseFieldMode(control.kind, field, index) !== "number") return null;
+  const signed = field.options.some(value => /^[−-]/.test(value)) || /^[−-]/.test(answer);
+  if (answer.includes("/")) return { kind: "fraction", signed };
+  const [whole, decimal] = answer.replace(/^[−+-]/, "").split(".");
+  return { kind: decimal ? "decimal" : "whole", signed, width: whole.length, ...(decimal ? { places: decimal.length } : {}) };
+}
+
+export const isFieldAttempt = (raw: string) => /^(?:tosses:[HT]+:)?part:/.test(raw);
+export const fieldAttempt = (index: number, raw: string) => `part:${index}:${raw}`;
+export const coinTrialAttempt = (tosses: string, raw: string) => `tosses:${tosses}:${raw}`;
+export function coinTrialAnswers(tosses: string) {
+  const heads = tosses.replaceAll("T", "").length;
+  return [String(heads), String(tosses.length - heads)];
+}
+export function parseFieldAttempt(control: Control, raw: string) {
+  if (raw.length > 256 || !hasSequentialFields(control)) return null;
+  const match = /^part:(\d+):(.+)$/.exec(raw);
+  if (!match) return null;
+  const index = Number(match[1]), value = fieldValue(control, index, match[2]);
+  return value === null ? null : { index, value };
+}
+
+export const fieldCheckText = (prompt: string, index: number, value: string | null) => JSON.stringify([prompt, index, value]);
+
 export type Access = {
   id: string;
   state: "ready" | "progress" | "cleared" | "placed" | "locked" | "planned";
@@ -214,11 +358,15 @@ export function accessMap(
   played: Set<string>,
   assigned: Set<string>,
   placed: Set<string>,
+  path: Level[] = levels,
 ): Access[] {
   const passed = new Map(clears.map((c) => [c.level, c]));
   const finished = (id: string) =>
     placed.has(id) || skillById.get(id)!.levels.every((_, i) => passed.has(`${id}.${i + 1}`));
-  return levels.map((l) => {
+  // A site can deploy the new app before publishing the expanded question bank.
+  const prefix = path[0] && "g" + gradeOf(path[0].id);
+  const originalCourse = published.has(prefix + ".sets.1") && !published.has(prefix + ".steps-sets.1");
+  return path.map((l) => {
     const skill = skillById.get(l.skill)!;
     const entry: Access = { id: l.id, state: "ready", reason: "Ready to play", stars: 0 };
     if (!published.has(l.id)) return { ...entry, state: "planned", reason: "Awaiting publication" };
@@ -227,7 +375,9 @@ export function accessMap(
     const previous = `${l.skill}.${l.ordinal - 1}`;
     if (l.ordinal > 1 && !passed.has(previous))
       return { ...entry, state: "locked", reason: `Clear ${levelById.get(previous)!.title} first` };
-    const missing = skill.prerequisites.filter((id) => !finished(id));
+    const requirements = originalCourse
+      ? originalParents.get(l.skill) ?? skill.prerequisites : skill.prerequisites;
+    const missing = requirements.filter((id) => !finished(id));
     if (missing.length && !placed.has(l.skill))
       return {
         ...entry,
@@ -246,9 +396,9 @@ export type MainPathProgress = {
   target: string | null;
   next: string | null;
 };
-export function mainPathProgress(access: Access[]): MainPathProgress {
+export function mainPathProgress(access: Access[], path = mainPathLevels): MainPathProgress {
   const byId = new Map(access.map((entry) => [entry.id, entry]));
-  const published = mainPathLevels.filter((level) => {
+  const published = path.filter((level) => {
     const state = byId.get(level.id)?.state;
     return state !== undefined && state !== "planned";
   });

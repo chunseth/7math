@@ -1,7 +1,8 @@
 """Version-one level templates for applications, representations, and guided tasks."""
 
 from fractions import Fraction as F
-from formats import q, choose, fields, table, chart, grid
+from random import Random
+from formats import q, choose, fields, table, chart, grid, item
 
 
 def topic(s, l, n, v):
@@ -160,24 +161,25 @@ def topic(s, l, n, v):
                 ),
             ][l - 1]
         if l == 1:
+            second = a + 2 + n % 5
             return fields(
                 f"Complete the table for y = {k}x + {b}.",
-                ["x = " + str(a), "x = " + str(a + 1)],
-                [k * a + b, k * (a + 1) + b],
-                [[a, b], [a + 1, b]],
+                [f"y when x = {a}", f"y when x = {second}"],
+                [k * a + b, k * second + b],
+                [[a, b], [second, b]],
                 n,
             )
         if l == 2:
-            x = 1 + n % 3
-            slope = 1 + n % 2
-            offset = n % 4
+            x = n % 7 - 3
+            slope = 1 + n // 7 % 2
+            offset = n // 14 % 5 - 2
             return grid(
                 f"Plot the point at x = {x} on y = {slope}x + {offset}.",
                 x,
                 slope * x + offset,
             )
         return choose(
-            f"Which equation matches the table at x = {a}?",
+            f"Which equation fits every row of the table? Check the row at x = {a} as well.",
             f"y = {k}x + {b}",
             [f"y = {b}x − {k}", f"y = {k}x"],
             n,
@@ -216,9 +218,10 @@ def topic(s, l, n, v):
                 ),
             ][l - 1]
         if l == 3:
+            difference = (2 + n % 13) * (-1 if v == 0 else 1) if v != 2 else 0
             return q(
-                f"On ${total}, compare {rate}% off with ${part+5} off. How much more does the better offer save?",
-                5,
+                f"On ${total}, compare {rate}% off with ${part+difference} off. What is the difference between the two savings in dollars?",
+                abs(difference),
             )
         return q(
             f'An item is ${total}. Apply {rate}% off and then {"10% sales tax" if l==2 else "a further 10% discount"}. Final price?',
@@ -266,7 +269,7 @@ def topic(s, l, n, v):
             x = 1 + n % 8
             y = 1 + n // 3 % 8
             return grid(
-                f"Complete the scale drawing. A rectangle begins at (0,0), width {2*x} m and height {2*y} m. Plot its opposite corner at 2 m per square.",
+                f"Complete the scale drawing. A rectangle begins at (0,0), width {2*x} m and height {2*y} m. Choose any quadrant and plot its opposite corner at 2 m per square.",
                 x,
                 y,
                 10,
@@ -293,7 +296,7 @@ def topic(s, l, n, v):
                 f"Complete a tree for {a} colors followed by {b} letters.",
                 ["First branches", "Leaves per branch", "Total leaves"],
                 [a, b, a * b],
-                [[a + 1, a * b], [b + 1, a * b], [a * b + 1, b]],
+                [[b, a * b], [a, a * b], [a, b]] if a != b else [[a + 1, a * b], [b + 1, a * b], [a * b + 1, b]],
                 n,
                 kind="tree",
             )
@@ -344,15 +347,16 @@ def topic(s, l, n, v):
                     ["One large sector for red", "Always alternate two colors"],
                     n,
                 )
-            outcomes = ["H" if (n * 7 + i * 3) % 11 < 5 else "T" for i in range(8)]
+            rng = Random(f"coin-trials/{n}/{v}")
+            outcomes = [rng.choice(("H", "T")) for _ in range(8)]
             return (
                 fields(
-                    f"Run trial sequence {a} and record the outcomes.",
+                    f"Tap “Run next trial” eight times. Record the number of heads and tails (experiment {n}).",
                     ["Heads", "Tails"],
                     [outcomes.count("H"), outcomes.count("T")],
                     [[0, 1, 2, 3, 4, 5, 6, 7, 8]] * 2,
                     n,
-                    dict(kind="simulation", outcomes=outcomes),
+                    dict(kind="simulation", outcomes=outcomes, coinTrials=8),
                     kind="simulation",
                 )
                 if l == 2
@@ -362,11 +366,10 @@ def topic(s, l, n, v):
                 )
             )
         if l == 1:
-            return choose(
-                f"A fair coin lands heads {a} times in {2*a+2} trials. How does the observed heads rate compare with 1/2?",
-                "Lower",
-                ["Higher", "Equal"],
-                n,
+            return item(
+                f"A fair coin lands heads {a} times in {2*a+2-2*v} trials. How does the observed heads rate compare with 1/2?",
+                ["Lower", "Equal", "Higher"][v],
+                dict(kind="choice", options=["Lower", "Higher", "Equal"]),
             )
         return q(
             f"A spinner landed on green {a} times in {total} trials. Based on the data, predict green outcomes in {total*4} trials.",
@@ -410,13 +413,24 @@ def topic(s, l, n, v):
                 labels=["Group A", "Group B"],
             )
             if l == 1:
-                return choose(
-                    f"Which group has a longer right whisker on the common scale starting at {a}?",
-                    "Group B",
-                    ["Group A", "Equal"],
-                    n,
-                    vis,
-                )
+                metric = n % 4
+                vis["rows"] = [
+                    [a, a + 1, a + 3, a + 5, a + 7],
+                    [a, a + 2, a + 4, a + 8, a + 12],
+                ]
+                if v == 0:
+                    vis["rows"].reverse()
+                if v == 2:
+                    vis["rows"][1] = [
+                        [a, a + 1, a + 4, a + 8, a + 12],
+                        [a, a + 2, a + 4, a + 8, a + 10],
+                        [a, a + 2, a + 4, a + 6, a + 12],
+                        [a, a + 2, a + 3, a + 8, a + 12],
+                    ][metric]
+                measure = ["longer left whisker", "longer right whisker", "larger interquartile range", "greater median"][metric]
+                return item(f"Which group has the {measure} on the common scale starting at {a}?",
+                            ["Group A", "Group B", "Equal"][v],
+                            dict(kind="choice", options=["Group A", "Group B", "Equal"]), vis)
             return q(
                 f'Compare the {"medians" if l==2 else "IQRs"} on the common scale starting at {a}. How much larger is B’s?',
                 2 if l == 2 else 5,
@@ -429,10 +443,16 @@ def topic(s, l, n, v):
                     f"{a} of {total} randomly sampled students walk. Estimate walkers in a school of {total*10}.",
                     a * 10,
                 )
-            return choose(
-                f"{a} of {a+b} randomly sampled students bike. What can this sample support?",
+            selection = ["randomly selected from the whole school", "selected at a bike club meeting", "all the students enrolled at the school"][v]
+            options = [
                 "An estimate of the school proportion",
-                ["An exact count for the school", "A guarantee about every class"],
+                "Only the observed share for this group",
+                "The exact school proportion",
+            ]
+            return choose(
+                f"{a} of {total} students bike to school. The {total} students are {selection}. What is the strongest conclusion the data support?",
+                options[v],
+                options,
                 n,
             )
         if l == 1:
@@ -512,18 +532,20 @@ def topic(s, l, n, v):
                 n,
             )
         if s == "algebra.story":
-            rel = "exactly" if l == 1 else "at most"
-            return fields(
-                f'Build a ticket-price story for {k}x + {b} {"=" if l==1 else "≤"} {k*a+b}.',
-                ["Per ticket", "Entry fee", "Total"],
-                [f"${k}", f"${b}", f"{rel} ${k*a+b}"],
-                [[f"${k+1}"], [f"${b+1}"], [f"at least ${k*a+b}"]],
+            row = fields(
+                f'Build a ticket-price story for {k}x + {b} {"=" if l==1 else "≤"} {k*a+b}. Let x be the number of tickets.',
+                ["Price per ticket ($)", "Entry fee ($)", "Exact total ($)" if l == 1 else "Maximum total ($)"],
+                [k, b, k*a+b],
+                [[k+1], [b+1], [k*a+b+1]],
                 n,
                 kind="story",
             )
+            for field in row["control"]["fields"]:
+                field["entry"] = "number"
+            return row
         x = n % 19 - 9
         if l == 1:
-            return grid(f"Mark the solution: x + {b} = {x+b}.", x, 0, 10, "line")
+            return grid(f"Solve {k}x + {b} = {k*x+b}, then mark the solution.", x, 0, 10, "line")
         direction = "Right" if v % 2 else "Left"
         inclusive = l == 3
         rel = (
@@ -532,7 +554,7 @@ def topic(s, l, n, v):
             else ("≤" if inclusive else "<")
         )
         return fields(
-            f"Construct the number line for x {rel} {x}.",
+            f"Solve {k}x + {b} {rel} {k*x+b}, then graph the solution set.",
             ["Boundary", "Endpoint", "Ray"],
             [x, "Closed" if inclusive else "Open", direction],
             [[x - 1, x + 1], ["Open", "Closed"], ["Left", "Right"]],
@@ -551,11 +573,11 @@ def geometry_finance(s, l, n, v, a, b, k):
             )
         if l == 2 and v == 0:
             return q(f"Two vertical angles measure 2x and {2*a} degrees. Find x.", a)
-        return q(
-            f"Find x in the triangle.",
-            180 - a - b,
-            visual=dict(kind="triangle", labels=[f"{a}°", f"{b}°", "x°"]),
-        )
+        left = 15 + (7 * n) % 106
+        lower = max(15, 40 - left)
+        right = lower + (11 * n + v) % (min(140, 165 - left) - lower + 1)
+        return q("Find x in the triangle.", 180 - left - right,
+                 visual=dict(kind="triangle", labels=[f"{left}°", f"{right}°", "x°"]))
     if s.startswith("circle."):
         pi = F(314, 100)
         if s == "circle.pi":
@@ -615,7 +637,7 @@ def geometry_finance(s, l, n, v, a, b, k):
         height = 3 * k
         if s == "solid.models":
             return q(
-                f'A {"triangular" if tri else "rectangular"} prism has volume {base*height} cm³. A pyramid shares its base and height. Pyramid volume?',
+                f'A {"triangular" if tri else "rectangular"} prism has volume {base*height} cm³. A pyramid has the same base area and perpendicular height. Find the pyramid’s volume in cm³.',
                 base * k,
             )
         noun = "pyramid" if s == "solid.pyramid" else "prism"
@@ -632,8 +654,10 @@ def geometry_finance(s, l, n, v, a, b, k):
             "square pyramid",
             "triangular pyramid",
         ]
+        if s == "solid.surface" and l == 1:
+            a, b, k = 5 * (1 + n % 5), 2 + n // 5 % 6, 2 + n // 30 % 5
         areas = [
-            [a * b, a * b, a * k, a * k, b * k, b * k],
+            [a * b, a * b, a * k, b * k, a * k, b * k],
             [6 * a * a, 6 * a * a, 3 * a * k, 4 * a * k, 5 * a * k],
             [a * a] + [a * (a + b)] * 4,
             [6 * a * a] + [6 * a * a] * 3,
@@ -646,14 +670,14 @@ def geometry_finance(s, l, n, v, a, b, k):
                 f"Complete the face record for this {shapes[l-1]} net. The labeled numbers are face areas.",
                 ["Base faces", "Lateral faces", "Area of one base"],
                 [bases, len(vals) - bases, vals[0]],
-                [[1, 2, 3], [2, 3, 4], [vals[0] + 1, vals[0] + 2]],
+                ([[2, 4], [2, 4]] if l == 1 else [[1, 2, 3], [2, 3, 4]]) + [[vals[0] + 1, vals[0] + 2]],
                 n,
                 vis,
                 "net",
             )
         lateral = v % 2 == 1
         return q(
-            f'Find {"lateral" if lateral else "total"} area of the {shapes[l-1]}. Face areas are shown in cm².',
+            f'Find the {"lateral surface area" if lateral else "surface area"} of the {shapes[l-1]}. Face areas are shown in cm².',
             sum(vals[bases:] if lateral else vals),
             visual=vis,
         )
@@ -730,15 +754,19 @@ def geometry_finance(s, l, n, v, a, b, k):
             [("Required pre-tax household income", incomes[i])],
         )
         vis["source"] = "https://livingwage.mit.edu/counties/48201"
+        if l == 1 and n // 12 % 2:
+            available = incomes[i] - (1 + n % 9) * 500
+            return q(f"{household}. A household earns ${available:,} per year. How many more annual dollars does it need to meet the estimate?", incomes[i] - available, visual=vis)
         if l == 1:
             return q(
                 f"{household}. Use the estimator table to find required pre-tax household dollars per year.",
                 incomes[i],
                 visual=vis,
             )
-        wage = F(round(F(incomes[i] * 100, 2080 * workers)), 100)
+        hours = [2080, 2000, 1950][n // 12 % 3]
+        wage = F(round(F(incomes[i] * 100, hours * workers)), 100)
         return q(
-            f"{household}. Each worker works 2,080 hours a year at equal pay. Required hourly wage per worker, nearest cent?",
+            f"{household}. Each worker works {hours:,} hours a year at equal pay. Required hourly wage per worker, nearest cent?",
             wage,
             "decimal",
             places=2,
@@ -751,16 +779,12 @@ def geometry_finance(s, l, n, v, a, b, k):
             interest + (a * 100 if l == 2 else 0),
         )
     if s == "finance.compound":
+        b = [2, 3, 5, 10][n % 4]
         principal = 100 * a
         compound = F(principal * (100 + b) ** 2, 10000)
         if l == 1:
-            return fields(
-                f"${principal} earns {b}% compounded annually. Complete the two balances.",
-                ["Year 1", "Year 2"],
-                [f"{a*(100+b):.2f}", f"{float(compound):.2f}"],
-                [[f"{principal:.2f}"], [f"{principal+2*a*b:.2f}"]],
-                n,
-            )
+            return q(f"${principal} earns {b}% compounded annually. Find the ending balance after two years.",
+                     compound, "decimal", places=2)
         return q(
             f"${principal} earns {b}% compounded annually for two years. Find "
             + (

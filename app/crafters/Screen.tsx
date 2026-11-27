@@ -28,7 +28,7 @@ export function Unavailable({ href, message }: { href: string; message: string }
 
 export default async function Screen({ view }: { view: View }) {
   const path = view === "mining" ? miningPath : craftingPath;
-  if (!enabled()) return <Unavailable href={path} message="Crafters requires the Mentalist player sign-in." />;
+  if (!enabled()) return <Unavailable href={path} message="Crafters requires the 7math player sign-in." />;
   const token = (await cookies()).get(studentCookie)?.value;
   if (!token) redirect(signInPath(view));
 

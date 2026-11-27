@@ -1,11 +1,13 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { cardTitles, cardTopic, formatRunTime, levelById, skillById, type RunView, sprites } from "../../../lib/mentalist/model";
+import { cardTitles, cardTopic, formatRunTime, isFieldAttempt, levelById, skillById, type RunView, sprites } from "../../../lib/mentalist/model";
 import { discardRound, post, RequestError, storeRound } from "../../../lib/mentalist/client";
 import Answer from "./Answer";
 import { Visual } from "./Visual";
 import { Leaderboard } from "./Leaderboard";
 import { advance, checkLocally, type RoundDraft } from "../../../lib/mentalist/round";
+import { displayAttempt, studentPrompt } from "../../../lib/mentalist/least-order";
+import QuestionPrompt, { useQuestionPart } from "./QuestionPrompt";
 
 export function Battle({
   initial,
@@ -29,6 +31,7 @@ export function Battle({
     [stale, setStale] = useState<"expired" | "ended" | null>(null);
   const [reset, setReset] = useState(0),
     [feedback, setFeedback] = useState(""),
+    [reduce, setReduce] = useState(""),
     [hit, setHit] = useState({ n: 0, type: "" });
   const [simulated, setSimulated] = useState("");
   const [leaving, setLeaving] = useState(false);
@@ -105,7 +108,7 @@ export function Battle({
   useEffect(() => {
     if (ending && online) void deliver();
   }, [ending, online]);
-  async function answer(raw: string) {
+  async function answer(raw: string, calculated = false) {
     const d = draft.current;
     const current = d.run;
     if (!current.encounter || d.save || checking.current || leaving || document.hidden) return;
@@ -116,6 +119,7 @@ export function Battle({
     try {
       const rules = current.rules;
       const outcome = await checkLocally(d.pack, rules.order[current.resolved], raw);
+      if (calculated && outcome !== "correct") return;
       const combat = advance(current, rules, outcome);
       const next = { ...current, ...combat };
       const done = next.hp === 0 || next.resolved === 12;
@@ -129,10 +133,12 @@ export function Battle({
       setHit(h => ({ n: h.n + 1, type: outcome }));
       setError("");
       if (outcome === "incorrect") {
-        setFeedback(raw + " was incorrect. Try again.");
-        setReset(n => n + 1);
-      } else if (outcome === "simplification") setFeedback("Equivalent fraction. Simplify your answer.");
-      else { setFeedback(""); setReset(0); }
+        setFeedback(isFieldAttempt(raw) ? "" : displayAttempt(raw) + " was incorrect. Try again.");
+        if (!isFieldAttempt(raw)) setReset(n => n + 1);
+      } else if (outcome === "simplification") {
+        setReduce(raw);
+        setFeedback("Equivalent fraction. Simplify your answer.");
+      } else { setFeedback(""); setReduce(""); setReset(0); }
       if (done) setEnding("finish");
       time.current.sum = 0;
     } catch (e) {
@@ -148,6 +154,7 @@ export function Battle({
     setLeaving(false);
     setEnding("leave");
   }
+  const { partTitle, setPartTitle } = useQuestionPart(run.encounter?.question);
   if (ending) return <main className="mt-shell mt-results"><section className="mt-result-card">
     <h1>{ending === "leave" ? "Saving progress" : "Saving level"}</h1>
     <p role="status">{error || (online ? "Saving your answers and rewards…" : "Your answers will sync when you reconnect.")}</p>
@@ -175,6 +182,7 @@ export function Battle({
               </div>
               <strong className="mt-result-score">{r.firstTry} / 12</strong>
               <p>Correct on the first try</p>
+              {!!r.missingEvidence?.length && <p>To clear, get at least one of each of these right on the first try: {r.missingEvidence.join(", ")}.</p>}
               <dl>
                 <dt>Total time · 12 problems</dt>
                 <dd>{formatRunTime(r.activeMs)}</dd>
@@ -281,22 +289,22 @@ export function Battle({
       </div>
       <section className="mt-prompt" key={e.id}>
         <p>{level.title}</p>
-        <h1>{e.question.prompt}</h1>
-        <Visual data={e.question.visual} onSimulated={() => setSimulated(e.id)} />
+        <h1><QuestionPrompt part={partTitle} text={reduce ? `Reduce ${reduce}.` : studentPrompt(e.question)} /></h1>
+        <Visual data={e.question.visual} showLoan={false} onSimulated={() => setSimulated(e.id)} />
       </section>
       <div className="mt-input-area">
         <p className="mt-feedback" role="status">
           {error || feedback || (!online ? "Playing offline" : "")}
         </p>
         <Answer
-          key={e.id + "." + reset}
-          control={e.question.control}
+          key={e.id + "." + (e.question.visual?.kind === "loan" ? 0 : reset)}
+          question={e.question}
           disabled={
             busy ||
             leaving ||
-            (e.question.visual?.kind === "simulation" && simulated !== e.id)
+            (e.question.visual?.kind === "simulation" && !e.question.visual.coinTrials && simulated !== e.id)
           }
-          onAnswer={answer}
+          onAnswer={answer} onPart={setPartTitle}
         />
       </div>
       {leaving && (

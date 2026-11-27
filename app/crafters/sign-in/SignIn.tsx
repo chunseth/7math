@@ -30,7 +30,7 @@ export default function SignIn({ next }: { next: string }) {
       <section className="cf-card cf-login">
         <Link href="/">Game modes</Link>
         <h1>{create ? "Create a Crafters player" : "Sign in to Crafters"}</h1>
-        <p>Crafters and Mentalist share the same player account.</p>
+        <p>Crafters and 7math share the same player account.</p>
         <form onSubmit={signIn}>
           <PlayerFields value={credentials} onChange={setCredentials} create={create} />
           {error && <p role="alert">{error}</p>}

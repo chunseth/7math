@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import type { PoolClient } from "pg";
 import { GameError, one, rows, uuid } from "./db";
+import { publishedVersions } from "./student";
 import { curriculumVersion, skillById, levelById } from "./model";
 
 export async function teacherUser(token: string) {
@@ -45,7 +46,7 @@ export async function faculty(db: PoolClient, user: string, body: Record<string,
     if (enrolled.rowCount)
       await db.query(
         `insert into decisions(class,profile,skill,teacher,kind)
-      select $1,$2,s.id,$3,'assignment' from public.concept_assignments a join skills s on s.version=$4 and s.definition->>'group'=a.concept_id
+      select $1,$2,s.id,$3,'assignment' from public.concept_assignments a join skills s on s.version=(select max(version) from releases where version between 2 and $4) and s.definition->>'group'=a.concept_id
       where a.profile_id=$2 and a.teacher_id=$3 on conflict do nothing`,
         [c.id, p.id, teacher, curriculumVersion],
       );
@@ -65,13 +66,13 @@ export async function faculty(db: PoolClient, user: string, body: Record<string,
   if (body.action === "coverage") {
     const published = await rows(
       db,
-      "select l.skill,count(distinct l.id)::int levels,count(s.id)::int sets from levels l join published_levels pub on (pub.level,pub.version)=(l.id,l.version) join sets s on (s.level,s.version)=(l.id,l.version) where l.version=$1 group by l.skill", [curriculumVersion],
+      `select l.skill,count(distinct l.id)::int levels,count(s.id)::int sets from levels l join (${publishedVersions}) pub on (pub.level,pub.version)=(l.id,l.version) join sets s on (s.level,s.version)=(l.id,l.version) group by l.skill`,
     );
     return {
       published,
       requirements: await rows(
         db,
-        'select group_id as "group",requirement,levels from evidence where version=$1 order by group_id,requirement', [curriculumVersion],
+        'select group_id as "group",requirement,levels from evidence where version=(select max(version) from releases where version between 2 and $1) order by group_id,requirement', [curriculumVersion],
       ),
       outstanding: "Unrestricted written explanations require a separate teacher-reviewed activity.",
     };

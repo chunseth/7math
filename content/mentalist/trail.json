@@ -5,7 +5,7 @@
   "title": "Membership and classification",
   "ordinal": 1,
   "preview": {
-   "prompt": "What is the smallest listed set containing 32?"
+   "prompt": "What is the smallest listed set containing 23?"
   }
  },
  {
@@ -14,7 +14,7 @@
   "title": "Nested sets and containment",
   "ordinal": 2,
   "preview": {
-   "prompt": "32 belongs to the natural numbers (1, 2, …). Which listed set is the next larger standard set containing all natural numbers (1, 2, …)?"
+   "prompt": "25 belongs to the natural numbers (1, 2, …). Which listed set is the next larger standard set containing all natural numbers (1, 2, …)?"
   }
  },
  {
@@ -23,7 +23,7 @@
   "title": "Same signs",
   "ordinal": 1,
   "preview": {
-   "prompt": "12 + 11"
+   "prompt": "10 + 9"
   }
  },
  {
@@ -32,7 +32,7 @@
   "title": "Different signs",
   "ordinal": 2,
   "preview": {
-   "prompt": "12 + (-11)"
+   "prompt": "15 + (-9)"
   }
  },
  {
@@ -45,8 +45,8 @@
    "visual": {
     "kind": "chips",
     "values": [
-     3,
-     2
+     4,
+     4
     ]
    }
   }
@@ -57,7 +57,7 @@
   "title": "Positive subtrahends",
   "ordinal": 1,
   "preview": {
-   "prompt": "12 − 11"
+   "prompt": "14 − 4"
   }
  },
  {
@@ -66,7 +66,7 @@
   "title": "Subtracting negatives",
   "ordinal": 2,
   "preview": {
-   "prompt": "12 − (-11)"
+   "prompt": "20 − (-11)"
   }
  },
  {
@@ -75,7 +75,7 @@
   "title": "Mixed expressions and zero",
   "ordinal": 3,
   "preview": {
-   "prompt": "12 − 11"
+   "prompt": "8 − 10"
   }
  },
  {
@@ -84,7 +84,7 @@
   "title": "Sign patterns and zero",
   "ordinal": 1,
   "preview": {
-   "prompt": "12 × 11"
+   "prompt": "16 × 1"
   }
  },
  {
@@ -93,7 +93,7 @@
   "title": "Mixed short applications",
   "ordinal": 2,
   "preview": {
-   "prompt": "A lift moves 11 m each minute for 12 minutes. What is its change in height in meters?"
+   "prompt": "A lift moves 11 m each minute for 20 minutes. What is its change in height in meters?"
   }
  },
  {
@@ -102,7 +102,7 @@
   "title": "Sign patterns and zero dividends",
   "ordinal": 1,
   "preview": {
-   "prompt": "132 ÷ 11"
+   "prompt": "3 ÷ 1"
   }
  },
  {
@@ -111,7 +111,7 @@
   "title": "Mixed short applications",
   "ordinal": 2,
   "preview": {
-   "prompt": "The temperature changes 132° over 11 equal hours. What is the change per hour?"
+   "prompt": "The temperature changes 25° over 5 equal hours. What is the change per hour?"
   }
  },
  {
@@ -120,7 +120,7 @@
   "title": "Place value",
   "ordinal": 1,
   "preview": {
-   "prompt": "4.1 + 1.4"
+   "prompt": "1.1 + 5.5"
   }
  },
  {
@@ -129,7 +129,7 @@
   "title": "Signed values",
   "ordinal": 2,
   "preview": {
-   "prompt": "-4.1 + 1.4"
+   "prompt": "-3.6 + 0.9"
   }
  },
  {
@@ -138,7 +138,7 @@
   "title": "Short applications",
   "ordinal": 3,
   "preview": {
-   "prompt": "Two ribbons measure 4.1 m and 1.4 m. Find their combined length in meters."
+   "prompt": "Two ribbons measure 8 m and 0.2 m. Find their combined length in meters."
   }
  },
  {
@@ -147,7 +147,7 @@
   "title": "Place value",
   "ordinal": 1,
   "preview": {
-   "prompt": "4.1 − 1.4"
+   "prompt": "5.2 − 0.8"
   }
  },
  {
@@ -156,7 +156,7 @@
   "title": "Signed values",
   "ordinal": 2,
   "preview": {
-   "prompt": "-4.1 − 1.4"
+   "prompt": "-5.8 − 1.4"
   }
  },
  {
@@ -165,7 +165,7 @@
   "title": "Short applications",
   "ordinal": 3,
   "preview": {
-   "prompt": "A trail marker is at 4.1 km and the next at 1.4 km. Find the signed change from the second marker to the first."
+   "prompt": "A trail marker is at 7.7 km and the next at 1.6 km. Find the signed change from the second marker to the first."
   }
  },
  {
@@ -174,7 +174,7 @@
   "title": "Decimal placement",
   "ordinal": 1,
   "preview": {
-   "prompt": "4.1 × 1.4"
+   "prompt": "1.6 × 0.6"
   }
  },
  {
@@ -183,7 +183,7 @@
   "title": "Signed values",
   "ordinal": 2,
   "preview": {
-   "prompt": "-4.1 × 1.4"
+   "prompt": "1.3 × (-5.7)"
   }
  },
  {
@@ -192,7 +192,7 @@
   "title": "Short applications",
   "ordinal": 3,
   "preview": {
-   "prompt": "A rectangle is 4.1 m by 1.4 m. Find its area in square meters."
+   "prompt": "A rectangle is 5.7 m by 1.3 m. Find its area in square meters."
   }
  },
  {
@@ -201,7 +201,7 @@
   "title": "Decimal divisors",
   "ordinal": 1,
   "preview": {
-   "prompt": "5.74 ÷ 1.4"
+   "prompt": "8.1 ÷ 1.8"
   }
  },
  {
@@ -210,7 +210,7 @@
   "title": "Signed values",
   "ordinal": 2,
   "preview": {
-   "prompt": "-5.74 ÷ 1.4"
+   "prompt": "-7.1 ÷ 1"
   }
  },
  {
@@ -219,7 +219,7 @@
   "title": "Short applications",
   "ordinal": 3,
   "preview": {
-   "prompt": "A 5.74 m strip is cut into pieces 1.4 m long. How many pieces does that length represent, including partial pieces?"
+   "prompt": "A 2.99 m strip is cut into pieces 1.3 m long. How many pieces does that length represent, including partial pieces?"
   }
  },
  {
@@ -228,7 +228,7 @@
   "title": "Like denominators",
   "ordinal": 1,
   "preview": {
-   "prompt": "13/8 + 5/8"
+   "prompt": "11/5 + 1/5"
   }
  },
  {
@@ -237,7 +237,7 @@
   "title": "Unlike denominators",
   "ordinal": 2,
   "preview": {
-   "prompt": "13/8 + 1/2"
+   "prompt": "1/6 + 2/3"
   }
  },
  {
@@ -246,7 +246,7 @@
   "title": "Signed fractions",
   "ordinal": 3,
   "preview": {
-   "prompt": "-13/8 + 1/2"
+   "prompt": "1/6 + (-9/4)"
   }
  },
  {
@@ -255,7 +255,7 @@
   "title": "Mixed-number operands",
   "ordinal": 4,
   "preview": {
-   "prompt": "2 1/8 + 1 1/9"
+   "prompt": "6 1/7 + 1 1/8"
   }
  },
  {
@@ -264,7 +264,7 @@
   "title": "Like denominators",
   "ordinal": 1,
   "preview": {
-   "prompt": "13/8 − 5/8"
+   "prompt": "16/5 − 2/5"
   }
  },
  {
@@ -273,7 +273,7 @@
   "title": "Unlike denominators",
   "ordinal": 2,
   "preview": {
-   "prompt": "13/8 − 1/2"
+   "prompt": "11/8 − 1/5"
   }
  },
  {
@@ -282,7 +282,7 @@
   "title": "Signed fractions",
   "ordinal": 3,
   "preview": {
-   "prompt": "-13/8 − 1/2"
+   "prompt": "-13/7 − 1/3"
   }
  },
  {
@@ -291,7 +291,7 @@
   "title": "Mixed-number operands",
   "ordinal": 4,
   "preview": {
-   "prompt": "2 1/8 − 1 1/9"
+   "prompt": "3 1/3 − 1 1/4"
   }
  },
  {
@@ -300,7 +300,7 @@
   "title": "Products and cancellation",
   "ordinal": 1,
   "preview": {
-   "prompt": "13/8 × 1/2"
+   "prompt": "1/8 × 1/3"
   }
  },
  {
@@ -309,7 +309,7 @@
   "title": "Signed fractions",
   "ordinal": 2,
   "preview": {
-   "prompt": "-13/8 × 1/2"
+   "prompt": "-5/3 × 3/5"
   }
  },
  {
@@ -318,7 +318,7 @@
   "title": "Mixed-number operands",
   "ordinal": 3,
   "preview": {
-   "prompt": "2 1/8 × 1 1/9"
+   "prompt": "1 1/11 × 3 1/10"
   }
  },
  {
@@ -327,7 +327,7 @@
   "title": "Reciprocals",
   "ordinal": 1,
   "preview": {
-   "prompt": "13/8 ÷ 1/2"
+   "prompt": "13/3 ÷ 1/5"
   }
  },
  {
@@ -336,7 +336,7 @@
   "title": "Signed fractions",
   "ordinal": 2,
   "preview": {
-   "prompt": "-13/8 ÷ 1/2"
+   "prompt": "-1/2 ÷ 1/3"
   }
  },
  {
@@ -345,7 +345,7 @@
   "title": "Mixed-number operands",
   "ordinal": 3,
   "preview": {
-   "prompt": "2 1/8 ÷ 1 1/9"
+   "prompt": "3 1/3 ÷ 1 1/4"
   }
  },
  {
@@ -354,7 +354,7 @@
   "title": "Operation order",
   "ordinal": 1,
   "preview": {
-   "prompt": "(32 − 8) × 2 + 5"
+   "prompt": "(7 − 2) × 2 + 5"
   }
  },
  {
@@ -363,7 +363,7 @@
   "title": "Mixed representations",
   "ordinal": 2,
   "preview": {
-   "prompt": "32.5 − 8/2"
+   "prompt": "10.5 − 5/2"
   }
  },
  {
@@ -372,7 +372,7 @@
   "title": "Multistep expressions and estimation",
   "ordinal": 3,
   "preview": {
-   "prompt": "Round each factor to the nearest whole before multiplying: 32.1 × 8.8."
+   "prompt": "Round each factor to the nearest whole before multiplying: 22.1 × 8.8."
   }
  },
  {
@@ -381,7 +381,7 @@
   "title": "Temperature/elevation",
   "ordinal": 1,
   "preview": {
-   "prompt": "At −32 m, a diver rises 8 m. New elevation in meters?"
+   "prompt": "At −6 m, a diver rises 5 m. New elevation in meters?"
   }
  },
  {
@@ -390,7 +390,7 @@
   "title": "Financial changes",
   "ordinal": 2,
   "preview": {
-   "prompt": "A balance of $−32 receives a $8 deposit. New balance in dollars?"
+   "prompt": "A balance of $−19 receives a $8 deposit. New balance in dollars?"
   }
  },
  {
@@ -399,7 +399,7 @@
   "title": "Multistep situations",
   "ordinal": 3,
   "preview": {
-   "prompt": "It was −32°. It warmed 8° and then cooled 4°. Final temperature?"
+   "prompt": "It was −14°. It warmed 8° and then cooled 4°. Final temperature?"
   }
  },
  {
@@ -408,7 +408,7 @@
   "title": "Ratio meaning",
   "ordinal": 1,
   "preview": {
-   "prompt": "A bowl holds 32 pears and 8 plums. In the ratio of pears to all fruit, 32 to □, fill the blank."
+   "prompt": "A bowl holds 21 pears and 2 plums. In the ratio of pears to all fruit, 21 to □, fill the blank."
   }
  },
  {
@@ -417,7 +417,7 @@
   "title": "Equivalent ratios",
   "ordinal": 2,
   "preview": {
-   "prompt": "32 : 8 = 224 : □"
+   "prompt": "22 : 5 = 66 : □"
   }
  },
  {
@@ -436,14 +436,14 @@
     "rows": [
      [
       "1",
-      "7"
-     ],
-     [
-      "32",
-      "?"
+      "2"
      ],
      [
       "33",
+      "?"
+     ],
+     [
+      "34",
       "?"
      ]
     ]
@@ -456,7 +456,7 @@
   "title": "Calculate",
   "ordinal": 1,
   "preview": {
-   "prompt": "32 books cost $256. Dollars per book?"
+   "prompt": "6 books cost $12. Dollars per book?"
   }
  },
  {
@@ -465,7 +465,7 @@
   "title": "Fractional rates",
   "ordinal": 2,
   "preview": {
-   "prompt": "32/2 liters cover 8/2 m². Liters per m²?"
+   "prompt": "21/2 liters cover 5/2 m². Liters per m²?"
   }
  },
  {
@@ -474,7 +474,7 @@
   "title": "Compare and interpret",
   "ordinal": 3,
   "preview": {
-   "prompt": "32 bars cost $256. A second shop sells bars for $7 each. Which is cheaper per bar?"
+   "prompt": "24 bars cost $48. A second shop sells bars for $1 each. Which is cheaper per bar?"
   }
  },
  {
@@ -513,7 +513,7 @@
   "title": "Graphs",
   "ordinal": 2,
   "preview": {
-   "prompt": "The line continues for 32 hours. What is its constant rate in km/h?",
+   "prompt": "The line continues for 8 hours. What is its constant rate in km/h?",
    "visual": {
     "kind": "plot",
     "points": [
@@ -543,7 +543,7 @@
   "title": "Equations and contexts",
   "ordinal": 3,
   "preview": {
-   "prompt": "32 identical packs contain 224 pens. In y = kx, find k for pens per pack."
+   "prompt": "19 identical packs contain 114 pens. In y = kx, find k for pens per pack."
   }
  },
  {
@@ -552,7 +552,7 @@
   "title": "Pictures/words",
   "ordinal": 1,
   "preview": {
-   "prompt": "Each box contains 7 pencils. How many pencils in 32 boxes?"
+   "prompt": "Each box contains 2 pencils. How many pencils in 9 boxes?"
   }
  },
  {
@@ -561,7 +561,7 @@
   "title": "Tables",
   "ordinal": 2,
   "preview": {
-   "prompt": "Use the table to predict y for x = 33.",
+   "prompt": "Use the table to predict y for x = 20.",
    "visual": {
     "kind": "data",
     "headers": [
@@ -571,15 +571,15 @@
     "rows": [
      [
       "1",
-      "7"
+      "6"
      ],
      [
       "2",
-      "14"
+      "12"
      ],
      [
-      "32",
-      "224"
+      "19",
+      "114"
      ]
     ]
    }
@@ -591,7 +591,7 @@
   "title": "Graphs",
   "ordinal": 3,
   "preview": {
-   "prompt": "Use the graph to predict distance at 32 hours.",
+   "prompt": "Use the graph to predict distance at 19 hours.",
    "visual": {
     "kind": "plot",
     "points": [
@@ -621,7 +621,7 @@
   "title": "Connect representations",
   "ordinal": 4,
   "preview": {
-   "prompt": "Which equation fits these pairs, including (32, 224)?",
+   "prompt": "Which equation fits these pairs, including (23, 92)?",
    "visual": {
     "kind": "data",
     "headers": [
@@ -631,15 +631,15 @@
     "rows": [
      [
       "1",
-      "7"
+      "4"
      ],
      [
       "2",
-      "14"
+      "8"
      ],
      [
-      "32",
-      "224"
+      "23",
+      "92"
      ]
     ]
    }
@@ -651,7 +651,7 @@
   "title": "Find distance",
   "ordinal": 1,
   "preview": {
-   "prompt": "At 32 km/h for 8 hours, find distance in km."
+   "prompt": "At 13 km/h for 2 hours, find distance in km."
   }
  },
  {
@@ -660,7 +660,7 @@
   "title": "Find rate",
   "ordinal": 2,
   "preview": {
-   "prompt": "Traveling 256 km in 8 hours, find km/h."
+   "prompt": "Traveling 58 km in 2 hours, find km/h."
   }
  },
  {
@@ -669,7 +669,7 @@
   "title": "Find time",
   "ordinal": 3,
   "preview": {
-   "prompt": "At 32 km/h, how many hours for 256 km?"
+   "prompt": "At 17 km/h, how many hours for 34 km?"
   }
  },
  {
@@ -678,7 +678,7 @@
   "title": "Proportions",
   "ordinal": 1,
   "preview": {
-   "prompt": "8 portions need 256 g of oats. Grams for 7 portions?"
+   "prompt": "2 portions need 30 g of oats. Grams for 2 portions?"
   }
  },
  {
@@ -687,7 +687,7 @@
   "title": "Comparisons",
   "ordinal": 2,
   "preview": {
-   "prompt": "One tap fills 256 L in 8 minutes, another 39 L/min. Difference in L/min?"
+   "prompt": "One tap fills 96 L in 8 minutes, another 19 L/min. Difference in L/min?"
   }
  },
  {
@@ -696,7 +696,7 @@
   "title": "Multistep applications",
   "ordinal": 3,
   "preview": {
-   "prompt": "32 crates each hold 8 packs of 7 cans. How many cans?"
+   "prompt": "10 crates each hold 2 packs of 5 cans. How many cans?"
   }
  },
  {
@@ -705,7 +705,7 @@
   "title": "Unit-rate method",
   "ordinal": 1,
   "preview": {
-   "prompt": "Use 1 in = 2.54 cm. Convert 32 inches to centimeters."
+   "prompt": "Use 1 in = 2.54 cm. Convert 5 inches to centimeters."
   }
  },
  {
@@ -714,7 +714,7 @@
   "title": "Proportion method and applications",
   "ordinal": 2,
   "preview": {
-   "prompt": "Use 1 in = 2.54 cm. Set up a proportion to convert 32 inches to centimeters."
+   "prompt": "Use 1 in = 2.54 cm. Set up a proportion to convert 15 inches to centimeters."
   }
  },
  {
@@ -723,7 +723,7 @@
   "title": "Find part",
   "ordinal": 1,
   "preview": {
-   "prompt": "What is 40% of 3200?"
+   "prompt": "What is 25% of 1500?"
   }
  },
  {
@@ -732,7 +732,7 @@
   "title": "Find whole",
   "ordinal": 2,
   "preview": {
-   "prompt": "1280 is 40% of what whole?"
+   "prompt": "90 is 10% of what whole?"
   }
  },
  {
@@ -741,7 +741,7 @@
   "title": "Find percent",
   "ordinal": 3,
   "preview": {
-   "prompt": "1280 is what percent of 3200?"
+   "prompt": "425 is what percent of 1700?"
   }
  },
  {
@@ -750,7 +750,7 @@
   "title": "Increase/decrease",
   "ordinal": 1,
   "preview": {
-   "prompt": "A price changes from $3200 to $4480. Find the size of the percent change."
+   "prompt": "A price changes from $2400 to $3000. Find the size of the percent change."
   }
  },
  {
@@ -759,7 +759,7 @@
   "title": "New amounts",
   "ordinal": 2,
   "preview": {
-   "prompt": "Change $3200 by a 40% increase. New price?"
+   "prompt": "Change $1500 by a 10% increase. New price?"
   }
  },
  {
@@ -768,7 +768,7 @@
   "title": "Original amounts",
   "ordinal": 3,
   "preview": {
-   "prompt": "After a 40% increase the price is $4480. Original price?"
+   "prompt": "After a 10% increase the price is $1870. Original price?"
   }
  },
  {
@@ -777,7 +777,7 @@
   "title": "Successive changes",
   "ordinal": 1,
   "preview": {
-   "prompt": "An item is $3200. Apply 40% off and then a further 10% discount. Final price?"
+   "prompt": "An item is $2600. Apply 40% off and then a further 10% discount. Final price?"
   }
  },
  {
@@ -786,7 +786,7 @@
   "title": "Discount and tax",
   "ordinal": 2,
   "preview": {
-   "prompt": "An item is $3200. Apply 40% off and then 10% sales tax. Final price?"
+   "prompt": "An item is $700. Apply 25% off and then 10% sales tax. Final price?"
   }
  },
  {
@@ -795,7 +795,7 @@
   "title": "Compare offers",
   "ordinal": 3,
   "preview": {
-   "prompt": "On $3200, compare 40% off with $1285 off. How much more does the better offer save?"
+   "prompt": "On $1600, compare 40% off with $633 off. What is the difference between the two savings in dollars?"
   }
  },
  {
@@ -804,7 +804,7 @@
   "title": "Correspondence",
   "ordinal": 1,
   "preview": {
-   "prompt": "△ABC ∼ △DEF. If AB is 32 cm, which side corresponds to AB?"
+   "prompt": "△ABC ∼ △DEF. If AB is 19 cm, which side corresponds to AB?"
   }
  },
  {
@@ -813,7 +813,7 @@
   "title": "Ratios within/between figures",
   "ordinal": 2,
   "preview": {
-   "prompt": "Corresponding sides are 32 cm and 224 cm. Scale from the first triangle to the second?"
+   "prompt": "Corresponding sides are 6 cm and 42 cm. Scale from the first triangle to the second?"
   }
  },
  {
@@ -822,7 +822,7 @@
   "title": "Similar and nonsimilar examples",
   "ordinal": 3,
   "preview": {
-   "prompt": "Triangles have sides (32,33,34) and (64,66,68). Similar?"
+   "prompt": "Triangles have sides (15,16,17) and (30,32,34). Similar?"
   }
  },
  {
@@ -831,7 +831,7 @@
   "title": "Scale factors",
   "ordinal": 1,
   "preview": {
-   "prompt": "An image changes a 224 cm side to 32 cm. Find its scale factor."
+   "prompt": "An image changes a 114 cm side to 19 cm. Find its scale factor."
   }
  },
  {
@@ -840,7 +840,7 @@
   "title": "Missing sides",
   "ordinal": 2,
   "preview": {
-   "prompt": "Scale factor 7: a side is 32 cm before scaling. Length after?"
+   "prompt": "Scale factor 7: a side is 18 cm before scaling. Length after?"
   }
  },
  {
@@ -849,7 +849,7 @@
   "title": "Indirect measurement",
   "ordinal": 3,
   "preview": {
-   "prompt": "A 8 m pole casts a 7 m shadow. A tree casts a 224 m shadow. Height in m?"
+   "prompt": "A 2 m pole casts a 5 m shadow. A tree casts a 55 m shadow. Height in m?"
   }
  },
  {
@@ -858,7 +858,7 @@
   "title": "Actual distances",
   "ordinal": 1,
   "preview": {
-   "prompt": "Scale: 1 cm represents 7 km. Distance in km for 32 cm?"
+   "prompt": "Scale: 1 cm represents 2 km. Distance in km for 9 cm?"
   }
  },
  {
@@ -867,7 +867,7 @@
   "title": "Drawing distances",
   "ordinal": 2,
   "preview": {
-   "prompt": "Scale: 1 cm represents 7 km. Length in cm for 224 km?"
+   "prompt": "Scale: 1 cm represents 6 km. Length in cm for 180 km?"
   }
  },
  {
@@ -876,7 +876,7 @@
   "title": "Create/complete drawings",
   "ordinal": 3,
   "preview": {
-   "prompt": "Complete the scale drawing. A rectangle begins at (0,0), width 12 m and height 4 m. Plot its opposite corner at 2 m per square."
+   "prompt": "Complete the scale drawing. A rectangle begins at (0,0), width 14 m and height 6 m. Choose any quadrant and plot its opposite corner at 2 m per square."
   }
  },
  {
@@ -885,7 +885,7 @@
   "title": "Simple events",
   "ordinal": 1,
   "preview": {
-   "prompt": "A spinner has 32 uniquely labeled spaces. How many possible labels?"
+   "prompt": "A spinner has 15 uniquely labeled spaces. How many possible labels?"
   }
  },
  {
@@ -894,7 +894,7 @@
   "title": "Compound lists",
   "ordinal": 2,
   "preview": {
-   "prompt": "Choose one of 32 shirts and one of 8 hats. How many ordered outfits?"
+   "prompt": "Choose one of 13 shirts and one of 2 hats. How many ordered outfits?"
   }
  },
  {
@@ -903,7 +903,7 @@
   "title": "Tree diagrams",
   "ordinal": 3,
   "preview": {
-   "prompt": "Complete a tree for 32 colors followed by 8 letters."
+   "prompt": "Complete a tree for 26 colors followed by 8 letters."
   }
  },
  {
@@ -912,7 +912,7 @@
   "title": "Simple events",
   "ordinal": 1,
   "preview": {
-   "prompt": "A bag has 32 red and 8 blue counters. Uniform draw: P(red)?"
+   "prompt": "A bag has 26 red and 2 blue counters. Uniform draw: P(red)?"
   }
  },
  {
@@ -921,7 +921,7 @@
   "title": "Compound events",
   "ordinal": 2,
   "preview": {
-   "prompt": "Flip a fair coin and roll a fair 32-sided die numbered 1–32. P(heads and 1)?"
+   "prompt": "Flip a fair coin and roll a fair 18-sided die numbered 1–18. P(heads and 1)?"
   }
  },
  {
@@ -939,7 +939,7 @@
   "title": "Calculate complements",
   "ordinal": 1,
   "preview": {
-   "prompt": "P(rain) = 32/40. P(no rain)?"
+   "prompt": "P(rain) = 9/11. P(no rain)?"
   }
  },
  {
@@ -948,7 +948,7 @@
   "title": "Interpret event/complement relationships",
   "ordinal": 2,
   "preview": {
-   "prompt": "P(winning) = 32/40. P(not winning)?"
+   "prompt": "P(winning) = 5/13. P(not winning)?"
   }
  },
  {
@@ -957,7 +957,7 @@
   "title": "Simple trials",
   "ordinal": 1,
   "preview": {
-   "prompt": "In 40 spinner trials, a target event occurs 32 times. Estimate its probability."
+   "prompt": "In 15 spinner trials, a target event occurs 13 times. Estimate its probability."
   }
  },
  {
@@ -966,7 +966,7 @@
   "title": "Compound trials",
   "ordinal": 2,
   "preview": {
-   "prompt": "In 40 two-coin trials, a target event occurs 32 times. Estimate its probability."
+   "prompt": "In 8 two-coin trials, a target event occurs 6 times. Estimate its probability."
   }
  },
  {
@@ -975,7 +975,7 @@
   "title": "Predictions",
   "ordinal": 3,
   "preview": {
-   "prompt": "In 40 spinner trials, a target event occurs 32 times. Predict its count in twice as many trials."
+   "prompt": "In 29 spinner trials, a target event occurs 24 times. Predict its count in twice as many trials."
   }
  },
  {
@@ -984,7 +984,7 @@
   "title": "Select a model",
   "ordinal": 1,
   "preview": {
-   "prompt": "A bag has 32 equally likely colors. Which simulation gives each a fair chance?"
+   "prompt": "A bag has 5 equally likely colors. Which simulation gives each a fair chance?"
   }
  },
  {
@@ -993,19 +993,20 @@
   "title": "Execute/record trials",
   "ordinal": 2,
   "preview": {
-   "prompt": "Run trial sequence 32 and record the outcomes.",
+   "prompt": "Tap “Run next trial” eight times. Record the number of heads and tails (experiment 17).",
    "visual": {
     "kind": "simulation",
     "outcomes": [
-     "T",
-     "T",
      "H",
      "H",
      "T",
      "T",
+     "H",
+     "H",
      "H",
      "H"
-    ]
+    ],
+    "coinTrials": 8
    }
   }
  },
@@ -1015,7 +1016,7 @@
   "title": "Interpret results",
   "ordinal": 3,
   "preview": {
-   "prompt": "32 successes in 40 simulations. Predict successes in 120 more."
+   "prompt": "4 successes in 9 simulations. Predict successes in 27 more."
   }
  },
  {
@@ -1024,7 +1025,7 @@
   "title": "Experimental versus theoretical",
   "ordinal": 1,
   "preview": {
-   "prompt": "A fair coin lands heads 32 times in 66 trials. How does the observed heads rate compare with 1/2?"
+   "prompt": "A fair coin lands heads 19 times in 40 trials. How does the observed heads rate compare with 1/2?"
   }
  },
  {
@@ -1033,7 +1034,7 @@
   "title": "Qualitative/quantitative predictions",
   "ordinal": 2,
   "preview": {
-   "prompt": "A spinner landed on green 32 times in 40 trials. Based on the data, predict green outcomes in 160 trials."
+   "prompt": "A spinner landed on green 5 times in 13 trials. Based on the data, predict green outcomes in 52 trials."
   }
  },
  {
@@ -1046,8 +1047,8 @@
    "visual": {
     "kind": "bars",
     "values": [
-     32,
-     8
+     11,
+     5
     ],
     "labels": [
      "Walk",
@@ -1066,7 +1067,7 @@
    "visual": {
     "kind": "pie",
     "values": [
-     32,
+     10,
      8
     ],
     "labels": [
@@ -1086,7 +1087,7 @@
    "visual": {
     "kind": "bars",
     "values": [
-     32,
+     11,
      8
     ],
     "labels": [
@@ -1102,23 +1103,23 @@
   "title": "Shape",
   "ordinal": 1,
   "preview": {
-   "prompt": "Which group has a longer right whisker on the common scale starting at 32?",
+   "prompt": "Which group has the larger interquartile range on the common scale starting at 18?",
    "visual": {
     "kind": "boxes",
     "rows": [
      [
-      32,
-      33,
-      34,
-      35,
-      36
+      18,
+      20,
+      22,
+      26,
+      30
      ],
      [
-      32,
-      33,
-      36,
-      40,
-      46
+      18,
+      19,
+      21,
+      23,
+      25
      ]
     ],
     "labels": [
@@ -1134,23 +1135,23 @@
   "title": "Center",
   "ordinal": 2,
   "preview": {
-   "prompt": "Compare the medians on the common scale starting at 32. How much larger is B’s?",
+   "prompt": "Compare the medians on the common scale starting at 30. How much larger is B’s?",
    "visual": {
     "kind": "boxes",
     "rows": [
      [
+      30,
+      31,
       32,
       33,
-      34,
-      35,
-      36
+      34
      ],
      [
-      32,
-      33,
-      36,
-      40,
-      46
+      30,
+      31,
+      34,
+      38,
+      44
      ]
     ],
     "labels": [
@@ -1166,23 +1167,23 @@
   "title": "Spread using comparative dot/box plots",
   "ordinal": 3,
   "preview": {
-   "prompt": "Compare the IQRs on the common scale starting at 32. How much larger is B’s?",
+   "prompt": "Compare the IQRs on the common scale starting at 19. How much larger is B’s?",
    "visual": {
     "kind": "boxes",
     "rows": [
      [
-      32,
-      33,
-      34,
-      35,
-      36
+      19,
+      20,
+      21,
+      22,
+      23
      ],
      [
-      32,
-      33,
-      36,
-      40,
-      46
+      19,
+      20,
+      23,
+      27,
+      33
      ]
     ],
     "labels": [
@@ -1198,7 +1199,7 @@
   "title": "Estimate from random samples",
   "ordinal": 1,
   "preview": {
-   "prompt": "32 of 40 randomly sampled students walk. Estimate walkers in a school of 400."
+   "prompt": "4 of 9 randomly sampled students walk. Estimate walkers in a school of 90."
   }
  },
  {
@@ -1207,7 +1208,7 @@
   "title": "Supported conclusions and uncertainty",
   "ordinal": 2,
   "preview": {
-   "prompt": "32 of 40 randomly sampled students bike. What can this sample support?"
+   "prompt": "8 of 10 students bike to school. The 10 students are randomly selected from the whole school. What is the strongest conclusion the data support?"
   }
  },
  {
@@ -1216,7 +1217,7 @@
   "title": "Compare samples",
   "ordinal": 1,
   "preview": {
-   "prompt": "Sample A has mean 32; sample B has mean 40. Difference in means?"
+   "prompt": "Sample A has mean 16; sample B has mean 18. Difference in means?"
   }
  },
  {
@@ -1225,7 +1226,7 @@
   "title": "Informal population conclusions",
   "ordinal": 2,
   "preview": {
-   "prompt": "Random samples have means 32 and 40. Which conclusion is supported?"
+   "prompt": "Random samples have means 23 and 25. Which conclusion is supported?"
   }
  },
  {
@@ -1244,15 +1245,15 @@
     "rows": [
      [
       "0",
-      "8"
+      "5"
      ],
      [
       "1",
-      "15"
+      "11"
      ],
      [
-      "32",
-      "232"
+      "11",
+      "71"
      ]
     ]
    }
@@ -1274,15 +1275,15 @@
     "rows": [
      [
       "0",
-      "8"
+      "5"
      ],
      [
       "1",
-      "15"
+      "8"
      ],
      [
-      "32",
-      "232"
+      "14",
+      "47"
      ]
     ]
    }
@@ -1294,7 +1295,7 @@
   "title": "Interpretation",
   "ordinal": 3,
   "preview": {
-   "prompt": "After 32 hours, how many more liters than at the start?",
+   "prompt": "After 21 hours, how many more liters than at the start?",
    "visual": {
     "kind": "data",
     "headers": [
@@ -1304,15 +1305,15 @@
     "rows": [
      [
       "0",
-      "8"
+      "2"
      ],
      [
       "1",
-      "15"
+      "4"
      ],
      [
-      "32",
-      "232"
+      "21",
+      "44"
      ]
     ]
    }
@@ -1324,7 +1325,7 @@
   "title": "Tables",
   "ordinal": 1,
   "preview": {
-   "prompt": "Complete the table for y = 7x + 8."
+   "prompt": "Complete the table for y = 3x + 5."
   }
  },
  {
@@ -1333,7 +1334,7 @@
   "title": "Graphs",
   "ordinal": 2,
   "preview": {
-   "prompt": "Plot the point at x = 3 on y = 2x + 1."
+   "prompt": "Plot the point at x = -2 on y = 2x + 2."
   }
  },
  {
@@ -1342,7 +1343,7 @@
   "title": "Equations",
   "ordinal": 3,
   "preview": {
-   "prompt": "Which equation matches the table at x = 32?",
+   "prompt": "Which equation fits every row of the table? Check the row at x = 4 as well.",
    "visual": {
     "kind": "data",
     "headers": [
@@ -1352,15 +1353,15 @@
     "rows": [
      [
       "0",
-      "8"
+      "5"
      ],
      [
       "1",
-      "15"
+      "8"
      ],
      [
-      "32",
-      "232"
+      "4",
+      "17"
      ]
     ]
    }
@@ -1372,7 +1373,7 @@
   "title": "Connect all representations",
   "ordinal": 4,
   "preview": {
-   "prompt": "Which equation matches the table at x = 32?",
+   "prompt": "Which equation fits every row of the table? Check the row at x = 11 as well.",
    "visual": {
     "kind": "data",
     "headers": [
@@ -1386,11 +1387,11 @@
      ],
      [
       "1",
-      "15"
+      "12"
      ],
      [
-      "32",
-      "232"
+      "11",
+      "52"
      ]
     ]
    }
@@ -1402,7 +1403,7 @@
   "title": "Equations",
   "ordinal": 1,
   "preview": {
-   "prompt": "Does x = 32 satisfy 7x + 8 = 232?"
+   "prompt": "Does x = 32 satisfy 2x + 2 = 66?"
   }
  },
  {
@@ -1411,7 +1412,7 @@
   "title": "Inequalities",
   "ordinal": 2,
   "preview": {
-   "prompt": "Does x = 32 satisfy 7x + 8 ≤ 232?"
+   "prompt": "Does x = 10 satisfy 4x + 8 ≤ 48?"
   }
  },
  {
@@ -1424,9 +1425,9 @@
    "visual": {
     "kind": "balance",
     "values": [
-     7,
+     4,
      8,
-     232
+     44
     ]
    }
   }
@@ -1437,7 +1438,7 @@
   "title": "Integer coefficients",
   "ordinal": 2,
   "preview": {
-   "prompt": "7x − 8 = 216. Find x."
+   "prompt": "2x − 2 = 50. Find x."
   }
  },
  {
@@ -1446,7 +1447,7 @@
   "title": "Rational coefficients",
   "ordinal": 3,
   "preview": {
-   "prompt": "x/7 + 8/2 = 40/2. Find x as a fraction."
+   "prompt": "x/3 + 5/2 = 38/2. Find x as a fraction."
   }
  },
  {
@@ -1455,7 +1456,7 @@
   "title": "Applications/checking",
   "ordinal": 4,
   "preview": {
-   "prompt": "A ride costs $8 plus $7 per mile. The total is $232. How many miles?"
+   "prompt": "A ride costs $8 plus $7 per mile. The total is $106. How many miles?"
   }
  },
  {
@@ -1464,7 +1465,7 @@
   "title": "Models",
   "ordinal": 1,
   "preview": {
-   "prompt": "Solve 7x + 8 < 232.",
+   "prompt": "Solve 6x + 5 < 47.",
    "visual": {
     "kind": "data",
     "headers": [
@@ -1473,8 +1474,8 @@
     ],
     "rows": [
      [
-      "7",
-      "8"
+      "6",
+      "5"
      ]
     ]
    }
@@ -1486,7 +1487,7 @@
   "title": "Positive coefficients",
   "ordinal": 2,
   "preview": {
-   "prompt": "Solve 7x + 8 < 232."
+   "prompt": "Solve 7x + 8 < 225."
   }
  },
  {
@@ -1495,7 +1496,7 @@
   "title": "Negative coefficients",
   "ordinal": 3,
   "preview": {
-   "prompt": "Solve -7x + 8 < -216."
+   "prompt": "Solve -7x + 8 < -41."
   }
  },
  {
@@ -1504,7 +1505,7 @@
   "title": "Contextual solutions",
   "ordinal": 4,
   "preview": {
-   "prompt": "Entry costs $8 and tickets cost $7 each. With $233, what is the maximum whole number of tickets?"
+   "prompt": "Entry costs $2 and tickets cost $5 each. With $83, what is the maximum whole number of tickets?"
   }
  },
  {
@@ -1513,7 +1514,7 @@
   "title": "Equations",
   "ordinal": 1,
   "preview": {
-   "prompt": "A fee of $8 plus $7 per ticket costs exactly $232. Which constraint uses x for tickets?"
+   "prompt": "A fee of $2 plus $2 per ticket costs exactly $66. Which constraint uses x for tickets?"
   }
  },
  {
@@ -1522,7 +1523,7 @@
   "title": "Inequalities",
   "ordinal": 2,
   "preview": {
-   "prompt": "A fee of $8 plus $7 per ticket costs at most $232. Which constraint uses x for tickets?"
+   "prompt": "A fee of $2 plus $5 per ticket costs at most $87. Which constraint uses x for tickets?"
   }
  },
  {
@@ -1531,7 +1532,7 @@
   "title": "Distinguish and translate constraints",
   "ordinal": 3,
   "preview": {
-   "prompt": "A fee of $8 plus $7 per ticket costs exactly $232. Which constraint uses x for tickets?"
+   "prompt": "A fee of $2 plus $5 per ticket costs exactly $122. Which constraint uses x for tickets?"
   }
  },
  {
@@ -1540,7 +1541,7 @@
   "title": "Guided equation stories",
   "ordinal": 1,
   "preview": {
-   "prompt": "Build a ticket-price story for 7x + 8 = 232."
+   "prompt": "Build a ticket-price story for 5x + 2 = 152. Let x be the number of tickets."
   }
  },
  {
@@ -1549,7 +1550,7 @@
   "title": "Guided inequality stories",
   "ordinal": 2,
   "preview": {
-   "prompt": "Build a ticket-price story for 7x + 8 ≤ 232."
+   "prompt": "Build a ticket-price story for 5x + 2 ≤ 117. Let x be the number of tickets."
   }
  },
  {
@@ -1558,7 +1559,7 @@
   "title": "Equation points",
   "ordinal": 1,
   "preview": {
-   "prompt": "Mark the solution: x + 8 = 9."
+   "prompt": "Solve 2x + 2 = 2, then mark the solution."
   }
  },
  {
@@ -1567,7 +1568,7 @@
   "title": "Strict inequalities",
   "ordinal": 2,
   "preview": {
-   "prompt": "Construct the number line for x < 1."
+   "prompt": "Solve 5x + 2 < -28, then graph the solution set."
   }
  },
  {
@@ -1576,7 +1577,7 @@
   "title": "Inclusive inequalities",
   "ordinal": 3,
   "preview": {
-   "prompt": "Construct the number line for x ≤ 1."
+   "prompt": "Solve 5x + 2 ≤ 17, then graph the solution set."
   }
  },
  {
@@ -1585,7 +1586,7 @@
   "title": "Complementary/supplementary",
   "ordinal": 1,
   "preview": {
-   "prompt": "Two angles sum to 180°. One measures 32°. Find the other."
+   "prompt": "Two angles sum to 180°. One measures 12°. Find the other."
   }
  },
  {
@@ -1594,7 +1595,7 @@
   "title": "Vertical/triangle angles",
   "ordinal": 2,
   "preview": {
-   "prompt": "Two vertical angles measure 2x and 64 degrees. Find x."
+   "prompt": "Two vertical angles measure 2x and 52 degrees. Find x."
   }
  },
  {
@@ -1607,8 +1608,8 @@
    "visual": {
     "kind": "triangle",
     "labels": [
-     "32°",
-     "8°",
+     "104°",
+     "18°",
      "x°"
     ]
    }
@@ -1620,7 +1621,7 @@
   "title": "Π and circumference models",
   "ordinal": 1,
   "preview": {
-   "prompt": "A circle has diameter 32 cm and circumference 100.48 cm. Estimate π as C ÷ d."
+   "prompt": "A circle has diameter 18 cm and circumference 56.52 cm. Estimate π as C ÷ d."
   }
  },
  {
@@ -1629,7 +1630,7 @@
   "title": "Area models and formula connections",
   "ordinal": 2,
   "preview": {
-   "prompt": "Circle sectors form a near-rectangle of height 32 and base π × 32. What number multiplies π in the area?"
+   "prompt": "Circle sectors form a near-rectangle of height 19 and base π × 19. What number multiplies π in the area?"
   }
  },
  {
@@ -1638,7 +1639,7 @@
   "title": "Circumference",
   "ordinal": 1,
   "preview": {
-   "prompt": "Use π = 3.14. Find circumference for diameter 32 cm."
+   "prompt": "Use π = 3.14. Find circumference for diameter 5 cm."
   }
  },
  {
@@ -1647,7 +1648,7 @@
   "title": "Area",
   "ordinal": 2,
   "preview": {
-   "prompt": "Use π = 3.14. Find area in cm² for radius 32 cm."
+   "prompt": "Use π = 3.14. Find area in cm² for radius 23 cm."
   }
  },
  {
@@ -1656,7 +1657,7 @@
   "title": "Reverse problems",
   "ordinal": 3,
   "preview": {
-   "prompt": "Circumference is 200.96 cm. Use π = 3.14. Find radius in cm."
+   "prompt": "Circumference is 125.6 cm. Use π = 3.14. Find radius in cm."
   }
  },
  {
@@ -1665,7 +1666,7 @@
   "title": "Mixed applications",
   "ordinal": 4,
   "preview": {
-   "prompt": "Use π = 3.14. Find circumference for diameter 32 cm."
+   "prompt": "Use π = 3.14. Find circumference for diameter 24 cm."
   }
  },
  {
@@ -1674,7 +1675,7 @@
   "title": "Rectangular components",
   "ordinal": 1,
   "preview": {
-   "prompt": "A 32 × 10 rectangle has a 2 × 8 corner removed. Area remaining in square units?"
+   "prompt": "A 16 × 10 rectangle has a 2 × 8 corner removed. Area remaining in square units?"
   }
  },
  {
@@ -1683,7 +1684,7 @@
   "title": "Triangles/parallelograms",
   "ordinal": 2,
   "preview": {
-   "prompt": "A rectangle of area 256 m² adjoins a triangle with base 64 m and height 8 m. Combined area?"
+   "prompt": "A rectangle of area 36 m² adjoins a triangle with base 36 m and height 2 m. Combined area?"
   }
  },
  {
@@ -1692,7 +1693,7 @@
   "title": "Trapezoids",
   "ordinal": 3,
   "preview": {
-   "prompt": "A trapezoid with bases 32 and 34 and height 8 joins a square of side 7. Combined area?"
+   "prompt": "A trapezoid with bases 30 and 32 and height 2 joins a square of side 5. Combined area?"
   }
  },
  {
@@ -1701,7 +1702,7 @@
   "title": "Circle parts",
   "ordinal": 4,
   "preview": {
-   "prompt": "A semicircle of radius 32 joins a rectangle of area 256. Use π = 3.14. Total area?"
+   "prompt": "A semicircle of radius 11 joins a rectangle of area 88. Use π = 3.14. Total area?"
   }
  },
  {
@@ -1710,7 +1711,7 @@
   "title": "Mixed decomposition",
   "ordinal": 5,
   "preview": {
-   "prompt": "A 34 × 10 rectangle loses a 2 × 2 corner and gains a triangle with base 4 and height 7. New area?"
+   "prompt": "A 19 × 4 rectangle loses a 2 × 2 corner and gains a triangle with base 4 and height 5. New area?"
   }
  },
  {
@@ -1719,7 +1720,7 @@
   "title": "Rectangular prisms",
   "ordinal": 1,
   "preview": {
-   "prompt": "A prism has a rectangular base, 64 cm across by 8 cm perpendicular base height. Solid height 21 cm. Volume in cm³?"
+   "prompt": "A prism has a rectangular base, 58 cm across by 2 cm perpendicular base height. Solid height 15 cm. Volume in cm³?"
   }
  },
  {
@@ -1728,7 +1729,7 @@
   "title": "Triangular prisms",
   "ordinal": 2,
   "preview": {
-   "prompt": "A prism has a triangular base, 64 cm across by 8 cm perpendicular base height. Solid height 21 cm. Volume in cm³?"
+   "prompt": "A prism has a triangular base, 48 cm across by 5 cm perpendicular base height. Solid height 18 cm. Volume in cm³?"
   }
  },
  {
@@ -1737,7 +1738,7 @@
   "title": "Mixed applications",
   "ordinal": 3,
   "preview": {
-   "prompt": "A prism has a rectangular base, 64 cm across by 8 cm perpendicular base height. Solid height 21 cm. Volume in cm³?"
+   "prompt": "A prism has a rectangular base, 26 cm across by 5 cm perpendicular base height. Solid height 18 cm. Volume in cm³?"
   }
  },
  {
@@ -1746,7 +1747,7 @@
   "title": "Rectangular relationship",
   "ordinal": 1,
   "preview": {
-   "prompt": "A rectangular prism has volume 10752 cm³. A pyramid shares its base and height. Pyramid volume?"
+   "prompt": "A rectangular prism has volume 5568 cm³. A pyramid has the same base area and perpendicular height. Find the pyramid’s volume in cm³."
   }
  },
  {
@@ -1755,7 +1756,7 @@
   "title": "Triangular relationship",
   "ordinal": 2,
   "preview": {
-   "prompt": "A triangular prism has volume 5376 cm³. A pyramid shares its base and height. Pyramid volume?"
+   "prompt": "A triangular prism has volume 2160 cm³. A pyramid has the same base area and perpendicular height. Find the pyramid’s volume in cm³."
   }
  },
  {
@@ -1764,7 +1765,7 @@
   "title": "Rectangular pyramids",
   "ordinal": 1,
   "preview": {
-   "prompt": "A pyramid has a rectangular base, 64 cm across by 8 cm perpendicular base height. Solid height 21 cm. Volume in cm³?"
+   "prompt": "A pyramid has a rectangular base, 24 cm across by 5 cm perpendicular base height. Solid height 18 cm. Volume in cm³?"
   }
  },
  {
@@ -1773,7 +1774,7 @@
   "title": "Triangular pyramids",
   "ordinal": 2,
   "preview": {
-   "prompt": "A pyramid has a triangular base, 64 cm across by 8 cm perpendicular base height. Solid height 21 cm. Volume in cm³?"
+   "prompt": "A pyramid has a triangular base, 14 cm across by 5 cm perpendicular base height. Solid height 18 cm. Volume in cm³?"
   }
  },
  {
@@ -1782,7 +1783,7 @@
   "title": "Mixed applications",
   "ordinal": 3,
   "preview": {
-   "prompt": "A pyramid has a rectangular base, 64 cm across by 8 cm perpendicular base height. Solid height 21 cm. Volume in cm³?"
+   "prompt": "A pyramid has a rectangular base, 16 cm across by 8 cm perpendicular base height. Solid height 21 cm. Volume in cm³?"
   }
  },
  {
@@ -1791,17 +1792,17 @@
   "title": "Rectangular prism",
   "ordinal": 1,
   "preview": {
-   "prompt": "Complete the face record for this rectangular prism net. The labeled numbers are face areas.",
+   "prompt": "Complete the face record for this rectangular prism net. The labeled face areas are in cm².",
    "visual": {
     "kind": "net",
     "solid": 1,
     "values": [
-     256,
-     256,
-     224,
-     224,
-     56,
-     56
+     100,
+     100,
+     60,
+     15,
+     60,
+     15
     ]
    }
   }
@@ -1812,16 +1813,16 @@
   "title": "Triangular prism",
   "ordinal": 2,
   "preview": {
-   "prompt": "Complete the face record for this triangular prism net. The labeled numbers are face areas.",
+   "prompt": "Complete the face record for this triangular prism net. The labeled face areas are in cm².",
    "visual": {
     "kind": "net",
     "solid": 2,
     "values": [
-     6144,
-     6144,
-     672,
-     896,
-     1120
+     5400,
+     5400,
+     540,
+     720,
+     900
     ]
    }
   }
@@ -1832,16 +1833,16 @@
   "title": "Rectangular pyramid",
   "ordinal": 3,
   "preview": {
-   "prompt": "Complete the face record for this square pyramid net. The labeled numbers are face areas.",
+   "prompt": "Complete the face record for this square pyramid net. The labeled face areas are in cm².",
    "visual": {
     "kind": "net",
     "solid": 3,
     "values": [
-     1024,
-     1280,
-     1280,
-     1280,
-     1280
+     961,
+     1209,
+     1209,
+     1209,
+     1209
     ]
    }
   }
@@ -1852,15 +1853,15 @@
   "title": "Triangular pyramid",
   "ordinal": 4,
   "preview": {
-   "prompt": "Complete the face record for this triangular pyramid net. The labeled numbers are face areas.",
+   "prompt": "Complete the face record for this triangular pyramid net. The labeled face areas are in cm².",
    "visual": {
     "kind": "net",
     "solid": 4,
     "values": [
-     6144,
-     6144,
-     6144,
-     6144
+     1176,
+     1176,
+     1176,
+     1176
     ]
    }
   }
@@ -1871,17 +1872,17 @@
   "title": "Rectangular prism",
   "ordinal": 1,
   "preview": {
-   "prompt": "Find total area of the rectangular prism. Face areas are shown in cm².",
+   "prompt": "Find the surface area of the rectangular prism. Face areas are shown in cm².",
    "visual": {
     "kind": "net",
     "solid": 1,
     "values": [
-     256,
-     256,
-     224,
-     224,
-     56,
-     56
+     40,
+     40,
+     40,
+     16,
+     40,
+     16
     ]
    }
   }
@@ -1892,16 +1893,16 @@
   "title": "Triangular prism",
   "ordinal": 2,
   "preview": {
-   "prompt": "Find total area of the triangular prism. Face areas are shown in cm².",
+   "prompt": "Find the surface area of the triangular prism. Face areas are shown in cm².",
    "visual": {
     "kind": "net",
     "solid": 2,
     "values": [
-     6144,
-     6144,
-     672,
-     896,
-     1120
+     5400,
+     5400,
+     450,
+     600,
+     750
     ]
    }
   }
@@ -1912,16 +1913,16 @@
   "title": "Rectangular pyramid",
   "ordinal": 3,
   "preview": {
-   "prompt": "Find total area of the square pyramid. Face areas are shown in cm².",
+   "prompt": "Find the surface area of the square pyramid. Face areas are shown in cm².",
    "visual": {
     "kind": "net",
     "solid": 3,
     "values": [
-     1024,
-     1280,
-     1280,
-     1280,
-     1280
+     324,
+     414,
+     414,
+     414,
+     414
     ]
    }
   }
@@ -1932,15 +1933,15 @@
   "title": "Triangular pyramid",
   "ordinal": 4,
   "preview": {
-   "prompt": "Find total area of the triangular pyramid. Face areas are shown in cm².",
+   "prompt": "Find the surface area of the triangular pyramid. Face areas are shown in cm².",
    "visual": {
     "kind": "net",
     "solid": 4,
     "values": [
-     6144,
-     6144,
-     6144,
-     6144
+     2400,
+     2400,
+     2400,
+     2400
     ]
    }
   }
@@ -1951,7 +1952,7 @@
   "title": "Sales tax/total purchase",
   "ordinal": 1,
   "preview": {
-   "prompt": "An item costs $3200; the stated sales tax is 8%. Find tax alone."
+   "prompt": "An item costs $500; the stated sales tax is 5%. Find tax alone."
   }
  },
  {
@@ -1960,7 +1961,7 @@
   "title": "Income tax",
   "ordinal": 2,
   "preview": {
-   "prompt": "For this exercise, a worker earns $3200 and pays a flat 8% tax. Tax in dollars?"
+   "prompt": "For this exercise, a worker earns $1300 and pays a flat 5% tax. Tax in dollars?"
   }
  },
  {
@@ -1969,7 +1970,7 @@
   "title": "Components",
   "ordinal": 1,
   "preview": {
-   "prompt": "A monthly budget includes $256 for rent. Classify this entry."
+   "prompt": "A monthly budget includes $128 for rent. Classify this entry."
   }
  },
  {
@@ -1978,7 +1979,7 @@
   "title": "Category percentages",
   "ordinal": 2,
   "preview": {
-   "prompt": "Of $3200 income, $256 goes to retirement. What percent is this?"
+   "prompt": "Of $3100 income, $155 goes to retirement. What percent is this?"
   }
  },
  {
@@ -1987,7 +1988,7 @@
   "title": "Guided budget construction",
   "ordinal": 3,
   "preview": {
-   "prompt": "Budget $3200: fixed costs 60%, savings 10%, variable costs the remainder."
+   "prompt": "Budget $2900: fixed costs 60%, savings 10%, variable costs the remainder."
   }
  },
  {
@@ -1996,7 +1997,7 @@
   "title": "Assets/liabilities",
   "ordinal": 1,
   "preview": {
-   "prompt": "Classify a cash balance of $256."
+   "prompt": "Classify a cash balance of $135."
   }
  },
  {
@@ -2005,7 +2006,7 @@
   "title": "Construct records and statements",
   "ordinal": 2,
   "preview": {
-   "prompt": "Cash $256; debt $8. Complete the statement."
+   "prompt": "Cash $155; debt $5. Complete the statement."
   }
  },
  {
@@ -2014,7 +2015,7 @@
   "title": "Read local estimator data",
   "ordinal": 1,
   "preview": {
-   "prompt": "2 adult(s), 1 working, 1 child(ren). Use the estimator table to find required pre-tax household dollars per year.",
+   "prompt": "2 adult(s), 2 working, 3 child(ren). Use the estimator table to find required pre-tax household dollars per year.",
    "visual": {
     "kind": "data",
     "headers": [
@@ -2024,7 +2025,7 @@
     "rows": [
      [
       "Required pre-tax household income",
-      "72410"
+      "124352"
      ]
     ],
     "source": "https://livingwage.mit.edu/counties/48201"
@@ -2037,7 +2038,7 @@
   "title": "Calculate needed hourly wages",
   "ordinal": 2,
   "preview": {
-   "prompt": "2 adult(s), 1 working, 1 child(ren). Each worker works 2,080 hours a year at equal pay. Required hourly wage per worker, nearest cent?",
+   "prompt": "2 adult(s), 1 working, 2 child(ren). Each worker works 2,080 hours a year at equal pay. Required hourly wage per worker, nearest cent?",
    "visual": {
     "kind": "data",
     "headers": [
@@ -2047,7 +2048,7 @@
     "rows": [
      [
       "Required pre-tax household income",
-      "72410"
+      "77143"
      ]
     ],
     "source": "https://livingwage.mit.edu/counties/48201"
@@ -2060,7 +2061,7 @@
   "title": "Interest",
   "ordinal": 1,
   "preview": {
-   "prompt": "$3200 earns 8% simple interest per year for 7 years. Find interest in dollars."
+   "prompt": "$2900 earns 2% simple interest per year for 5 years. Find interest in dollars."
   }
  },
  {
@@ -2069,7 +2070,7 @@
   "title": "Ending balance and applications",
   "ordinal": 2,
   "preview": {
-   "prompt": "$3200 earns 8% simple interest per year for 7 years. Find ending balance in dollars."
+   "prompt": "$1100 earns 5% simple interest per year for 6 years. Find ending balance in dollars."
   }
  },
  {
@@ -2078,7 +2079,7 @@
   "title": "Repeated periods",
   "ordinal": 1,
   "preview": {
-   "prompt": "$3200 earns 8% compounded annually. Complete the two balances."
+   "prompt": "$400 earns 2% compounded annually. Find the ending balance after two years."
   }
  },
  {
@@ -2087,7 +2088,7 @@
   "title": "Ending balances",
   "ordinal": 2,
   "preview": {
-   "prompt": "$3200 earns 8% compounded annually for two years. Find the ending balance."
+   "prompt": "$2500 earns 3% compounded annually for two years. Find the ending balance."
   }
  },
  {
@@ -2096,7 +2097,7 @@
   "title": "Compare with simple interest",
   "ordinal": 3,
   "preview": {
-   "prompt": "$3200 earns 8% compounded annually for two years. Find the extra earnings over simple interest at the same rate."
+   "prompt": "$2200 earns 10% compounded annually for two years. Find the extra earnings over simple interest at the same rate."
   }
  },
  {
@@ -2105,7 +2106,7 @@
   "title": "Sales",
   "ordinal": 1,
   "preview": {
-   "prompt": "A $3200 bike is 8% off. Find its sale price."
+   "prompt": "A $2500 bike is 8% off. Find its sale price."
   }
  },
  {
@@ -2114,7 +2115,7 @@
   "title": "Coupons/rebates",
   "ordinal": 2,
   "preview": {
-   "prompt": "A $3200 bike comes with a $32 rebate. Net cost?"
+   "prompt": "A $1800 bike comes with a $18 rebate. Net cost?"
   }
  },
  {
@@ -2123,7 +2124,7 @@
   "title": "Combined offers",
   "ordinal": 3,
   "preview": {
-   "prompt": "A $3200 bike is 8% off, then a $7 coupon applies. What is the final cost?"
+   "prompt": "A $1100 bike is 8% off, then a $4 coupon applies. What is the final cost?"
   }
  },
  {
@@ -2132,7 +2133,7 @@
   "title": "Facts/make ten",
   "ordinal": 1,
   "preview": {
-   "prompt": "9 + 4"
+   "prompt": "2 + 5"
   }
  },
  {
@@ -2141,7 +2142,7 @@
   "title": "Within 100",
   "ordinal": 2,
   "preview": {
-   "prompt": "44 + 11"
+   "prompt": "47 + 14"
   }
  },
  {
@@ -2150,7 +2151,7 @@
   "title": "Larger numbers/missing addends",
   "ordinal": 3,
   "preview": {
-   "prompt": "313 + 54"
+   "prompt": "84 + 523"
   }
  },
  {
@@ -2159,7 +2160,7 @@
   "title": "Facts",
   "ordinal": 1,
   "preview": {
-   "prompt": "13 − 9"
+   "prompt": "8 − 2"
   }
  },
  {
@@ -2168,7 +2169,7 @@
   "title": "Within 100",
   "ordinal": 2,
   "preview": {
-   "prompt": "55 − 44"
+   "prompt": "22 − 6"
   }
  },
  {
@@ -2177,7 +2178,7 @@
   "title": "Larger numbers/missing differences",
   "ordinal": 3,
   "preview": {
-   "prompt": "367 − 313"
+   "prompt": "631 − 544"
   }
  },
  {
@@ -2186,7 +2187,7 @@
   "title": "Multiply by 0 and 1",
   "ordinal": 1,
   "preview": {
-   "prompt": "0 × 10"
+   "prompt": "11 × 0"
   }
  },
  {
@@ -2195,7 +2196,7 @@
   "title": "Multiply by 2, 3, and 4",
   "ordinal": 1,
   "preview": {
-   "prompt": "2 × 9"
+   "prompt": "5 × 2"
   }
  },
  {
@@ -2204,7 +2205,7 @@
   "title": "Multiply by 5 and 10",
   "ordinal": 1,
   "preview": {
-   "prompt": "5 × 9"
+   "prompt": "12 × 5"
   }
  },
  {
@@ -2222,7 +2223,7 @@
   "title": "Multiply by 8 and 9",
   "ordinal": 1,
   "preview": {
-   "prompt": "8 × 6"
+   "prompt": "10 × 8"
   }
  },
  {
@@ -2231,7 +2232,7 @@
   "title": "Multiply by 11 and 12",
   "ordinal": 1,
   "preview": {
-   "prompt": "11 × 2"
+   "prompt": "11 × 9"
   }
  },
  {
@@ -2240,7 +2241,7 @@
   "title": "Division with 0 and 1",
   "ordinal": 1,
   "preview": {
-   "prompt": "0 ÷ 11"
+   "prompt": "0 ÷ 4"
   }
  },
  {
@@ -2249,7 +2250,7 @@
   "title": "Divide by 2, 3, and 4",
   "ordinal": 1,
   "preview": {
-   "prompt": "12 ÷ 2"
+   "prompt": "18 ÷ 2"
   }
  },
  {
@@ -2258,7 +2259,7 @@
   "title": "Divide by 5 and 10",
   "ordinal": 1,
   "preview": {
-   "prompt": "0 ÷ 5"
+   "prompt": "10 ÷ 5"
   }
  },
  {
@@ -2267,7 +2268,7 @@
   "title": "Divide by 6 and 7",
   "ordinal": 1,
   "preview": {
-   "prompt": "6 ÷ 6"
+   "prompt": "66 ÷ 6"
   }
  },
  {
@@ -2276,7 +2277,7 @@
   "title": "Divide by 8 and 9",
   "ordinal": 1,
   "preview": {
-   "prompt": "56 ÷ 8"
+   "prompt": "32 ÷ 8"
   }
  },
  {
@@ -2285,7 +2286,7 @@
   "title": "Divide by 11 and 12",
   "ordinal": 1,
   "preview": {
-   "prompt": "88 ÷ 11"
+   "prompt": "33 ÷ 11"
   }
  },
  {
@@ -2294,7 +2295,7 @@
   "title": "Missing operands",
   "ordinal": 1,
   "preview": {
-   "prompt": "15 × □ = 30"
+   "prompt": "29 × □ = 203"
   }
  },
  {
@@ -2303,7 +2304,7 @@
   "title": "Multiples of ten",
   "ordinal": 2,
   "preview": {
-   "prompt": "150 × 2"
+   "prompt": "170 × 4"
   }
  },
  {
@@ -2312,7 +2313,7 @@
   "title": "Multiplication",
   "ordinal": 3,
   "preview": {
-   "prompt": "26 × 12"
+   "prompt": "36 × 16"
   }
  },
  {
@@ -2321,7 +2322,7 @@
   "title": "Division",
   "ordinal": 4,
   "preview": {
-   "prompt": "30 ÷ 2"
+   "prompt": "234 ÷ 9"
   }
  },
  {
@@ -2330,7 +2331,7 @@
   "title": "Factors/common factors",
   "ordinal": 1,
   "preview": {
-   "prompt": "Find the greatest common factor of 30 and 45."
+   "prompt": "Find the greatest common factor of 48 and 72."
   }
  },
  {
@@ -2339,7 +2340,7 @@
   "title": "Multiples/common multiples",
   "ordinal": 2,
   "preview": {
-   "prompt": "Find the least common multiple of 30 and 45."
+   "prompt": "Find the least common multiple of 48 and 72."
   }
  },
  {
@@ -2348,7 +2349,7 @@
   "title": "Equivalence",
   "ordinal": 1,
   "preview": {
-   "prompt": "Fill the numerator: 1/15 = □/30."
+   "prompt": "Fill the numerator: 1/3 = □/24."
   }
  },
  {
@@ -2357,7 +2358,7 @@
   "title": "Simplification",
   "ordinal": 2,
   "preview": {
-   "prompt": "Simplify 2/30."
+   "prompt": "Simplify 9/36."
   }
  },
  {
@@ -2366,7 +2367,7 @@
   "title": "Comparison",
   "ordinal": 3,
   "preview": {
-   "prompt": "Which is greater: 1/15 or 1/16?"
+   "prompt": "Which is greater: 1/14 or 1/15?"
   }
  },
  {
@@ -2375,7 +2376,7 @@
   "title": "Mixed/improper forms",
   "ordinal": 4,
   "preview": {
-   "prompt": "Write 15 1/2 as an improper fraction."
+   "prompt": "Write 20 1/2 as an improper fraction."
   }
  },
  {
@@ -2384,7 +2385,7 @@
   "title": "Fraction/decimal",
   "ordinal": 1,
   "preview": {
-   "prompt": "Write 15/20 as a decimal."
+   "prompt": "Write 8/20 as a decimal."
   }
  },
  {
@@ -2393,7 +2394,7 @@
   "title": "Decimal/percent",
   "ordinal": 2,
   "preview": {
-   "prompt": "Write 0.15 as a percent."
+   "prompt": "Write 0.07 as a percent."
   }
  },
  {
@@ -2402,7 +2403,7 @@
   "title": "Fraction/percent",
   "ordinal": 3,
   "preview": {
-   "prompt": "Write 15% as a fraction."
+   "prompt": "Write 30% as a fraction."
   }
  },
  {
@@ -2411,7 +2412,7 @@
   "title": "Comparisons/estimates",
   "ordinal": 4,
   "preview": {
-   "prompt": "Which is closest to 15.89?"
+   "prompt": "Compare 29% with 6/20. Which is larger, or are they equal?"
   }
  },
  {
@@ -2420,7 +2421,7 @@
   "title": "Opposites/absolute value",
   "ordinal": 1,
   "preview": {
-   "prompt": "Find the absolute value of −15."
+   "prompt": "Find the absolute value of −8."
   }
  },
  {
@@ -2429,7 +2430,7 @@
   "title": "Comparisons/order",
   "ordinal": 2,
   "preview": {
-   "prompt": "Which is smallest: −15, 0, or 15?"
+   "prompt": "Which is least: -8, -20, or 4?"
   }
  },
  {
@@ -2438,7 +2439,7 @@
   "title": "Number lines",
   "ordinal": 3,
   "preview": {
-   "prompt": "Place 1 on the number line."
+   "prompt": "Place -9 on the number line."
   }
  },
  {
@@ -2447,7 +2448,7 @@
   "title": "Operation order",
   "ordinal": 1,
   "preview": {
-   "prompt": "15 + 2 × 3"
+   "prompt": "25 + 6 × 3"
   }
  },
  {
@@ -2456,7 +2457,7 @@
   "title": "Substitution",
   "ordinal": 2,
   "preview": {
-   "prompt": "Find 2x + 2 when x = 15."
+   "prompt": "Find 2x + 2 when x = 4."
   }
  },
  {
@@ -2465,7 +2466,7 @@
   "title": "Like terms",
   "ordinal": 3,
   "preview": {
-   "prompt": "15x + 2x = □x"
+   "prompt": "3x + 6x = □x"
   }
  },
  {
@@ -2474,7 +2475,7 @@
   "title": "Distribution",
   "ordinal": 4,
   "preview": {
-   "prompt": "15(x + 2) = 15x + □"
+   "prompt": "5(x + 5) = 5x + □"
   }
  },
  {
@@ -2492,7 +2493,28 @@
   "title": "Scales and quantities",
   "ordinal": 2,
   "preview": {
-   "prompt": "Each square represents 2 liters. How many liters do 15 squares represent?"
+   "prompt": "Read the volume after 1 minute. Give the answer in liters.",
+   "visual": {
+    "kind": "plot",
+    "labels": [
+     "Minutes",
+     "Liters"
+    ],
+    "points": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      3
+     ],
+     [
+      24,
+      72
+     ]
+    ]
+   }
   }
  },
  {
@@ -2501,7 +2523,7 @@
   "title": "Rectangle/square",
   "ordinal": 1,
   "preview": {
-   "prompt": "A rectangle is 15 cm by 2 cm. Area in cm²?"
+   "prompt": "A rectangle is 11 cm by 8 cm. Area in cm²?"
   }
  },
  {
@@ -2510,7 +2532,7 @@
   "title": "Parallelogram",
   "ordinal": 2,
   "preview": {
-   "prompt": "Parallelogram base 15 cm, perpendicular height 2 cm. Area in cm²?"
+   "prompt": "Parallelogram base 16 cm, perpendicular height 3 cm. Area in cm²?"
   }
  },
  {
@@ -2519,7 +2541,7 @@
   "title": "Triangle",
   "ordinal": 3,
   "preview": {
-   "prompt": "Triangle base 30 cm, perpendicular height 2 cm. Area in cm²?"
+   "prompt": "Triangle base 44 cm, perpendicular height 10 cm. Area in cm²?"
   }
  },
  {
@@ -2528,7 +2550,7 @@
   "title": "Trapezoid",
   "ordinal": 4,
   "preview": {
-   "prompt": "Trapezoid bases 15 and 17 cm, height 2 cm. Area in cm²?"
+   "prompt": "Trapezoid bases 24 and 26 cm, height 3 cm. Area in cm²?"
   }
  },
  {
@@ -2537,7 +2559,7 @@
   "title": "Mixed applications",
   "ordinal": 5,
   "preview": {
-   "prompt": "Parallelogram base 15 cm, perpendicular height 2 cm. Area in cm²?"
+   "prompt": "Parallelogram base 11 cm, perpendicular height 12 cm. Area in cm²?"
   }
  },
  {
@@ -2546,7 +2568,7 @@
   "title": "Complementary/supplementary",
   "ordinal": 1,
   "preview": {
-   "prompt": "Two angles total 90°. One is 15°. Find the other."
+   "prompt": "Two angles total 90°. One is 19°. Find the other."
   }
  },
  {
@@ -2555,7 +2577,7 @@
   "title": "Vertical angles",
   "ordinal": 2,
   "preview": {
-   "prompt": "An angle is 15°. Find its vertical angle."
+   "prompt": "An angle is 24°. Find its vertical angle."
   }
  },
  {
@@ -2564,7 +2586,7 @@
   "title": "Triangle sum",
   "ordinal": 3,
   "preview": {
-   "prompt": "Two angles in a triangle are 15° and 2°. Find the third."
+   "prompt": "Two angles in a triangle are 19° and 12°. Find the third."
   }
  },
  {
@@ -2573,7 +2595,7 @@
   "title": "Center",
   "ordinal": 1,
   "preview": {
-   "prompt": "Find the median of 15, 17, 19."
+   "prompt": "Find the median of 30, 32, 34."
   }
  },
  {
@@ -2582,7 +2604,7 @@
   "title": "Range/iqr",
   "ordinal": 2,
   "preview": {
-   "prompt": "Quartiles are 15, 17, 19. Find the IQR."
+   "prompt": "Quartiles are 5, 10, 15. Find the IQR."
   }
  },
  {
@@ -2591,7 +2613,7 @@
   "title": "Distribution shape",
   "ordinal": 3,
   "preview": {
-   "prompt": "Describe the shape around 17.",
+   "prompt": "Describe the shape around 12.",
    "visual": {
     "kind": "dots",
     "values": [
@@ -2602,11 +2624,11 @@
      1
     ],
     "labels": [
-     "15",
-     "16",
-     "17",
-     "18",
-     "19"
+     "10",
+     "11",
+     "12",
+     "13",
+     "14"
     ]
    }
   }
@@ -2628,11 +2650,11 @@
      1
     ],
     "labels": [
-     "15",
-     "16",
-     "17",
-     "18",
-     "19"
+     "6",
+     "7",
+     "8",
+     "9",
+     "10"
     ]
    }
   }
@@ -2643,7 +2665,7 @@
   "title": "Equations",
   "ordinal": 1,
   "preview": {
-   "prompt": "x + 2 = 17. Find x."
+   "prompt": "x + 10 = 21. Find x."
   }
  },
  {
@@ -2652,7 +2674,7 @@
   "title": "Inequalities",
   "ordinal": 2,
   "preview": {
-   "prompt": "x + 2 > 17. What is the boundary value?"
+   "prompt": "x + 11 > 26. What is the boundary value?"
   }
  },
  {
@@ -2661,7 +2683,7 @@
   "title": "Number-line solutions",
   "ordinal": 3,
   "preview": {
-   "prompt": "Mark the solution to x + 2 = 6."
+   "prompt": "Mark the solution to x + 8 = 7."
   }
  }
 ]

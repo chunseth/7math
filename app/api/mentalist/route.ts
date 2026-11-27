@@ -14,17 +14,21 @@ import {
 } from "../../../lib/mentalist/db";
 import { prepareLevel, saveBattle, start, submit } from "../../../lib/mentalist/battle";
 import { leaderboard, publishedLevelIds, studentState } from "../../../lib/mentalist/student";
+import { courseGrade } from "../../../lib/mentalist/model";
 import { economy } from "../../../lib/mentalist/economy";
 import { faculty, teacherUser } from "../../../lib/mentalist/teacher";
 import { craft } from "../../../lib/mentalist/craft";
 import { survivorPack } from "../../../lib/survivor/server";
+import { rushGrade } from "../../../lib/rush/model";
+import { finishRush, rushBoard, startRush } from "../../../lib/rush/server";
+import { checkReview, exportReviewBugs, saveReview } from "../../../lib/verification/server";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+const verificationActions = new Set(["verificationLogin", "verificationCheck", "verificationSave", "verificationExport"]);
 function json(data: unknown, status = 200) {
   return NextResponse.json(data, { status, headers: { "Cache-Control": "private, no-store" } });
 }
 export async function POST(req: NextRequest) {
-  if (!enabled()) return json({ error: "Curriculum is disabled." }, 404);
   const origin = req.headers.get("origin");
   if (origin) {
     let host;
@@ -48,11 +52,13 @@ export async function POST(req: NextRequest) {
       throw new GameError("Invalid request.");
     }
     if (!b || typeof b.action !== "string") throw new GameError("Specify an action.");
+    if (!enabled() && (b.scope === "teacher" || !verificationActions.has(b.action)))
+      throw new GameError("Curriculum is disabled.", 404);
     if (b.action !== "saveBattle" && raw.length > 4096) throw new GameError("Request too large.", 413);
-    if (b.action === "publicTrail") return json(await transaction(publishedLevelIds));
-    if (b.action === "login") {
+    if (b.action === "publicTrail") return json(await transaction(db => publishedLevelIds(db, courseGrade(b.grade))));
+    if (b.action === "login" || b.action === "verificationLogin") {
       const res = await transaction((db) =>
-        login(db, String(b.username), String(b.pin), String(b.sprite), b.create === true),
+        login(db, String(b.username), String(b.pin), String(b.sprite), b.action === "login" && b.create === true),
       );
       if (!res.token) return json({ error: res.error }, res.status);
       const reply = json({ id: res.id });
@@ -71,10 +77,19 @@ export async function POST(req: NextRequest) {
     }
     const result = await transaction(async (db) => {
       const who = await identity(db, req.cookies.get(cookie)?.value);
+      if (b.action === "verificationCheck") return checkReview(b);
+      if (b.action === "verificationSave") return saveReview(db, who, b);
+      if (b.action === "verificationExport") return exportReviewBugs(db, who, b.setId);
       if (b.action === "prepareLevel") return prepareLevel(db, who, b.level);
       if (b.action === "survivorPack") return survivorPack(db, who);
-      if (b.action === "state") return studentState(db, who);
+      if (b.action === "state") return studentState(db, who, courseGrade(b.grade));
       if (b.action === "leaderboard") return leaderboard(db, b.level);
+      if (b.action === "rushBoard" || b.action === "rushStart") {
+        const grade = rushGrade(b.grade);
+        if (!grade) throw new GameError("Choose Grade 6, 7, or 8.");
+        return b.action === "rushBoard" ? rushBoard(db, who, grade) : startRush(db, who, grade);
+      }
+      if (b.action === "rushFinish") return finishRush(db, who, b.run, b.answers);
       if (b.action === "logout") {
         await db.query("update sessions set ended=now() where token=$1", [who.token]);
         await db.query(
@@ -124,7 +139,7 @@ export async function POST(req: NextRequest) {
             [uuid(b.run), who.profile],
           );
         } else await economy(db, who, b.action, b.value);
-        data = await studentState(db, who);
+        data = await studentState(db, who, courseGrade(b.grade));
       }
       await db.query("insert into receipts values($1,$2,$3,$4,$5)", [
         who.profile,

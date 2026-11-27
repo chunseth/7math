@@ -5,19 +5,20 @@ import Legacy from "./Legacy";
 import Trail from "./Trail";
 
 import Link from "next/link";
-import { accessMap } from "../../lib/mentalist/model";
+import { accessMap, type CourseGrade } from "../../lib/mentalist/model";
 import { PreviewFeed } from "./components/PreviewFeed";
 
 function PreviewLibrary() {
   return <main className="mt-shell mt-home mp-home">
     <PreviewFeed access={accessMap(new Set(), [], new Set(), new Set(), new Set())} obscured={false} />
-    <nav className="mt-nav mp-library-nav" aria-label="Mentalist menus">
-      <Link href="/mentalist">Map</Link><span aria-current="page">More Topics</span>
+    <nav className="mt-nav mp-library-nav" aria-label="7math menus">
+      <Link href="/7math">Map</Link><span aria-current="page">More Topics</span>
     </nav>
   </main>;
 }
 
-export default async function MentalistScreen({initialTab}: {initialTab: "Map" | "More Topics" | "Collection"}) {
+export default async function MentalistScreen({initialTab, grade = 7}: {grade?: CourseGrade; initialTab: "Map" | "More Topics" | "Collection"}) {
+  if (!enabled() && grade !== 7) return <Trail grade={grade} accounts={false} published={[]} initialStudent={null} initialTab={initialTab} />;
   if (!enabled()) return initialTab === "More Topics" ? <PreviewLibrary /> : <Legacy />;
   const token = (await cookies()).get(studentCookie)?.value;
   try {
@@ -28,16 +29,16 @@ export default async function MentalistScreen({initialTab}: {initialTab: "Map" |
           throw error;
         });
         if (who) {
-          const student = await studentState(db, who);
+          const student = await studentState(db, who, grade);
           return {
             initialStudent: student,
             published: student.access.filter((level) => level.state !== "planned").map((level) => level.id),
           };
         }
       }
-      return { initialStudent: null, published: await publishedLevelIds(db) };
+      return { initialStudent: null, published: await publishedLevelIds(db, grade) };
     });
-    return <Trail {...initial} initialTab={initialTab} />;
+    return <Trail grade={grade} {...initial} initialTab={initialTab} />;
   } catch (error) {
     const code = (error as { code?: string } | null)?.code;
     if (code === "42P01" && error instanceof Error) {
@@ -45,13 +46,14 @@ export default async function MentalistScreen({initialTab}: {initialTab: "Map" |
     } else {
       console.error("Could not load Mentalist trail", code);
     }
+    if (grade !== 7) return <Trail grade={grade} accounts={false} published={[]} initialStudent={null} initialTab={initialTab} />;
     if (initialTab === "More Topics") return <PreviewLibrary />;
     return (
       <main className="mt-shell mt-panel">
-        <h1>Mentalist</h1>
+        <h1>7math</h1>
         <p role="alert">Lesson availability could not be loaded.</p>
-        <a href="/mentalist">Retry loading the trail</a>
-        <a href="/mentalist/previews">More Topics</a>
+        <a href="/7math">Retry loading the trail</a>
+        <a href="/7math/previews">More Topics</a>
       </main>
     );
   }

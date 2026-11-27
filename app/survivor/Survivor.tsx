@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
+import NumberPad from "../components/NumberPad";
 import { post, RequestError } from "../../lib/mentalist/client";
 import {
   BOSS_HEALTH, CHARGE_MS, chooseUpgrade, createRun, editAnswer, radius, resizeRun,
@@ -41,18 +42,18 @@ export default function Survivor() {
           <img src={`/sprites/${state.status === "ready" ? state.pack.sprite : "phoenix"}.png`} alt="" />
         </div>
         <h1 id="survivor-title">Survivor</h1>
-        {state.status === "loading" && <p role="status">Loading your Mentalist questions…</p>}
-        {state.status === "sign-in" && <p>Sign in to Mentalist to use your sprite and completed concepts.</p>}
-        {state.status === "error" && <p role="alert">Your Mentalist questions could not be loaded.</p>}
+        {state.status === "loading" && <p role="status">Loading your 7math questions…</p>}
+        {state.status === "sign-in" && <p>Sign in to 7math to use your sprite and completed concepts.</p>}
+        {state.status === "error" && <p role="alert">Your 7math questions could not be loaded.</p>}
         {state.status === "ready" && (ready
           ? <p>Dodge enemy shots and solve the questions above your enemies. Pick up XP to upgrade before the boss arrives at 3:00.</p>
-          : <p>Clear every level of a Mentalist concept with text-based numeric questions to unlock Survivor.</p>)}
+          : <p>Clear every level of a 7math concept with text-based numeric questions to unlock Survivor.</p>)}
         {ready && state.status === "ready" && <>
           <p className="sv-controls">Hold or drag to move. On desktop, use the arrow keys or WASD. Correct answers fire as you type.</p>
           <button className="sv-primary" type="button" onClick={() => setState({ ...state, play: true })}>Start run</button>
         </>}
         {state.status === "error" && <button className="sv-primary" type="button" onClick={() => void load()}>Retry</button>}
-        {(state.status === "sign-in" || (state.status === "ready" && !ready)) && <Link className="sv-primary" href="/mentalist">Go to Mentalist</Link>}
+        {(state.status === "sign-in" || (state.status === "ready" && !ready)) && <Link className="sv-primary" href="/7math">Go to 7math</Link>}
       </section>
     </main>
   );
@@ -63,10 +64,10 @@ const movementKeys: Record<string, Point> = {
   a: { x: -1, y: 0 }, ArrowLeft: { x: -1, y: 0 }, d: { x: 1, y: 0 }, ArrowRight: { x: 1, y: 0 },
 };
 
-const keypad = [
-  ["7", "7", "7"], ["8", "8", "8"], ["9", "9", "9"], ["-", "−", "Change sign"], ["/", "/", "Fraction slash"],
-  ["4", "4", "4"], ["5", "5", "5"], ["6", "6", "6"], [".", ".", "Decimal point"], ["Backspace", "⌫", "Backspace"],
-  ["1", "1", "1"], ["2", "2", "2"], ["3", "3", "3"], ["0", "0", "0"], ["Enter", "↵", "Enter"],
+const numberControls = [
+  { key: ".", label: ".", name: "Decimal point" },
+  { key: "/", label: "/", name: "Fraction slash" },
+  { key: "-", label: "±", name: "Change sign" },
 ];
 
 function timeLabel(elapsed: number) {
@@ -158,7 +159,8 @@ function Arena({ pack, onReplay }: { pack: SurvivorPack; onReplay: () => void })
       } else if (/^[0-9.\/-]$/.test(key) || ["Backspace", "Delete", "Enter"].includes(key)) {
         if (key === "Enter" && event.target instanceof Element && event.target.closest("button, a")) return;
         event.preventDefault();
-        if (!event.repeat || key === "Backspace") keyAnswer(key === "Delete" ? "Clear" : key);
+        const edit = key === "Delete" ? "Backspace" : key;
+        if (!event.repeat || edit === "Backspace") keyAnswer(edit);
       }
     }
     function release(event: KeyboardEvent) { motion.current.keys.delete(event.key.length === 1 ? event.key.toLowerCase() : event.key); }
@@ -228,16 +230,10 @@ function Arena({ pack, onReplay }: { pack: SurvivorPack; onReplay: () => void })
               : <span className="sv-defeated">Enemies defeated <b>{frame?.defeated ?? 0}</b></span>}
             <p className="sv-feedback" role="status">{frame?.feedback}</p>
           </div>
-          <div className="sv-pad" role="group" aria-label="Answer keypad">
-            <div className="sv-entry"><span aria-label="Current answer" data-empty={!frame?.entry}>{frame?.entry ? frame.entry.replace("-", "−") : "Answer"}</span>
-              <button type="button" onPointerDown={event => pressPad(event, "Clear")}
-                onClick={event => { if (event.detail === 0) keyAnswer("Clear"); }} disabled={!frame?.entry || frame.phase !== "playing"}>Clear</button>
-            </div>
-            <div className="sv-keys">
-              {keypad.map(([key, symbol, name]) => <button key={key} type="button" data-key={key} aria-label={name}
-                disabled={frame?.phase !== "playing"} onPointerDown={event => pressPad(event, key)}
-                onClick={event => { if (event.detail === 0) keyAnswer(key); }}>{symbol}</button>)}
-            </div>
+          <div className="sv-pad">
+            <div className="sv-entry"><span aria-label="Current answer" data-empty={!frame?.entry}>{frame?.entry ? frame.entry.replace("-", "−") : "Answer"}</span></div>
+            <NumberPad className="sv-keys" controls={numberControls} disabled={frame?.phase !== "playing"}
+              onKey={keyAnswer} onPointerKey={pressPad} />
           </div>
         </aside>
       </section>

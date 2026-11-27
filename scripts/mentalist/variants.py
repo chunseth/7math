@@ -49,9 +49,7 @@ def extension(s, l, n, v):
     if s == "review.coordinate" and l == 2 and v == 2:
         return "dependent-variable", choose(
             f"A tank fills at {a} L/min. A graph predicts liters from elapsed minutes. Which quantity depends on the other?",
-            "Liters",
-            ["Minutes"],
-            n,
+            "Liters", ["Minutes"], n,
         )
     if s == "review.area" and l == 1 and v == 2:
         return "square", q(
@@ -99,6 +97,17 @@ def extension(s, l, n, v):
             signed=True,
             visual=dict(kind="chips", values=[pos, neg]),
         )
+    if s in ("signed.multiply", "signed.divide") and l == 2 and v == 2:
+        groups, size = 2 + n % 5, 2 + n // 5 % 5
+        total = -groups * size
+        visual = dict(kind="signed-groups", values=[groups, size])
+        if s == "signed.multiply":
+            prompt = "Each group contains negative chips. Which multiplication shows the total?"
+            correct, wrong = f"{groups} × (−{size}) = {total}", [f"{groups} × {size} = {-total}", f"{groups} + (−{size}) = {groups-size}"]
+        else:
+            prompt = "Share the pictured negative chips into the equal groups shown. Which division gives the signed amount per group?"
+            correct, wrong = f"{total} ÷ {groups} = −{size}", [f"{-total} ÷ {groups} = {size}", f"{total} ÷ {groups} = {size}"]
+        return "signed-groups", choose(prompt, correct, wrong, n, visual)
     if s == "number.context" and l == 3 and v == 2:
         return "guided-check", choose(
             f"A hiker starts at −{a} m, rises {a+b} m and reports {b} m. Which check supports that result?",
@@ -148,11 +157,17 @@ def extension(s, l, n, v):
             f"△ABC ∼ △DEF. Angle B measures {a+b}°. Find angle E in degrees.", a + b
         )
     if s == "chance.space" and l == 2 and v == 2:
+        coin_first = n % 4 >= 2
+        first, second = ("H", "T") if n % 2 == 0 else ("T", "H")
+        def outcome(side, flip=False):
+            return f"{side}, {a}" if coin_first != flip else f"{a}, {side}"
+        events = ("toss a coin, then roll a 36-sided die" if coin_first else
+                  "roll a 36-sided die, then toss a coin")
         return "organized-list", fields(
-            f"List the two ordered outcomes beginning with {a} on a die followed by a coin. Enter heads first.",
+            f"You {events}. The die shows {a}. List the two ordered outcomes. Enter {'heads' if first == 'H' else 'tails'} first.",
             ["First outcome", "Second outcome"],
-            [f"{a}, H", f"{a}, T"],
-            [[f"H, {a}", f"{a}, T"], [f"T, {a}", f"{a}, H"]],
+            [outcome(first), outcome(second)],
+            [[outcome(first, True), outcome(second)], [outcome(second, True), outcome(first)]],
             n,
             kind="list",
         )
@@ -205,19 +220,24 @@ def extension(s, l, n, v):
             0,
         )
     if s == "linear.represent" and l == 4 and v == 2:
+        context, rate, initial = [
+            (f"A taxi meter shows y = {k}x + {b} dollars after x miles.", "Dollars per mile", "Initial charge ($)"),
+            (f"A tank holds y = {k}x + {b} liters after x minutes of filling.", "Liters per minute", "Initial volume (L)"),
+            (f"A rental total is y = {k}x + {b} dollars after x hours.", "Dollars per hour", "Initial charge ($)"),
+        ][n % 3]
         return "interpret-parameters", fields(
-            f"A taxi meter shows y = {k}x + {b} dollars after x miles. Complete the description.",
-            ["Dollars per mile", "Initial charge"],
+            f"{context} Complete the description.",
+            [rate, initial],
             [k, b],
             [[k + 1, k + 2], [b + 1, b + 2]],
             n,
             kind="record",
         )
     if s == "linear.represent" and l == 2 and v == 2:
-        k = 1 + n % 2
-        b = n % 4
+        k = 1 + n % 3
+        b = n // 3 % 5
         return "construct-line", item(
-            f"Graph y = {k}x + {b}. Plot its points at x = 0 and then x = 2.",
+            f"Graph y = {k}x + {b}. Plot the point at x = 0 first, then plot the point at x = 2.",
             f"0,{b};2,{2*k+b}",
             dict(kind="graph", limit=10, points=2),
         )
@@ -232,7 +252,7 @@ def extension(s, l, n, v):
     if s == "algebra.graph" and l == 3 and v == 2:
         x = F(2 * (n % 9) - 7, 2)
         return "rational-boundary", fields(
-            f"Construct the number line for x ≥ {x}.",
+            f"Solve 2x + {b} ≥ {2*x+b}, then graph the solution set.",
             ["Boundary", "Endpoint", "Ray"],
             [str(x), "Closed", "Right"],
             [[str(x - 1), str(x + 1)], ["Open"], ["Left"]],

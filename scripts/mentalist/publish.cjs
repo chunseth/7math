@@ -10,8 +10,10 @@ const root = resolve(__dirname, "../..");
 async function publish() {
   if (!process.env.MENTALIST_DATABASE_URL)
     throw new Error("Set MENTALIST_DATABASE_URL to the target database.");
-  execFileSync("python3", ["-B", resolve(__dirname, "build.py"), "--check"], { stdio: "inherit" });
-  const raw = gunzipSync(readFileSync(resolve(root, "content/mentalist/bank-v2.json.gz")));
+  const grade = process.argv.find(arg => arg.startsWith("--grade="))?.slice(8) ?? "7";
+  if (!["6", "7", "8"].includes(grade)) throw new Error("Choose grade 6, 7, or 8.");
+  execFileSync("python3", ["-B", resolve(__dirname, grade === "7" ? "build.py" : `../${grade}math/build.py`), "--check"], { stdio: "inherit" });
+  const raw = gunzipSync(readFileSync(resolve(root, grade === "7" ? "content/mentalist/bank-v7.json.gz" : `content/${grade}math/bank.json.gz`)));
   const bank = JSON.parse(raw);
   const stage = process.argv.find((a) => a.startsWith("--stage="))?.slice(8);
   if (!["slice", "numeric", "complete"].includes(stage))
@@ -21,6 +23,7 @@ async function publish() {
     throw new Error(
       "Record the release reviewer in MENTALIST_CONTENT_REVIEWER before publishing reviewed sets.",
     );
+  if (grade !== "7" && stage !== "complete") throw new Error(`Use --stage=complete for Grade ${grade}.`);
   const bySkill = new Map(bank.skills.map((skill) => [skill.id, skill]));
   const included = new Set();
   function include(id) {
