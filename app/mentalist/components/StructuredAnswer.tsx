@@ -7,13 +7,14 @@ import NumericEntry from "./NumericEntry";
 import QuestionCalculator from "./QuestionCalculator";
 import { Visual } from "./Visual";
 
-export default function StructuredAnswer({ question, disabled, onAnswer, fieldAnswers, onPart, singleAttempt }: {
+export default function StructuredAnswer({ question, disabled, onAnswer, fieldAnswers, onPart, singleAttempt, fractionDelayMs }: {
   question: Question;
   disabled: boolean;
   onAnswer: (raw: string, calculated?: boolean) => void;
   fieldAnswers?: string[];
   onPart?: (title: string) => void;
   singleAttempt?: boolean;
+  fractionDelayMs?: number;
 }) {
   const { control, prompt } = question;
   const fields = control.fields!;
@@ -94,7 +95,8 @@ export default function StructuredAnswer({ question, disabled, onAnswer, fieldAn
         {calculator && mode === "number" && format
           ? <QuestionCalculator key={index} pi={calculator.pi} control={format} unit={unit} disabled={locked} onResult={submit} />
           : mode === "number" && format
-          ? <NumericEntry key={index + ":" + retry} control={format} unit={unit} disabled={locked} onAnswer={submit} />
+          ? <NumericEntry key={index + ":" + retry} control={format} unit={unit} disabled={locked}
+            onAnswer={submit} fractionDelayMs={fractionDelayMs} />
           : <div className="mt-field-buttons">{options.map(option => <button type="button" key={option} onClick={() => void submit(option)}>
             {control.kind === "ray" ? ({ Open: "○ Open", Closed: "● Closed", Left: "← Left", Right: "Right →" })[option] ?? option : option}
           </button>)}</div>}

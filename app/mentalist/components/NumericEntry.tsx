@@ -9,11 +9,12 @@ export function editNumber(old: string, key: string) {
   return old + key;
 }
 
-export default function NumericEntry({ control, unit, disabled, onAnswer }: {
+export default function NumericEntry({ control, unit, disabled, onAnswer, fractionDelayMs = 800 }: {
   control: Control;
   unit?: string;
   disabled: boolean;
   onAnswer: (raw: string) => void;
+  fractionDelayMs?: number;
 }) {
   const [value, setValue] = useState("");
   const [den, setDen] = useState("");
@@ -33,9 +34,9 @@ export default function NumericEntry({ control, unit, disabled, onAnswer }: {
       send.current(raw);
     }
     if (!fraction) { check(); return; }
-    const timer = setTimeout(check, 800);
+    const timer = setTimeout(check, fractionDelayMs);
     return () => clearTimeout(timer);
-  }, [ready, raw, fraction]);
+  }, [ready, raw, fraction, fractionDelayMs]);
 
   function edit(key: string) {
     if (disabled) return;

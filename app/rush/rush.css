@@ -450,4 +450,5 @@
 .rush-progress progress::-webkit-progress-value { background: #4d58a6; border-radius: 999px; }
 .rush-progress progress::-moz-progress-bar { background: #4d58a6; border-radius: 999px; }
 .rush-answer { max-width: 420px; margin: 12px auto; }
+.rush-answer .mt-keypad button { touch-action: manipulation; }
 .rush-shell button.rush-skip { margin-top: 4px; }

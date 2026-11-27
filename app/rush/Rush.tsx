@@ -266,7 +266,7 @@ function Question({ run, position, advance }: {
     <h2 ref={heading} tabIndex={-1}><QuestionPrompt part={partTitle} text={studentPrompt(question)} /></h2>
     <Visual data={question.visual} showLoan={false} onSimulated={() => setSimulated(true)} />
     <div className="rush-answer">
-      <Answer key={question.visual?.kind === "loan" ? "loan" : attempt} question={question} singleAttempt
+      <Answer key={question.visual?.kind === "loan" ? "loan" : attempt} question={question} singleAttempt fractionDelayMs={450}
         disabled={checking || (question.visual?.kind === "simulation" && !question.visual.coinTrials && !simulated)} onAnswer={answer} onPart={setPartTitle} />
     </div>
     {error && <p role="alert">{error}</p>}
