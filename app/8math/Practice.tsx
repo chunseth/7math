@@ -4,7 +4,7 @@ import Answer from "../mentalist/components/Answer";
 import { Visual } from "../mentalist/components/Visual";
 import { checkLocally, guestOrder, type LevelPack } from "../../lib/mentalist/round";
 import { studentPrompt } from "../../lib/mentalist/least-order";
-import QuestionPrompt from "../mentalist/components/QuestionPrompt";
+import QuestionPrompt, { useQuestionPart } from "../mentalist/components/QuestionPrompt";
 import { gradeOf, isFieldAttempt, levelById } from "../../lib/mentalist/model";
 
 export function Practice({ level, close }: { level: string; close: () => void }) {
@@ -34,6 +34,7 @@ export function Practice({ level, close }: { level: string; close: () => void })
   }, [level,retry]);
   const done = position === 12 * half;
   const question = pack?.questions[order[position]];
+  const { partTitle, setPartTitle } = useQuestionPart(question);
   async function answer(raw: string, calculated = false) {
     if (!pack || lock.current || done) return;
     lock.current = true;
@@ -55,10 +56,10 @@ export function Practice({ level, close }: { level: string; close: () => void })
     <h1>{levelById.get(level)?.title}</h1>
     {done ? <><h2>Practice complete</h2><p>{position - misses.size} of {position} correct on the first try.</p>
       {half === 1 && <button className="mt-primary" onClick={() => setHalf(2)}>Practice the remaining 12</button>}</> :
-      question ? <><p>Practice · {position % 12 + 1} of 12</p><h2><QuestionPrompt text={reduce ? `Reduce ${reduce}.` : studentPrompt(question)} /></h2>
+      question ? <><p>Practice · {position % 12 + 1} of 12</p><h2><QuestionPrompt part={partTitle} text={reduce ? `Reduce ${reduce}.` : studentPrompt(question)} /></h2>
         <Visual key={position} data={question.visual} showLoan={false} onSimulated={() => setSimulated(position)} />
         <Answer key={position + "/" + (question.visual?.kind === "loan" ? 0 : attempt)} question={question}
-          disabled={question.visual?.kind === "simulation" && !question.visual.coinTrials && simulated !== position} onAnswer={answer} /></> :
+          disabled={question.visual?.kind === "simulation" && !question.visual.coinTrials && simulated !== position} onAnswer={answer} onPart={setPartTitle} /></> :
       feedback ? <button onClick={() => setRetry(retry+1)}>Retry loading</button> : <p>Loading questions…</p>}
     <p role="status">{feedback}</p>
   </main>;

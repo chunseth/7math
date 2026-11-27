@@ -50,8 +50,9 @@ export default function Coordinate({ limit, line, drawing, drawingScale, scatter
     setCursor([x, y]);
     setKeyboardCursor(false);
     setPlaced(points);
-    if (points.length === count) onPick(points.map(([px, py]) => [coordinate(px, origin), coordinate(py)].join(",")).join(";"));
+    if (!scatter && points.length === count) onPick(answer(points));
   }
+  const answer = (points: Point[]) => points.map(([x, y]) => [coordinate(x, origin), coordinate(y)].join(",")).join(";");
 
   const size = 2 * limit;
   const left = limit + view.x[0], right = limit + view.x[1];
@@ -62,6 +63,8 @@ export default function Coordinate({ limit, line, drawing, drawingScale, scatter
   const xTitleAtCorner = xTicksAbove || yTicksOnRight;
   const sidePadding = xTitleAtCorner ? 1.8 : 1.5;
   const rightPadding = !line && drawingScale > 1 ? 3 : sidePadding;
+  const topPadding = viewIndex === 3 && !line ? 2.2 : 1.3;
+  const bottomPadding = viewIndex === 2 && !line ? 2.15 : 1.5;
   const xTicks = ticks(view.x), yTicks = ticks(view.y);
   const drawingPoint = placed.at(-1) ?? (keyboardCursor ? cursor : null);
   const waiting = viewIndex === null;
@@ -69,6 +72,7 @@ export default function Coordinate({ limit, line, drawing, drawingScale, scatter
   const labelStep = Math.max(1, Math.ceil((view.x[1] - view.x[0]) / 10));
   const everyLabel = (range: [number, number], i: number) => line && step === .1
     ? Math.round(coordinate(i, origin) * 10) % 2 === 0
+    : !line && step === .5 ? i % 2 === 0
     : i === range[0] || i === range[1] || i % (drawingScale > 1 ? 5 : labelStep) === 0;
 
   return <div className="mt-grid">
@@ -86,7 +90,7 @@ export default function Coordinate({ limit, line, drawing, drawingScale, scatter
       tabIndex={disabled || waiting ? -1 : 0}
       role={waiting ? "img" : "button"}
       aria-label={waiting ? "Overview of four quadrants" : `Coordinate ${coordinate(cursor[0], origin)}, ${coordinate(cursor[1])}. Use arrow keys then Space to place a point.`}
-      viewBox={`${left - sidePadding} ${top - 1.3} ${right - left + sidePadding + rightPadding} ${line ? 4.6 : bottom - top + 2.8}`}
+      viewBox={`${left - sidePadding} ${top - topPadding} ${right - left + sidePadding + rightPadding} ${line ? 4.6 : bottom - top + topPadding + bottomPadding}`}
       onClick={event => {
         if (disabled) return;
         const svg = event.currentTarget;
@@ -117,16 +121,18 @@ export default function Coordinate({ limit, line, drawing, drawingScale, scatter
       }}>
       {line ? <>
         <path d={`M${left} .5H${right}`} stroke="#425c58" strokeWidth=".13" />
-        {xTicks.filter(i => step !== .1 || everyLabel(view.x, i)).map(i =>
-          <path key={i} d={`M${limit + i} 0V1`} stroke="#425c58" strokeWidth={everyLabel(view.x, i) ? ".1" : ".055"} />)}
+        {xTicks.map(i => <path key={i}
+          d={`M${limit + i} ${step === .1 && !everyLabel(view.x, i) ? ".25V.75" : "0V1"}`}
+          stroke="#425c58" strokeWidth={everyLabel(view.x, i) ? ".1" : ".055"} />)}
       </> : <>
         {!waiting && xTicks.map(i => <path key={i} d={`M${limit + i} ${top}V${bottom}`} stroke="#c9dad5" strokeWidth=".055" />)}
         {!waiting && yTicks.map(i => <path key={i} d={`M${left} ${limit - i}H${right}`} stroke="#c9dad5" strokeWidth=".055" />)}
         <path d={`M${limit} ${top}V${bottom}M${left} ${limit}H${right}`} stroke="#425c58" strokeWidth=".13" />
-        <text x={right + (xTitleAtCorner ? .8 : .25)} y={xTitleAtCorner ? xTickY : limit - .3}
+        <text x={yTicksOnRight ? left : right + (xTitleAtCorner ? .8 : .25)}
+          y={viewIndex === 2 ? bottom + 1.78 : viewIndex === 3 ? top - 1.22 : xTitleAtCorner ? xTickY : limit - .3}
           fontSize=".7">{drawingScale > 1 ? "x (m)" : "x"}</text>
-        <text x={xTicksAbove ? left : limit} y={xTicksAbove ? bottom + .94 : top - .45}
-          textAnchor={yTicksOnRight && !xTicksAbove ? "end" : "start"} fontSize=".7">
+        <text x={xTicksAbove && !yTicksOnRight ? left : limit} y={xTicksAbove ? bottom + .94 : top - .45}
+          textAnchor={yTicksOnRight ? "end" : "start"} fontSize=".7">
           {drawingScale > 1 ? "y (m)" : "y"}
         </text>
         {waiting && [[1, 1, "I"], [-1, 1, "II"], [-1, -1, "III"], [1, -1, "IV"]].map(([x, y, label]) =>
@@ -146,11 +152,13 @@ export default function Coordinate({ limit, line, drawing, drawingScale, scatter
         x={limit + (yTicksOnRight ? .25 : -.25)} y={limit - i + .23} fontSize=".75"
         textAnchor={yTicksOnRight ? "start" : "end"}>{tickText(i)}</text>)}
     </svg>
-    {count > 1 && placed.length > 0 && (scatter || placed.length < count) && <button type="button" disabled={disabled} onClick={() => {
+    {(scatter || count > 1 && placed.length > 0 && placed.length < count) && <div className="mt-grid-actions">
+      <button type="button" disabled={disabled || !placed.length} onClick={() => {
       setPlaced(previous => previous.slice(0, -1));
       setKeyboardCursor(false);
-      onPick("");
-    }}>Undo last point</button>}
+      }}>Undo last point</button>
+      {scatter && <button type="button" disabled={disabled || placed.length !== count} onClick={() => onPick(answer(placed))}>Check plot</button>}
+    </div>}
   </div>;
 }
 

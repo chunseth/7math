@@ -22,7 +22,7 @@ const gameModes = [
     href: "/8math", kicker: "Grade 8", title: "8math",
   },
   {
-    description: "Test question formats from all three grades in one review set.",
+    description: "Retest corrected questions from the latest bug reports.",
     href: "/verification", kicker: "Curriculum Review", title: "Verification",
   },
   {

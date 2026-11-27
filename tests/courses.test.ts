@@ -5,7 +5,7 @@ import { gunzipSync } from "node:zlib";
 import { existsSync, readFileSync } from "node:fs";
 import { accessMap, courses, evaluate, fieldAttempt, grade, gradeOf, gradeQuestion, hasSequentialFields, levels, type Question, type Recorded } from "../lib/mentalist/model";
 import { checkField, checkLocally, checkText, guestOrder, type LevelPack } from "../lib/mentalist/round";
-import { leastOrder, leastOrderAttempt, studentPrompt } from "../lib/mentalist/least-order";
+import { numberOrder, leastOrderAttempt, studentPrompt } from "../lib/mentalist/least-order";
 import { responseUnit } from "../lib/mentalist/units";
 
 type Bank = {
@@ -14,8 +14,8 @@ type Bank = {
   questions: Record<string, Question & { answer: string }>;
 };
 const specs = {
-  6: { count: 222, skills: 92, version: 6005, opening: "g6.foundation-sums.1", singleton: "6.11", strands: {2:"E",3:"E",4:"H",5:"C",6:"C",7:"D",8:"D",9:"C",10:"B",12:"D",13:"B",14:"H"} },
-  8: { count: 225, skills: 101, version: 8005, opening: "g8.foundation-numbers.1", singleton: "8.9", strands: {2:"D",3:"C",4:"C",5:"I",6:"C",7:"D",8:"D",10:"D",11:"C",12:"G"} },
+  6: { count: 222, skills: 92, version: 6006, opening: "g6.foundation-sums.1", singleton: "6.11", strands: {2:"E",3:"E",4:"H",5:"C",6:"C",7:"D",8:"D",9:"C",10:"B",12:"D",13:"B",14:"H"} },
+  8: { count: 225, skills: 101, version: 8006, opening: "g8.foundation-numbers.1", singleton: "8.9", strands: {2:"D",3:"C",4:"C",5:"I",6:"C",7:"D",8:"D",10:"D",11:"C",12:"G"} },
 };
 
 for (const number of [6, 8] as const) {
@@ -88,7 +88,7 @@ for (const number of [6, 8] as const) {
 test("number bubbles score a wrong tap immediately and require all three correct taps", async () => {
   for (const [path, level] of [
     ["content/6math/bank.json.gz", "g6.steps-order.2"],
-    ["content/mentalist/bank-v6.json.gz", "review.numberline.2"],
+    ["content/mentalist/bank-v7.json.gz", "review.numberline.2"],
   ]) {
     const bank: Bank = JSON.parse(gunzipSync(readFileSync(path)).toString());
     const { pool } = bank.levels.find(item => item.id === level)!;
@@ -99,35 +99,37 @@ test("number bubbles score a wrong tap immediately and require all three correct
         const { answer, ...question } = bank.questions[q];
         return { ...question, check: createHash("sha256").update(checkText(set, i, question, answer)).digest("hex") };
       }) };
-    let bubbleQuestions = 0;
+    const directions = { least: 0, greatest: 0 };
     for (const [i, slot] of pool.entries()) {
       const { answer, ...question } = bank.questions[slot.q];
-      if (!question.prompt.startsWith("Which is least:")) {
+      const bubbles = numberOrder(question);
+      if (!bubbles) {
         assert.equal(studentPrompt(question), question.prompt);
         continue;
       }
-      bubbleQuestions++;
-      const order = leastOrder(question);
-      assert.ok(order, slot.q);
-      const [least, middle, greatest] = order;
-      assert.ok(Number(least) < Number(middle) && Number(middle) < Number(greatest));
-      assert.equal(least, answer);
-      assert.match(studentPrompt(question), /least to greatest/);
+      const { direction, values: order } = bubbles;
+      assert.ok(direction === "least" || direction === "greatest");
+      directions[direction]++;
+      const [first, middle, last] = order;
+      const sign = direction === "least" ? 1 : -1;
+      assert.ok((Number(middle) - Number(first)) * sign > 0 && (Number(last) - Number(middle)) * sign > 0);
+      assert.equal(first, answer);
+      assert.match(studentPrompt(question), direction === "least" ? /least to greatest/ : /greatest to least/);
       for (const [picks, outcome] of [
-        [order, "correct"], [[middle], "incorrect"], [[greatest], "incorrect"], [[least, greatest], "incorrect"],
+        [order, "correct"], [[middle], "incorrect"], [[last], "incorrect"], [[first, last], "incorrect"],
       ] as const) {
         const raw = leastOrderAttempt([...picks]);
         assert.equal(gradeQuestion(question, answer, raw)?.outcome, outcome);
         assert.equal(await checkLocally(pack, i, raw), outcome);
       }
-      for (const picks of [[least], [least, middle], [least, least], [middle, greatest]]) {
+      for (const picks of [[first], [first, middle], [first, first], [middle, last]]) {
         const raw = leastOrderAttempt(picks);
         assert.equal(gradeQuestion(question, answer, raw), null);
         await assert.rejects(checkLocally(pack, i, raw), /Finish your answer/);
       }
-      assert.equal(gradeQuestion(question, answer, least)?.outcome, "correct");
+      assert.equal(gradeQuestion(question, answer, first)?.outcome, "correct");
     }
-    assert.equal(bubbleQuestions, 15);
+    assert.deepEqual(directions, { least: 15, greatest: 9 });
   }
 });
 
@@ -173,7 +175,7 @@ for (const number of [6, 8] as const) test(`Grade ${number} progression preserve
 });
 
 test("the shared rectangular-prism nets have opposite matching faces and linear choices fit every row uniquely", () => {
-  const sources = ["content/6math/bank.json.gz", "content/mentalist/bank-v6.json.gz", "content/8math/bank.json.gz"];
+  const sources = ["content/6math/bank.json.gz", "content/mentalist/bank-v7.json.gz", "content/8math/bank.json.gz"];
   let nets = 0, linear = 0;
   for (const source of sources) {
     const bank: Bank = JSON.parse(gunzipSync(readFileSync(source)).toString());

@@ -23,8 +23,8 @@ export default function DisplayAnswer({ question, disabled, onAnswer }: {
     {stem ? <StemEditor prompt={prompt} labels={fields.map(f => f.label)} disabled={disabled} onChange={setParts} />
       : <>
         <p>Tap a {control.kind === "dotplot" ? "tick" : "bin"} to change its count.</p>
-        <Visual data={{ kind: control.kind, labels: fields.map(f => f.label), values: parts.map(Number) }}
-          editChart={disabled ? undefined : { active, select: setActive, maxCount, change: (index, delta) => setParts(previous =>
+        <Visual data={{ kind: control.kind, labels: fields.map(f => f.label.replace(/^Dots over /, "")), values: parts.map(Number) }}
+          editChart={{ active: disabled ? null : active, select: index => { if (!disabled) setActive(index); }, maxCount, change: (index, delta) => setParts(previous =>
             previous.map((value, i) => i === index ? String(Math.min(maxCount, Math.max(0, Number(value) + delta))) : value)) }} />
       </>}
     <button type="button" disabled={disabled || !complete(control, raw)} onClick={() => onAnswer(raw)}>Check display</button>

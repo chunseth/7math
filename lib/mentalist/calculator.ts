@@ -8,7 +8,9 @@ export function calculatorSettings(prompt: string, control: Control) {
     !/coefficient of π|divided by π|multiplies π|in terms of π/i.test(prompt);
   const compound = (numeric || control.kind === "table") && /\bcompound(?:ed|ing| interest)\b/i.test(prompt);
   const factorial = numeric && /\bfactorial\b|\b(?:\d+|[nkr])\s*!/i.test(prompt);
-  return circleArea || compound || factorial ? { pi: pi ?? "3.14159265359" } : null;
+  const circumference = numeric && !!pi && /\b(?:find|calculate|estimate) (?:(?:the|its) )?circumference\b/i.test(prompt);
+  const remainingArea = numeric && /four right triangles.*central square.*(?:area is left|remaining area)/i.test(prompt);
+  return circleArea || circumference || compound || factorial || remainingArea ? { pi: pi ?? "3.14159265359" } : null;
 }
 
 export function evaluateCalculation(expression: string, pi: string): Rational {

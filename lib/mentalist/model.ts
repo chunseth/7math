@@ -48,7 +48,7 @@ export const worldTitles = branchTitles;
 export const worlds = [...new Set(skills.map((s) => s.world))];
 export const skillById = new Map<string, (typeof skills)[number]>([...skills, ...courseSkills].map(s => [s.id, s]));
 export const levelById = new Map([...levels, ...courses[6].levels, ...grade8Levels].map(l => [l.id, l]));
-export const curriculumVersion = 6;
+export const curriculumVersion = 7;
 const formerSkillIds = new Map<string, string>();
 for (const skill of skills)
   for (const table of skill.tables ?? []) formerSkillIds.set(skill.group + "." + table, skill.id);
@@ -129,6 +129,7 @@ export type Level = {
 };
 export type Control = {
   kind: string;
+  unit?: string;
   signed?: boolean;
   width?: number;
   places?: number;

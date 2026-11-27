@@ -7,7 +7,7 @@ import { isFieldAttempt, type Outcome } from "../../lib/mentalist/model";
 import { studentPrompt } from "../../lib/mentalist/least-order";
 import { countReviews, nextReview, type ReviewCase, type ReviewDecision, type ReviewSet } from "../../lib/verification/model";
 import Answer from "../mentalist/components/Answer";
-import QuestionPrompt from "../mentalist/components/QuestionPrompt";
+import QuestionPrompt, { useQuestionPart } from "../mentalist/components/QuestionPrompt";
 import { Visual } from "../mentalist/components/Visual";
 import ExportReports from "./ExportReports";
 
@@ -54,6 +54,7 @@ function CaseReview({ setId, item, position, total, onSaved }: {
   onSaved: (decision: ReviewDecision) => void;
 }) {
   const { question } = item;
+  const { partTitle, setPartTitle } = useQuestionPart(question);
   const [raw, setRaw] = useState<string | null>(null);
   const [reduce, setReduce] = useState("");
   const [attempt, setAttempt] = useState(0);
@@ -131,12 +132,12 @@ function CaseReview({ setId, item, position, total, onSaved }: {
     <p className="verify-location">Question {position} of {total}</p>
     <section className="verify-question" aria-labelledby="verification-question">
       <h2 id="verification-question" ref={heading} tabIndex={-1}>
-        <QuestionPrompt text={reduce && raw === null ? `Reduce ${reduce}.` : studentPrompt(question)} />
+        <QuestionPrompt part={partTitle} text={reduce && raw === null ? `Reduce ${reduce}.` : studentPrompt(question)} />
       </h2>
       <Visual data={question.visual} showLoan={false} onSimulated={() => setSimulated(true)} />
       <Answer key={question.visual?.kind === "loan" ? "loan" : attempt} question={question}
         disabled={busy || reporting || raw !== null || (question.visual?.kind === "simulation" && !question.visual.coinTrials && !simulated)}
-        onAnswer={check} />
+        onAnswer={check} onPart={setPartTitle} />
     </section>
     <section className="verify-decision" aria-label="Review decision">
       {raw !== null && <h2 tabIndex={-1} ref={decisionHeading}>Correct</h2>}

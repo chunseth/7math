@@ -1608,8 +1608,8 @@
    "visual": {
     "kind": "triangle",
     "labels": [
-     "15°",
-     "5°",
+     "104°",
+     "18°",
      "x°"
     ]
    }
@@ -2079,7 +2079,7 @@
   "title": "Repeated periods",
   "ordinal": 1,
   "preview": {
-   "prompt": "$400 earns 2% compounded annually. Complete the two balances."
+   "prompt": "$400 earns 2% compounded annually. Find the ending balance after two years."
   }
  },
  {

@@ -7,7 +7,7 @@ import { Visual } from "./Visual";
 import { Leaderboard } from "./Leaderboard";
 import { advance, checkLocally, type RoundDraft } from "../../../lib/mentalist/round";
 import { displayAttempt, studentPrompt } from "../../../lib/mentalist/least-order";
-import QuestionPrompt from "./QuestionPrompt";
+import QuestionPrompt, { useQuestionPart } from "./QuestionPrompt";
 
 export function Battle({
   initial,
@@ -154,6 +154,7 @@ export function Battle({
     setLeaving(false);
     setEnding("leave");
   }
+  const { partTitle, setPartTitle } = useQuestionPart(run.encounter?.question);
   if (ending) return <main className="mt-shell mt-results"><section className="mt-result-card">
     <h1>{ending === "leave" ? "Saving progress" : "Saving level"}</h1>
     <p role="status">{error || (online ? "Saving your answers and rewards…" : "Your answers will sync when you reconnect.")}</p>
@@ -288,7 +289,7 @@ export function Battle({
       </div>
       <section className="mt-prompt" key={e.id}>
         <p>{level.title}</p>
-        <h1><QuestionPrompt text={reduce ? `Reduce ${reduce}.` : studentPrompt(e.question)} /></h1>
+        <h1><QuestionPrompt part={partTitle} text={reduce ? `Reduce ${reduce}.` : studentPrompt(e.question)} /></h1>
         <Visual data={e.question.visual} showLoan={false} onSimulated={() => setSimulated(e.id)} />
       </section>
       <div className="mt-input-area">
@@ -303,7 +304,7 @@ export function Battle({
             leaving ||
             (e.question.visual?.kind === "simulation" && !e.question.visual.coinTrials && simulated !== e.id)
           }
-          onAnswer={answer}
+          onAnswer={answer} onPart={setPartTitle}
         />
       </div>
       {leaving && (

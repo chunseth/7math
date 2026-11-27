@@ -279,8 +279,11 @@ def problem(slug, seed):
         deg = [90, 180, 270, 360][seed % 4]
         p = (x, y) if x < 9 else (-x, y)
         triangle = [p, (p[0] + 1, p[1]), (p[0], p[1] + 2)]
-        image = [{90: (-b, a), 180: (-a, -b), 270: (b, -a), 360: (a, b)}[deg] for a, b in triangle]
-        return image_triangle(triangle, image, f"Rotate triangle ABC {deg}° counterclockwise about the origin.")
+        clockwise = seed // 4 % 2 == 1
+        turns = (-deg if clockwise else deg) % 360
+        image = [{0: (a, b), 90: (-b, a), 180: (-a, -b), 270: (b, -a)}[turns] for a, b in triangle]
+        direction = "clockwise" if clockwise else "counterclockwise"
+        return image_triangle(triangle, image, f"Rotate triangle ABC {deg}° {direction} about the origin.")
     if slug == "rigid":
         if v == 0:
             return choice(
@@ -522,10 +525,9 @@ def problem(slug, seed):
                 f"A right triangle's largest square has area {25*n*n}. Another has area {9*n*n}. Find the third square's side length.",
                 4 * n,
             )
-        return choice(
-            f"A diagram cuts a square of side {7*n} into four right triangles with legs {3*n} and {4*n} around a central square. What area is left?",
-            str(25 * n * n),
-            [str(49 * n * n), str(12 * n * n)],
+        return q(
+            f"Four right triangles with legs {3*n} and {4*n} are cut from a square of side {7*n}, leaving a central square. Find the remaining area.",
+            25 * n * n,
         )
     if slug == "missing-side":
         if v == 0:
@@ -582,16 +584,20 @@ def problem(slug, seed):
             3 * n * k,
         )
     if slug == "sphere":
-        r = 3 * n
+        r = 1 + (n - 2) % 5
+        count = 1 + (n - 2) // 5
+        objects = ("A ball has", f"Each of {count} balls has")[count > 1]
+        total = "the combined volume" if count > 1 else "its volume"
         if v == 0:
-            return q(f"A ball has radius {r} cm. Find c in V = cπ cm³.", 4 * r**3 // 3)
+            return q(f"{objects} radius {r} cm. For {total}, find c in V = cπ cm³.", F(4 * count * r**3, 3))
         if v == 1:
             return q(
-                f"A ball has diameter {2*r} m. Find c in V = cπ m³.", 4 * r**3 // 3
+                f"{objects} diameter {2*r} m. For {total}, find c in V = cπ m³.", F(4 * count * r**3, 3)
             )
+        objects = "A hemisphere has" if count == 1 else f"Each of {count} hemispheres has"
         return q(
-            f"A hemisphere has radius {r} cm. Find the coefficient of π in half the sphere's volume.",
-            2 * r**3 // 3,
+            f"{objects} radius {r} cm. Find the coefficient of π in {total}.",
+            F(2 * count * r**3, 3),
         )
     if slug == "prism-surface":
         if v == 0:
@@ -609,16 +615,12 @@ def problem(slug, seed):
             12 * n + 12,
         )
     if slug == "cylinder-surface":
-        if v == 0:
-            return q(
-                f"Unroll a cylinder with radius {n} and height {k}. What is the coefficient of π in the lateral area?",
-                2 * n * k,
-            )
-        ends = 2 if v == 1 else 1
-        return q(
-            f"A cylinder with radius {n} and height {k} has {ends} circular end(s) covered. Find the coefficient of π in the covered area, including the side.",
-            2 * n * k + ends * n * n,
-        )
+        ends = [0, 2, 1][v]
+        prompt = (f"Unroll a cylinder with radius {n} cm and height {k} cm. Find the lateral surface area in terms of π."
+                  if ends == 0 else f"A cylinder with radius {n} cm and height {k} cm is covered on its side and {'both circular ends' if ends == 2 else 'one circular end'}. Find the covered surface area in terms of π.")
+        row = q(prompt, 2 * n * k + ends * n * n)
+        row["control"]["unit"] = "π cm²"
+        return row
     if slug == "scatter":
         if v == 1:
             sx, sy = (-1 if n % 4 in (1, 2) else 1), (-1 if n % 4 in (2, 3) else 1)

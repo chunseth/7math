@@ -29,13 +29,6 @@ export default function StemEditor({ prompt, labels, disabled, onChange }: {
   return <div className="mt-stem-editor">
     <p>Drag each number to its stem, or select a number and then its stem. Place leaves in order. Tap a leaf to remove it.</p>
     <div className="mt-stem-layout">
-      <div ref={rows} className="mt-stem-rows" role="group" aria-label="Stems">{labels.map((label, row) =>
-        <div key={label} className="mt-stem-row" data-stem-row={row}>
-          <button type="button" aria-label={label} disabled={disabled} onClick={() => place(picked, row)}>{label}</button>
-          {placed.filter(item => item.row === row).map(({ index }) => <button type="button" key={index} disabled={disabled}
-            aria-label={"Remove leaf " + values[index] % 10 + " from " + label.toLowerCase()}
-            onClick={() => change(placed.filter(item => item.index !== index))}>{values[index] % 10}</button>)}
-        </div>)}</div>
       <div className="mt-stem-source"><strong>Numbers to sort</strong>
         <div className="mt-field-buttons" role="group" aria-label="Numbers to sort">
           {values.map((value, index) => placed.some(item => item.index === index) ? null :
@@ -62,6 +55,13 @@ export default function StemEditor({ prompt, labels, disabled, onChange }: {
               }}>{value}</button>)}
         </div>
       </div>
+      <div ref={rows} className="mt-stem-rows" role="group" aria-label="Stems">{labels.map((label, row) =>
+        <div key={label} className="mt-stem-row" data-stem-row={row}>
+          <button type="button" aria-label={label} disabled={disabled} onClick={() => place(picked, row)}>{label}</button>
+          {placed.filter(item => item.row === row).map(({ index }) => <button type="button" key={index} disabled={disabled}
+            aria-label={"Remove leaf " + values[index] % 10 + " from " + label.toLowerCase()}
+            onClick={() => change(placed.filter(item => item.index !== index))}>{values[index] % 10}</button>)}
+        </div>)}</div>
     </div>
     {drag && <span className="mt-stem-drag" aria-hidden="true" style={{ left: drag.x, top: drag.y }}>{values[drag.index]}</span>}
   </div>;

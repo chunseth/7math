@@ -6,7 +6,7 @@ import { post, RequestError } from "../../lib/mentalist/client";
 import { formatRunTime, type Outcome } from "../../lib/mentalist/model";
 import { checkLocally } from "../../lib/mentalist/round";
 import { studentPrompt } from "../../lib/mentalist/least-order";
-import QuestionPrompt from "../mentalist/components/QuestionPrompt";
+import QuestionPrompt, { useQuestionPart } from "../mentalist/components/QuestionPrompt";
 import { rushLength, type RushBoard, type RushResult, type RushRun } from "../../lib/rush/model";
 import Answer from "../mentalist/components/Answer";
 import { emptyCredentials, PlayerFields } from "../mentalist/components/PlayerFields";
@@ -202,6 +202,7 @@ function Question({ run, position, advance }: {
   run: ActiveRun; position: number; advance: (raw: string | null, outcome?: Outcome) => void;
 }) {
   const question = run.pack.questions[position];
+  const { partTitle, setPartTitle } = useQuestionPart(question);
   const [checking, setChecking] = useState(false);
   const [simulated, setSimulated] = useState(false);
   const [attempt, setAttempt] = useState(0);
@@ -240,11 +241,11 @@ function Question({ run, position, advance }: {
   }
 
   return <>
-    <h2 ref={heading} tabIndex={-1}><QuestionPrompt text={reduce ? `Reduce ${reduce}.` : studentPrompt(question)} /></h2>
+    <h2 ref={heading} tabIndex={-1}><QuestionPrompt part={partTitle} text={reduce ? `Reduce ${reduce}.` : studentPrompt(question)} /></h2>
     <Visual data={question.visual} showLoan={false} onSimulated={() => setSimulated(true)} />
     <div className="rush-answer">
       <Answer key={question.visual?.kind === "loan" ? "loan" : attempt} question={question}
-        disabled={checking || (question.visual?.kind === "simulation" && !question.visual.coinTrials && !simulated)} onAnswer={answer} />
+        disabled={checking || (question.visual?.kind === "simulation" && !question.visual.coinTrials && !simulated)} onAnswer={answer} onPart={setPartTitle} />
     </div>
     {error && <p role="alert">{error}</p>}
     <button className="rush-skip" type="button" disabled={checking} onClick={() => {

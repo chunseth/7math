@@ -12,10 +12,6 @@ export default function ExportReports({ setId }: { setId: string }) {
     setMessage("");
     try {
       const reports = await post<unknown[]>({ action: "verificationExport", setId });
-      if (!reports.length) {
-        setMessage("No bug reports in this set yet.");
-        return;
-      }
       const blob = new Blob([JSON.stringify(reports, null, 2)], { type: "application/json" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -23,7 +19,7 @@ export default function ExportReports({ setId }: { setId: string }) {
       link.download = "7math-verification-bugs.json";
       link.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
-      setMessage(`${reports.length} bug ${reports.length === 1 ? "report" : "reports"} exported.`);
+      setMessage(reports.length ? `${reports.length} bug ${reports.length === 1 ? "report" : "reports"} exported.` : "No bug reports in this set yet. An empty file was downloaded.");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Could not export bug reports.");
     } finally {

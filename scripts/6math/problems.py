@@ -19,8 +19,8 @@ def problem(slug, seed):
         return pick(
             f"Find the smallest pictured set containing {value}.",
             opts[v],
-            opts,
-            dict(kind="sets", labels=["Rational numbers", "Integers", "Whole numbers"]),
+            [*opts, "Irrational numbers"],
+            dict(kind="sets", labels=["Rational numbers", "Integers", "Whole numbers", "Irrational numbers"]),
         )
     if slug == "opposites":
         if v == 0:
@@ -441,10 +441,10 @@ def problem(slug, seed):
             )
         return fields(
             f"Make a dot plot for {n}, {n}, {n+1}, {n+2}, {n+2}, {n+2}.",
-            [f"Dots over {n}", f"Dots over {n+1}", f"Dots over {n+2}"],
+            [str(n), str(n + 1), str(n + 2)],
             [2, 1, 3],
             [[1, 3], [2, 3], [1, 2]],
-            seed,
+            seed, kind="dotplot",
         )
     if slug == "histograms":
         if v == 0:
@@ -458,10 +458,10 @@ def problem(slug, seed):
                 f"Group these ages into 10-year bins: {n}, {n+10}, {n+11}, {n+20}. How many are from 10 through 19, inclusive?",
                 2 if n < 9 else 1,
             )
-        return pick(
+        return item(
             "Which interval contains the most observations?",
             "10–19",
-            ["0–9", "20–29"],
+            dict(kind="choice", options=["0–9", "10–19", "20–29"]),
             chart("histogram", [n, n + 2, n - 1], ["0–9", "10–19", "20–29"]),
         )
     if slug == "center":

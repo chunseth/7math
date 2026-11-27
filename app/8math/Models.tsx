@@ -1,12 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NumberPad from "../components/NumberPad";
 import { editNumber } from "../mentalist/components/NumericEntry";
 
-export function LoanCalculator({ values, disabled = false, onAnswer }: {
+const loanLabels = ["Principal ($)", "Annual rate (%)", "Number of months"];
+
+export function LoanCalculator({ values, disabled = false, onAnswer, onPart }: {
   values: number[];
   disabled?: boolean;
   onAnswer?: (value: string) => void;
+  onPart?: (title: string) => void;
 }) {
   const [index, setIndex] = useState(onAnswer ? 0 : 3);
   const [entry, setEntry] = useState("");
@@ -14,7 +17,9 @@ export function LoanCalculator({ values, disabled = false, onAnswer }: {
   const [message, setMessage] = useState("");
   const [operation, setOperation] = useState("");
   const [operand, setOperand] = useState("");
-  const labels = ["Principal ($)", "Annual rate (%)", "Number of months"];
+  useEffect(() => {
+    onPart?.(payment ? "Find total payments in dollars." : `Part ${index + 1} of 3 · ${loanLabels[index]}`);
+  }, [index, onPart, payment]);
   const decimal = [{ key: ".", label: ".", name: "Decimal point" }];
   function edit(old: string, key: string) {
     const next = editNumber(old, key);
@@ -28,8 +33,8 @@ export function LoanCalculator({ values, disabled = false, onAnswer }: {
   return <div className="mt-fields">
     {!payment && <fieldset disabled={disabled} className="mt-loan-calculator"><legend>Monthly payment calculator</legend>
       {index < 3 ? <>
-        <p>Part {index + 1} of 3 · {labels[index]}</p>
-        <output aria-label={labels[index]}>{entry || "—"}</output>
+        {!onPart && <p>Part {index + 1} of 3 · {loanLabels[index]}</p>}
+        <output aria-label={loanLabels[index]}>{entry || "—"}</output>
         <NumberPad className="mt-keypad" controls={index < 2 ? decimal : []} disabled={disabled}
           onKey={key => { setEntry(edit(entry, key)); setMessage(""); }} />
         <button type="button" disabled={!entry} onClick={() => {

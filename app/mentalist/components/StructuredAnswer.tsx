@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { checkField } from "../../../lib/mentalist/round";
 import { fieldAttempt, fieldFormat, fieldValue, responseFieldMode, type Question } from "../../../lib/mentalist/model";
 import { calculatorSettings } from "../../../lib/mentalist/calculator";
@@ -6,13 +6,13 @@ import { fieldUnit } from "../../../lib/mentalist/units";
 import NumericEntry from "./NumericEntry";
 import QuestionCalculator from "./QuestionCalculator";
 import { Visual } from "./Visual";
-import ZoomableGraph from "./ZoomableGraph";
 
-export default function StructuredAnswer({ question, disabled, onAnswer, fieldAnswers }: {
+export default function StructuredAnswer({ question, disabled, onAnswer, fieldAnswers, onPart }: {
   question: Question;
   disabled: boolean;
   onAnswer: (raw: string, calculated?: boolean) => void;
   fieldAnswers?: string[];
+  onPart?: (title: string) => void;
 }) {
   const { control, prompt } = question;
   const fields = control.fields!;
@@ -62,12 +62,14 @@ export default function StructuredAnswer({ question, disabled, onAnswer, fieldAn
   const mode = field && responseFieldMode(control.kind, field, index);
   const format = field && (question.fieldFormats?.[index] ?? fieldFormat(control, index, field.options[0]));
   const label = field && (control.kind === "net" && index < 2 ? "Number of " + field.label.toLowerCase() : field.label);
+  const partTitle = field ? `Part ${part + 1} of ${order.length} · ${label}` : "";
+  useEffect(() => { onPart?.(partTitle); }, [onPart, partTitle]);
   const options = field ? control.kind === "net" && index < 2 ? [...field.options].sort((a, b) => Number(a) - Number(b))
     : control.kind === "ray" && index === 2 ? ["Left", "Right"] : field.options : [];
   const box = control.kind === "boxplot" && values[4] !== undefined;
   return <div className="mt-fields">
     {box && <Visual data={{kind: "boxes", rows: [[0, 1, 2, 3, 4].map(i => values[i] ?? "")], labels: ["Your plot"]}} />}
-    {control.kind === "ray" && values[0] && <ZoomableGraph>
+    {control.kind === "ray" && values[0] &&
       <svg className="mt-chart" viewBox="0 0 240 55" role="img" aria-label={values.filter(Boolean).join(", ")}>
         <path d="M12 25H228" stroke="#a2b8ae" />
         {values[2] && <path d={values[2] === "Right" ? "M120 25H220m-8 -5 8 5-8 5" : "M120 25H20m8 -5 -8 5 8 5"}
@@ -75,7 +77,7 @@ export default function StructuredAnswer({ question, disabled, onAnswer, fieldAn
         <circle cx="120" cy="25" r="5" stroke="#347758" strokeWidth="2" fill={values[1] === "Closed" ? "#347758" : "white"} />
         <text x="120" y="47" textAnchor="middle">{values[0]}</text>
       </svg>
-    </ZoomableGraph>}
+    }
     {control.kind === "tree" && values[0] && <svg className="mt-chart" viewBox="0 0 240 75" role="img"
       aria-label={values[0] + " first branches, " + (values[1] || "unknown") + " leaves per branch"}>
       <path d="M18 35L92 13M18 35L92 56" stroke="currentColor" fill="none" />
@@ -85,7 +87,7 @@ export default function StructuredAnswer({ question, disabled, onAnswer, fieldAn
     </svg>}
     {field ? <>
       <fieldset className={control.kind === "ray" && index > 0 ? "mt-field-choices mt-ray-choice" : "mt-field-choices"} disabled={locked}>
-        <legend>Part {part + 1} of {order.length} · {label}</legend>
+        <legend className={onPart ? "mt-screen-reader" : undefined}>{partTitle}</legend>
         {calculator && mode === "number" && format
           ? <QuestionCalculator key={index} pi={calculator.pi} control={format} unit={unit} disabled={locked} onResult={submit} />
           : mode === "number" && format
@@ -95,6 +97,14 @@ export default function StructuredAnswer({ question, disabled, onAnswer, fieldAn
           </button>)}</div>}
       </fieldset>
       {feedback && <p role="status">{feedback}</p>}
-    </> : control.kind === "boxplot" && <button type="button" disabled={locked} onClick={() => onAnswer(values.join("|"))}>Continue</button>}
+    </> : control.kind === "boxplot" && <div className="mt-grid-actions">
+      <button type="button" disabled={locked} onClick={() => {
+        setValues([]);
+        setPart(0);
+        setRetry(0);
+        setFeedback("");
+      }}>Restart</button>
+      <button type="button" disabled={locked} onClick={() => onAnswer(values.join("|"))}>Submit</button>
+    </div>}
   </div>;
 }

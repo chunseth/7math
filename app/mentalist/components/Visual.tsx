@@ -24,15 +24,16 @@ export function Visual({ data, onSimulated, editChart, showLoan = true }: {
       editChart.select(index);
     },
   };
-  const countControls = (center: number, y: number) => {
+  const countControls = (center: number, viewWidth: number) => {
     const index = editChart?.active;
     if (!editChart || index === null || index === undefined) return null;
-    return <foreignObject x={center - 40} y={y} width="80" height="44">
-      <div className="mt-chart-controls" role="group" aria-label={`Count for ${labels[index]}`}>
+    return <div className="mt-chart-control-row">
+      <div className="mt-chart-controls" style={{ left: `${100 * center / viewWidth}%` }}
+        role="group" aria-label={`Count for ${labels[index]}`}>
         <button type="button" disabled={!vals[index]} aria-label="Decrease count" onClick={() => editChart.change(index, -1)}>−</button>
         <button type="button" disabled={vals[index] >= editChart.maxCount} aria-label="Increase count" onClick={() => editChart.change(index, 1)}>+</button>
       </div>
-    </foreignObject>;
+    </div>;
   };
   if (data.kind === "loan") return showLoan ? <LoanCalculator values={vals} /> : null;
   if (data.kind === "scatter" || data.kind === "intersection") return <ZoomableGraph>
@@ -123,7 +124,8 @@ export function Visual({ data, onSimulated, editChart, showLoan = true }: {
           strokeWidth="3"
         />
         {pts.map(([x, y]) => (
-          <text key={x} x={30 + (165 * x) / maxX} y={86 - (64 * y) / maxY}>
+          <text key={x} className="mt-plot-coordinate" textAnchor="middle"
+            x={26 + (165 * x) / maxX} y={79 - (64 * y) / maxY}>
             {x}, {y}
           </text>
         ))}
@@ -211,10 +213,9 @@ export function Visual({ data, onSimulated, editChart, showLoan = true }: {
       </ZoomableGraph>
     );
   }
-  if (data.kind === "sets")
-    return (
-      <div className="mt-sets">
-        {labels.reduceRight<React.ReactNode>(
+  if (data.kind === "sets") {
+    const rationalLabels = labels.filter(label => label !== "Irrational numbers");
+    const nested = rationalLabels.reduceRight<React.ReactNode>(
           (inside, label) => (
             <div key={label}>
               {label}
@@ -222,9 +223,13 @@ export function Visual({ data, onSimulated, editChart, showLoan = true }: {
             </div>
           ),
           null,
-        )}
-      </div>
-    );
+        );
+    return <div className="mt-sets">
+      {labels.includes("Irrational numbers")
+        ? <div>Real numbers<section className="mt-real-sets">{nested}<div>Irrational numbers</div></section></div>
+        : nested}
+    </div>;
+  }
   if (data.kind === "chips" || data.kind === "counters")
     return (
       <div
@@ -270,23 +275,25 @@ export function Visual({ data, onSimulated, editChart, showLoan = true }: {
   if (data.kind === "dotplot") {
     const x = (i: number) => 35 + 160 * i / Math.max(1, vals.length - 1);
     const space = Math.min(12, 62 / Math.max(1, ...vals));
-    const graph = <svg className="mt-chart" viewBox={editChart ? "-5 0 240 153" : "0 0 230 105"} role={editChart ? "group" : "img"}
+    const hitWidth = Math.min(42, 160 / Math.max(1, vals.length - 1));
+    const graph = <svg className="mt-chart" viewBox="0 0 230 105" role={editChart ? "group" : "img"}
       aria-label={vals.map((count, i) => `${labels[i]}: ${count} dots`).join(", ")}>
       <path d="M20 81H210" stroke="currentColor" />
       {vals.map((count, i) => <g key={i} {...editProps(i)}>
-        {editChart && <rect className="mt-chart-hit" x={x(i) - 21} y="0" width="42" height="105" rx="4" />}
+        {editChart && <rect className="mt-chart-hit" x={x(i) - hitWidth / 2} y="0" width={hitWidth} height="105" rx="4" />}
         <path d={`M${x(i)} 77V85`} stroke="currentColor" />
         <text x={x(i)} y="100" textAnchor="middle">{labels[i]}</text>
         {Array.from({length: count}, (_, j) => <circle key={j} cx={x(i)} cy={72 - space * j} r={Math.min(4, space * .42)} fill="#317e6c" />)}
       </g>)}
-      {editChart?.active != null && countControls(x(editChart.active), 107)}
     </svg>;
-    return editChart ? graph : <ZoomableGraph>{graph}</ZoomableGraph>;
+    return editChart ? <div className="mt-chart-editor">{graph}
+      {editChart.active !== null && countControls(x(editChart.active), 230)}
+    </div> : <ZoomableGraph>{graph}</ZoomableGraph>;
   }
   if (data.kind === "histogram") {
     const width = 220 / vals.length;
     const scale = 65 / Math.max(1, ...vals);
-    const graph = <svg className="mt-chart" viewBox={editChart ? "-16 0 282 164" : "0 0 250 115"} role={editChart ? "group" : "img"} aria-label={vals.map((v, i) => labels[i] + ", frequency " + v).join(". ")}>
+    const graph = <svg className="mt-chart" viewBox="0 0 250 115" role={editChart ? "group" : "img"} aria-label={vals.map((v, i) => labels[i] + ", frequency " + v).join(". ")}>
       <text x="9" y="12">Frequency</text>
       {vals.map((v, i) => <g key={i} {...editProps(i)}>
         {editChart && <rect className="mt-chart-hit" x={14 + i * width} y="15" width={width} height="99" rx="4" />}
@@ -294,9 +301,10 @@ export function Visual({ data, onSimulated, editChart, showLoan = true }: {
         <text x={14 + (i + .5) * width} y={87 - scale * v} textAnchor="middle">{v}</text>
         <text x={14 + (i + .5) * width} y="108" textAnchor="middle">{labels[i]}</text>
       </g>)}
-      {editChart?.active != null && countControls(14 + (editChart.active + .5) * width, 118)}
     </svg>;
-    return editChart ? graph : <ZoomableGraph>{graph}</ZoomableGraph>;
+    return editChart ? <div className="mt-chart-editor">{graph}
+      {editChart.active !== null && countControls(14 + (editChart.active + .5) * width, 250)}
+    </div> : graph;
   }
   if (data.kind === "percent-bar") {
     const colors = ["#317e6c", "#d3a951", "#8fa6d0"];

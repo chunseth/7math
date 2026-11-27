@@ -12,7 +12,7 @@ type Bank = {
   sets: { level: string; positions: Slot[] }[];
   questions: Record<string, { prompt: string; visual?: unknown; control: Parameters<typeof grade>[0]; answer: string }>;
 };
-const bank: Bank = JSON.parse(gunzipSync(readFileSync("content/mentalist/bank-v6.json.gz")).toString());
+const bank: Bank = JSON.parse(gunzipSync(readFileSync("content/mentalist/bank-v7.json.gz")).toString());
 test("all 237 levels have 24 distinct gradeable questions and five balanced round blueprints", () => {
   assert.equal(skills.filter((s) => s.world !== "review").length, 62);
   assert.equal(skills.length, 87);

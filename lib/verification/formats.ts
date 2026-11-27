@@ -1,6 +1,6 @@
 import type { BankQuestion } from "../mentalist/bank";
 import { calculatorSettings } from "../mentalist/calculator";
-import { leastOrder } from "../mentalist/least-order";
+import { numberOrder } from "../mentalist/least-order";
 import { fieldFormat, hasSequentialFields, type Control } from "../mentalist/model";
 import { hasWhiteboard } from "../mentalist/presentation";
 import { fieldUnit, responseUnit } from "../mentalist/units";
@@ -19,6 +19,7 @@ const controls = new Set([
 
 function unitFormat(unit?: string) {
   if (!unit) return "none";
+  if (unit.startsWith("π ")) return "symbolic pi";
   if (unit === "%") return "percent";
   if (unit === "percentage points") return "percentage points";
   if (/\$|dollars?|cents?/.test(unit)) return /per /.test(unit) ? "currency rate" : "currency";
@@ -44,10 +45,11 @@ export function reviewFormat(question: BankQuestion) {
     visual.kind === "simulation" ? visual.coinTrials ? "coin" : visual.sampleSize ? "samples" : "trials" : null,
   ];
 
+  const bubbles = numberOrder(question);
   const calculator = calculatorSettings(prompt, control);
   let interaction: unknown = control.kind;
   if (visual?.coinTrials || visual?.kind === "loan") interaction = visual.coinTrials ? "coin trials" : "loan calculator";
-  else if (leastOrder(question)) interaction = "number bubbles";
+  else if (bubbles) interaction = ["number bubbles", bubbles.direction];
   else if (control.options) interaction = ["choice", control.options.length, control.options.every(o => /^-?[\d./]+$/.test(o))];
   else if (control.limit) {
     if (control.kind === "line") {
@@ -68,6 +70,7 @@ export function reviewFormat(question: BankQuestion) {
   }
 
   const calculatorFormat = calculator && (/factorial|\b\d+\s*!/i.test(prompt) ? "factorial"
-    : /compound/i.test(prompt) ? "compound interest" : calculator.pi === "3.14159265359" ? "pi" : "stated pi");
+    : /compound/i.test(prompt) ? "compound interest" : /central square/i.test(prompt) ? "remaining area"
+    : /circumference/i.test(prompt) ? "circumference" : calculator.pi === "3.14159265359" ? "pi" : "stated pi");
   return JSON.stringify([presentation, interaction, calculatorFormat, hasWhiteboard(prompt), unitFormat(responseUnit(question))]);
 }

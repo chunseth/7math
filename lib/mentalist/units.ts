@@ -21,9 +21,11 @@ export function fieldUnit(question: Question, index: number) {
   return /^Dollars per |^Liters per /.test(label) ? label.toLowerCase() : undefined;
 }
 
-export function responseUnit({ prompt, visual }: Question) {
+export function responseUnit({ prompt, visual, control }: Question) {
+  if (control.unit) return control.unit;
   const text = prompt.replace(/π\s*(?:=|≈)\s*\d+(?:\.\d+)?/g, "");
   const sentence = text.split(/(?<=[.?])\s+(?=[A-Z])|;\s+/).at(-1) ?? text;
+  if (/^Find [a-z][.?]$/i.test(sentence) && text.includes("^")) return undefined;
   if (/percentage points/i.test(sentence)) return "percentage points";
   if (/\b(?:what|find|give|estimate) (?:the )?(?:percent|percentage)(?:\b| of)|\bwhat percent\b|\bas a percent\b|\bpercent change\b/i.test(sentence)) return "%";
   if (/\bpercentage\b/i.test(sentence) && /\b(?:rate|change|increase|decrease|share)\b/i.test(sentence)) return "%";

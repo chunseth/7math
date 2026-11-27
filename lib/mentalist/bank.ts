@@ -19,7 +19,7 @@ type CourseBank = {
 
 const files = {
   6: "content/6math/bank.json.gz",
-  7: "content/mentalist/bank-v6.json.gz",
+  7: "content/mentalist/bank-v7.json.gz",
   8: "content/8math/bank.json.gz",
 };
 const banks = new Map<CourseGrade, CourseBank>();

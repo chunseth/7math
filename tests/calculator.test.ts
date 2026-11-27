@@ -19,6 +19,19 @@ test("calculator handles percentages and powers for compound interest", () => {
   assert.equal(calculatorDecimal(evaluateCalculation("2000×(1+5%)^2", settings.pi), 2), "2205.00");
 });
 
+test("the reported circumference and remaining-area questions use calculator-only entry", () => {
+  const questions = readCourseBank(8).questions;
+  for (const [id, expression] of [
+    ["g8.foundation-plane.5.q19", "3.14×16"],
+    ["g8.pythagoras.q18", "49^2-4×21×28÷2"],
+  ]) {
+    const { prompt, control, answer } = questions[id];
+    const settings = calculatorSettings(prompt, control);
+    assert.ok(settings, id);
+    assert.equal(calculatorResponse(evaluateCalculation(expression, settings.pi), control), answer);
+  }
+});
+
 test("calculator handles factorial, expression precedence and invalid input", () => {
   const solve = (expression: string) => evaluateCalculation(expression, "3.14");
   assert.equal(calculatorDecimal(solve("0! + 5!"), 0), "121");

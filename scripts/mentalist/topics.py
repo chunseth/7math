@@ -573,11 +573,11 @@ def geometry_finance(s, l, n, v, a, b, k):
             )
         if l == 2 and v == 0:
             return q(f"Two vertical angles measure 2x and {2*a} degrees. Find x.", a)
-        return q(
-            f"Find x in the triangle.",
-            180 - a - b,
-            visual=dict(kind="triangle", labels=[f"{a}°", f"{b}°", "x°"]),
-        )
+        left = 15 + (7 * n) % 106
+        lower = max(15, 40 - left)
+        right = lower + (11 * n + v) % (min(140, 165 - left) - lower + 1)
+        return q("Find x in the triangle.", 180 - left - right,
+                 visual=dict(kind="triangle", labels=[f"{left}°", f"{right}°", "x°"]))
     if s.startswith("circle."):
         pi = F(314, 100)
         if s == "circle.pi":
@@ -783,13 +783,8 @@ def geometry_finance(s, l, n, v, a, b, k):
         principal = 100 * a
         compound = F(principal * (100 + b) ** 2, 10000)
         if l == 1:
-            return fields(
-                f"${principal} earns {b}% compounded annually. Complete the two balances.",
-                ["Year 1", "Year 2"],
-                [f"{a*(100+b):.2f}", f"{float(compound):.2f}"],
-                [[f"{principal:.2f}"], [f"{principal+2*a*b:.2f}"]],
-                n,
-            )
+            return q(f"${principal} earns {b}% compounded annually. Find the ending balance after two years.",
+                     compound, "decimal", places=2)
         return q(
             f"${principal} earns {b}% compounded annually for two years. Find "
             + (

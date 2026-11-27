@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-const curriculumBanks = ["./content/6math/bank.json.gz", "./content/mentalist/bank-v6.json.gz", "./content/8math/bank.json.gz"];
+const curriculumBanks = ["./content/6math/bank.json.gz", "./content/mentalist/bank-v7.json.gz", "./content/8math/bank.json.gz"];
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,

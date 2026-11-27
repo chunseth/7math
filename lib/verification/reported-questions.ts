@@ -1,0 +1,33 @@
+import type { CourseGrade } from "../mentalist/model";
+
+// Corrected counterparts of the 28 cases in the latest Verification export.
+export const reportedQuestions = [
+  [7, "finance.compound.1", "finance.compound.a65238770349dd7d"],
+  [8, "g8.rotate.1", "g8.rotate.q17"],
+  [7, "geometry.angles.2", "geometry.angles.01d04d838f434ebc"],
+  [6, "g6.steps-coordinates.1", "g6.steps-coordinates.1.q1"],
+  [6, "g6.steps-inequalities.4", "g6.steps-inequalities.4.q1"],
+  [6, "g6.coordinates.1", "g6.coordinates.q6"],
+  [8, "g8.scatter.1", "g8.scatter.q11"],
+  [6, "g6.steps-dot-stem.4", "g6.steps-dot-stem.4.q10"],
+  [6, "g6.add.1", "g6.add.q22"],
+  [8, "g8.foundation-plane.5", "g8.foundation-plane.5.q19"],
+  [8, "g8.cylinder-surface.1", "g8.cylinder-surface.q20"],
+  [8, "g8.steps-sphere.2", "g8.steps-sphere.2.q15"],
+  [6, "g6.histograms.1", "g6.histograms.q3"],
+  [8, "g8.steps-estimate.2", "g8.steps-estimate.2.q18"],
+  [6, "g6.sets.1", "g6.sets.q8"],
+  [8, "g8.steps-powers.4", "g8.steps-powers.4.q20"],
+  [8, "g8.steps-direct.2", "g8.steps-direct.2.q14"],
+  [6, "g6.steps-spread.4", "g6.steps-spread.4.q9"],
+  [7, "signed.add.3", "signed.add.bae068129cd5ec5b"],
+  [6, "g6.steps-histograms.2", "g6.steps-histograms.2.q22"],
+  [8, "g8.pythagoras.1", "g8.pythagoras.q18"],
+  [6, "g6.coordinates.1", "g6.coordinates.q9"],
+  [7, "ratio.represent.1", "ratio.represent.9af58c0e3c91fee8"],
+  [7, "review.numberline.2", "review.numberline.2be52cb1afb7a096"],
+  [8, "g8.steps-intercept.1", "g8.steps-intercept.1.q24"],
+  [6, "g6.steps-dot-stem.2", "g6.steps-dot-stem.2.q22"],
+  [6, "g6.steps-histograms.3", "g6.steps-histograms.3.q4"],
+  [6, "g6.dot-stem.1", "g6.dot-stem.q21"],
+] as const satisfies readonly (readonly [CourseGrade, string, string])[];

@@ -2,15 +2,18 @@ import type { Question } from "./model";
 
 const prefix = "order:";
 
-export function leastOrder(question: Question) {
+export function numberOrder(question: Question) {
   const { kind, options } = question.control;
-  if (!question.prompt.startsWith("Which is least:") || kind !== "choice" || options?.length !== 3 ||
+  const direction = /^Which is (least|greatest):/.exec(question.prompt)?.[1];
+  if (!direction || kind !== "choice" || options?.length !== 3 ||
       !options.every(value => /^-?\d{1,12}$/.test(value)) || new Set(options.map(Number)).size !== 3) return;
-  return [...options].sort((a, b) => Number(a) - Number(b));
+  return { direction, values: [...options].sort((a, b) => direction === "least" ? Number(a) - Number(b) : Number(b) - Number(a)) };
 }
 
 export function studentPrompt(question: Question) {
-  return leastOrder(question) ? "Pop the numbers from least to greatest." : question.prompt;
+  const order = numberOrder(question);
+  if (!order) return question.prompt;
+  return order.direction === "least" ? "Pop the numbers from least to greatest." : "Pop the numbers from greatest to least.";
 }
 
 export function leastOrderAttempt(picks: string[]) {
@@ -26,7 +29,7 @@ export function displayAttempt(raw: string) {
 export function responseForGrade(question: Question, raw: string) {
   if (!raw.startsWith(prefix)) return raw;
   if (raw.length > 256) return null;
-  const order = leastOrder(question);
+  const order = numberOrder(question)?.values;
   const picks = raw.slice(prefix.length).split("|");
   if (!order || picks.length > order.length || new Set(picks).size !== picks.length ||
       !picks.every(value => order.includes(value))) return null;

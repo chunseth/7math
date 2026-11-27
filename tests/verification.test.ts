@@ -6,22 +6,19 @@ import { publicQuestion, readCourseBank } from "../lib/mentalist/bank";
 import { coinTrialAttempt, fieldAttempt, grade, gradeQuestion } from "../lib/mentalist/model";
 import { checkLocally, type LevelPack } from "../lib/mentalist/round";
 import { reviewFormat } from "../lib/verification/formats";
+import { reportedQuestions } from "../lib/verification/reported-questions";
 import { verificationCatalog } from "../lib/verification/catalog";
 import { countReviews, nextReview, verificationGrades, type ReviewDecision } from "../lib/verification/model";
 
-test("the combined set contains one question per supported presentation and response format", () => {
+test("the retest contains exactly the corrected reports in export order", () => {
   const { set, sources } = verificationCatalog();
-  const expected = new Set<string>();
-  for (const grade of verificationGrades) {
-    const bank = readCourseBank(grade);
-    for (const level of bank.levels) for (const { q } of level.pool) expected.add(reviewFormat(bank.questions[q]));
-  }
-  const actual = new Set(set.cases.map(item => reviewFormat(sources.get(item.id)!.question)));
-  assert.deepEqual(actual, expected);
-  assert.equal(set.cases.length, expected.size);
-  assert.match(set.id, /^combined-v1-[a-f0-9]{24}$/);
+  assert.equal(set.cases.length, 28);
+  assert.equal(sources.size, 28);
+  assert.deepEqual(set.cases.map(({ grade, level, questionId }) => [grade, level, questionId]), reportedQuestions);
+  assert.match(set.id, /^reported-v1-[a-f0-9]{24}$/);
   assert.deepEqual([...new Set(set.cases.map(item => item.grade))].sort(), [...verificationGrades]);
-  assert.ok(set.cases.slice(0, 15).some((item, i) => i && item.grade !== set.cases[i - 1].grade));
+  assert.equal(set.cases[0].question.prompt, "$400 earns 2% compounded annually. Find the ending balance after two years.");
+  assert.equal(sources.get(set.cases[0].id)?.question.answer, "416.16");
   for (const item of set.cases) {
     const bank = readCourseBank(item.grade);
     const question = bank.questions[item.questionId];

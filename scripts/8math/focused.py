@@ -924,13 +924,17 @@ def activity(key, seed):
             f"{n*n} × {n}",
         )
     if key == "sphere-diameter":
+        radius = 1 + seed % 5
+        count = 1 + seed // 5
+        prompt = (f"A sphere has diameter {2*radius} cm. Give the coefficient of π in its volume as a simplified number."
+                  if count == 1 else f"Each of {count} identical spheres has diameter {2*radius} cm. Give the coefficient of π in their combined volume.")
         return make(
-            f"A sphere has diameter {2*n} cm. Give the coefficient of π in its volume as a simplified number.",
-            F(4 * n**3, 3),
+            prompt,
+            F(4 * count * radius**3, 3),
             "Convert diameter to radius.",
-            f"r = {2*n}/2 = {n}",
-            "Multiply the cubed radius by four thirds.",
-            f"4 × {n**3}/3",
+            f"r = {2*radius}/2 = {radius}",
+            "Multiply the cubed radius by four thirds." if count == 1 else "Multiply the cubed radius by four thirds and by the number of spheres.",
+            f"4 × {radius**3}/3" if count == 1 else f"4 × {radius**3} × {count}/3",
         )
     if key == "sphere-scale":
         return make(
@@ -1263,4 +1267,4 @@ def problem(key, seed):
 
 
 def worked_example(key):
-    return activity(key, 25)[1]
+    return activity(key, 2 if key == "sphere-diameter" else 25)[1]
