@@ -20,11 +20,11 @@ type Player = RivalProgress & { profile: string; seenAt: Date; draft: string | n
 type Draft = { match: string; question: number; text: string };
 type Race = { match: Match; you: Player; opponent: Player; now: number };
 type Submission = { id: string; question: number; raw: string | null };
-type Action = "rivalsJoin" | "rivalsState" | "rivalsCancel" | "rivalsAnswer" | "rivalsForfeit" | "rivalsQueue";
+type Action = "rivalsJoin" | "rivalsState" | "rivalsCancel" | "rivalsAnswer" | "rivalsForfeit" | "rivalsQueue" | "rivalsLeave";
 
 export function isRivalsAction(value: string): value is Action {
   return value === "rivalsJoin" || value === "rivalsState" || value === "rivalsCancel" ||
-    value === "rivalsAnswer" || value === "rivalsForfeit" || value === "rivalsQueue";
+    value === "rivalsAnswer" || value === "rivalsForfeit" || value === "rivalsQueue" || value === "rivalsLeave";
 }
 
 async function queueLock(db: PoolClient) {
@@ -76,7 +76,7 @@ async function openRace(db: PoolClient, id: string, profile: string): Promise<Ra
 async function settleRace(db: PoolClient, race: Race) {
   const timed = (player: Player) => ({ ...player, lastSeen: player.seenAt.getTime() });
   const players = [race.you, race.opponent] as const;
-  const decision = raceDecision([timed(race.you), timed(race.opponent)], race.match.startsAt.getTime(), race.now);
+  const decision = raceDecision([timed(race.you), timed(race.opponent)], race.now);
   if (decision) await closeRace(db, race, decision.reason,
     decision.winner === null ? null : players[decision.winner].profile);
 }
@@ -161,6 +161,18 @@ async function cancel(db: PoolClient, profile: string, ticket: string) {
   return state(db, profile);
 }
 
+async function leave(db: PoolClient, profile: string): Promise<RivalsState> {
+  await queueLock(db);
+  const entry = await currentEntry(db, profile);
+  if (entry?.match) {
+    const race = await openRace(db, entry.match, profile);
+    if (!race.match.reason) await closeRace(db, race, "forfeit", race.opponent.profile);
+  }
+  if (entry?.match || entry?.ticket)
+    await db.query("update rivals_entries set match=null,ticket=null,queued_at=null where profile=$1", [profile]);
+  return { phase: "idle" };
+}
+
 async function answer(db: PoolClient, race: Race, submission: Submission): Promise<RivalsAnswer> {
   const { match, you, now } = race;
   const digest = hash(JSON.stringify(submission.raw));
@@ -196,6 +208,12 @@ async function answer(db: PoolClient, race: Race, submission: Submission): Promi
   you.seenAt = new Date(now);
   await db.query(`update rivals_players set resolved=$3,mistakes=$4,finished_ms=$5,last_seen=$6,draft=null
     where match=$1 and profile=$2`, [match.id, you.profile, you.resolved, you.mistakes, you.finishedMs, you.seenAt]);
+  if (you.finishedMs !== null) {
+    // The final answer and the leaderboard run commit together, including on retries.
+    await db.query(`insert into rush_runs(id,profile,started,grade,score,elapsed_ms)
+      values($1,$2,$3,$4,$5,$6)`,
+      [randomUUID(), you.profile, match.startsAt, match.grade, rushLength - you.mistakes, you.finishedMs]);
+  }
   await settleRace(db, race);
   return { outcome, state: raceView(race) };
 }
@@ -221,6 +239,7 @@ export async function rivals(db: PoolClient, who: Identity, action: Action, body
     if (!grade) throw new GameError("Choose Grade 6, 7, or 8.");
     return join(db, profile, grade);
   }
+  if (action === "rivalsLeave") return leave(db, profile);
   if (action === "rivalsCancel") return cancel(db, profile, uuid(body.ticket));
 
   const id = uuid(body.match);

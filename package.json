@@ -12,7 +12,8 @@
     "mentalist:publish": "node scripts/mentalist/publish.cjs",
     "mentalist:audit": "node scripts/mentalist/audit.cjs",
     "mentalist:integration": "node scripts/mentalist/test-integration.cjs",
-    "mentalist:browser": "node scripts/mentalist/test-browser.cjs"
+    "mentalist:browser": "node scripts/mentalist/test-browser.cjs",
+    "crafters:integration": "node scripts/crafters/test-expeditions.cjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.8",

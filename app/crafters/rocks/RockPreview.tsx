@@ -7,10 +7,10 @@ import {
   canDescend, makeDecision, publicExpedition,
   type Decision, type Expedition, type ExpeditionSummary, type SwingResult,
 } from "../../../lib/crafters/expedition";
-import { atlas, rockFrame, type RockAppearance, type RockFrame } from "../../../lib/crafters/rock-art";
+import { atlas, rockAppearance, rockFrame, type RockAppearance, type RockFrame } from "../../../lib/crafters/rock-art";
 import RockCatalogue from "./RockCatalogue";
 import { ResourceSprite, RockSprite, TerrainSprite } from "./RockSprite";
-import { previewAppearance, startPreview } from "./sandbox";
+import { openingPreviewFloor, startPreview } from "./sandbox";
 
 type SlotHit = SwingResult & { swingNumber: number };
 type Scene = {
@@ -36,8 +36,8 @@ function MiningSlot({ slot, appearance, frame, hit, stairs, canEnter, finished, 
       onClick={() => enabled && onDecision(stairs ? { action: "descend" } : { action: "swing", slot })}>
       <span className="rock-stack" key={hit?.swingNumber ?? 0} aria-hidden="true">
         {!broken && <RockSprite appearance={appearance} frame={frame} className={hit ? "rock-hit" : undefined} />}
+        {broken && (!stairs || hit?.explosion) && <TerrainSprite terrain={hit?.explosion ? "explosion" : "empty"} className="rock-ground-reveal" />}
         {broken && stairs && <TerrainSprite terrain="stairs" className="rock-stair-reveal" />}
-        {broken && !stairs && <TerrainSprite terrain={hit?.explosion ? "explosion" : "empty"} className="rock-ground-reveal" />}
         {broken && <RockSprite appearance={appearance} frame={4} className="rock-rubble" />}
         {hit?.broken && (
           <span className={`rock-chips${hit.explosion ? " rock-embers" : ""}`}>
@@ -63,9 +63,11 @@ function startScene(id: string, now: number): Scene {
   return { expedition: startPreview(id, now), hits: {}, summary: null, message: "" };
 }
 
-export default function RockPreview({ seed, startedAt }: { seed: string; startedAt: number }) {
+export default function RockPreview({ seed, startedAt, initialView }: {
+  seed: string; startedAt: number; initialView: "mine" | "catalogue";
+}) {
   const [scene, setScene] = useState(() => startScene(seed, startedAt));
-  const [view, setView] = useState<"mine" | "catalogue">("mine");
+  const [view, setView] = useState(initialView);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const { expedition, summary, hits, message } = scene;
   const active = publicExpedition(expedition);
@@ -122,7 +124,10 @@ export default function RockPreview({ seed, startedAt }: { seed: string; started
               <div className="rock-board" key={`${active.id}:${active.floor}`}>
                 {active.rocks.map((rock, slot) => (
                   <MiningSlot key={slot} slot={slot} frame={rockFrame(rock)}
-                    appearance={previewAppearance(rock.type, active.id, active.floor, slot)}
+                    appearance={active.floor === openingPreviewFloor && (slot === 0 || slot === 4)
+                      ? rockAppearance(rock.type, active.id, active.floor, slot, expedition.floor.rocks[slot].hazardHint,
+                        slot === 0 ? "granite" : "crystal-shell")
+                      : rock.appearance}
                     hit={hits[slot]} stairs={active.stairSlot === slot} canEnter={canEnter}
                     finished={!!summary} onDecision={play} />
                 ))}

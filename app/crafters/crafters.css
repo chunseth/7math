@@ -159,19 +159,39 @@
 .mine-rock { touch-action: manipulation; padding: .18rem .2rem .25rem; cursor: pointer; }
 .mine-rock:not([aria-disabled="true"]):hover { background: #ffe7b40b; border-color: #efcc7863; }
 .mine-rock[aria-disabled="true"] { cursor: progress; }
-.mine-rock-art { display: block; width: 93%; max-width: 11.5rem; }
-.mine-rock-art .rock-sprite, .mine-cleared .rock-sprite {
+.mine-durability {
+  position: absolute;
+  inset-inline: 0;
+  bottom: .2rem;
+  display: flex;
+  justify-content: center;
+  gap: .18rem;
+  pointer-events: none;
+}
+.mine-durability i { width: clamp(.24rem, 1.2vw, .45rem); height: .23rem; border-radius: .12rem; background: #575447; }
+.mine-durability i[data-filled="true"] { background: #f4c277; }
+.mine-rock-art { position: relative; display: block; width: 100%; max-width: 11.5rem; }
+.mine-rock-art .rock-sprite, .mine-reveal .rock-sprite {
   display: block;
   width: 100%;
   background-repeat: no-repeat;
 }
 .mine-rock-art[data-locked="true"] { filter: brightness(.22) saturate(0); }
-.mine-durability { white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: .19rem; color: var(--mine-muted); font-variant-numeric: tabular-nums; }
-.mine-durability i { width: clamp(.24rem, 1.2vw, .45rem); height: .23rem; border-radius: .12rem; background: #575447; }
-.mine-durability i[data-filled="true"] { background: #f4c277; }
-.mine-durability small { margin-left: .13rem; font-size: .66rem; line-height: 1; }
-.mine-cleared .mine-rubble { width: 93%; max-width: 11.5rem; opacity: .78; }
-.mine-staircase { width: 93%; max-width: 11.5rem; animation: mine-stairs .44s ease-out both; }
+.mine-rock-art[data-shimmer="true"]::after {
+  position: absolute;
+  top: 17%;
+  left: 75%;
+  width: 13%;
+  aspect-ratio: 1;
+  background: #faf1db;
+  clip-path: polygon(50% 0, 57% 41%, 100% 50%, 57% 59%, 50% 100%, 43% 59%, 0 50%, 43% 41%);
+  animation: mine-shimmer 4.5s ease-in-out infinite;
+  content: "";
+}
+.mine-reveal { position: relative; display: block; width: 96%; max-width: 11.5rem; aspect-ratio: 5 / 4; }
+.mine-reveal > * { position: absolute; inset: 0; }
+.mine-staircase { animation: mine-stairs .44s ease-out both; }
+.mine-rubble-reveal { animation: mine-rubble-reveal .68s ease-out both; }
 .mine-arena .mine-status { color: #f8d99d; min-height: 1.4rem; text-align: center; font-size: .84rem; margin-block: .4rem; }
 .mine-exit { justify-content: space-between; }
 
@@ -187,12 +207,9 @@
   font-size: .85rem;
 }
 .mine-resources li strong { margin-inline-start: auto; color: #ffe0a4; font-variant-numeric: tabular-nums; }
-.mine-resource-icon, .mine-stone-icon { width: 1.42rem; height: 1.42rem; flex: 0 0 auto; object-fit: contain; image-rendering: pixelated; }
-.mine-stone-icon {
-  display: inline-block;
-  background: linear-gradient(137deg, #a4b4a8 37%, #798979 38% 56%, #4f6155 57%);
-  clip-path: polygon(8% 69%, 21% 40%, 38% 23%, 70% 29%, 91% 52%, 95% 72%, 77% 82%, 30% 83%);
-}
+.mine-resource-icon { width: 1.85rem; flex: 0 0 auto; object-fit: contain; }
+.mine-resource-icon.rock-sprite { display: block; background-repeat: no-repeat; }
+img.mine-resource-icon { height: 1.5rem; image-rendering: pixelated; }
 
 .mine-camp { display: grid; gap: .85rem; }
 .mine-camp-banner {
@@ -246,7 +263,7 @@
   font: inherit;
 }
 .mine-catalogue::backdrop { background: #0d120bba; }
-.mine-catalogue header { display: flex; align-items: start; justify-content: space-between; gap: .45rem; margin-bottom: .7rem; }
+.mine-catalogue header { display: flex; align-items: flex-start; justify-content: space-between; gap: .45rem; margin-bottom: .7rem; }
 .mine-catalogue header h2 { color: #ffe0a4; font: 700 clamp(1.3rem, 5vw, 1.8rem)/1.16 Georgia, serif; }
 .mine-catalogue header p { color: var(--mine-muted); font-size: .85rem; margin-top: .18rem; }
 .mine-catalogue-list { display: grid; gap: .35rem; }
@@ -256,10 +273,13 @@
 .mine-catalogue-list summary::-webkit-details-marker { display: none; }
 .mine-catalogue-list summary::after { content: "+"; margin-left: auto; color: var(--mine-gold); font-size: 1.1rem; }
 .mine-catalogue-list details[open] summary::after { content: "−"; }
-.mine-catalogue-list .mine-rock-art { width: 3.3rem; flex: 0 0 auto; }
+.mine-catalogue-list .mine-rock-art { width: 4.2rem; flex: 0 0 auto; }
 .mine-catalogue-list summary small { display: block; color: var(--mine-muted); }
 .mine-locked-entry { color: var(--mine-muted); font-size: .87rem; }
 .mine-catalogue-info { padding: .3rem .55rem .6rem; }
+.mine-catalogue-info p { color: var(--mine-muted); font-size: .85rem; margin-bottom: .5rem; }
+.mine-catalogue footer { margin-top: .75rem; }
+.mine-catalogue footer a { color: var(--mine-gold); text-underline-offset: .16em; }
 .mine-catalogue-info dl { display: grid; grid-template-columns: 1fr 1fr; gap: .15rem .45rem; font-size: .8rem; margin-bottom: .65rem; }
 .mine-catalogue-info dl div { display: flex; flex-wrap: wrap; gap: .13rem .35rem; }
 .mine-catalogue-info dt { color: var(--mine-muted); }
@@ -287,6 +307,11 @@
 .mine-blast-loss { color: #ffd3bb; white-space: nowrap; text-shadow: 0 2px 3px #411b12; animation: mine-loss .75s ease-out both; }
 @keyframes mine-enter { from { opacity: .45; transform: translateY(6px) scale(.985); } to { opacity: 1; transform: none; } }
 @keyframes mine-stairs { from { opacity: .4; scale: .78; } 65% { scale: 1.06; } to { opacity: 1; scale: 1; } }
+@keyframes mine-rubble-reveal { from { transform: translateY(-6%) scale(.93); } 44% { opacity: 1; } to { opacity: 0; transform: translateY(4%); } }
+@keyframes mine-shimmer {
+  0%, 42%, 62%, 100% { opacity: 0; scale: .35; }
+  53% { opacity: .78; scale: 1; }
+}
 @keyframes mine-fragment {
   from { transform: translate(-50%, -50%) rotate(0); }
   68% { opacity: 1; }
@@ -314,9 +339,11 @@
   .mine-top-actions { gap: .33rem; }
   .mine-bag .mine-resources { gap: .24rem; }
   .mine-bag .mine-resources li { font-size: .76rem; gap: .23rem; }
-  .mine-bag .mine-resource-icon, .mine-bag .mine-stone-icon { width: 1.1rem; height: 1.1rem; }
+  .mine-bag .mine-resource-icon { width: 1.35rem; }
+  .mine-bag img.mine-resource-icon { height: 1.15rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .mine-shell *, .mine-catalogue * { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
   .mine-fly, .mine-fragment, .mine-blast-loss { display: none; }
+  .mine-rock-art[data-shimmer="true"]::after, .mine-rubble-reveal { display: none; }
 }

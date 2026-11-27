@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Answer from "../mentalist/components/Answer";
 import QuestionPrompt, { useQuestionPart } from "../mentalist/components/QuestionPrompt";
 import { Visual } from "../mentalist/components/Visual";
@@ -9,16 +10,16 @@ import AccountGate from "../rush/AccountGate";
 import { post, RequestError } from "../../lib/mentalist/client";
 import { studentPrompt } from "../../lib/mentalist/least-order";
 import { formatRunTime, type Question } from "../../lib/mentalist/model";
-import { effectiveMistakes, raceLimitMs, type QueueCounts, type RivalProgress, type RivalsAnswer, type RivalsState } from "../../lib/rivals/model";
+import { effectiveMistakes, type QueueCounts, type RivalProgress, type RivalsAnswer, type RivalsState } from "../../lib/rivals/model";
 import { sprites } from "../../lib/mentalist/sprites";
 import { rushGrades, rushLength, type RushGrade } from "../../lib/rush/model";
 
 type Submission = { id: string; match: string; question: number; raw: string | null };
 type Draft = Omit<Submission, "id" | "raw"> & { draft: string };
 type RaceState = Extract<RivalsState, { match: string }>;
-const idle = { phase: "idle" } as const;
 
 export default function RushRivals({ available, hasSession }: { available: boolean; hasSession: boolean }) {
+  const router = useRouter();
   const [signedIn, setSignedIn] = useState(hasSession);
   const [view, setView] = useState<RivalsState | null>(null);
   const [grade, setGrade] = useState<RushGrade>(7);
@@ -126,7 +127,7 @@ export default function RushRivals({ available, hasSession }: { available: boole
 
   async function change(body: Record<string, unknown>) {
     try {
-      await request<RivalsState>(body, value => value);
+      return await request<RivalsState>(body, value => value);
     } catch (problem) {
       setError(problem instanceof RequestError ? problem.message : "Could not connect. Try again.");
     }
@@ -137,9 +138,21 @@ export default function RushRivals({ available, hasSession }: { available: boole
     void change({ action: "rivalsJoin", grade: selected });
   }
 
+  async function leave(mainMenu: boolean) {
+    if (pending.current) return;
+    const next = await change({ action: "rivalsLeave" });
+    if (!next) return;
+    draft.current = undefined;
+    if (mainMenu) router.push("/");
+  }
+
   return <main className="mt-shell rush-shell rivals-shell">
     <header className="mt-top">
-      <Link href="/" aria-label="Main menu">‹</Link>
+      <Link href="/" aria-label="Main menu" aria-disabled={busy || undefined} onNavigate={event => {
+        if (!available || !signedIn) return;
+        event.preventDefault();
+        void leave(true);
+      }}>‹</Link>
       <h1>Rush Rivals</h1>
     </header>
     <div className="rivals-content">
@@ -168,10 +181,9 @@ export default function RushRivals({ available, hasSession }: { available: boole
           onDraft={value => { draft.current = value; }}
           submit={submission => request<RivalsAnswer>({ action: "rivalsAnswer", ...submission }, value => value.state)}
           forfeit={() => void change({ action: "rivalsForfeit", match: view.match })}
-          again={() => findMatch(view.grade)} chooseGrade={() => {
+          again={() => findMatch(view.grade)} rivalsMenu={() => {
             setGrade(view.grade);
-            setView(idle);
-            setError("");
+            void leave(false);
           }} />}
       {view && offline && <p className="rivals-notice" role="status">Connection lost. Reconnecting…</p>}
       {error && <p className="rivals-notice" role="alert">{error}</p>}
@@ -179,14 +191,14 @@ export default function RushRivals({ available, hasSession }: { available: boole
   </main>;
 }
 
-function Race({ view, busy, onDraft, submit, forfeit, again, chooseGrade }: {
+function Race({ view, busy, onDraft, submit, forfeit, again, rivalsMenu }: {
   view: RaceState;
   busy: boolean;
   onDraft: (value: Draft) => void;
   submit: (submission: Submission) => Promise<RivalsAnswer | undefined>;
   forfeit: () => void;
   again: () => void;
-  chooseGrade: () => void;
+  rivalsMenu: () => void;
 }) {
   const [confirming, setConfirming] = useState(false);
   const { phase, grade, you, opponent, result } = view;
@@ -204,10 +216,9 @@ function Race({ view, busy, onDraft, submit, forfeit, again, chooseGrade }: {
           <h2>Get ready</h2>
           <Countdown start={view.startsAt} serverNow={view.serverNow} />
         </div> : result ? <div className="rivals-message">
-          <h2 aria-live="polite">{result.outcome === "win" ? "You win!" : result.outcome === "loss" ? "Your rival wins" :
+          <h2 className={result.outcome === "win" ? "rush-grade-title rivals-win-title" : undefined} aria-live="polite">{result.outcome === "win" ? "You win!" : result.outcome === "loss" ? "Your rival wins" :
             result.outcome === "draw" ? "It’s a draw" : "No contest"}</h2>
           {result.reason === "forfeit" && <p>The match ended in a forfeit.</p>}
-          {timedOut && <p>Time’s up. Unanswered questions count as mistakes.</p>}
           <div className="rivals-results">
             <Finish player={winner ?? you} winner={winner ? true : undefined} noContest={result.outcome === "no contest"} timedOut={timedOut} />
             <Finish player={winner === you ? opponent : winner === opponent ? you : opponent}
@@ -215,7 +226,7 @@ function Race({ view, busy, onDraft, submit, forfeit, again, chooseGrade }: {
           </div>
           <div className="rivals-actions">
             <button className="rivals-primary" type="button" disabled={busy} onClick={again}>Play again</button>
-            <button type="button" disabled={busy} onClick={chooseGrade}>Change grade</button>
+            <button type="button" disabled={busy} onClick={rivalsMenu}>Rivals Menu</button>
           </div>
         </div> : view.spectating ? <div className="rivals-message rivals-spectator">
           <h2>Spectator mode</h2>
@@ -265,7 +276,7 @@ function Countdown({ start, serverNow }: { start: number; serverNow: number }) {
 function RaceClock({ start, serverNow, finishedMs }: { start: number; serverNow: number; finishedMs: number | null }) {
   const elapsed = useElapsed(start, serverNow);
   return <time role="timer" aria-label="Your elapsed time">{formatRunTime(
-    finishedMs ?? Math.round(Math.max(0, Math.min(raceLimitMs, elapsed))),
+    finishedMs ?? Math.round(Math.max(0, elapsed)),
   )}</time>;
 }
 
@@ -297,14 +308,41 @@ function Finish({ player, winner, noContest, timedOut }: {
 }) {
   const mistakes = timedOut ? effectiveMistakes(player) : player.mistakes;
   return <div className="rivals-podium" data-winner={winner}>
-    {winner && <div className="rivals-confetti" aria-hidden="true">
-      {Array.from({ length: 15 }, (_, index) => <i key={index} />)}
-    </div>}
+    {winner && <Confetti />}
     <PlayerSprite player={player} />
     <strong>{player.username}</strong>
     <span>{mistakes} {mistakes === 1 ? "mistake" : "mistakes"}</span>
     {player.finishedMs !== null && <span>{formatRunTime(player.finishedMs)}</span>}
-    <div className="rivals-podium-step">{noContest ? "No contest" : winner === undefined ? "Tied" : winner ? "1st · Winner" : "2nd · Runner-up"}</div>
+    <div className="rivals-podium-step">{noContest ? "No contest" : winner === undefined ? "Tied" : winner ? "1st" : "2nd"}</div>
+  </div>;
+}
+
+const confettiColors = ["#e53276", "#ff7448", "#f6bd24", "#60aa31", "#10aa93", "#318bee", "#8754d9", "#e140b0"];
+
+function Confetti() {
+  const [particles] = useState(() => {
+    const between = (min: number, max: number) => min + Math.random() * (max - min);
+    return Array.from({ length: 36 }, (_, index) => {
+      const direction = Math.random() < 0.5 ? -1 : 1;
+      const size = between(3, 7);
+      return {
+        "--confetti-drift": `${direction * between(8, 42)}px`,
+        "--confetti-sway": `${-direction * between(2, 22)}px`,
+        "--confetti-spin": `${direction * between(200, 960)}deg`,
+        "--confetti-start-angle": `${between(0, 360)}deg`,
+        animationDelay: `${between(0, 0.85)}s`,
+        animationDuration: `${between(1.35, 2.8)}s`,
+        backgroundColor: confettiColors[index % confettiColors.length],
+        borderRadius: Math.random() < 0.25 ? "50%" : "1px",
+        height: `${size * between(0.7, 1.85)}px`,
+        left: `${between(1, 97)}%`,
+        width: `${size}px`,
+      } as CSSProperties;
+    });
+  });
+
+  return <div className="rivals-confetti" aria-hidden="true">
+    {particles.map((style, index) => <i key={index} style={style} />)}
   </div>;
 }
 

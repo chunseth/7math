@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { miningRules, rockTypes } from "../lib/crafters/config";
 import { beginExpedition, canDescend, hasStairs, makeDecision, publicExpedition, recordRockBreak, type Decision, type Expedition } from "../lib/crafters/expedition";
-import { difficultyTier, generateFloor, rollExplosion, rollResource, type Rock } from "../lib/crafters/floor";
+import { difficultyTier, generateFloor, rollExplosion, rollResource, rollRock, type Rock } from "../lib/crafters/floor";
+import { atlas, decoyFamilies, rockAppearance, rockFrame } from "../lib/crafters/rock-art";
 
 const high = () => 0.99;
 
@@ -159,4 +160,40 @@ test("catalogue tracks counts, per-resource hit frequencies and quantities, and 
     mined: 3, hazards: 2, drops: { copper: { hits: 2, units: 4 }, gem: { hits: 1, units: 1 } },
   });
   assert.equal(copper.mined, 1);
+});
+
+test("every damage stage is reachable and art stays fixed through damage and reload", () => {
+  assert.deepEqual([4, 3, 2, 1, 0].map(remaining => rockFrame({ durability: 4, remaining })), [0, 1, 2, 3, 4]);
+  assert.equal(rockFrame({ durability: 2, remaining: 1 }), 3);
+  assert.equal(rockFrame({ durability: 1, remaining: 1 }), 0);
+  const scene = run(5);
+  scene.floor.rocks[0] = rock({ durability: 4, remaining: 4, explosion: true });
+  const appearance = publicExpedition(scene).rocks[0].appearance;
+  let next = scene;
+  for (let remaining = 3; remaining >= 0; remaining--) {
+    next = play(next, { action: "swing", slot: 0 }).expedition;
+    const visible = publicExpedition(JSON.parse(JSON.stringify(next)) as Expedition).rocks[0];
+    assert.deepEqual(visible.appearance, appearance);
+    assert.equal(visible.exploded, remaining === 0 ? true : undefined);
+    assert.ok(!("drop" in visible) && !("explosion" in visible));
+  }
+});
+
+test("decoys and pressure cues are cosmetic and pressure cues leave both outcomes possible", () => {
+  const looks = Array.from({ length: 240 }, (_, i) => rockAppearance("granite", `preview-${i}`, 1, i % 6));
+  for (const family of decoyFamilies) {
+    const variants = looks.filter(look => look.family === family).map(look => look.variant);
+    assert.equal(new Set(variants).size, atlas.families[family].variants.length);
+  }
+  for (const [hazardRoll, explosion, hints] of [
+    [.01, true, true], [.05, true, false], [.1, false, true], [.8, false, false],
+  ] as const) {
+    const rolls = [.55, .5, hazardRoll];
+    const result = rollRock("iron-flecked", 0, () => rolls.shift()!);
+    const visible = rockAppearance(result.type, "preview", 4, 0, result.hazardHint);
+    assert.equal(result.explosion, explosion);
+    assert.equal(Boolean(visible.hazard), hints);
+    assert.deepEqual(result.drop, { resource: "iron", quantity: 2 });
+    assert.equal(result.durability, 2);
+  }
 });

@@ -8,6 +8,7 @@ export type Rock = {
   remaining: number;
   drop: Drop;
   explosion: boolean;
+  hazardHint?: true;
 };
 export type MineFloor = { number: number; stairSlot: number; rocks: Rock[] };
 
@@ -30,19 +31,32 @@ export function rollResource(drops: Record<MiningResource, number>, random: Rand
   return { resource, quantity: min + Math.floor(random() * (max - min + 1)) };
 }
 
+function explosionChance(base: number, tier: number) {
+  return Math.min(1, base + tier * miningRules.explosionChancePerTier);
+}
+
 export function rollExplosion(base: number, tier: number, random: Random) {
-  return random() < Math.min(1, base + tier * miningRules.explosionChancePerTier);
+  return random() < explosionChance(base, tier);
 }
 
 export function rollRock(id: RockId, tier: number, random: Random): Rock {
   const type = rockType(id);
   const durability = type.durability + tier * miningRules.durabilityPerTier;
+  const drop = rollResource(type.drops, random);
+  const chance = explosionChance(type.explosion, tier);
+  const hazardRoll = random();
+  const explosion = hazardRoll < chance;
+  // A hint appears on half of hazardous rocks and a fifth of safe ones, where the family has that treatment.
+  const suggestsHazard = explosion
+    ? hazardRoll < chance * miningRules.explosiveHintRate
+    : hazardRoll < chance + (1 - chance) * miningRules.safeHintRate;
   return {
     type: id,
     durability,
     remaining: durability,
-    drop: rollResource(type.drops, random),
-    explosion: rollExplosion(type.explosion, tier, random),
+    drop,
+    explosion,
+    ...(suggestsHazard ? { hazardHint: true } : {}),
   };
 }
 

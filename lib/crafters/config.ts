@@ -7,6 +7,8 @@ export const miningRules = {
   floorsPerTier: 3,
   durabilityPerTier: 1,
   explosionChancePerTier: 0.01,
+  explosiveHintRate: 0.5,
+  safeHintRate: 0.2,
   passOutRetention: 0.5,
   observedSampleSize: 20,
 } as const;

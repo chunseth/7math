@@ -1,5 +1,6 @@
 import { miningRules, resourceIds, type MiningResource, type RockId } from "./config";
 import { generateFloor, type Drop, type MineFloor, type Random, type Rock } from "./floor";
+import { rockAppearance, type RockAppearance } from "./rock-art";
 
 export type Resources = Partial<Record<MiningResource, number>>;
 export type Expedition = {
@@ -167,7 +168,7 @@ export function makeDecision(
 }
 
 export type RockHistory = { mined: number; hazards: number; drops: Partial<Record<MiningResource, { hits: number; units: number }>> };
-export type PublicRock = Pick<Rock, "type" | "durability" | "remaining">;
+export type PublicRock = Pick<Rock, "type" | "durability" | "remaining"> & { appearance: RockAppearance; exploded?: true };
 
 export function publicExpedition(expedition: Expedition) {
   const { floor, lastDecisionAt: _lastDecisionAt, ...visible } = expedition;
@@ -175,7 +176,11 @@ export function publicExpedition(expedition: Expedition) {
     ...visible,
     floor: floor.number,
     stairSlot: hasStairs(floor) ? floor.stairSlot : null,
-    rocks: floor.rocks.map(({ type, durability, remaining }): PublicRock => ({ type, durability, remaining })),
+    rocks: floor.rocks.map(({ type, durability, remaining, explosion, hazardHint }, slot): PublicRock => ({
+      type, durability, remaining,
+      appearance: rockAppearance(type, expedition.id, floor.number, slot, hazardHint),
+      ...(remaining === 0 && explosion ? { exploded: true } : {}),
+    })),
   };
 }
 

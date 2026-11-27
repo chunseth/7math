@@ -63,13 +63,22 @@
 }
 
 .rivals-grades,
-.rivals-actions,
 .rivals-exit {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: .5rem;
+}
+
+.rivals-actions {
+  display: grid;
+  justify-content: center;
+  gap: .5rem;
+}
+
+.rivals-shell .rivals-win-title {
+  font-size: clamp(2rem, 8vw, 4.25rem);
 }
 
 .rivals-shell :is(.rivals-lobby, .rivals-actions, .rivals-exit) button {
@@ -280,30 +289,16 @@
 }
 
 .rivals-confetti i {
-  --confetti-color: #d95187;
-  --confetti-left: 8%;
   position: absolute;
   top: -12%;
-  left: var(--confetti-left);
-  width: .35rem;
-  height: .55rem;
-  border-radius: 1px;
-  background: var(--confetti-color);
-  animation: rivals-confetti-fall 1.7s ease-in both;
+  animation: rivals-confetti-fall ease-in both;
 }
 
-.rivals-confetti i:nth-child(3n + 2) { --confetti-color: #56a897; animation-delay: .2s; }
-.rivals-confetti i:nth-child(3n + 3) { --confetti-color: #8060c7; animation-delay: .45s; }
-.rivals-confetti i:nth-child(5n + 2) { --confetti-left: 27%; }
-.rivals-confetti i:nth-child(5n + 3) { --confetti-left: 47%; }
-.rivals-confetti i:nth-child(5n + 4) { --confetti-left: 68%; }
-.rivals-confetti i:nth-child(5n + 5) { --confetti-left: 88%; }
-.rivals-confetti i:nth-child(even) { margin-left: .35rem; }
-
 @keyframes rivals-confetti-fall {
-  0% { top: -12%; opacity: 1; transform: rotate(0); }
-  85% { opacity: 1; }
-  100% { top: 100%; opacity: 0; transform: rotate(390deg); }
+  0% { top: -12%; opacity: 1; transform: rotate(var(--confetti-start-angle)); }
+  35% { transform: translateX(var(--confetti-sway)) rotate(calc(var(--confetti-spin) * .3)) rotateY(180deg); }
+  75% { opacity: 1; transform: translateX(var(--confetti-drift)) rotate(calc(var(--confetti-spin) * .75)); }
+  100% { top: 105%; opacity: 0; transform: translateX(var(--confetti-sway)) rotate(var(--confetti-spin)) rotateY(360deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {

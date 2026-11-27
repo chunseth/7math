@@ -158,7 +158,9 @@ function fragment(x, y, size, angle, colors, mineral = false) {
 function bodyFrame(id, variant, damage, hazard) {
   const colors = palettes[id];
   const [light, body, shade, ink] = colors;
-  const points = shapes[id][variant];
+  const points = hazard && id === "crystal-shell"
+    ? [[35,41],[59,24],[102,25],[132,41],[149,65],[142,92],[115,103],[55,107],[20,95],[16,67]]
+    : shapes[id][variant];
   const boulder = wornOutline(points, damage);
   const [shoulder, top, crown, slope, wall, foot, heel, base, left, ramp] = points;
   const chin = variant === 1 ? "77 90" : variant === 2 ? "65 91" : "83 90";
@@ -210,16 +212,17 @@ function stairs() {
   const mouth = "M24 77 36 55 60 44 105 44 129 55 141 77 133 94 109 107 49 107 29 96Z";
   const inner = "M39 72 54 55 107 55 125 69 127 79 110 91 50 91 34 81Z";
   const steps = [
-    ["M47 80 57 73 105 73 117 81 111 92 52 92Z", "#52616a", "M53 82 111 82"],
-    ["M50 72 61 65 101 65 113 72 106 81 56 81Z", "#65737a", "M55 73 107 73"],
-    ["M55 64 64 58 97 58 106 64 101 72 61 72Z", "#7a888a", "M60 64 101 64"],
-    ["M60 57 69 51 93 51 101 57 96 64 65 64Z", "#8f9d9b", "M66 57 94 57"],
+    ["M60 59 69 53 93 53 101 57 96 64 65 64Z", "#363f48", "M66 58 94 58"],
+    ["M55 65 64 58 97 58 106 64 101 72 61 72Z", "#53636b", "M60 64 101 64"],
+    ["M50 73 61 65 101 65 113 72 106 81 56 81Z", "#697a7d", "M55 73 107 73"],
+    ["M47 82 57 73 105 73 117 81 111 92 52 92Z", "#8a9b98", "M53 82 111 82"],
   ];
   return art(ellipse(81, 98, 68, 16, "#272931", 'opacity=".23"') +
     path(mouth, "url(#rim)", 'stroke="#41474f" stroke-width="3" stroke-linejoin="round"') +
     path("M29 82 48 94 111 94 136 81 133 94 109 106 49 106 29 96Z", "#626f71") +
     path(inner, "url(#opening)", 'stroke="#445052" stroke-width="3" stroke-linejoin="round"') +
-    `<g clip-path="url(#mouth)">` + steps.map(([d, color, edge]) => path(d, color) + trace(edge, "#c7c9b2", 1.4, 'opacity=".88"')).join("") + "</g>" +
+    `<g clip-path="url(#mouth)">` + steps.map(([d, color, edge], i) => path(d, color) +
+      trace(edge, "#c7c9b2", 1.5, `opacity="${.22 + i * .2}"`)).join("") + "</g>" +
     trace("M39 62 58 51 100 50 M47 96 71 101 108 99 126 91", "#d0c9a8", 2.1, 'opacity=".83"') +
     fragment(28, 94, .42, -18, colors) + fragment(130, 99, .43, 15, colors) +
     fragment(88, 108, .3, -15, colors),

@@ -11,7 +11,7 @@ export function unlockMiningSound() {
 
 export function miningSound(sound: Sound) {
   const context = audio;
-  if (!context || context.state !== "running") return;
+  if (!context || context.state === "closed") return;
   const now = context.currentTime;
   function tone(hz: number, endHz: number, length: number, volume: number, delay = 0) {
     if (!context) return;

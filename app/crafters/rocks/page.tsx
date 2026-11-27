@@ -6,6 +6,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata = { title: "Mining preview · Crafter’s Mode" };
 
-export default function Page() {
-  return <RockPreview seed={randomUUID()} startedAt={Date.now()} />;
+export default async function Page({ searchParams }: { searchParams: Promise<{ view?: string }> }) {
+  const { view } = await searchParams;
+  return <RockPreview seed={randomUUID()} startedAt={Date.now()} initialView={view === "catalogue" ? "catalogue" : "mine"} />;
 }

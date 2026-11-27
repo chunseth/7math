@@ -6,7 +6,7 @@ import { post, RequestError } from "../../lib/mentalist/client";
 import { miningResources, miningRules, resourceIds, rockType, type RockId } from "../../lib/crafters/config";
 import { canDescend, type ExpeditionSummary, type MiningView, type SwingResult } from "../../lib/crafters/expedition";
 import { Catalogue, ResourceIcon, RockArt } from "./MiningParts";
-import { rockFrame } from "../../lib/crafters/rock-art";
+import { atlas, rockAppearance, rockFrame } from "../../lib/crafters/rock-art";
 import { TerrainSprite } from "./rocks/RockSprite";
 import { miningSound, unlockMiningSound } from "./sound";
 
@@ -128,7 +128,9 @@ export default function Game({ initial }: { initial: MiningView }) {
   function showFeedback(id: string, result: SwingResult, from?: Point) {
     const drop = result.drop;
     if (!result.broken || !drop) {
-      setStatus(`${result.remaining} ${result.remaining === 1 ? "swing" : "swings"} left.`);
+      const rock = active?.rocks[result.slot];
+      const stage = rock && rockFrame({ ...rock, remaining: result.remaining });
+      setStatus(stage ? `Rock ${result.slot + 1} is ${atlas.frames[stage].toLowerCase()}.` : "The rock cracked.");
       return;
     }
     const messages = [`+${drop.quantity} ${miningResources[drop.resource].name}`];
@@ -250,21 +252,35 @@ export default function Game({ initial }: { initial: MiningView }) {
               </header>
               <div className="mine-grid" key={`${active.id}:${active.floor}`} aria-label="Mining rocks">
                 {active.rocks.map((rock, slot) => {
-                  if (!rock.remaining) return <div key={slot} className="mine-cell mine-cleared">
-                    {active.stairSlot === slot
-                      ? <span className="mine-staircase" role="img" aria-label="Staircase discovered"><TerrainSprite terrain="stairs" /></span>
-                      : <TerrainSprite terrain="empty" className="mine-rubble" />}
-                  </div>;
-                  const { name } = rockType(rock.type);
+                  const appearance = rock.appearance ?? rockAppearance(rock.type, active.id, active.floor, slot);
+                  const frame = rockFrame(rock);
+                  if (frame === 4) {
+                    const lastHit = state.swing?.floor === active.floor && state.swing.slot === slot ? state.swing : null;
+                    const justBroke = lastHit?.broken || effects.some(({ hit }) => hit.floor === active.floor && hit.slot === slot);
+                    const crater = rock.exploded || lastHit?.explosion;
+                    const stairs = active.stairSlot === slot;
+                    return (
+                      <div key={slot} className="mine-cell mine-cleared">
+                        <span className="mine-reveal" role="img" aria-label={stairs ? "Staircase discovered" : crater ? "Explosion aftermath" : "Cleared rock"}>
+                          {(!stairs || crater) && <TerrainSprite terrain={crater ? "explosion" : "empty"} />}
+                          {stairs && <TerrainSprite terrain="stairs" className="mine-staircase" />}
+                          {justBroke && <span className="mine-rubble-reveal"><RockArt type={rock.type} appearance={appearance} frame={4} /></span>}
+                        </span>
+                      </div>
+                    );
+                  }
+                  const visibleName = appearance.family === "false-glint" ? rockType("copper-flecked").name
+                    : appearance.family === "crystal-shell" ? rockType("crystalline").name
+                      : appearance.family === "shiny-surface" ? "Glossy rock" : rockType(rock.type).name;
                   return <button
                     type="button" key={slot} className="mine-cell mine-rock" aria-disabled={blocked}
-                    aria-label={`${name}, ${rock.remaining} of ${rock.durability} swings left`}
+                    aria-label={`${visibleName}, ${rock.remaining} of ${rock.durability} swings left`}
+                    aria-description={atlas.frames[frame]}
                     onClick={event => play("swing", slot, event.currentTarget)}
                   >
-                    <RockArt type={rock.type} variant={slot + active.floor} frame={rockFrame(rock)} />
+                    <RockArt type={rock.type} appearance={appearance} frame={frame} animate />
                     <span className="mine-durability" aria-hidden="true">
                       {Array.from({ length: rock.durability }, (_, pip) => <i key={pip} data-filled={pip < rock.remaining} />)}
-                      <small>{rock.remaining}</small>
                     </span>
                   </button>;
                 })}

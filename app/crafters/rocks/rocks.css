@@ -44,6 +44,7 @@
   outline: 2px solid var(--rock-accent);
   outline-offset: 3px;
 }
+.rock-preview button { -webkit-tap-highlight-color: transparent; }
 
 .rock-shell {
   width: min(100%, 1088px);
@@ -197,7 +198,6 @@
   background: radial-gradient(ellipse at 43% 42%, var(--rock-tile-glow), transparent 86%), var(--rock-tile);
   box-shadow: inset 0 -2px 0 var(--rock-shadow);
   touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
 }
 
 .rock-slot::before {

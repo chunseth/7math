@@ -1,23 +1,25 @@
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { miningResources, miningRules, resourceIds, rockTypes, type RockId } from "../../lib/crafters/config";
 import type { MiningView } from "../../lib/crafters/expedition";
-import { atlas, coreRockArt, type RockFrame } from "../../lib/crafters/rock-art";
-import { RockSprite } from "./rocks/RockSprite";
+import { atlas, coreRockArt, type RockAppearance, type RockFrame } from "../../lib/crafters/rock-art";
+import { ResourceSprite, RockSprite } from "./rocks/RockSprite";
 
-export function RockArt({ type, variant = 0, frame = 0, locked = false }: {
-  type: RockId; variant?: number; frame?: RockFrame; locked?: boolean;
+export function RockArt({ type, appearance, frame = 0, locked = false, animate = false }: {
+  type: RockId; appearance?: RockAppearance; frame?: RockFrame; locked?: boolean; animate?: boolean;
 }) {
-  const family = coreRockArt[type];
+  const design = appearance ?? { family: coreRockArt[type], variant: 0 };
   return (
-    <span className="mine-rock-art" data-locked={locked} aria-hidden="true">
-      <RockSprite appearance={{ family, variant: variant % atlas.families[family].variants.length }} frame={frame} />
+    <span className="mine-rock-art" data-locked={locked} data-shimmer={animate && design.family === "crystal"} aria-hidden="true">
+      <RockSprite appearance={design} frame={frame} />
     </span>
   );
 }
 
 export function ResourceIcon({ id }: { id: string }) {
-  if (id === "stone") return <span className="mine-stone-icon" aria-hidden="true" />;
-  return <img className="mine-resource-icon" src={`/crafters/${id === "gem" ? "crystal" : id}.png`} width={24} height={24} alt="" />;
+  const material = resourceIds.find(resource => resource === id);
+  if (material) return <ResourceSprite resource={material} className="mine-resource-icon" />;
+  return <img className="mine-resource-icon" src={`/crafters/${id}.png`} width={24} height={24} alt="" />;
 }
 
 export function Catalogue({ history, close, viewRock }: {
@@ -62,6 +64,7 @@ export function Catalogue({ history, close, viewRock }: {
                 <span><strong>{rock.name}</strong><small>{stats.mined} mined</small></span>
               </summary>
               <div className="mine-catalogue-info">
+                <p>{atlas.families[coreRockArt[rock.id]].cue}</p>
                 <dl>
                   <div><dt>Base durability</dt><dd>{rock.durability}</dd></div>
                   <div><dt>Floors</dt><dd>{rock.lastFloor === null ? `${rock.firstFloor}+` : `${rock.firstFloor}–${rock.lastFloor}`}</dd></div>
@@ -69,7 +72,7 @@ export function Catalogue({ history, close, viewRock }: {
                   <div><dt>Explosions encountered</dt><dd>{stats.hazards}</dd></div>
                 </dl>
                 <table>
-                  <caption>Drop history · {stats.mined} rocks mined</caption>
+                  <caption>Drop history · {stats.mined} {stats.mined === 1 ? "rock" : "rocks"} mined</caption>
                   <thead><tr>
                     <th scope="col">Resource</th><th scope="col">Chance</th><th scope="col">Yield</th><th scope="col">Found</th>
                     {showObserved && <th scope="col">Observed</th>}
@@ -92,6 +95,7 @@ export function Catalogue({ history, close, viewRock }: {
           );
         })}
       </div>
+      <footer><Link href="/crafters/rocks?view=catalogue" prefetch={false}>Inspect rock art and damage states</Link></footer>
     </dialog>
   );
 }
