@@ -7,12 +7,13 @@ import NumericEntry from "./NumericEntry";
 import QuestionCalculator from "./QuestionCalculator";
 import { Visual } from "./Visual";
 
-export default function StructuredAnswer({ question, disabled, onAnswer, fieldAnswers, onPart }: {
+export default function StructuredAnswer({ question, disabled, onAnswer, fieldAnswers, onPart, singleAttempt }: {
   question: Question;
   disabled: boolean;
   onAnswer: (raw: string, calculated?: boolean) => void;
   fieldAnswers?: string[];
   onPart?: (title: string) => void;
+  singleAttempt?: boolean;
 }) {
   const { control, prompt } = question;
   const fields = control.fields!;
@@ -38,8 +39,10 @@ export default function StructuredAnswer({ question, disabled, onAnswer, fieldAn
       const correct = fieldAnswers ? fieldValue(control, index, value) === fieldAnswers[index]
         : !question.fieldChecks || await checkField(question, index, value);
       if (!correct) {
-        setFeedback("Try this part again.");
-        if (calculator) return;
+        if (calculator && !singleAttempt) {
+          setFeedback("Try this part again.");
+          return;
+        }
         setRetry(n => n + 1);
         onAnswer(fieldAttempt(index, value));
         return;

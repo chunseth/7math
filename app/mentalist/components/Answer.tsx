@@ -16,11 +16,12 @@ import Whiteboard from "./Whiteboard";
 import LeastOrderBubbles from "./LeastOrderBubbles";
 import CoinTrial from "./CoinTrial";
 
-export default function Answer({ question, disabled, onAnswer, onPart }: {
+export default function Answer({ question, disabled, onAnswer, onPart, singleAttempt }: {
   question: Question;
   disabled: boolean;
   onAnswer: (raw: string, calculated?: boolean) => void;
   onPart?: (title: string) => void;
+  singleAttempt?: boolean;
 }) {
   const [visible, setVisible] = useState(true);
   const { control, prompt, visual } = question;
@@ -45,7 +46,8 @@ export default function Answer({ question, disabled, onAnswer, onPart }: {
       {option}{unit && /^-?[\d./]+$/.test(option) ? " " + unit : ""}
     </button>)}
   </div>;
-  if (hasSequentialFields(control)) return <StructuredAnswer question={question} disabled={locked} onAnswer={onAnswer} onPart={onPart} />;
+  if (hasSequentialFields(control)) return <StructuredAnswer question={question} disabled={locked}
+    onAnswer={onAnswer} onPart={onPart} singleAttempt={singleAttempt} />;
   if (control.fields) return <DisplayAnswer question={question} disabled={locked} onAnswer={onAnswer} />;
   if (control.limit) {
     const scatter = control.kind === "scatterplot";

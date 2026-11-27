@@ -38,7 +38,7 @@ const gameModes = [
     title: "Survivor",
   },
   {
-    description: "Race through 12 random questions from Grades 6–8 and see where you rank.",
+    description: "Pick a grade, race through 12 random questions, and see where you rank.",
     href: "/rush",
     kicker: "Timed Challenge",
     title: "Rush",

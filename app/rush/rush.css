@@ -51,6 +51,31 @@
 .rush-results strong { font-size: clamp(1.45rem, 7vw, 2.2rem); font-variant-numeric: tabular-nums; }
 .rush-results span { color: var(--muted); }
 
+.rush-grade-picker { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.rush-shell .rush-grade-picker button[aria-pressed="true"] {
+  background: #e5e9ff;
+  border-color: #e5e9ff;
+  box-shadow: inset 0 0 0 2px #414c89;
+}
+
+.rush-border-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 4px var(--rush-glow), inset 0 0 28px 5px var(--rush-glow);
+  animation: rush-glow-fade 750ms ease-out forwards;
+}
+.rush-border-correct { --rush-glow: #15834a; }
+.rush-border-incorrect { --rush-glow: #d0283c; }
+@keyframes rush-glow-fade {
+  0%, 35% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rush-border-glow { animation-timing-function: step-end; }
+}
+
 .rush-sign-in { display: grid; gap: 10px; max-width: 310px; }
 .rush-sign-in label { display: grid; gap: 4px; }
 
@@ -87,4 +112,3 @@
 .rush-progress progress::-moz-progress-bar { background: #4d58a6; border-radius: 999px; }
 .rush-answer { max-width: 420px; margin: 12px auto; }
 .rush-shell button.rush-skip { margin-top: 4px; }
-.rush-feedback { min-height: 1.4em; }

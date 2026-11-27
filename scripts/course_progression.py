@@ -165,5 +165,5 @@ def expand_course(
             skills.append(dict(originals[mixed], prerequisites=[skill]))
             levels.append(original_levels[mixed])
             videos.append(original_clips[mixed])
-    bank.update(version=grade * 1000 + 6, skills=skills, levels=levels)
+    bank.update(version=6007 if grade == 6 else 8006, skills=skills, levels=levels)
     return catalog, videos, bank

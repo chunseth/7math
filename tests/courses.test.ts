@@ -14,7 +14,7 @@ type Bank = {
   questions: Record<string, Question & { answer: string }>;
 };
 const specs = {
-  6: { count: 222, skills: 92, version: 6006, opening: "g6.foundation-sums.1", singleton: "6.11", strands: {2:"E",3:"E",4:"H",5:"C",6:"C",7:"D",8:"D",9:"C",10:"B",12:"D",13:"B",14:"H"} },
+  6: { count: 222, skills: 92, version: 6007, opening: "g6.foundation-sums.1", singleton: "6.11", strands: {2:"E",3:"E",4:"H",5:"C",6:"C",7:"D",8:"D",9:"C",10:"B",12:"D",13:"B",14:"H"} },
   8: { count: 225, skills: 101, version: 8006, opening: "g8.foundation-numbers.1", singleton: "8.9", strands: {2:"D",3:"C",4:"C",5:"I",6:"C",7:"D",8:"D",10:"D",11:"C",12:"G"} },
 };
 
@@ -84,6 +84,25 @@ for (const number of [6, 8] as const) {
     }
   });
 }
+
+test("all box summaries use the median of each half with varied middle gaps", () => {
+  const bank: Bank = JSON.parse(gunzipSync(readFileSync("content/6math/bank.json.gz")).toString());
+  const { pool } = bank.levels.find(level => level.id === "g6.steps-spread.4")!;
+  const gaps = new Set<number>();
+  const medianTypes = new Set<boolean>();
+  for (const { q } of pool) {
+    const { prompt, answer } = bank.questions[q];
+    const values = /for ([\d, ]+)\./.exec(prompt)![1].split(", ").map(Number).sort((a, b) => a - b);
+    assert.equal(values.length, 6, q);
+    const [minimum, q1, lower, upper, q3, maximum] = values;
+    const median = (lower + upper) / 2;
+    assert.deepEqual(answer.split("|").map(Number), [minimum, q1, median, q3, maximum], q);
+    gaps.add(upper - lower);
+    medianTypes.add(Number.isInteger(median));
+  }
+  assert.ok(gaps.size > 3);
+  assert.equal(medianTypes.size, 2);
+});
 
 test("number bubbles score a wrong tap immediately and require all three correct taps", async () => {
   for (const [path, level] of [

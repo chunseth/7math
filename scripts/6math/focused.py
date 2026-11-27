@@ -459,13 +459,16 @@ def problem(key, seed):
             values[1 if v else 4],
         )
     if key == "box-summary":
-        values = [n, n + 1, n + 3, n + 5, n + 7 + k, n + 8 + k]
-        five = [values[i] for i in (0, 1, 2, 4, 5)]
-        five[2] = (values[2] + values[3]) // 2
+        lower_middle = n + 3
+        upper_middle = lower_middle + k + v
+        values = [n, n + 1, lower_middle, upper_middle, upper_middle + v + 2, upper_middle + v + 4]
+        median = (lower_middle + upper_middle) / 2
+        five = [values[0], values[1], median, values[4], values[5]]
         return fields(
             f"Construct a box plot for {', '.join(map(str, values))}. Use the median of each half for Q1 and Q3.",
-            ["Minimum", "Q1", "Median", "Q3", "Maximum"], five,
-            [[x - 1, x + 1] for x in five], seed, kind="boxplot",
+            ["Minimum", "Q1", "Median", "Q3", "Maximum"],
+            [f"{x:g}" for x in five], [[f"{x - 1:g}", f"{x + 1:g}"] for x in five],
+            seed, kind="boxplot",
         )
     if key == "mode":
         vals = [n, n + k, n + 1]

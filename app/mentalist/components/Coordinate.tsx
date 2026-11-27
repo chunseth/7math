@@ -76,10 +76,10 @@ export default function Coordinate({ limit, line, drawing, drawingScale, scatter
     : i === range[0] || i === range[1] || i % (drawingScale > 1 ? 5 : labelStep) === 0;
 
   return <div className="mt-grid">
-    <div className="mt-grid-views" role="group" aria-label={line ? "Number line view" : "Coordinate grid view"}>
+    {(!line || 2 * limit * step > 1 + Number.EPSILON) && <div className="mt-grid-views" role="group" aria-label={line ? "Number line view" : "Coordinate grid view"}>
       {windows.map((option, i) => <button key={option.label} type="button" aria-pressed={viewIndex === i}
         disabled={disabled} onClick={() => chooseView(i)}>{option.label}</button>)}
-    </div>
+    </div>}
     {waiting && <p>Tap a quadrant to zoom in, or choose Full grid to see all four at once.</p>}
     {count > 1 && <p>Point {Math.min(placed.length + 1, count)} of {count}
       {placed.length > 0 && <span className="mt-grid-placed"> · Plotted {placed.map(([x, y]) => `(${coordinate(x)}, ${coordinate(y)})`).join(", ")}</span>}

@@ -19,6 +19,7 @@ import { economy } from "../../../lib/mentalist/economy";
 import { faculty, teacherUser } from "../../../lib/mentalist/teacher";
 import { craft } from "../../../lib/mentalist/craft";
 import { survivorPack } from "../../../lib/survivor/server";
+import { rushGrade } from "../../../lib/rush/model";
 import { finishRush, rushBoard, startRush } from "../../../lib/rush/server";
 import { checkReview, exportReviewBugs, saveReview } from "../../../lib/verification/server";
 export const runtime = "nodejs";
@@ -83,8 +84,11 @@ export async function POST(req: NextRequest) {
       if (b.action === "survivorPack") return survivorPack(db, who);
       if (b.action === "state") return studentState(db, who, courseGrade(b.grade));
       if (b.action === "leaderboard") return leaderboard(db, b.level);
-      if (b.action === "rushBoard") return rushBoard(db, who);
-      if (b.action === "rushStart") return startRush(db, who);
+      if (b.action === "rushBoard" || b.action === "rushStart") {
+        const grade = rushGrade(b.grade);
+        if (!grade) throw new GameError("Choose Grade 6, 7, or 8.");
+        return b.action === "rushBoard" ? rushBoard(db, who, grade) : startRush(db, who, grade);
+      }
       if (b.action === "rushFinish") return finishRush(db, who, b.run, b.answers);
       if (b.action === "logout") {
         await db.query("update sessions set ended=now() where token=$1", [who.token]);

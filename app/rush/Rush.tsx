@@ -7,16 +7,19 @@ import { formatRunTime, type Outcome } from "../../lib/mentalist/model";
 import { checkLocally } from "../../lib/mentalist/round";
 import { studentPrompt } from "../../lib/mentalist/least-order";
 import QuestionPrompt, { useQuestionPart } from "../mentalist/components/QuestionPrompt";
-import { rushLength, type RushBoard, type RushResult, type RushRun } from "../../lib/rush/model";
+import { rushGrades, rushLength, type RushBoard, type RushGrade, type RushResult, type RushRun } from "../../lib/rush/model";
 import Answer from "../mentalist/components/Answer";
 import { emptyCredentials, PlayerFields } from "../mentalist/components/PlayerFields";
 import { Visual } from "../mentalist/components/Visual";
 
 type ActiveRun = RushRun & { started: number };
 type FinishedRun = RushResult & { runId: string; answers: (string | null)[]; ranked: boolean };
+type RushFeedback = Exclude<Outcome, "simplification">;
 
 export default function Rush({ rankingEnabled, hasSession }: { rankingEnabled: boolean; hasSession: boolean }) {
   const [signedIn, setSignedIn] = useState(hasSession);
+  const [grade, setGrade] = useState<RushGrade>(7);
+  const [flash, setFlash] = useState<{ step: number; outcome: RushFeedback } | null>(null);
   const [run, setRun] = useState<ActiveRun | null>(null);
   const [finished, setFinished] = useState<FinishedRun | null>(null);
   const [starting, setStarting] = useState(false);
@@ -30,7 +33,7 @@ export default function Rush({ rankingEnabled, hasSession }: { rankingEnabled: b
     if (!signedIn || run || saveState === "saving") return;
     let current = true;
     setBoardError("");
-    post<RushBoard>({ action: "rushBoard" }).then(data => {
+    post<RushBoard>({ action: "rushBoard", grade }).then(data => {
       if (current) setBoard(data);
     }).catch(error => {
       if (!current) return;
@@ -38,7 +41,18 @@ export default function Rush({ rankingEnabled, hasSession }: { rankingEnabled: b
       else setBoardError("Could not load the Rush leaderboard.");
     });
     return () => { current = false; };
-  }, [signedIn, run, saveState, boardRevision]);
+  }, [signedIn, run, saveState, boardRevision, grade]);
+
+  function selectGrade(next: RushGrade) {
+    if (grade === next) return;
+    setGrade(next);
+    setFinished(null);
+    setSaveState(null);
+    setStartError("");
+    setBoard(null);
+    setBoardError("");
+    setFlash(null);
+  }
 
   async function start(guest = !signedIn) {
     if (starting) return;
@@ -47,14 +61,15 @@ export default function Rush({ rankingEnabled, hasSession }: { rankingEnabled: b
     try {
       let next: RushRun;
       if (guest) {
-        const response = await fetch("/api/rush", { cache: "no-store" });
+        const response = await fetch(`/api/rush?grade=${grade}`, { cache: "no-store" });
         if (!response.ok) throw Error("Could not load Rush questions.");
         next = await response.json();
       } else {
-        next = await post<RushRun>({ action: "rushStart" });
+        next = await post<RushRun>({ action: "rushStart", grade });
       }
       setFinished(null);
       setSaveState(null);
+      setFlash(null);
       setRun({ ...next, started: performance.now() });
     } catch (error) {
       if (error instanceof RequestError && error.status === 401) {
@@ -87,17 +102,23 @@ export default function Rush({ rankingEnabled, hasSession }: { rankingEnabled: b
 
   return (
     <main className="mt-shell rush-shell">
+      {flash && <div key={flash.step} className={`rush-border-glow rush-border-${flash.outcome}`} aria-hidden="true" />}
       <div className="rush-layout">
         <header className="rush-header">
           <Link href="/">← Game modes</Link>
           <h1>Rush</h1>
         </header>
-        {run ? <Play key={run.pack.set} run={run} onFinish={finish} /> : <>
+        {run ? <Play key={run.pack.set} run={run} onFinish={finish}
+          onFeedback={(step, outcome) => setFlash(outcome ? { step, outcome } : null)} /> : <>
           <section className="rush-card rush-intro" aria-label={finished ? "Run results" : "Start Rush"}>
+            <div className="rush-grade-picker" role="group" aria-label="Rush grade">
+              {rushGrades.map(option => <button key={option} type="button" aria-pressed={grade === option}
+                disabled={starting || saveState === "saving"} onClick={() => selectGrade(option)}>Grade {option}</button>)}
+            </div>
             {finished ? <>
-              <h2>Rush complete</h2>
+              <h2>Grade {grade} Rush complete</h2>
               <div className="rush-results" aria-live="polite">
-                <div><strong>{finished.score}/{rushLength}</strong><span>Correct</span></div>
+                <div><strong>{finished.score}/{rushLength}</strong><span>Score</span></div>
                 <div><strong>{formatRunTime(finished.elapsedMs)}</strong><span>Time</span></div>
               </div>
               <p role="status">{saveState === "saving" ? "Saving your score…" : saveState === "saved" ? "Score saved to the leaderboard." :
@@ -105,7 +126,7 @@ export default function Rush({ rankingEnabled, hasSession }: { rankingEnabled: b
               {saveState === "error" && <button type="button" onClick={() => void save(finished)}>Retry saving</button>}
             </> : <>
               <h2>{rushLength} random questions</h2>
-              <p>Play a mix from the Grade 6–8 curriculum. You get one scored answer per question and can skip any question.</p>
+              <p>Play a mix from the Grade {grade} curriculum. You get one scored answer per question and can skip any question.</p>
             </>}
             <div className="rush-actions">
               <button className="mt-primary" type="button" disabled={starting || saveState === "saving"}
@@ -117,16 +138,16 @@ export default function Rush({ rankingEnabled, hasSession }: { rankingEnabled: b
             {startError && <p role="alert">{startError}</p>}
           </section>
           <section className="rush-card rush-leaderboard" aria-labelledby="rush-leaderboard">
-            <h2 id="rush-leaderboard">Rush leaderboard</h2>
-            <p>Most correct answers first. Fastest time breaks ties.</p>
+            <h2 id="rush-leaderboard">Grade {grade} Rush leaderboard</h2>
+            <p>Highest score first. Fastest time breaks ties.</p>
             {!rankingEnabled ? <p>Ranked play is unavailable here.</p> :
               !signedIn ? <SignIn onSuccess={() => setSignedIn(true)} /> :
               boardError ? <div><p role="alert">{boardError}</p>
                 <button type="button" onClick={() => setBoardRevision(revision => revision + 1)}>Retry loading scores</button></div> :
-              !board ? <p role="status">Loading scores…</p> :
+              board?.grade !== grade ? <p role="status">Loading scores…</p> :
               !board.records.length ? <p>No ranked runs yet. Finish a run to set the first score.</p> :
               <table className="mt-leaderboard" aria-label="Rush rankings">
-                <thead><tr><th scope="col">Rank</th><th scope="col">Player</th><th scope="col">Correct</th><th scope="col">Time</th></tr></thead>
+                <thead><tr><th scope="col">Rank</th><th scope="col">Player</th><th scope="col">Score</th><th scope="col">Time</th></tr></thead>
                 <tbody>{board.records.map(record => <tr key={record.username} className={record.username === board.username ? "mt-own-record" : undefined}>
                   <td>#{record.rank}</td>
                   <th scope="row">{record.username}{record.username === board.username && " (you)"}</th>
@@ -169,15 +190,19 @@ function SignIn({ onSuccess }: { onSuccess: () => void }) {
   </>;
 }
 
-function Play({ run, onFinish }: { run: ActiveRun; onFinish: (result: FinishedRun) => void }) {
+function Play({ run, onFinish, onFeedback }: {
+  run: ActiveRun;
+  onFinish: (result: FinishedRun) => void;
+  onFeedback: (step: number, outcome?: RushFeedback) => void;
+}) {
   const [answers, setAnswers] = useState<(string | null)[]>([]);
   const [score, setScore] = useState(0);
-  const [feedback, setFeedback] = useState("");
   const position = answers.length;
 
-  function advance(raw: string | null, outcome?: Outcome) {
+  function advance(raw: string | null, outcome?: RushFeedback) {
     const next = [...answers, raw];
     const total = score + (outcome === "correct" ? 1 : 0);
+    onFeedback(next.length, outcome);
     if (next.length === rushLength) {
       onFinish({ runId: run.pack.set, answers: next, score: total, ranked: run.ranked,
         elapsedMs: Math.round(performance.now() - run.started) });
@@ -185,21 +210,19 @@ function Play({ run, onFinish }: { run: ActiveRun; onFinish: (result: FinishedRu
     }
     setScore(total);
     setAnswers(next);
-    setFeedback(raw === null ? "Previous question skipped." : outcome === "correct" ? "Correct." : "Incorrect.");
   }
 
   return <section className="rush-card rush-play" aria-label="Rush questions">
     <div className="rush-progress">
-      <label htmlFor="rush-progress">Question {position + 1} of {rushLength}</label>
+      <label htmlFor="rush-progress">Grade {run.grade} · Question {position + 1} of {rushLength}</label>
       <progress id="rush-progress" value={position} max={rushLength} />
     </div>
     <Question key={position} run={run} position={position} advance={advance} />
-    <p className="rush-feedback" role="status">{feedback}</p>
   </section>;
 }
 
 function Question({ run, position, advance }: {
-  run: ActiveRun; position: number; advance: (raw: string | null, outcome?: Outcome) => void;
+  run: ActiveRun; position: number; advance: (raw: string | null, outcome?: RushFeedback) => void;
 }) {
   const question = run.pack.questions[position];
   const { partTitle, setPartTitle } = useQuestionPart(question);
@@ -207,7 +230,6 @@ function Question({ run, position, advance }: {
   const [simulated, setSimulated] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [error, setError] = useState("");
-  const [reduce, setReduce] = useState("");
   const locked = useRef(false);
   const heading = useRef<HTMLHeadingElement>(null);
 
@@ -215,23 +237,14 @@ function Question({ run, position, advance }: {
     heading.current?.focus();
   }, []);
 
-  async function answer(raw: string, calculated = false) {
+  async function answer(raw: string) {
     if (locked.current) return;
     locked.current = true;
     setChecking(true);
     try {
       const outcome = await checkLocally(run.pack, position, raw);
-      if (calculated && outcome !== "correct") {
-        setChecking(false);
-        locked.current = false;
-        return;
-      }
-      if (outcome !== "simplification") {
-        advance(raw, outcome);
-        return;
-      }
-      setReduce(raw);
-      setError("Equivalent fraction. Simplify your answer.");
+      advance(raw, outcome === "correct" ? "correct" : "incorrect");
+      return;
     } catch {
       setError("Could not check your answer. Try again.");
     }
@@ -241,10 +254,10 @@ function Question({ run, position, advance }: {
   }
 
   return <>
-    <h2 ref={heading} tabIndex={-1}><QuestionPrompt part={partTitle} text={reduce ? `Reduce ${reduce}.` : studentPrompt(question)} /></h2>
+    <h2 ref={heading} tabIndex={-1}><QuestionPrompt part={partTitle} text={studentPrompt(question)} /></h2>
     <Visual data={question.visual} showLoan={false} onSimulated={() => setSimulated(true)} />
     <div className="rush-answer">
-      <Answer key={question.visual?.kind === "loan" ? "loan" : attempt} question={question}
+      <Answer key={question.visual?.kind === "loan" ? "loan" : attempt} question={question} singleAttempt
         disabled={checking || (question.visual?.kind === "simulation" && !question.visual.coinTrials && !simulated)} onAnswer={answer} onPart={setPartTitle} />
     </div>
     {error && <p role="alert">{error}</p>}
