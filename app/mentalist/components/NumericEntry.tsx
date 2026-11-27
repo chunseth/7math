@@ -9,11 +9,12 @@ export function editNumber(old: string, key: string) {
   return old + key;
 }
 
-export default function NumericEntry({ control, unit, disabled, onAnswer, fractionDelayMs = 800 }: {
+export default function NumericEntry({ control, unit, disabled, onAnswer, onDraft, fractionDelayMs = 800 }: {
   control: Control;
   unit?: string;
   disabled: boolean;
   onAnswer: (raw: string) => void;
+  onDraft?: (value: string) => void;
   fractionDelayMs?: number;
 }) {
   const [value, setValue] = useState("");
@@ -51,6 +52,7 @@ export default function NumericEntry({ control, unit, disabled, onAnswer, fracti
     } else if (next.includes(".")) return;
     submitted.current = "";
     (denominator ? setDen : setValue)(next);
+    onDraft?.(fraction ? denominator ? `${value || "□"}/${next || "□"}` : `${next || "□"}/${den || "□"}` : next);
   }
 
   const keys = useRef(edit);

@@ -2,11 +2,12 @@ import { useState } from "react";
 import { coinTrialAnswers, coinTrialAttempt, type Question } from "../../../lib/mentalist/model";
 import StructuredAnswer from "./StructuredAnswer";
 
-export default function CoinTrial({ question, trials, disabled, onAnswer, onPart, fractionDelayMs }: {
+export default function CoinTrial({ question, trials, disabled, onAnswer, onDraft, onPart, fractionDelayMs }: {
   question: Question;
   trials: number;
   disabled: boolean;
   onAnswer: (raw: string) => void;
+  onDraft?: (value: string) => void;
   onPart?: (title: string) => void;
   fractionDelayMs?: number;
 }) {
@@ -20,6 +21,6 @@ export default function CoinTrial({ question, trials, disabled, onAnswer, onPart
       }}>Run next trial</button>
     <output aria-live="polite">{[...tosses].join(" · ")}</output>
     {tosses.length === trials && <StructuredAnswer question={question} disabled={disabled} fieldAnswers={coinTrialAnswers(tosses)} onPart={onPart}
-      onAnswer={raw => onAnswer(coinTrialAttempt(tosses, raw))} fractionDelayMs={fractionDelayMs} />}
+      onAnswer={raw => onAnswer(coinTrialAttempt(tosses, raw))} fractionDelayMs={fractionDelayMs} onDraft={onDraft} />}
   </div>;
 }

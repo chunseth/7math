@@ -4,8 +4,8 @@ import { publicQuestion, type BankQuestion } from "../mentalist/bank";
 import { GameError, hash, one, rows, uuid, type Identity } from "../mentalist/db";
 import { gradeQuestion, type Outcome } from "../mentalist/model";
 import { drawRush } from "../rush/bank";
-import { rushGrade, rushLength, type RushGrade } from "../rush/model";
-import { countdownMs, queueLeaseMs, raceDecision, type ResultReason, type RivalProgress, type RivalsAnswer, type RivalsState } from "./model";
+import { rushGrade, rushGrades, rushLength, type RushGrade } from "../rush/model";
+import { countdownMs, queueLeaseMs, raceDecision, type QueueCounts, type ResultReason, type RivalProgress, type RivalsAnswer, type RivalsState } from "./model";
 
 type Entry = { grade: RushGrade; ticket: string | null; match: string | null };
 type Match = {
@@ -16,14 +16,15 @@ type Match = {
   reason: ResultReason | null;
   winner: string | null;
 };
-type Player = RivalProgress & { profile: string; seenAt: Date };
+type Player = RivalProgress & { profile: string; seenAt: Date; draft: string | null };
+type Draft = { match: string; question: number; text: string };
 type Race = { match: Match; you: Player; opponent: Player; now: number };
 type Submission = { id: string; question: number; raw: string | null };
-type Action = "rivalsJoin" | "rivalsState" | "rivalsCancel" | "rivalsAnswer" | "rivalsForfeit";
+type Action = "rivalsJoin" | "rivalsState" | "rivalsCancel" | "rivalsAnswer" | "rivalsForfeit" | "rivalsQueue";
 
 export function isRivalsAction(value: string): value is Action {
   return value === "rivalsJoin" || value === "rivalsState" || value === "rivalsCancel" ||
-    value === "rivalsAnswer" || value === "rivalsForfeit";
+    value === "rivalsAnswer" || value === "rivalsForfeit" || value === "rivalsQueue";
 }
 
 async function queueLock(db: PoolClient) {
@@ -52,14 +53,18 @@ async function dbTime(db: PoolClient) {
 async function closeRace(db: PoolClient, race: Race, reason: ResultReason, winner: string | null) {
   await db.query("update rivals_matches set reason=$2,winner=$3,questions=null where id=$1",
     [race.match.id, reason, winner]);
+  await db.query("update rivals_players set draft=null where match=$1 and draft is not null", [race.match.id]);
   Object.assign(race.match, { reason, winner, questions: null });
 }
 
 async function openRace(db: PoolClient, id: string, profile: string): Promise<Race> {
   const match = await one<Match>(db, `select id,grade,starts_at as "startsAt",questions,reason,winner
     from rivals_matches where id=$1 for update`, [id]);
-  const players = await rows<Player>(db, `select profile,username,resolved,mistakes,finished_ms as "finishedMs",
-    last_seen as "seenAt" from rivals_players where match=$1`, [id]);
+  const players = await rows<Player>(db, `select r.profile,r.username,r.resolved,r.mistakes,r.draft,
+    r.finished_ms as "finishedMs",r.last_seen as "seenAt",coalesce(p.sprite_name,'raijin') as sprite,
+    array(select a.question from rivals_answers a where a.match=r.match and a.profile=r.profile
+      and a.outcome='incorrect' order by a.question) as missed
+    from rivals_players r left join public.profiles p on p.id=r.profile where r.match=$1`, [id]);
   const you = players.find(player => player.profile === profile);
   const opponent = players.find(player => player.profile !== profile);
   if (!you || !opponent) throw new GameError("This race is unavailable.", 404);
@@ -76,15 +81,17 @@ async function settleRace(db: PoolClient, race: Race) {
     decision.winner === null ? null : players[decision.winner].profile);
 }
 
-async function touchRace(db: PoolClient, race: Race) {
-  if (!race.match.reason && race.you.finishedMs === null)
-    await db.query("update rivals_players set last_seen=$3 where match=$1 and profile=$2",
-      [race.match.id, race.you.profile, new Date(race.now)]);
+async function touchRace(db: PoolClient, { match, you, opponent, now }: Race, draft?: Draft) {
+  if (match.reason || you.finishedMs !== null) return;
+  if (draft?.match === match.id && draft.question === you.resolved && opponent.finishedMs !== null &&
+      now >= match.startsAt.getTime()) you.draft = draft.text;
+  await db.query("update rivals_players set last_seen=$3,draft=$4 where match=$1 and profile=$2",
+    [match.id, you.profile, new Date(now), you.draft]);
 }
 
 function raceView({ match, you, opponent, now }: Race): RivalsState {
-  function progress({ username, resolved, mistakes, finishedMs }: Player): RivalProgress {
-    return { username, resolved, mistakes, finishedMs };
+  function progress({ username, sprite, missed, resolved, mistakes, finishedMs }: Player): RivalProgress {
+    return { username, sprite, missed, resolved, mistakes, finishedMs };
   }
   const startsAt = match.startsAt.getTime();
   const game = { grade: match.grade, match: match.id, startsAt, serverNow: now,
@@ -95,19 +102,23 @@ function raceView({ match, you, opponent, now }: Race): RivalsState {
     return { ...game, phase: "result", result: { reason: match.reason, outcome } };
   }
   if (now < startsAt) return { ...game, phase: "countdown" };
+  if (you.finishedMs !== null) {
+    const question = match.questions?.[opponent.resolved];
+    if (question) return { ...game, phase: "racing", spectating: { question: publicQuestion(question), draft: opponent.draft } };
+  }
   const question = match.questions?.[you.resolved];
   return { ...game, phase: "racing", question: question ? publicQuestion(question) : undefined };
 }
 
-async function matchState(db: PoolClient, profile: string, id: string) {
+async function matchState(db: PoolClient, profile: string, id: string, draft?: Draft) {
   const race = await openRace(db, id, profile);
-  await touchRace(db, race);
+  await touchRace(db, race, draft);
   return raceView(race);
 }
 
-async function state(db: PoolClient, profile: string): Promise<RivalsState> {
+async function state(db: PoolClient, profile: string, draft?: Draft): Promise<RivalsState> {
   const entry = await currentEntry(db, profile);
-  if (entry?.match) return matchState(db, profile, entry.match);
+  if (entry?.match) return matchState(db, profile, entry.match, draft);
   if (entry?.ticket) {
     if (await heartbeatQueue(db, profile, entry)) return { phase: "waiting", grade: entry.grade, ticket: entry.ticket };
     // Pairing may have claimed this entry while its heartbeat was waiting on the row.
@@ -175,12 +186,15 @@ async function answer(db: PoolClient, race: Race, submission: Submission): Promi
   await db.query("insert into rivals_answers(match,profile,id,question,payload_hash,outcome) values($1,$2,$3,$4,$5,$6)",
     [match.id, you.profile, submission.id, submission.question, digest, outcome]);
   if (outcome !== "simplification") {
+    if (outcome === "incorrect") {
+      you.mistakes++;
+      you.missed.push(you.resolved);
+    }
     you.resolved++;
-    if (outcome === "incorrect") you.mistakes++;
     if (you.resolved === rushLength) you.finishedMs = now - match.startsAt.getTime();
   }
   you.seenAt = new Date(now);
-  await db.query(`update rivals_players set resolved=$3,mistakes=$4,finished_ms=$5,last_seen=$6
+  await db.query(`update rivals_players set resolved=$3,mistakes=$4,finished_ms=$5,last_seen=$6,draft=null
     where match=$1 and profile=$2`, [match.id, you.profile, you.resolved, you.mistakes, you.finishedMs, you.seenAt]);
   await settleRace(db, race);
   return { outcome, state: raceView(race) };
@@ -188,7 +202,20 @@ async function answer(db: PoolClient, race: Race, submission: Submission): Promi
 
 export async function rivals(db: PoolClient, who: Identity, action: Action, body: Record<string, unknown>) {
   const profile = who.profile;
-  if (action === "rivalsState") return state(db, profile);
+  if (action === "rivalsQueue") {
+    const counts = Object.fromEntries(rushGrades.map(grade => [grade, 0])) as QueueCounts;
+    const waiting = await rows<{ grade: RushGrade; total: number }>(db, `select grade, count(*)::int as total
+      from rivals_entries where ticket is not null and last_seen > clock_timestamp()-$1 * interval '1 millisecond'
+      group by grade`, [queueLeaseMs]);
+    for (const { grade, total } of waiting) counts[grade] = total;
+    return counts;
+  }
+  if (action === "rivalsState") {
+    const { match, question, draft } = body;
+    const preview = typeof draft === "string" && /^[0-9□+−.*÷×/%()^π! -]{0,256}$/u.test(draft) && typeof question === "number" &&
+      Number.isInteger(question) && typeof match === "string" ? { match, question, text: draft } : undefined;
+    return state(db, profile, preview);
+  }
   if (action === "rivalsJoin") {
     const grade = rushGrade(body.grade);
     if (!grade) throw new GameError("Choose Grade 6, 7, or 8.");

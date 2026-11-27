@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { readCourseBank } from "../lib/mentalist/bank";
+import { coinTrialAttempt } from "../lib/mentalist/model";
 import { checkLocally } from "../lib/mentalist/round";
 import { drawRush } from "../lib/rush/bank";
 import { rushGrade, rushGrades, rushLength } from "../lib/rush/model";
@@ -17,7 +18,9 @@ test("each Rush grade draws 12 distinct questions from its own bank", async () =
       assert.ok(!("answer" in pack.questions[index]));
       const answer = question.control.kind === "fraction" && !question.answer.includes("/")
         ? question.answer + "/1" : question.answer;
-      assert.equal(await checkLocally(pack, index, answer), "correct");
+      const trials = question.visual?.coinTrials;
+      const submission = trials ? coinTrialAttempt("H".repeat(trials), `${trials}|0`) : answer;
+      assert.equal(await checkLocally(pack, index, submission), "correct");
     }
   }
 });

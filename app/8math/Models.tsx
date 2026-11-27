@@ -5,11 +5,12 @@ import { editNumber } from "../mentalist/components/NumericEntry";
 
 const loanLabels = ["Principal ($)", "Annual rate (%)", "Number of months"];
 
-export function LoanCalculator({ values, disabled = false, onAnswer, onPart }: {
+export function LoanCalculator({ values, disabled = false, onAnswer, onPart, onDraft }: {
   values: number[];
   disabled?: boolean;
   onAnswer?: (value: string) => void;
   onPart?: (title: string) => void;
+  onDraft?: (value: string) => void;
 }) {
   const [index, setIndex] = useState(onAnswer ? 0 : 3);
   const [entry, setEntry] = useState("");
@@ -36,12 +37,13 @@ export function LoanCalculator({ values, disabled = false, onAnswer, onPart }: {
         {!onPart && <p>Part {index + 1} of 3 · {loanLabels[index]}</p>}
         <output aria-label={loanLabels[index]}>{entry || "—"}</output>
         <NumberPad className="mt-keypad" controls={index < 2 ? decimal : []} disabled={disabled}
-          onKey={key => { setEntry(edit(entry, key)); setMessage(""); }} />
+          onKey={key => { const next = edit(entry, key); setEntry(next); onDraft?.(next); setMessage(""); }} />
         <button type="button" disabled={!entry} onClick={() => {
           if (Number(entry) !== values[index]) { setMessage("Check that value against the question."); return; }
           if (index === 2) setPayment(monthly());
           setIndex(index + 1);
           setEntry("");
+          onDraft?.("");
           setMessage("");
         }}>{index === 2 ? "Calculate monthly payment" : "Next"}</button>
       </> : <>
@@ -54,9 +56,9 @@ export function LoanCalculator({ values, disabled = false, onAnswer, onPart }: {
       <output aria-label="Total payment calculation">${payment} {operation} {operand}</output>
       <div className="mt-field-buttons" aria-label="Operation" role="group">
         {["+", "−", "×", "÷"].map(symbol => <button type="button" key={symbol} aria-pressed={operation === symbol}
-          onClick={() => { setOperation(symbol); setMessage(""); }}>{symbol}</button>)}
+          onClick={() => { setOperation(symbol); onDraft?.(`${symbol} ${operand}`); setMessage(""); }}>{symbol}</button>)}
       </div>
-      <NumberPad className="mt-keypad" controls={decimal} disabled={disabled} onKey={key => { setOperand(edit(operand, key)); setMessage(""); }} />
+      <NumberPad className="mt-keypad" controls={decimal} disabled={disabled} onKey={key => { const next = edit(operand, key); setOperand(next); onDraft?.(`${operation} ${next}`); setMessage(""); }} />
       <button type="button" aria-label="Equals" disabled={!operation || !operand} onClick={() => {
         const a = Number(payment), b = Number(operand);
         const total = operation === "×" ? a * b : operation === "+" ? a + b : operation === "−" ? a - b : a / b;
@@ -65,6 +67,7 @@ export function LoanCalculator({ values, disabled = false, onAnswer, onPart }: {
         setMessage("Check the operation and second number, then try again.");
         setOperation("");
         setOperand("");
+        onDraft?.("");
       }}>=</button>
     </fieldset>}
     {message && <p role="status">{message}</p>}

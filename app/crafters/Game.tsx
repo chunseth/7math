@@ -1,65 +1,187 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type RefObject } from "react";
 import { post, RequestError } from "../../lib/mentalist/client";
-import {
-  ENERGY_REFILL_MS, MAX_ENERGY, MINE_DURATION_MS, energyAt, miningCost, pickaxes, resources, swords,
-  type CraftState,
-} from "../../lib/mentalist/resources";
-import type { View } from "./Screen";
+import { miningResources, miningRules, resourceIds, rockType, type RockId } from "../../lib/crafters/config";
+import { canDescend, type ExpeditionSummary, type MiningView, type SwingResult } from "../../lib/crafters/expedition";
+import { Catalogue, ResourceIcon, RockArt } from "./MiningParts";
+import { miningSound, unlockMiningSound } from "./sound";
 
-type Action = "mine" | "collect" | "craftTool" | "equipPickaxe" | "craftState";
-type Command = { action: Action; node?: string; tool?: string; id?: string };
+type Command = { action: "start"; id: string; previous: string | null }
+  | { action: "swing"; id: string; expedition: string; revision: number; slot: number }
+  | { action: "descend" | "return"; id: string; expedition: string; revision: number }
+  | { action: "miningState" };
+type Point = { x: number; y: number };
+type Effect = { id: string; from: Point; to: Point; hit: SwingResult };
+const fragments = [
+  [-39, -27, -95], [-25, -44, 35], [-4, -50, 110], [18, -45, -70],
+  [37, -24, 85], [43, 3, 160], [26, 24, -45], [-33, 19, 45],
+];
 
-export default function Game({ view, initial }: { view: View; initial: CraftState }) {
+function center(element: Element): Point {
+  const rect = element.getBoundingClientRect();
+  return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+}
+
+function formatDuration(ms: number) {
+  const seconds = Math.floor(ms / 1000);
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+}
+
+function Summary({ summary, start, close, blocked }: {
+  summary: ExpeditionSummary; start: () => void; close: () => void; blocked: boolean;
+}) {
+  const rows = resourceIds.filter(id => summary.collected[id]);
+  return (
+    <section className="mine-panel mine-summary" aria-labelledby="mine-summary-title">
+      <div className="mine-summary-heading">
+        <h2 id="mine-summary-title">{summary.outcome === "returned" ? "Back at camp" : "You passed out"}</h2>
+        <p>{summary.outcome === "returned" ? "Your haul is secured." : "You secured half of each resource, rounded down."}</p>
+      </div>
+      <dl className="mine-stat-grid">
+        <div><dt>Deepest floor</dt><dd>{summary.deepestFloor}</dd></div>
+        <div><dt>Rocks mined</dt><dd>{summary.rocksMined}</dd></div>
+        <div><dt>Swings</dt><dd>{summary.swings}</dd></div>
+        <div><dt>Explosions</dt><dd>{summary.hazards}</dd></div>
+        <div><dt>Duration</dt><dd>{formatDuration(summary.durationMs)}</dd></div>
+      </dl>
+      {rows.length ? <table className="mine-haul">
+        <thead><tr><th scope="col">Resource</th><th scope="col">Collected</th><th scope="col">Lost</th><th scope="col">Secured</th></tr></thead>
+        <tbody>{rows.map(id => <tr key={id}>
+          <th scope="row"><span><ResourceIcon id={id} />{miningResources[id].name}</span></th>
+          <td>{summary.collected[id]}</td><td>{summary.lost[id] ?? 0}</td><td>{summary.secured[id] ?? 0}</td>
+        </tr>)}</tbody>
+      </table> : <p className="mine-muted">No resources collected.</p>}
+      <div className="mine-actions">
+        <button type="button" className="mine-button mine-secondary" onClick={close}>Camp</button>
+        <button type="button" className="mine-button mine-primary" aria-disabled={blocked} onClick={start}>New Expedition</button>
+      </div>
+    </section>
+  );
+}
+
+function Effects({ effects }: { effects: Effect[] }) {
+  return <div className="mine-fx-layer" aria-hidden="true">
+    {effects.map(({ id, from, to, hit }) => <div
+      key={id}
+      className="mine-fx-anchor"
+      style={{ left: from.x, top: from.y, "--flight-x": `${to.x - from.x}px`, "--flight-y": `${to.y - from.y}px` } as CSSProperties}
+    >
+      {fragments.map(([x, y, spin], index) => <i
+        key={index} className="mine-fragment"
+        style={{ "--fragment-x": `${x}px`, "--fragment-y": `${y}px`, "--fragment-spin": `${spin}deg` } as CSSProperties}
+      />)}
+      {hit.drop && <span className="mine-fly">
+        <ResourceIcon id={hit.drop.resource} /><b>+{hit.drop.quantity}</b>
+      </span>}
+      {hit.drop?.resource === "gem" && <span className="mine-gem-flare" />}
+      {hit.explosion && <><span className="mine-blast" /><b className="mine-blast-loss">−{miningRules.explosionCost} energy</b></>}
+      {hit.stairs && <span className="mine-stair-flare" />}
+    </div>)}
+  </div>;
+}
+
+function animateHit(target: Element) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  target.animate([
+    { transform: "translate(0)" }, { transform: "translate(-3px, 2px) rotate(-3deg)" },
+    { transform: "translate(3px, -1px) rotate(2deg)" }, { transform: "translate(0)" },
+  ], { duration: 155 });
+}
+
+export default function Game({ initial }: { initial: MiningView }) {
   const [state, setState] = useState(initial);
-  const [now, setNow] = useState(initial.serverNow);
-  const [status, setStatus] = useState(initial.collectedOre ? `Mined 1 ${initial.collectedOre}.` : "");
-  const [error, setError] = useState<{ message: string; retry: Command } | null>(null);
+  const [showSummary, setShowSummary] = useState(false);
+  const [catalogueOpen, setCatalogueOpen] = useState(false);
+  const [muted, setMuted] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [failure, setFailure] = useState<{ message: string; retry: Command } | null>(null);
+  const [status, setStatus] = useState("");
+  const [effects, setEffects] = useState<Effect[]>([]);
   const pending = useRef(false);
-  const autoCollected = useRef<number | null>(null);
-  const { inventory, equipment, job, serverNow } = state;
-  const pickaxe = pickaxes.find((item) => item.id === equipment.equippedPickaxe);
-  const energy = energyAt(state.energy, state.refilledAt, now);
-  const refillSeconds = Math.max(0, Math.ceil((energy.refilledAt + ENERGY_REFILL_MS - now) / 1000));
-  const left = job ? Math.max(0, job.completeAt - now) : 0;
+  const bag = useRef<HTMLUListElement>(null);
+  const shell = useRef<HTMLElement>(null);
+  const heading = useRef<HTMLHeadingElement>(null);
+  const feedbackTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const { active, latest, catalogue, inventory, stats } = state;
+  const blocked = busy || failure !== null;
 
   useEffect(() => {
-    const started = performance.now();
-    setNow(serverNow);
-    const timer = window.setInterval(() => setNow(serverNow + performance.now() - started), job ? 125 : 1000);
-    return () => window.clearInterval(timer);
-  }, [serverNow, job]);
+    try { setMuted(localStorage.getItem("crafters:muted") === "1"); } catch { /* Optional preference. */ }
+    const timers = feedbackTimers.current;
+    return () => timers.forEach(clearTimeout);
+  }, []);
 
-  useEffect(() => {
-    if (!job || left > 0 || busy || autoCollected.current === job.completeAt) return;
-    autoCollected.current = job.completeAt;
-    void send({ action: "collect" });
-  }, [job, left, busy]);
+  function sound() {
+    if (!muted) unlockMiningSound();
+  }
 
-  async function send(command: Command) {
+  function toggleSound() {
+    if (muted) unlockMiningSound();
+    try { localStorage.setItem("crafters:muted", muted ? "0" : "1"); } catch { /* Optional preference. */ }
+    setMuted(!muted);
+  }
+
+  function showFeedback(id: string, result: SwingResult, from?: Point) {
+    const drop = result.drop;
+    if (!result.broken || !drop) {
+      setStatus(`${result.remaining} ${result.remaining === 1 ? "swing" : "swings"} left.`);
+      return;
+    }
+    const messages = [`+${drop.quantity} ${miningResources[drop.resource].name}`];
+    if (result.stairs) messages.push("Staircase found");
+    if (result.explosion) messages.push(`Explosion −${miningRules.explosionCost} energy`);
+    setStatus(messages.join(" · "));
+    if (!muted) {
+      miningSound(result.explosion ? "explosion" : "break");
+      if (result.stairs) miningSound("stairs");
+      if (drop.resource === "gem") miningSound("gem");
+    }
+    if (result.explosion) {
+      if (shell.current) animateHit(shell.current);
+      navigator.vibrate?.([30, 25, 45]);
+    } else navigator.vibrate?.(drop.resource === "gem" || result.stairs ? [18, 22, 25] : 12);
+
+    if (!from) return;
+    const target = bag.current?.querySelector(`[data-resource="${drop.resource}"]`);
+    setEffects(current => [...current, { id, from, to: target ? center(target) : from, hit: result }]);
+    const timer = setTimeout(() => {
+      const index = feedbackTimers.current.indexOf(timer);
+      if (index >= 0) feedbackTimers.current.splice(index, 1);
+      setEffects(current => current.filter(effect => effect.id !== id));
+    }, 850);
+    feedbackTimers.current.push(timer);
+  }
+
+  async function send(command: Command, from?: Point) {
     if (pending.current) return;
     pending.current = true;
-    setError(null);
-    setStatus("");
     setBusy(true);
+    setFailure(null);
     try {
-      const next = await post<CraftState>({ scope: "craft", ...command });
+      const next = await post<MiningView>({ scope: "mining", ...command });
+      if (command.action === "swing" && next.swing) showFeedback(command.id, next.swing, from);
+      if (command.action === "descend" && next.active) {
+        if (!muted) miningSound("descend");
+        setStatus(`Floor ${next.active.floor}`);
+      }
+      if (command.action === "start") {
+        setStatus("");
+        setShowSummary(false);
+      } else if (active && !next.active) {
+        setShowSummary(Boolean(next.latest));
+      }
       setState(next);
-      const tool = [...pickaxes, ...swords].find((item) => item.id === command.tool);
-      if (next.collectedOre) setStatus(`Mined 1 ${next.collectedOre}.`);
-      else if (command.action === "craftTool" && tool) setStatus(`Crafted ${tool.name}.`);
-      else if (command.action === "equipPickaxe") setStatus(tool ? `Equipped ${tool.name}.` : "Pickaxe unequipped.");
+      if (Boolean(active) !== Boolean(next.active)) requestAnimationFrame(() => heading.current?.focus());
     } catch (error) {
       if (error instanceof RequestError && error.status === 401) {
-        window.location.replace(view === "crafting" ? "/crafters/sign-in?next=crafting" : "/crafters/sign-in");
+        window.location.replace("/crafters/sign-in");
         return;
       }
-      setError({
-        message: error instanceof Error ? error.message : "Could not save your progress.",
-        retry: error instanceof RequestError && error.status < 500 ? { action: "craftState" } : command,
+      setFailure({
+        message: error instanceof RequestError ? error.message : "Connection interrupted.",
+        retry: error instanceof RequestError && error.status < 500 ? { action: "miningState" } : command,
       });
     } finally {
       pending.current = false;
@@ -67,155 +189,138 @@ export default function Game({ view, initial }: { view: View; initial: CraftStat
     }
   }
 
-  function mine(node: string) {
-    void send({ action: "mine", node, id: crypto.randomUUID() });
+  function start() {
+    if (blocked || pending.current) return;
+    sound();
+    void send({ action: "start", id: crypto.randomUUID(), previous: latest?.id ?? null });
   }
 
-  function useTool(action: "craftTool" | "equipPickaxe", tool: string) {
-    void send({ action, tool, id: crypto.randomUUID() });
+  function play(action: "descend" | "return" | "swing", slot?: number, target?: HTMLButtonElement) {
+    if (blocked || pending.current || !active) return;
+    sound();
+    const context = { id: crypto.randomUUID(), expedition: active.id, revision: active.revision };
+    if (action === "swing") {
+      if (slot === undefined || !target || !active.rocks[slot]?.remaining) return;
+      animateHit(target);
+      if (!muted) miningSound("hit");
+      void send({ action, slot, ...context }, center(target));
+    } else void send({ action, ...context });
   }
 
+  function recordCatalogueView(rock: RockId) {
+    const command = { scope: "mining", action: "catalogue", rock, id: crypto.randomUUID() };
+    void post(command).catch(error => {
+      if (!(error instanceof RequestError) || error.status >= 500) void post(command).catch(() => {});
+    });
+  }
+
+  const canGoDeeper = active ? canDescend(active.energy, active.stairSlot !== null) : false;
   return (
-    <main className="cf-shell">
-      <header className="cf-header">
-        <div>
-          <Link href="/">Game modes</Link>
-          <h1>Crafters</h1>
-        </div>
-        <div className="cf-energy">
-          <div><strong>Energy</strong><span>{energy.energy} / {MAX_ENERGY}</span></div>
-          <progress aria-label="Energy" value={energy.energy} max={MAX_ENERGY} />
-          <small>{energy.energy === MAX_ENERGY
-            ? "Energy full"
-            : `+1 in ${Math.floor(refillSeconds / 60)}:${String(refillSeconds % 60).padStart(2, "0")}`}</small>
-        </div>
-      </header>
-
-      <nav className="cf-nav" aria-label="Crafters sections">
-        <Link href="/crafters" prefetch={false} aria-current={view === "mining" ? "page" : undefined}>Mining</Link>
-        <Link href="/crafters/crafting" prefetch={false} aria-current={view === "crafting" ? "page" : undefined}>Crafting</Link>
-      </nav>
-
-      <div className="cf-notice">
-        <p role="status">{status || (job ? `Mining ${job.oreName}…` : "")}</p>
-        {error && <div role="alert">{error.message} <button disabled={busy} onClick={() => void send(error.retry)}>
-          {error.retry.action === "craftState" ? "Refresh" : "Retry"}
-        </button></div>}
-      </div>
-
-      {view === "mining" ? (
-        <section aria-labelledby="mine-title" className="cf-card">
-          <div className="cf-section-heading">
-            <div>
-              <h2 id="mine-title">Mine ore</h2>
-              <p>{pickaxe ? `${pickaxe.name} equipped` : "Basic mining"}</p>
-            </div>
-            <span>1 ore per 10s</span>
+    <main ref={shell} className="cf-shell mine-shell" data-active={Boolean(active)}>
+      <div className="mine-content">
+        <header className="mine-top">
+          <div className="mine-brand"><Link href="/">Game modes</Link><h1 ref={heading} tabIndex={-1}>Crafters</h1></div>
+          <div className="mine-top-actions">
+            <button type="button" className="mine-button mine-secondary" onClick={toggleSound} aria-pressed={!muted}>Sound {muted ? "off" : "on"}</button>
+            <button type="button" className="mine-button mine-secondary" onClick={() => setCatalogueOpen(true)}>Rock Catalogue</button>
           </div>
-          <ul className="cf-list">
-            {resources.map((node) => {
-              const active = node.id === job?.node;
-              const finished = active && left === 0;
-              const required = pickaxes.find((item) => item.tier === node.tier);
-              const locked = node.tier > (pickaxe?.tier ?? 0);
-              const cost = miningCost(node, pickaxe);
-              return (
-                <li key={node.id} className={active ? "cf-active" : undefined}>
-                  <img className="cf-sprite" src={`/crafters/${node.oreId}.png`} alt="" width={48} height={48} />
-                  <div className="cf-item">
-                    <h3>{node.oreName}</h3>
-                    <progress
-                      aria-label={`${node.oreName} mining progress`}
-                      value={active ? MINE_DURATION_MS - Math.min(left, MINE_DURATION_MS) : 0}
-                      max={MINE_DURATION_MS}
-                    />
-                    <small>
-                      {inventory[node.oreId] ?? 0} owned · {locked ? `Requires ${required?.name}` : `${cost} energy`}
-                    </small>
-                  </div>
-                  {active ? (
-                    finished ? <button disabled={busy} onClick={() => void send({ action: "collect" })}>Collect</button>
-                      : <span className="cf-countdown">{Math.ceil(left / 1000)}s</span>
-                  ) : (
-                    <button type="button" disabled={busy || !!job || locked || energy.energy < cost}
-                      aria-label={`Mine ${node.oreName}`} onClick={() => mine(node.id)}>
-                      {locked ? "Locked" : "Mine"}
-                    </button>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        </section>
-      ) : (
-        <>
-          <section className="cf-card" aria-labelledby="materials-title">
-            <div className="cf-section-heading"><h2 id="materials-title">Materials</h2></div>
-            <ul className="cf-materials">
-              {resources.map((node) => (
-                <li key={node.oreId}>
-                  <img className="cf-sprite" src={`/crafters/${node.oreId}.png`} alt="" width={28} height={28} />
-                  {node.oreName} <strong>{inventory[node.oreId] ?? 0}</strong>
-                </li>
-              ))}
-            </ul>
-          </section>
-          <div className="cf-recipes">
-            {[
-              { heading: "Pickaxes", slot: "pickaxe", recipes: pickaxes },
-              { heading: "Swords", slot: "sword", recipes: swords },
-            ].map(({ heading, slot, recipes }) => (
-              <section className="cf-card" key={slot} aria-labelledby={`recipes-${slot}`}>
-                <div className="cf-section-heading">
-                  <div>
-                    <h2 id={`recipes-${slot}`}>{heading}</h2>
-                    {slot === "sword" && <Link href="/7math?tab=inventory" prefetch={false}>Equip in 7math inventory</Link>}
+        </header>
+
+        {failure && <div className="mine-error" role="alert">
+          <span>{failure.message}</span>
+          <button type="button" className="mine-button mine-secondary" disabled={busy} onClick={() => void send(failure.retry)}>
+            {failure.retry.action === "miningState" ? "Refresh" : "Retry"}
+          </button>
+        </div>}
+
+        {active ? (
+          <div className="mine-layout">
+            <section className="mine-arena" aria-labelledby="mine-floor">
+              <header className="mine-hud">
+                <h2 id="mine-floor">Floor {active.floor}</h2>
+                <div className="mine-energy">
+                  <div><span>Energy</span><strong>{active.energy} / {active.maxEnergy}</strong></div>
+                  <div className="mine-energy-track" role="progressbar" aria-label="Energy" aria-valuenow={active.energy} aria-valuemin={0} aria-valuemax={active.maxEnergy}>
+                    <span style={{ width: `${active.energy / active.maxEnergy * 100}%` }} data-low={active.energy <= active.maxEnergy * 0.2} />
                   </div>
                 </div>
-                <ul className="cf-list cf-tool-list">
-                  {recipes.map((tool) => {
-                    const owned = equipment.ownedTools.includes(tool.id);
-                    const equipped = tool.id === (tool.slot === "pickaxe" ? equipment.equippedPickaxe : equipment.equippedSword);
-                    const ingredients = Object.entries(tool.ingredients);
-                    const canCraft = ingredients.every(([ore, count]) => (inventory[ore] ?? 0) >= count);
-                    const unlocked = tool.slot === "pickaxe"
-                      ? resources.filter((node) => node.tier === tool.tier).map((node) => node.oreName)
-                      : [];
-                    return (
-                      <li key={tool.id}>
-                        <img className="cf-sprite" src={`/crafters/${tool.slot}.png`} alt="" width={40} height={40} />
-                        <div className="cf-item">
-                          <h3>{tool.name}</h3>
-                          <small>{tool.slot === "pickaxe"
-                            ? `Energy cost −${tool.discount} (minimum 1)`
-                            : `+${tool.damage} damage per correct answer`}</small>
-                          {unlocked.length > 0 && <small>Unlocks {unlocked.join(", ")}</small>}
-                          {!owned && <small className="cf-ingredients">
-                            {ingredients.map(([ore, count]) => (
-                              <span key={ore}>{inventory[ore] ?? 0}/{count} {resources.find((node) => node.oreId === ore)?.oreName}</span>
-                            ))}
-                          </small>}
-                        </div>
-                        {owned ? (
-                          tool.slot === "pickaxe" ? (
-                            <button disabled={busy} aria-label={`${equipped ? "Unequip" : "Equip"} ${tool.name}`}
-                              onClick={() => useTool("equipPickaxe", equipped ? "" : tool.id)}>
-                              {equipped ? "Unequip" : "Equip"}
-                            </button>
-                          ) : <span className="cf-owned">{equipped ? "Equipped" : "Crafted"}</span>
-                        ) : (
-                          <button disabled={busy || !canCraft} aria-label={`Craft ${tool.name}`}
-                            onClick={() => useTool("craftTool", tool.id)}>Craft</button>
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </section>
-            ))}
+              </header>
+              <div className="mine-grid" key={`${active.id}:${active.floor}`} aria-label="Mining rocks">
+                {active.rocks.map((rock, slot) => {
+                  if (!rock.remaining) return <div key={slot} className="mine-cell mine-cleared">
+                    {active.stairSlot === slot
+                      ? <span className="mine-staircase" role="img" aria-label="Staircase discovered"><i /><i /><i /><i /></span>
+                      : <span className="mine-rubble" aria-hidden="true" />}
+                  </div>;
+                  const { name } = rockType(rock.type);
+                  return <button
+                    type="button" key={slot} className="mine-cell mine-rock" aria-disabled={blocked}
+                    aria-label={`${name}, ${rock.remaining} of ${rock.durability} swings left`}
+                    onClick={event => play("swing", slot, event.currentTarget)}
+                  >
+                    <RockArt type={rock.type} damage={1 - rock.remaining / rock.durability} />
+                    <span className="mine-durability" aria-hidden="true">
+                      {Array.from({ length: rock.durability }, (_, pip) => <i key={pip} data-filled={pip < rock.remaining} />)}
+                      <small>{rock.remaining}</small>
+                    </span>
+                  </button>;
+                })}
+              </div>
+              <p className="mine-status" role="status">{status}</p>
+              <div className="mine-actions mine-exit">
+                <button type="button" className="mine-button mine-secondary" aria-disabled={blocked} onClick={() => play("return")}>Return Home</button>
+                <button type="button" className="mine-button mine-primary" disabled={!canGoDeeper} aria-disabled={blocked || !canGoDeeper}
+                  onClick={() => play("descend")}>Descend <small>−{miningRules.descentCost} energy</small></button>
+              </div>
+            </section>
+            <section className="mine-panel mine-bag" aria-labelledby="mine-bag-title">
+              <h2 id="mine-bag-title">This Expedition</h2>
+              <ul ref={bag} className="mine-resources">
+                {resourceIds.map(id => <li key={id} data-resource={id}>
+                  <ResourceIcon id={id} /><span>{miningResources[id].name}</span><strong>{active.collected[id] ?? 0}</strong>
+                </li>)}
+              </ul>
+            </section>
           </div>
-        </>
-      )}
+        ) : showSummary && latest ? (
+          <Summary summary={latest} start={start} close={() => setShowSummary(false)} blocked={blocked} />
+        ) : (
+          <div className="mine-camp">
+            <section className="mine-camp-banner" aria-labelledby="mine-camp-title">
+              <div>
+                <h2 id="mine-camp-title">The Mine</h2>
+                <p>{miningRules.startingEnergy} energy · Floor 1</p>
+                <button type="button" className="mine-button mine-primary" aria-disabled={blocked} onClick={start}>Start Expedition</button>
+              </div>
+              <div className="mine-camp-art" aria-hidden="true">
+                <RockArt type="copper-flecked" />
+                <RockArt type="crystalline" />
+                <RockArt type="coal-flecked" />
+              </div>
+            </section>
+            <div className="mine-camp-panels">
+              <section className="mine-panel" aria-labelledby="mine-inventory-title">
+                <h2 id="mine-inventory-title">Permanent Inventory</h2>
+                {inventory.length ? <ul className="mine-resources">
+                  {inventory.map(item => <li key={item.id}><ResourceIcon id={item.id} /><span>{item.name}</span><strong>{item.quantity}</strong></li>)}
+                </ul> : <p className="mine-muted">Your secured resources will appear here.</p>}
+              </section>
+              <section className="mine-panel" aria-labelledby="mine-stat-title">
+                <h2 id="mine-stat-title">Expedition Statistics</h2>
+                <dl className="mine-stat-grid">
+                  <div><dt>Deepest floor</dt><dd>{stats.deepestFloor || "—"}</dd></div>
+                  <div><dt>Expeditions</dt><dd>{stats.expeditions}</dd></div>
+                  <div><dt>Safe returns</dt><dd>{stats.returned}</dd></div>
+                  <div><dt>Pass-outs</dt><dd>{stats.passedOut}</dd></div>
+                </dl>
+                {latest && <button type="button" className="mine-button mine-secondary" onClick={() => setShowSummary(true)}>Last Expedition</button>}
+              </section>
+            </div>
+          </div>
+        )}
+      </div>
+      <Effects effects={effects} />
+      {catalogueOpen && <Catalogue history={catalogue} close={() => setCatalogueOpen(false)} viewRock={recordCatalogueView} />}
     </main>
   );
 }

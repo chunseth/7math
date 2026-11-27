@@ -5,10 +5,10 @@
   --sv-gold: #f4ce78;
   --sv-mint: #95e2bf;
   width: min(1280px, 100%);
-  height: 100dvh;
+  height: var(--app-height);
   margin: auto;
   color: var(--sv-ink);
-  background: #13201c;
+  background: var(--mode-surface, #13201c);
   color-scheme: dark;
 }
 
@@ -19,6 +19,7 @@
   padding: 68px 18px 24px;
   overflow: auto;
   background:
+    linear-gradient(var(--mode-surface, #13201c), transparent 68px),
     radial-gradient(ellipse at 50% 42%, #345944 0%, #1a2e25 46%, #111b18 84%),
     #13201c;
 }
@@ -70,14 +71,14 @@
 .sv-primary { min-width: 136px; color: #261c0c; background: var(--sv-gold); border-color: #f9dda1; box-shadow: 0 3px #9a723b; }
 .sv-primary:hover { background: #ffe1a0; }
 .sv-back:hover { background: #304a3c; }
-.sv-lobby > .sv-back { position: absolute; top: max(12px, env(safe-area-inset-top)); left: max(12px, env(safe-area-inset-left)); }
+.sv-lobby > .sv-back { position: absolute; top: 12px; left: 12px; }
 .sv-shell :is(button, a):focus-visible { outline: 2px solid #ffdc87; outline-offset: 2px; }
 
 .sv-game {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   gap: 9px;
-  padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+  padding: 8px;
 }
 
 .sv-hud {
@@ -224,8 +225,9 @@
 .sv-keys button:disabled { opacity: 0.6; cursor: default; }
 
 .sv-dialog {
-  width: min(440px, calc(100% - 24px));
-  max-height: calc(100dvh - 24px);
+  inset: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+  width: min(440px, calc(var(--app-width) - 24px));
+  max-height: calc(var(--app-height) - 24px);
   padding: clamp(16px, 4vw, 26px);
   border: 1px solid #6d8d78;
   border-radius: 16px;

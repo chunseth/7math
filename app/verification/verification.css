@@ -1,14 +1,8 @@
-/* Long questions and report forms use document scrolling. */
-body:has(.verify-home, .verify-gate) {
-  height: auto;
-  min-height: 100%;
-  overflow-y: auto;
-}
-
 .verify-home, .verify-gate {
   --review-ink: #205945;
   width: min(100%, 48rem);
-  min-height: 100dvh;
+  height: var(--app-height);
+  overflow-y: auto;
   margin-inline: auto;
   border-inline: 1px solid var(--border);
   padding: 1rem clamp(.9rem, 4vw, 2rem) 2rem;

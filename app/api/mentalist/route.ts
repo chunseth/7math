@@ -18,6 +18,7 @@ import { courseGrade } from "../../../lib/mentalist/model";
 import { economy } from "../../../lib/mentalist/economy";
 import { faculty, teacherUser } from "../../../lib/mentalist/teacher";
 import { craft } from "../../../lib/mentalist/craft";
+import { loadMining, playMining } from "../../../lib/crafters/server";
 import { survivorPack } from "../../../lib/survivor/server";
 import { rushGrade } from "../../../lib/rush/model";
 import { finishRush, rushBoard, rushBoards, startRush } from "../../../lib/rush/server";
@@ -102,6 +103,7 @@ export async function POST(req: NextRequest) {
         return {};
       }
       if (b.scope === "craft" && ["craftState", "collect"].includes(b.action)) return craft(db, who, b);
+      if (b.scope === "mining" && b.action === "miningState") return loadMining(db, who.profile);
       const id = uuid(b.id),
         digest = hash(raw);
       const [prior] = await rows(
@@ -113,10 +115,12 @@ export async function POST(req: NextRequest) {
         if (prior.payload_hash !== digest) throw new GameError("Request identifier already used.", 409);
         console.info("Mentalist duplicate suppressed", { action: b.action });
         if (b.scope === "craft") return craft(db, who, { action: "craftState" });
+        if (b.scope === "mining") return b.action === "catalogue" ? {} : loadMining(db, who.profile);
         return prior.response;
       }
       let data;
       if (b.scope === "craft") data = await craft(db, who, b);
+      else if (b.scope === "mining") data = await playMining(db, who, b);
       else if (b.action === "start") data = await start(db, who, b.level, b.previous ?? null, b.prepared);
       else if (b.action === "saveBattle") data = await saveBattle(db, who, b.run, b.attempts, b.leave === true);
       else if (b.action === "answer")
@@ -149,7 +153,7 @@ export async function POST(req: NextRequest) {
         id,
         b.action,
         digest,
-        data,
+        b.scope === "mining" ? {} : data,
       ]);
       return data;
     });

@@ -1,7 +1,5 @@
-import Screen from "../Screen";
-
-export const dynamic = "force-dynamic";
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return <Screen view="crafting" />;
+  redirect("/crafters");
 }

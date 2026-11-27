@@ -7,11 +7,12 @@ import NumericEntry from "./NumericEntry";
 import QuestionCalculator from "./QuestionCalculator";
 import { Visual } from "./Visual";
 
-export default function StructuredAnswer({ question, disabled, onAnswer, fieldAnswers, onPart, singleAttempt, fractionDelayMs }: {
+export default function StructuredAnswer({ question, disabled, onAnswer, onDraft, fieldAnswers, onPart, singleAttempt, fractionDelayMs }: {
   question: Question;
   disabled: boolean;
   onAnswer: (raw: string, calculated?: boolean) => void;
   fieldAnswers?: string[];
+  onDraft?: (value: string) => void;
   onPart?: (title: string) => void;
   singleAttempt?: boolean;
   fractionDelayMs?: number;
@@ -93,10 +94,10 @@ export default function StructuredAnswer({ question, disabled, onAnswer, fieldAn
       <fieldset className={control.kind === "ray" && index > 0 ? "mt-field-choices mt-ray-choice" : "mt-field-choices"} disabled={locked}>
         <legend className={onPart ? "mt-screen-reader" : undefined}>{partTitle}</legend>
         {calculator && mode === "number" && format
-          ? <QuestionCalculator key={index} pi={calculator.pi} control={format} unit={unit} disabled={locked} onResult={submit} />
+          ? <QuestionCalculator key={index} pi={calculator.pi} control={format} unit={unit} disabled={locked} onResult={submit} onDraft={onDraft} />
           : mode === "number" && format
           ? <NumericEntry key={index + ":" + retry} control={format} unit={unit} disabled={locked}
-            onAnswer={submit} fractionDelayMs={fractionDelayMs} />
+            onAnswer={submit} fractionDelayMs={fractionDelayMs} onDraft={onDraft} />
           : <div className="mt-field-buttons">{options.map(option => <button type="button" key={option} onClick={() => void submit(option)}>
             {control.kind === "ray" ? ({ Open: "○ Open", Closed: "● Closed", Left: "← Left", Right: "Right →" })[option] ?? option : option}
           </button>)}</div>}

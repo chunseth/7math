@@ -4,6 +4,7 @@ from fractions import Fraction as F
 from math import isqrt
 from random import Random
 from formats import choose, fields, grid, q, table, tenth_line, scatter_task
+from problems import DISTANCE_OFFSETS
 
 
 def activity(key, seed):
@@ -448,13 +449,15 @@ def activity(key, seed):
             f"x = {angle}" if key == "parallel-equal" else f"180 − {angle}",
         )
     if key == "exterior":
+        angle_a, angle_b = n + 15, 2 * k + 30
+        angle_c = 180 - angle_a - angle_b
         return make(
-            f"The remote interior angles of a triangle are {n+15}° and {2*k+30}°. Find the exterior angle.",
-            n + 2 * k + 45,
-            "The triangle's interior angles total 180°.",
-            f"third = 180 − {n+15} − {2*k+30}",
-            "The exterior angle supplements the third interior angle.",
-            f"{n+15} + {2*k+30}",
+            f"In triangle ABC, angles A and B are {angle_a}° and {angle_b}°. Side BC extends past C to D. Find exterior angle ACD.",
+            angle_a + angle_b,
+            "Find interior angle C.",
+            f"180 − {angle_a} − {angle_b} = {angle_c}",
+            "Exterior angle ACD and interior angle C form a straight line.",
+            f"180 − {angle_c}",
         )
     if key == "aa":
         angle = n + 20
@@ -843,13 +846,15 @@ def activity(key, seed):
             f"abs({-k if seed%2 else n+k})",
         )
     if key == "point-distance":
+        x, y = -1 - seed // 3, k - 5
+        dx, dy, distance = DISTANCE_OFFSETS[seed % 3]
         return make(
-            f"Find the distance from (−{k}, {k}) to ({u-k}, {w+k}).",
-            h,
-            "Use the horizontal and vertical differences as legs.",
-            f"dx = {u}, dy = {w}",
+            f"Find the distance from ({x}, {y}) to ({x+dx}, {y+dy}).",
+            distance,
+            "Find the horizontal and vertical distances.",
+            f"{abs(dx)} and {abs(dy)}",
             "Take the square root of their squared sum.",
-            f"√({u*u} + {w*w})",
+            f"√({dx*dx} + {dy*dy})",
         )
     if key == "radical-distance":
         return make(

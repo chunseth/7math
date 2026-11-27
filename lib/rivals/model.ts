@@ -8,6 +8,8 @@ export const raceLimitMs = 600_000;
 
 export type RivalProgress = {
   username: string;
+  sprite: string;
+  missed: number[];
   resolved: number;
   mistakes: number;
   finishedMs: number | null;
@@ -18,7 +20,8 @@ export type RivalsState =
   | { phase: "waiting"; grade: RushGrade; ticket: string }
   | { phase: "countdown" | "racing" | "result"; grade: RushGrade; match: string;
       startsAt: number; serverNow: number; you: RivalProgress; opponent: RivalProgress;
-      question?: Question; result?: { outcome: "win" | "loss" | "draw" | "no contest"; reason: ResultReason } };
+      question?: Question; spectating?: { question: Question; draft: string | null }; result?: { outcome: "win" | "loss" | "draw" | "no contest"; reason: ResultReason } };
+export type QueueCounts = Record<RushGrade, number>;
 export type RivalsAnswer = { state: RivalsState; outcome?: Outcome };
 
 type TimedPlayer = Pick<RivalProgress, "resolved" | "mistakes" | "finishedMs"> & { lastSeen: number };
@@ -40,6 +43,8 @@ export function raceDecision(players: [TimedPlayer, TimedPlayer], start: number,
   const [a, b] = players;
   if (a.finishedMs !== null && b.finishedMs !== null)
     return { reason: "finished", winner: compare(a, b, false) };
+  if (a.finishedMs !== null && a.mistakes <= b.mistakes) return { reason: "finished", winner: 0 };
+  if (b.finishedMs !== null && b.mistakes <= a.mistakes) return { reason: "finished", winner: 1 };
 
   const expiry = (player: TimedPlayer) => player.finishedMs === null ? player.lastSeen + raceLeaseMs : Infinity;
   const aExpiry = expiry(a);

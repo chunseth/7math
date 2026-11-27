@@ -19,16 +19,17 @@ export default function VerificationTrail({ set, initial }: {
   const current = nextReview(set, decisions);
   const counts = countReviews(set, decisions);
   const finished = counts.accepted + counts.flagged + counts.skipped;
+  const review = useRef<HTMLElement>(null);
   const completion = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
+    review.current?.scrollTo(0, 0);
     if (!current) {
-      window.scrollTo(0, 0);
       completion.current?.focus({ preventScroll: true });
     }
   }, [current]);
 
-  return <main className="mt-shell verify-home">
+  return <main ref={review} className="mt-shell verify-home">
     <header className="verify-header">
       <Link href="/">← Main menu</Link>
       <ExportReports setId={set.id} />
@@ -71,7 +72,6 @@ function CaseReview({ setId, item, position, total, onSaved }: {
 
   useEffect(() => {
     heading.current?.focus({ preventScroll: true });
-    window.scrollTo(0, 0);
   }, []);
   useEffect(() => {
     if (reporting) reportField.current?.focus();

@@ -1922,15 +1922,15 @@
  },
  {
   "model": "worked",
-  "prompt": "The remote interior angles of a triangle are 18° and 46°. Find the exterior angle.",
+  "prompt": "In triangle ABC, angles A and B are 18° and 46°. Side BC extends past C to D. Find exterior angle ACD.",
   "steps": [
    {
-    "label": "The triangle's interior angles total 180°.",
-    "math": "third = 180 − 18 − 46"
+    "label": "Find interior angle C.",
+    "math": "180 − 18 − 46 = 116"
    },
    {
-    "label": "The exterior angle supplements the third interior angle.",
-    "math": "18 + 46"
+    "label": "Exterior angle ACD and interior angle C form a straight line.",
+    "math": "180 − 116"
    }
   ],
   "answer": "64",
@@ -1962,14 +1962,14 @@
   "skill": "g8.triangle",
   "level": "g8.triangle.1",
   "model": "worked",
-  "prompt": "A triangle has remote interior angles of 42° and 61°. Find the exterior angle.",
+  "prompt": "In triangle ABC, angles A and B are 42° and 61°. Side BC extends past C to D. Find exterior angle ACD.",
   "steps": [
    {
-    "label": "The third interior angle completes 180°.",
+    "label": "Find interior angle C.",
     "math": "180 − 42 − 61 = 77"
    },
    {
-    "label": "The adjacent exterior angle completes a straight line.",
+    "label": "Exterior angle ACD and interior angle C form a straight line.",
     "math": "180 − 77"
    }
   ],
@@ -3199,19 +3199,19 @@
  },
  {
   "model": "worked",
-  "prompt": "Find the distance from (−8, 8) to (7, 44).",
+  "prompt": "Find the distance from (-9, 3) to (-15, 11).",
   "steps": [
    {
-    "label": "Use the horizontal and vertical differences as legs.",
-    "math": "dx = 15, dy = 36"
+    "label": "Find the horizontal and vertical distances.",
+    "math": "6 and 8"
    },
    {
     "label": "Take the square root of their squared sum.",
-    "math": "√(225 + 1296)"
+    "math": "√(36 + 64)"
    }
   ],
-  "answer": "39",
-  "result": "39",
+  "answer": "10",
+  "result": "10",
   "color": "#246650",
   "skill": "g8.steps-distance",
   "level": "g8.steps-distance.2"

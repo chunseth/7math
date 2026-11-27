@@ -28,6 +28,16 @@ test("Rivals counts unanswered questions at the deadline and prefers completed r
   assert.equal(effectiveMistakes(incomplete), 4);
   assert.deepEqual(raceDecision([incomplete, finished(5, 50)], start, deadline), { reason: "deadline", winner: 0 });
   assert.deepEqual(raceDecision([incomplete, finished(4, 50)], start, deadline), { reason: "deadline", winner: 1 });
+  assert.deepEqual(raceDecision([active(9, 0, deadline), finished(0, 50)], start, deadline),
+    { reason: "finished", winner: 1 });
   assert.deepEqual(raceDecision([incomplete, active(8, 0, deadline)], start, deadline),
     { reason: "deadline", winner: null });
+});
+
+test("Rivals ends as soon as a finisher cannot be beaten on mistakes", () => {
+  assert.deepEqual(raceDecision([finished(0, 80), active(1, 0)], start, start + 80),
+    { reason: "finished", winner: 0 });
+  assert.equal(raceDecision([finished(2, 80), active(5, 1)], start, start + 80), null);
+  assert.deepEqual(raceDecision([active(6, 2), finished(2, 80)], start, start + 100),
+    { reason: "finished", winner: 1 });
 });

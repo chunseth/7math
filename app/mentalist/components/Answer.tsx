@@ -16,10 +16,11 @@ import Whiteboard from "./Whiteboard";
 import LeastOrderBubbles from "./LeastOrderBubbles";
 import CoinTrial from "./CoinTrial";
 
-export default function Answer({ question, disabled, onAnswer, onPart, singleAttempt, fractionDelayMs }: {
+export default function Answer({ question, disabled, onAnswer, onDraft, onPart, singleAttempt, fractionDelayMs }: {
   question: Question;
   disabled: boolean;
   onAnswer: (raw: string, calculated?: boolean) => void;
+  onDraft?: (value: string) => void;
   onPart?: (title: string) => void;
   singleAttempt?: boolean;
   fractionDelayMs?: number;
@@ -38,8 +39,8 @@ export default function Answer({ question, disabled, onAnswer, onPart, singleAtt
   const calculator = calculatorSettings(prompt, control);
   const order = numberOrder(question)?.values;
   if (visual?.coinTrials) return <CoinTrial question={question} trials={visual.coinTrials} disabled={locked}
-    onAnswer={onAnswer} onPart={onPart} fractionDelayMs={fractionDelayMs} />;
-  if (visual?.kind === "loan") return <LoanCalculator values={visual.values!} disabled={locked} onPart={onPart} onAnswer={value => {
+    onAnswer={onAnswer} onDraft={onDraft} onPart={onPart} fractionDelayMs={fractionDelayMs} />;
+  if (visual?.kind === "loan") return <LoanCalculator values={visual.values!} disabled={locked} onDraft={onDraft} onPart={onPart} onAnswer={value => {
     if (!locked && complete(control, value)) onAnswer(value, true);
   }} />;
   if (order) return <LeastOrderBubbles options={control.options!} order={order} disabled={locked} onAnswer={onAnswer} />;
@@ -49,7 +50,7 @@ export default function Answer({ question, disabled, onAnswer, onPart, singleAtt
     </button>)}
   </div>;
   if (hasSequentialFields(control)) return <StructuredAnswer question={question} disabled={locked}
-    onAnswer={onAnswer} onPart={onPart} singleAttempt={singleAttempt} fractionDelayMs={fractionDelayMs} />;
+    onAnswer={onAnswer} onDraft={onDraft} onPart={onPart} singleAttempt={singleAttempt} fractionDelayMs={fractionDelayMs} />;
   if (control.fields) return <DisplayAnswer question={question} disabled={locked} onAnswer={onAnswer} />;
   if (control.limit) {
     const scatter = control.kind === "scatterplot";
@@ -59,9 +60,9 @@ export default function Answer({ question, disabled, onAnswer, onPart, singleAtt
         disabled={locked} onPick={raw => { if (complete(control, raw)) onAnswer(raw); }} />;
   }
   if (calculator) return <QuestionCalculator pi={calculator.pi} control={control} unit={unit}
-    disabled={locked} onResult={raw => onAnswer(raw, true)} />;
+    disabled={locked} onDraft={onDraft} onResult={raw => onAnswer(raw, true)} />;
   return <>
     {hasWhiteboard(prompt) && <Whiteboard />}
-    <NumericEntry control={control} unit={unit} disabled={locked} onAnswer={onAnswer} fractionDelayMs={fractionDelayMs} />
+    <NumericEntry control={control} unit={unit} disabled={locked} onAnswer={onAnswer} onDraft={onDraft} fractionDelayMs={fractionDelayMs} />
   </>;
 }

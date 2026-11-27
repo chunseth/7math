@@ -2,14 +2,17 @@
   --ink: #f4efff;
   --muted: #dfd4f3;
   --border: #6b6186;
-  height: 100dvh;
+  height: var(--app-height);
   overflow-y: auto;
   background: #19172f;
   color: #f4efff;
 }
 
 .rivals-shell .mt-top {
-  background: #241e41;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--mode-surface, #241e41);
   border-color: #4b416b;
   color: #fbf7ff;
 }
@@ -29,8 +32,6 @@
 }
 
 .rivals-content > .rush-account {
-  --ink: #203438;
-  --muted: #405d60;
   --border: #b8cfce;
   max-width: 26rem;
   margin: 1rem auto;
@@ -111,13 +112,12 @@
 .rivals-track-opponent { --track-color: #ffa5bd; }
 
 .rivals-track-name {
-  overflow: hidden;
+  overflow-wrap: anywhere;
   max-width: 100%;
   color: #f4efff;
   font-size: clamp(.64rem, 2.4vw, .9rem);
   font-weight: 700;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.1;
 }
 
 .rivals-track > strong {
@@ -143,7 +143,10 @@
   background: #4c4263;
 }
 
-.rivals-meter span[data-filled="true"] { background: var(--track-color); }
+.rivals-meter span[data-result="correct"] { background: var(--track-color); }
+.rivals-meter span[data-result="incorrect"] {
+  background: repeating-linear-gradient(135deg, #f45762 0 4px, #bc324d 4px 8px);
+}
 
 .rivals-center { min-width: 0; }
 
@@ -196,7 +199,9 @@
   gap: .5rem;
 }
 
-.rivals-results > div {
+.rivals-podium {
+  position: relative;
+  justify-items: center;
   display: grid;
   align-content: start;
   gap: .25rem;
@@ -204,6 +209,7 @@
   border-radius: .5rem;
   background: #ebe4f8;
   overflow-wrap: anywhere;
+  min-width: 0;
 }
 
 .rivals-exit {
@@ -215,11 +221,117 @@
 
 @media (max-width: 450px) {
   .rivals-race {
-    grid-template-columns: minmax(0, 2rem) minmax(0, 1fr) minmax(0, 2rem);
+    grid-template-columns: 2.5rem minmax(0, 1fr) 2.5rem;
   }
 
   .rivals-shell .rivals-play .mt-keypad {
     width: 100%;
     max-width: 100%;
   }
+}
+
+
+.rivals-grades button {
+  display: grid;
+  min-width: 4.6rem;
+}
+
+.rivals-grades small {
+  font-size: .72rem;
+  font-weight: 500;
+}
+
+.rivals-sprite {
+  display: block;
+  width: min(100%, 4rem);
+  aspect-ratio: 1;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.rivals-podium[data-winner="true"] { background: #fff0c9; }
+
+.rivals-podium-step {
+  align-self: end;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 2.25rem;
+  padding: .25rem;
+  border-radius: .35rem;
+  background: #6c5b8b;
+  color: #fff;
+  font-weight: 800;
+}
+
+.rivals-podium[data-winner="true"] .rivals-podium-step {
+  min-height: 3rem;
+  background: #eeb64f;
+  color: #462a18;
+}
+
+.rivals-results { align-items: end; }
+
+.rivals-confetti {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.rivals-confetti i {
+  --confetti-color: #d95187;
+  --confetti-left: 8%;
+  position: absolute;
+  top: -12%;
+  left: var(--confetti-left);
+  width: .35rem;
+  height: .55rem;
+  border-radius: 1px;
+  background: var(--confetti-color);
+  animation: rivals-confetti-fall 1.7s ease-in both;
+}
+
+.rivals-confetti i:nth-child(3n + 2) { --confetti-color: #56a897; animation-delay: .2s; }
+.rivals-confetti i:nth-child(3n + 3) { --confetti-color: #8060c7; animation-delay: .45s; }
+.rivals-confetti i:nth-child(5n + 2) { --confetti-left: 27%; }
+.rivals-confetti i:nth-child(5n + 3) { --confetti-left: 47%; }
+.rivals-confetti i:nth-child(5n + 4) { --confetti-left: 68%; }
+.rivals-confetti i:nth-child(5n + 5) { --confetti-left: 88%; }
+.rivals-confetti i:nth-child(even) { margin-left: .35rem; }
+
+@keyframes rivals-confetti-fall {
+  0% { top: -12%; opacity: 1; transform: rotate(0); }
+  85% { opacity: 1; }
+  100% { top: 100%; opacity: 0; transform: rotate(390deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rivals-confetti { display: none; }
+}
+
+.rivals-live-draft {
+  display: grid;
+  gap: .25rem;
+  padding: .65rem;
+  border: 1px solid #cbc1df;
+  border-radius: .55rem;
+  background: #ebe4f8;
+  overflow-wrap: anywhere;
+}
+
+.rivals-live-draft output {
+  min-height: 1.45em;
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.rivals-live-draft > span {
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.rivals-shell .rivals-play .rivals-skip {
+  margin-top: .35rem;
+  border-color: #8e79b5;
 }

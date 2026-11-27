@@ -74,8 +74,11 @@ def topic(s, l, n, v):
             if l == 1:
                 return q(f"{a} books cost ${a*b}. Dollars per book?", b)
             if l == 2:
+                area = (3, 5, 7)[v]
+                liter_numerators = [i for i in range(area + 2, 34, 2) if i % area]
+                liters = liter_numerators[n % len(liter_numerators)]
                 return q(
-                    f"{a}/2 liters cover {b}/2 m². Liters per m²?", F(a, b), "fraction"
+                    f"{liters}/2 liters cover {area}/2 m². Liters per m²?", F(liters, area)
                 )
             other = b + v - 1
             return choose(

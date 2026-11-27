@@ -5,7 +5,7 @@
   --green: #186650;
   --border: #cbdad2;
   color: var(--ink);
-  background: #f5f7f1;
+  background: var(--mode-surface, #f5f7f1);
   font:
     500 16px/1.45 "DM Sans",
     system-ui,
@@ -74,7 +74,7 @@
   color: #176750;
 }
 .mt-home {
-  height: 100dvh;
+  height: var(--app-height);
   max-width: 820px;
   margin: auto;
   display: flex;
@@ -88,7 +88,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: #fff;
+  background: var(--mode-surface, #fff);
   border-bottom: 1px solid var(--border);
   padding: 10px clamp(12px, 3vw, 30px);
   flex: none;
@@ -253,7 +253,7 @@
   display: flex;
   background: white;
   border-top: 1px solid var(--border);
-  padding: 4px 8px max(4px, env(safe-area-inset-bottom));
+  padding: 4px 8px;
   gap: 4px;
 }
 .mt-nav button {
@@ -286,11 +286,12 @@
   box-shadow: 0 12px 60px #153e3026;
 }
 .mt-sheet {
-  width: min(460px, 95vw);
-  max-height: 88dvh;
+  width: min(460px, calc(var(--app-width) - 20px));
+  max-height: min(88dvh, calc(var(--app-height) - 20px));
   overflow: auto;
   margin: auto;
   position: fixed;
+  inset: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
 }
 .mt-sheet::backdrop,
 .mt-overlay {
@@ -349,8 +350,8 @@
 }
 .mt-toast {
   position: fixed;
-  bottom: 15px;
-  left: 12px;
+  bottom: calc(var(--safe-bottom) + 15px);
+  left: calc(var(--safe-left) + 12px);
   z-index: 20;
 }
 .mt-overlay {
@@ -359,9 +360,12 @@
   z-index: 10;
   display: grid;
   place-items: center;
+  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
 }
 .mt-overlay .mt-sheet {
   position: relative;
+  inset: auto;
+  width: min(460px, calc(100% - 20px));
 }
 .mt-panel,
 .mt-school {
@@ -428,10 +432,9 @@
 .mt-battle {
   margin: auto;
   width: min(100%, 760px);
-  min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: #f7faf5;
+  background: var(--mode-surface, #f7faf5);
 }
 .mt-battle header {
   justify-content: space-between;
@@ -480,7 +483,7 @@
 .mt-input-area {
   margin: 0 auto;
   width: min(100%, 460px);
-  padding: 0 14px max(12px, env(safe-area-inset-bottom));
+  padding: 0 14px 12px;
 }
 .mt-feedback {
   min-height: 22px;
@@ -688,7 +691,6 @@
 .mt-results {
   display: grid;
   place-items: center;
-  min-height: 100dvh;
   padding: 14px;
 }
 .mt-result-card {
@@ -722,7 +724,6 @@
   margin-top: 6px;
 }
 .mt-school {
-  min-height: 100dvh;
   max-width: 1150px;
   margin: auto;
 }
@@ -750,10 +751,10 @@
 @media (max-width: 540px) {
   dialog.mt-sheet {
     margin: auto 0 0;
-    width: 100%;
-    max-width: 100%;
+    width: var(--app-width);
+    max-width: var(--app-width);
     border-radius: 20px 20px 0 0;
-    padding-bottom: max(22px, env(safe-area-inset-bottom));
+    padding-bottom: 22px;
   }
   .mt-route-row { height: 102px; }
   .mt-shell .mt-route-entry { --radius: 21px; gap: 10px; }
@@ -785,7 +786,7 @@
 .mt-school,
 .mt-results,
 .mt-battle {
-  height: 100dvh;
+  height: var(--app-height);
   overflow-y: auto;
 }
 .mt-battle .mt-input-area {
@@ -848,4 +849,4 @@
 
 .g8-connections { margin: 1rem 0; }
 .g8-connections button { margin: 0 .25rem .25rem 0; }
-.g8-practice { max-width: 42rem; margin: auto; }
+.g8-practice { max-width: 42rem; height: var(--app-height); margin: auto; }

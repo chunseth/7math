@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { modeLayout } from "../components/ModeSurface";
 import "../mentalist/trail.css";
 import "./verification.css";
 
@@ -7,6 +7,6 @@ export const metadata = {
   robots: { index: false },
 };
 
-export default function VerificationLayout({ children }: { children: ReactNode }) {
-  return children;
-}
+const { Layout, viewport } = modeLayout("verification");
+export { viewport };
+export default Layout;

@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap");
 
 .rush-shell {
-  background: linear-gradient(145deg, #eaf5f8, #d7e8ef);
+  background: linear-gradient(180deg, var(--mode-surface, #eeeffa), #e1e7f5);
 }
 
 .rush-content {
@@ -45,14 +45,13 @@
   padding: clamp(16px, 4vw, 28px);
 }
 
-.rush-theme,
 .rush-account {
-  --rush-dark: #173f4d;
-  --rush-light: #1c7474;
-  --rush-shadow: #0f2d38;
-  --rush-accent: #f4ae32;
-  --rush-action-ink: #4f3500;
-  --rush-action-shadow: #bb7714;
+  --rush-dark: var(--mode-dark);
+  --rush-light: var(--mode-light);
+  --rush-shadow: var(--mode-shadow);
+  --rush-accent: var(--mode-accent);
+  --rush-action-ink: var(--mode-button-ink);
+  --rush-action-shadow: var(--mode-button-shadow);
 }
 
 .rush-theme[data-grade="6"] {
@@ -367,13 +366,13 @@
   z-index: 1100;
   display: grid;
   place-items: center;
-  padding: 12px;
+  padding: max(12px, var(--safe-top)) max(12px, var(--safe-right)) max(12px, var(--safe-bottom)) max(12px, var(--safe-left));
   background: #102b4ca6;
 }
 
 .rush-leaderboard-panel {
   width: min(100%, 460px);
-  max-height: min(85vh, 85dvh);
+  max-height: min(85dvh, calc(var(--app-height) - 24px));
   overflow: auto;
   overscroll-behavior: contain;
   padding: clamp(12px, 4vw, 24px);

@@ -9,6 +9,12 @@
   --app-bg: #dcebf2;
   --panel: #eaf5f8;
   --line: #c3d9e1;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --app-height: calc(100dvh - var(--safe-top) - var(--safe-bottom));
+  --app-width: calc(100% - var(--safe-left) - var(--safe-right));
 }
 
 * {
@@ -28,6 +34,12 @@ body {
   font-family: Nunito, Arial, sans-serif;
 }
 
+.mode-surface {
+  min-height: 100dvh;
+  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+  background: var(--mode-surface);
+}
+
 button,
 input,
 a {
@@ -40,14 +52,18 @@ button {
 
 .shell {
   width: min(1200px, 100%);
-  height: 100dvh;
+  height: var(--app-height);
   min-height: 0;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: linear-gradient(145deg, #eaf5f8, #d7e8ef);
+  background: linear-gradient(180deg, var(--mode-surface, #eaf5f8), #d7e8ef);
   box-shadow: 0 0 50px #7d969466;
+}
+
+@media (max-width: 1200px) {
+  .shell { box-shadow: none; }
 }
 
 .topbar {
@@ -352,12 +368,6 @@ button {
 }
 
 .mode-card {
-  --mode-dark: #173f4d;
-  --mode-light: #1c7474;
-  --mode-shadow: #0f2d38;
-  --mode-accent: #f4ae32;
-  --mode-button-ink: #4f3500;
-  --mode-button-shadow: #bb7714;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -380,6 +390,15 @@ button {
   --mode-button-shadow: #58a8ce;
 }
 
+.mode-card[data-theme="grade-7"] {
+  --mode-dark: #183d35;
+  --mode-light: #326d59;
+  --mode-shadow: #112d28;
+  --mode-accent: #c8ead7;
+  --mode-button-ink: #18382f;
+  --mode-button-shadow: #83bda1;
+}
+
 .mode-card[data-theme="grade-8"] {
   --mode-dark: #492352;
   --mode-light: #75366d;
@@ -389,19 +408,43 @@ button {
   --mode-button-shadow: #d2856a;
 }
 
-.mode-card[data-theme="survivor"] {
-  --mode-dark: #1b3029;
-  --mode-light: #3f7559;
-  --mode-shadow: #142620;
+.mode-card[data-theme="skills"] {
+  --mode-dark: #2a3552;
+  --mode-light: #495e80;
+  --mode-shadow: #1d283e;
+  --mode-accent: #e4e9f3;
+  --mode-button-ink: #2a3650;
+  --mode-button-shadow: #9caecb;
 }
 
-.mode-card[data-theme="rush"] {
+.mode-card[data-theme="crafters"] {
+  --mode-dark: #5c3529;
+  --mode-light: #9a5537;
+  --mode-shadow: #43251c;
+  --mode-accent: #ffcb97;
+  --mode-button-ink: #572c18;
+  --mode-button-shadow: #c98655;
+}
+
+.mode-card[data-theme="survivor"] {
+  --mode-dark: #202d21;
+  --mode-light: #455b37;
+  --mode-shadow: #151f16;
+  --mode-accent: #dae9af;
+  --mode-button-ink: #2a381d;
+  --mode-button-shadow: #98ae70;
+}
+
+:is(.mode-card, .mode-surface)[data-theme="rush"] {
   --mode-dark: #223052;
   --mode-light: #4b57a0;
   --mode-shadow: #1b2443;
+  --mode-accent: #d4d8ff;
+  --mode-button-ink: #26315c;
+  --mode-button-shadow: #8d9bd5;
 }
 
-.mode-card[data-theme="rivals"] {
+:is(.mode-card, .mode-surface)[data-theme="rivals"] {
   --mode-dark: #26234e;
   --mode-light: #584489;
   --mode-shadow: #1b1838;
@@ -558,9 +601,8 @@ button {
 }
 
 .tabs {
-  flex: 0 0 calc(62px + env(safe-area-inset-bottom));
-  height: calc(62px + env(safe-area-inset-bottom));
-  padding-bottom: env(safe-area-inset-bottom);
+  flex: 0 0 62px;
+  height: 62px;
   display: flex;
   justify-content: center;
   gap: clamp(22px, 7vw, 56px);
@@ -602,15 +644,16 @@ button {
   inset: 0;
   z-index: 50;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
-  padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+  padding: max(10px, var(--safe-top)) max(10px, var(--safe-right)) max(10px, var(--safe-bottom)) max(10px, var(--safe-left));
   background: #14313f99;
   overflow-y: auto;
 }
 
 .signin-card {
-  width: min(360px, calc(100vw - 20px));
-  max-height: calc(100dvh - 20px);
+  width: min(360px, 100%);
+  max-height: calc(var(--app-height) - 20px);
   overflow-y: auto;
   display: grid;
   gap: 12px;
@@ -628,7 +671,7 @@ button {
 }
 
 .signin-card.character-card {
-  width: min(520px, calc(100vw - 20px));
+  width: min(520px, 100%);
 }
 
 .signin-card input {
@@ -1102,7 +1145,7 @@ button {
 }
 
 .map-board {
-  height: min(345px, calc(100dvh - 210px));
+  height: min(345px, calc(var(--app-height) - 210px));
   min-height: 280px;
   position: relative;
   overflow: hidden;
@@ -1114,7 +1157,7 @@ button {
 
 .operation-map-board {
   position: relative;
-  min-height: min(520px, calc(100dvh - 210px));
+  min-height: min(520px, calc(var(--app-height) - 210px));
   overflow: auto;
   display: grid;
   grid-template-columns: repeat(6, minmax(118px, 1fr));
@@ -1614,13 +1657,17 @@ button {
 .play-shell {
   position: relative;
   width: 100%;
-  height: 100dvh;
+  height: var(--app-height);
   min-height: 0;
   overflow: hidden;
   display: grid;
   grid-template-rows: 10px minmax(0, 1fr);
-  padding: calc(env(safe-area-inset-top) + 10px) clamp(12px, 3vw, 34px) calc(env(safe-area-inset-bottom) + 12px);
-  background: linear-gradient(180deg, #e9f7f9, #d7eee8);
+  padding: 10px clamp(12px, 3vw, 34px) 12px;
+  background: linear-gradient(180deg, var(--mode-surface, #e9f7f9), #d7eee8);
+}
+
+.mode-surface:has(.play-shell:is(.is-intro, .is-defeat)) {
+  background: #10333f;
 }
 
 .play-shell::after {
@@ -2515,8 +2562,7 @@ button {
   --teacher-navy: #102f3d;
   --teacher-ink: #173b49;
   --teacher-muted: #708b94;
-  min-height: 100dvh;
-  height: 100dvh;
+  height: var(--app-height);
   overflow-y: auto;
   background:
     radial-gradient(circle at 84% 4%, #bde8e4 0, transparent 24rem),
@@ -3129,7 +3175,8 @@ button.student-row:focus-visible {
 }
 
 .teacher-auth-shell {
-  min-height: 100dvh;
+  height: var(--app-height);
+  overflow-y: auto;
   display: grid;
   place-items: center;
   padding: 28px;
@@ -3141,8 +3188,8 @@ button.student-row:focus-visible {
 
 .teacher-auth-home {
   position: fixed;
-  top: 24px;
-  left: 28px;
+  top: calc(var(--safe-top) + 24px);
+  left: calc(var(--safe-left) + 28px);
   color: #b9d6d8;
   text-decoration: none;
   font-size: 12px;
@@ -3375,8 +3422,8 @@ button.student-row:focus-visible {
   }
 
   .teacher-auth-home {
-    top: 22px;
-    left: 18px;
+    top: calc(var(--safe-top) + 22px);
+    left: calc(var(--safe-left) + 18px);
   }
 }
 
@@ -3390,7 +3437,7 @@ button.student-row:focus-visible {
   height: 64px;
   padding: 0 max(20px, calc((100% - 1180px) / 2));
   border-bottom: 1px solid #d8dfdd;
-  background: #fff;
+  background: var(--mode-surface, #fff);
   backdrop-filter: none;
 }
 
@@ -3765,7 +3812,7 @@ button.student-row > strong {
 }
 
 /* Curriculum catalog and untimed numeric practice. */
-.curriculum-shell { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.curriculum-shell { max-width: 1200px; height: var(--app-height); overflow-y: auto; margin: 0 auto; padding: 24px; }
 .curriculum-header, .curriculum-controls, .curriculum-branches { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
 .curriculum-header { justify-content: space-between; margin-bottom: 28px; }
 .curriculum-shell h1 { margin-bottom: 12px; }

@@ -1,0 +1,59 @@
+{
+  "tileWidth": 320,
+  "tileHeight": 256,
+  "frames": ["Intact", "Lightly cracked", "Moderately cracked", "Heavily cracked", "Broken"],
+  "families": {
+    "granite": {
+      "name": "Granite",
+      "cue": "Broad gray faces with pale stone chips.",
+      "variants": ["Crown", "Split shoulder", "Low slab"]
+    },
+    "coal": {
+      "name": "Coal-flecked rock",
+      "cue": "Matte charcoal pockets suggest coal.",
+      "variants": ["Charcoal band", "Dark pockets", "Stacked ledges"]
+    },
+    "copper": {
+      "name": "Copper-flecked rock",
+      "cue": "Thick copper seams are a strong clue.",
+      "variants": ["Copper seam", "Copper nodes", "Diagonal vein"]
+    },
+    "tin": {
+      "name": "Tin-flecked rock",
+      "cue": "Pale blue stone holds thin, silver-white plates.",
+      "variants": ["Silver plates", "Fan of slivers", "Silver band"]
+    },
+    "iron": {
+      "name": "Iron-flecked rock",
+      "cue": "Heavy, dark steel bands suggest iron.",
+      "variants": ["Steel strata", "Metal pockets", "Iron ridge"]
+    },
+    "crystal": {
+      "name": "Crystalline rock",
+      "cue": "Deep-set facets suggest a chance of a gem.",
+      "variants": ["Crystal crown", "Leaning cluster", "Crystal twins"]
+    },
+    "false-glint": {
+      "name": "False ore glint",
+      "cue": "Small metallic-looking patches give a weaker clue than a deep seam.",
+      "variants": ["Warm flecks", "Scattered glints"]
+    },
+    "shiny-surface": {
+      "name": "Shiny surface",
+      "cue": "Broad flashes follow the surface of the stone.",
+      "variants": ["Polished face", "Glossy edge"]
+    },
+    "crystal-shell": {
+      "name": "Crystal-like shell",
+      "cue": "Shallow facets coat the outside of the stone.",
+      "variants": ["Faceted crust", "Glass rim"]
+    }
+  },
+  "hazards": {
+    "coal": "Smoky pores",
+    "iron": "Pressure seam",
+    "crystal-shell": "Jagged crust"
+  },
+  "terrain": ["Empty slot", "Staircase", "Explosion aftermath"],
+  "resources": ["stone", "coal", "copper", "tin", "iron", "gem"]
+}
